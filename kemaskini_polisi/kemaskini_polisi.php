@@ -1,0 +1,159 @@
+<?php 
+  include '../header_admin.php';
+  include '../db_connect.php';
+
+  // Retrieve latest policy with newest ID
+  $sql = "
+    SELECT * FROM tb_policies
+    ORDER BY p_policyID DESC
+    LIMIT 1;";
+  $result = mysqli_query($con, $sql);
+  $policy = mysqli_fetch_assoc($result);
+?>
+
+<!-- Main Content -->
+<div class="container">
+    <h2>Kemaskini Polisi</h2>
+
+    <!-- Card 1: Polisi Asas Pemohonan Anggota -->
+    <div class="card mb-3">
+      <div class="card-header text-white bg-primary d-flex justify-content-between align-items-center">
+        Polisi Asas Pemohonan Anggota
+        <button type="button" class="btn btn-info"  onclick="window.location.href='kemaskini_polisi_asas.php'">
+            Kemaskini
+        </button>
+      </div>
+      <div class="card-body">
+        <table class="table table-hover">
+          <tbody>
+            <tr>
+              <td scope="row">Fee Masuk</td>
+              <td><?php echo "RM" . number_format($policy['p_memberRegFee'], 2); ?></td>
+            </tr>
+            <tr>
+              <td scope="row">Modah Syer Minimum</td>
+              <td><?php echo "RM" . number_format($policy['p_minShareCapital'], 2); ?></td>
+            </tr>
+            <tr>
+              <td scope="row">Modal Yuran Minimum</td>
+              <td><?php echo "RM" . number_format($policy['p_minFeeCapital'], 2); ?></td>
+            </tr>
+            <tr>
+              <td scope="row">Wang Deposit Anggota Minimum</td>
+              <td><?php echo "RM" . number_format($policy['p_minFixedSaving'], 2); ?></td>
+            </tr>
+            <tr>
+              <td scope="row">Sumbangan Tabung Kebajikan Minimum</td>
+              <td><?php echo "RM" . number_format($policy['p_minMemberFund'], 2); ?></td>
+            </tr>
+            <tr>
+              <td scope="row">Simpanan Tetap Minimum</td>
+              <td><?php echo "RM" . number_format($policy['p_minMemberSaving'], 2); ?></td>
+            </tr>
+            <tr>
+              <td scope="row">Lain-lain</td>
+              <td><?php echo "RM" . number_format($policy['p_minOtherFees'], 2); ?></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- Card 2: Polisi Permohonan Pembiayaan -->
+    <div class="card mb-3">
+      <div class="card-header text-white bg-primary d-flex justify-content-between align-items-center">
+        Polisi Permohonan Pembiayaan
+        <button type="button" class="btn btn-info" onclick="window.location.href='kemaskini_polisi_pembiayaan.php'">Kemaskini</button>
+      </div>
+      <div class="card-body">
+        <table class="table table-hover">
+          <tbody>
+            <tr>
+              <td scope="row">Modal Syer Minimum Peminjam</td>
+              <td>RM <?php echo number_format($policy['p_minShareCapitalForLoan'], 2); ?></td>
+            </tr>
+            <tr>
+              <td scope="row">Kadar Keuntungan</td>
+              <td><?php echo number_format($policy['p_profitRate'], 2) . " %"; ?></td>
+            </tr>
+            <tr>
+              <td scope="row">Tempoh Ansuran Maksima</td>
+              <td><?php echo $policy['p_maxInstallmentPeriod'] . " tahun"; ?></td>
+            </tr>
+            <tr>
+              <td scope="row">Jumlah Pembiayaan Maksima</td>
+              <td>RM <?php echo number_format($policy['p_maxFinancingAmt'], 2); ?></td>
+            </tr>
+          </tbody>
+        </table>
+        <p class="text-center">Jadual Pembayaran Balik Pembiayaan Skim Al-Bai / Al-Innah</p>
+        <table class="table table-hover" style="margin: 0 auto; text-align: center;">
+          <tr>
+            <td scope="col">Kadar Keuntungan</td>
+            <td scope="col" colspan="<?php echo $policy['p_maxInstallmentPeriod'] ?>">
+              <?php echo number_format($policy['p_profitRate'], 2)?> %
+            </td>
+          </tr>
+          <tr>
+            <td scope="row">Tempoh (Tahun)</th>
+            <?php
+              for($x = 1; $x <= $policy['p_maxInstallmentPeriod']; $x++){
+                echo "<td>$x</td>";
+              }
+            ?>
+          </tr>
+          <tr>
+            <td scope="row">Tempoh (Bulan)</th>
+            <?php
+              for($x = 1; $x <= $policy['p_maxInstallmentPeriod']; $x++){
+                echo "<td>" . ($x * 12) . "</td>";
+              }
+            ?>
+          </tr>
+          <tr>
+            <td scope="row">Jumlah Pembiayaan</th>
+            <td scope="col" colspan="<?php echo $policy['p_maxInstallmentPeriod'] ?>">
+              Ansuran Bulanan
+            </td>
+          </tr>
+          <?php
+            for($x = 1000; $x <= $policy['p_maxFinancingAmt']; $x += 1000){
+              echo "<tr>";
+                echo "<td>". number_format($x, 2) ."</td>";
+                for($y = 1; $y <= $policy['p_maxInstallmentPeriod']; $y++){
+                  echo "<td>";
+                    $installment = ($x * (1+ $policy['p_profitRate']*$y / 100)) / ($y * 12);
+                    echo number_format($installment, 2);
+                  echo "</td>";
+                }
+              echo "</tr>";
+            }
+          ?>
+        </table>
+      </div>
+    </div>
+
+    <!-- Card 3: Polisi Potongan Gaji -->
+    <div class="card mb-3">
+      <div class="card-header text-white bg-primary d-flex justify-content-between align-items-center">
+        Polisi Potongan Gaji
+        <button type="button" class="btn btn-info" onclick="window.location.href='kemaskini_polisi_potongan_gaji.php'">Kemaskini</button>
+      </div>
+      <div class="card-body">
+      <table class="table table-hover">
+        <tbody>
+          <tr>
+            <td scope="row">Simpanan Tetap</td>
+            <td>RM <?php echo number_format($policy['p_salaryDeductionForSaving'], 2); ?></td>
+          </tr>
+          <tr>
+            <td scope="row">Sumbangan Tabung Kebajikan</td>
+            <td>RM <?php echo number_format($policy['p_salaryDeductionForMemberFund'], 2); ?></td>
+          </tr>
+        </tbody>
+      </table>
+      </div>
+    </div>
+</div>
+</body>
+</html>
