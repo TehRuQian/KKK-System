@@ -126,4 +126,4 @@ if (!$result) {
   <br><br><br>
 
 
-<?php //include 'footer.php'; ?>
+<?php include '../footer.php'; ?>
