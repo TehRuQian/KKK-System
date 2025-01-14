@@ -61,7 +61,7 @@ if (!$result) {
     <p style="text-align: center; font-size:30px;"><b>Rekod Potongan Gaji</b></p>
 
     <nav>
-      <ul class="pagination ms-5 pagination-sm">
+      <ul class="dflex justify-content-center pagination ms-5 pagination-sm">
         <?php if($current_page>1): ?>
         <li class="page-item">
           <a class="page-link" href="?page=<?=$current_page-1;?>">&laquo</a>
