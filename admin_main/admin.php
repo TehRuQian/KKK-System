@@ -1,8 +1,9 @@
+
 <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
 <link rel="stylesheet" href="css/bootstrap.css">
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
-<?php
+<?php 
 
 include('../kkksession.php');
 if(!session_id())
@@ -10,15 +11,16 @@ if(!session_id())
   session_start();
 }
 
+include '../header_admin.php';
+include '../db_connect.php';
+
 
 if(isset($_SESSION['u_id']) != session_id())
 {
-  header('Location:login.php'); 
+  header('Location:../login.php'); 
 }
 
-include '../header_admin.php';
-include '../db_connect.php';
-$u_id = $_SESSION['u_id'];
+$u_id = $_SESSION['funame'];
 
 $sql_members="SELECT COUNT(*) AS total_members FROM tb_member WHERE m_status='3'";
 $result_members=mysqli_query($con,$sql_members);
@@ -195,6 +197,7 @@ foreach ($months as $month => $num) {
   $loan_applications[$month] = $result ? mysqli_fetch_assoc($result)['count'] : 0;
 }
 
+
 ?>
 
 
@@ -313,7 +316,7 @@ foreach ($months as $month => $num) {
   new Chart(bar, {
     type: 'bar',
     data: {
-      labels: ['JAN','FEB','MAC','APR','MEI','JUN','JUL','OGS', 'SEP','OCT','NOV','DEC'],
+      labels: ['JAN','FEB','MAC','APR','MEI','JUN','JUL','OGS', 'SEP','OKT','NOV','DIS'],
       datasets: [
         {
           label:'Permohonan Anggota',
