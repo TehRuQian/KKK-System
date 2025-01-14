@@ -428,4 +428,3 @@ foreach ($months as $month => $num) {
 </body>
 </html>
 
-<?php //include 'footer.php';?>
