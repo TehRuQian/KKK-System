@@ -246,4 +246,4 @@ $memberApplicationID = $row['m_memberApplicationID'];
 </body>
 </html>
 
-<?php //include 'footer.php';?>
+<?php include '../footer.php';?>
