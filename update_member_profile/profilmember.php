@@ -99,6 +99,10 @@ $memberApplicationID = $row['m_memberApplicationID'];
               <td><?= $row['m_ic']; ?></td>
             </tr>
             <tr>
+              <td scope="row">E-mel :</td>
+              <td><?= $row['m_email']; ?></td>
+            </tr>
+            <tr>
               <td scope="row">Jantina :</td>
               <td><?= $row['gender']; ?></td>
             </tr>
