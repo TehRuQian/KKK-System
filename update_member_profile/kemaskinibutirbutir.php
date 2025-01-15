@@ -58,6 +58,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $agama = $_POST['agama'];
     $race = $_POST['race'];
     $maritalstatus = $_POST['maritalstatus'];
+    $emel = $_POST['emel'];
     $homeaddress = $_POST['homeaddress'];
     $homepostcode = $_POST['homepostcode'];
     $homecity = $_POST['homecity'];
@@ -84,6 +85,7 @@ if(!empty($_POST)) {
     m_religion = '$agama',
     m_race = '$race',
     m_maritalStatus = '$maritalstatus',
+    m_email = '$emel',
     m_homeAddress = '$homeaddress',
     m_homePostcode = '$homepostcode',
     m_homeCity = '$homecity',
@@ -274,6 +276,10 @@ if(!empty($_POST)) {
         </div>
     </div>
 </fieldset>
+    <div>
+      <label class="form-label mt-4">E-mel <span class="required">*</span></label>
+      <input type="text" class="form-control" name="emel" value="<?= $row['m_email']; ?>" required>
+    </div>
 <div>
       <label class="form-label mt-4">Alamat Rumah <span class="required">*</span></label>
       <input type="text" class="form-control" name="homeaddress" value="<?= $row['m_homeAddress']; ?>" required>
