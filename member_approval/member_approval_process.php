@@ -67,22 +67,27 @@ if ($mstatus == 3 && $mMemberNo) {
             $name = $row['m_name'];
             $memberNo = $row['m_memberNo'];
 
+            if (!$email) {
+                error_log("Email is empty or not found for member ID $mApplicationID");
+            }
+
             // Send the approval email
             if (sendApprovalEmail($email, $name, $memberNo, $temporaryPassword)) {
                 echo "<script>
-                        alert('Kelulusan ahli berjaya diproses! E-mel telah dihantar kepada ahli.');
+                        alert('Kelulusan anggota berjaya diproses! E-mel telah dihantar kepada anggota.');
                         window.location.href = 'member_approval.php';
                       </script>";
             } else {
+                error_log("Failed to send email to $email");
                 echo "<script>
-                        alert('Kelulusan ahli berjaya diproses, tetapi gagal menghantar e-mel.');
+                        alert('Kelulusan anggota berjaya diproses, tetapi gagal menghantar e-mel.');
                         window.location.href = 'member_approval.php';
                       </script>";
             }
         }
     } else {
         echo "<script>
-                alert('Ralat memproses kelulusan ahli: " . mysqli_error($con) . "');
+                alert('Ralat memproses kelulusan anggota: " . mysqli_error($con) . "');
                 window.history.back();
               </script>";
     }
@@ -94,12 +99,12 @@ if ($mstatus == 3 && $mMemberNo) {
 
     if (mysqli_query($con, $sqlReject)) {
         echo "<script>
-                alert('Applikasi ahli telah berjaya ditolak.');
+                alert('Applikasi anggota telah berjaya ditolak.');
                 window.location.href = 'member_approval.php';
               </script>";
     } else {
         echo "<script>
-                alert('Ralat menolak applikasi ahli: " . mysqli_error($con) . "');
+                alert('Ralat menolak applikasi anggota: " . mysqli_error($con) . "');
                 window.history.back();
               </script>";
     }

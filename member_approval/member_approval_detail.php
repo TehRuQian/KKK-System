@@ -1,4 +1,4 @@
-<?php
+<?php 
 include('../kkksession.php');
 if (!session_id()) {
     session_start();
@@ -25,7 +25,7 @@ $result = mysqli_query($con, $sql);
 if ($result && $row = mysqli_fetch_array($result)) {
     // Member data successfully retrieved
 } else {
-    echo "No data found for the specified application ID.";
+    echo "Tiada data ditemui untuk ID aplikasi tersebut.";
     exit;
 }
 
@@ -34,14 +34,15 @@ $memberNumbers = [];
 $sql = "SELECT m_memberNo FROM tb_member WHERE m_memberNo IS NOT NULL";
 $result = mysqli_query($con, $sql);
 
+// Loop to extract all m_memberNo from query (checking existing member purpose)
 while ($rowMember = mysqli_fetch_assoc($result)) {
     $memberNumbers[] = $rowMember['m_memberNo'];
 }
 
-// Pass the data as a JavaScript array
+// Pass the data as a JavaScript array (checking existing member purpose)
 echo "<script>const existingMemberNumbers = " . json_encode($memberNumbers) . ";</script>";
 
-// Suggested Member No
+// Suggested Member No for new member
 $suggestedMemberNo = null;
 $sql = "SELECT m_memberNo FROM tb_member WHERE m_memberNo IS NOT NULL ORDER BY m_memberNo DESC LIMIT 1";
 $result = mysqli_query($con, $sql);
@@ -130,27 +131,37 @@ $suggestedMemberNo = $lastMemberNo + 1;
 <form method="POST" action="member_approval_process.php" onsubmit="return validateForm()">
     <input type="hidden" name="mApplicationID" value="<?php echo $mApplicationID; ?>">
     <fieldset>
-        <div style="width: 40%; margin: 0 auto; padding: 20px; background-color: #f9f9f9; border-radius: 8px;">
-            <label class="form-label mt-4">Status Anggota</label>
-            <select class="form-select" name="mstatus" id="mstatus" onchange="toggleMemberNoInput()">
+
+        <label class="form-label mt-4" style="justify-content: center">Status Anggota</label>
+        <div class="dropdown">
+            <button class="btn btn-secondary dropdown-toggle" type="button" id="statusDropdown" data-bs-toggle="dropdown" aria-expanded="false">
+                Pilih Status
+            </button>
+            <ul class="dropdown-menu" aria-labelledby="statusDropdown">
                 <?php
-                // Fetch available statuses from the database
+                
                 $sql = "SELECT * FROM tb_status";
                 $result = mysqli_query($con, $sql);
 
                 while ($rowStatus = mysqli_fetch_array($result)) {
                     $selected = ($rowStatus['s_sid'] == 1) ? 'selected' : '';
-                    echo "<option value='".$rowStatus['s_sid']."' $selected>".$rowStatus['s_desc']."</option>";
+                    echo "<li><a class='dropdown-item' href='#' onclick='setStatus(event, ".$rowStatus['s_sid'].", \"".$rowStatus['s_desc']."\")'>".$rowStatus['s_desc']."</a></li>";
                 }
                 ?>
-            </select>
-        </div><br>
+            </ul>
+        </div>
+        
+        <br>
+
+        <?php // To display the suggested memberNo ?>
+        <input type="hidden" name="mstatus" id="mstatus" value="1" />
 
         <div id="memberNoContainer" style="display:none;">
             <label for="mMemberNo">Member No:</label>
             <input type="text" class="form-control" id="mMemberNo" name="mMemberNo" value="<?php echo $suggestedMemberNo; ?>" />
             <small>Suggested: <?php echo $suggestedMemberNo; ?></small>
         </div><br>
+
         <div style="display: flex; gap: 10px; justify-content: center;">
             <button type="button" class="btn btn-primary" onclick="window.location.href='member_approval.php'">Kembali</button>
             <button type="submit" class="btn btn-primary">Hantar</button>
@@ -160,11 +171,34 @@ $suggestedMemberNo = $lastMemberNo + 1;
 <br>
 
 <script>
-function toggleMemberNoInput() {
-    const status = document.getElementById('mstatus').value;
+function setStatus(event, status, statusDesc) {
+    event.preventDefault();  // Prevent the page from scrolling up when changing different status
+
+    // Set the hidden input to the selected status
+    document.getElementById('mstatus').value = status;
+
+    // Change the button text and colour
+    const statusButton = document.getElementById('statusDropdown');
+    statusButton.textContent = statusDesc;
+
+    if (status == 1) {
+        statusButton.classList.remove('btn-warning', 'btn-danger', 'btn-success');
+        statusButton.classList.add('btn-secondary');
+    } else if (status == 2) {
+        statusButton.classList.remove('btn-secondary', 'btn-success', 'btn-warning');
+        statusButton.classList.add('btn-danger');
+    } else if (status == 3) {
+        statusButton.classList.remove('btn-secondary', 'btn-danger', 'btn-warning');
+        statusButton.classList.add('btn-success');
+    }
+
+    toggleMemberNoInput(status);
+}
+
+function toggleMemberNoInput(status) {
     const memberNoContainer = document.getElementById('memberNoContainer');
-    
-    if (status == 3) { // If "Dilulus" (approved), show member number input
+
+    if (status == 3) { 
         memberNoContainer.style.display = 'block';
         document.getElementById('mMemberNo').required = true;
     } else {
@@ -177,29 +211,25 @@ function validateForm() {
     const status = document.getElementById('mstatus').value;
     const memberNo = document.getElementById('mMemberNo').value;
 
-    // Validate memberNo locally if the status is "Dilulus" (3)
     if (status == 3 && memberNo) {
         if (existingMemberNumbers.includes(memberNo)) {
-            alert("Member No already exists! Please enter a different Member No.");
-            return false; // Prevent form submission
+            alert("No. Anggota sudah wujud! Sila masukkan No. yang berbeza.");
+            return false; 
         }
     }
-
-    return confirmSubmission(); // Proceed with confirmation
+    return confirmSubmission();
 }
 
 function confirmSubmission() {
     const status = document.getElementById('mstatus').value;
 
     if (status == 2) {
-        return confirm("Are you sure you want to reject this application?");
+        return confirm("Adakah anda pasti untuk menolak permohonan ini?");
     } else if (status == 3) {
-        return confirm("Are you sure you want to approve this application?");
+        return confirm("Adakah anda pasti mahu meluluskan permohonan ini?");
     }
-
-    return true; // No confirmation needed for other statuses
+    return true; 
 }
 
-toggleMemberNoInput();
+setStatus(null, 1, "Sedang Diproses");
 </script>
-
