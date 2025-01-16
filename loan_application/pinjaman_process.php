@@ -1,15 +1,11 @@
-<?php 
-
-// Start session to retrieve user data
-session_start();
-
-// Check if the user is logged in
-if (!isset($_SESSION['uid'])) {
-    die('Error: User not logged in.');
+<?php
+include('../kkksession.php');
+if (!session_id()) {
+    session_start();
 }
-// Connect to DB
-include('dbconnect.php');
 
+include '../headermember.php';
+include '../db_connect.php';
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     // Store form data in cookies
@@ -22,12 +18,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     setcookie("gajiKasar", $_POST['gajiKasar'], time() + (86400 * 30), "/");
     setcookie("gajiBersih", $_POST['gajiBersih'], time() + (86400 * 30), "/");
     setcookie("fileSign", $_FILES['fileSign']['name'], time() + (86400 * 30), "/");
-    
 }
 
-
-
-//Retrieve data from form
+// Retrieve data from form
 $jenis_pembiayaan = $_POST['jenis_pembiayaan'];
 $amaunDipohon = $_POST['amaunDipohon'];
 $tempohPembiayaan = $_POST['tempohPembiayaan'];
@@ -48,8 +41,7 @@ if ($amaunDipohon > $maxFinancingAmt) {
     die('Error: Amaun Dipohon telah melebihi maksimum. Sila isi kurang daripada RM' . number_format($maxFinancingAmt, 2));
 }
 
-
-//File upload
+// File upload
 $fileSign = '';
 if (isset($_FILES['fileSign']) && $_FILES['fileSign']['error'] === UPLOAD_ERR_OK) {
     $fileTmpPath = $_FILES['fileSign']['tmp_name'];
@@ -64,14 +56,14 @@ if (isset($_FILES['fileSign']) && $_FILES['fileSign']['error'] === UPLOAD_ERR_OK
     $maxFileSize = 5 * 1024 * 1024; // 5 MB
 
     if (!in_array($fileExtension, $allowedExtensions)) {
-        die('Error: Invalid file type. Only PNG, JPG, JPEG, and PDF files are allowed.');
+        die('Error: Invalid file type. Only PNG, JPG, and JPEG files are allowed.');
     }
     if ($fileSize > $maxFileSize) {
         die('Error: File size exceeds the 5MB limit.');
     }
 
     $newFileName = md5(time() . $fileName) . '.' . $fileExtension;
-    
+
     // Directory to store the file
     $uploadFileDir = './uploads/';
     if (!is_dir($uploadFileDir)) {
@@ -90,14 +82,22 @@ if (isset($_FILES['fileSign']) && $_FILES['fileSign']['error'] === UPLOAD_ERR_OK
 }
 
 // Get the logged-in user's ID from the session
-$memberNo = $_SESSION['uid'];
+$memberNo = $_SESSION['u_id'];
 
-//SQL_Insert Operation
-$sql ="INSERT INTO tb_loan(l_memberNo, l_loanType, l_appliedLoan, l_loanPeriod, l_monthlyInstalment, l_bankAccountNo, l_bankName, l_monthlyGrossSalary, l_monthlyNetSalary, l_signature, l_status, l_applicationDate) 
-                    VALUES('$memberNo', '$jenis_pembiayaan', '$amaunDipohon', '$tempohPembiayaan', '$ansuranBulanan', '$bankAcc', '$namaBank', '$gajiKasar', '$gajiBersih', '$fileSign', 1, CURRENT_TIMESTAMP())";
+// Validate member number exists in tb_member
+$checkMemberQuery = "SELECT COUNT(*) AS count FROM tb_member WHERE m_memberNo = '$memberNo'";
+$checkMemberResult = mysqli_query($con, $checkMemberQuery);
+$checkMember = mysqli_fetch_assoc($checkMemberResult);
 
-if (mysqli_query($con, $sql)){
+if ($checkMember['count'] == 0) {
+    die('Error: Member number does not exist in the tb_member table.');
+}
 
+// SQL Insert Operation
+$sql = "INSERT INTO tb_loan (l_memberNo, l_loanType, l_appliedLoan, l_loanPeriod, l_monthlyInstalment, l_bankAccountNo, l_bankName, l_monthlyGrossSalary, l_monthlyNetSalary, l_signature, l_status, l_applicationDate) 
+        VALUES ('$memberNo', '$jenis_pembiayaan', '$amaunDipohon', '$tempohPembiayaan', '$ansuranBulanan', '$bankAcc', '$namaBank', '$gajiKasar', '$gajiBersih', '$fileSign', 1, CURRENT_TIMESTAMP())";
+
+if (mysqli_query($con, $sql)) {
     // Store the loanApplicationID in the session for the next page
     $loanApplicationID = mysqli_insert_id($con);
     $_SESSION['loanApplicationID'] = $loanApplicationID;
@@ -105,8 +105,8 @@ if (mysqli_query($con, $sql)){
     // Redirect to butir_peribadi.php
     header('Location: butir_peribadi.php?status=success');
     exit();
-}else {
-    die('Error: Failed to submit the loan application. Please try again.');
+} else {
+    die('Error: Failed to submit the loan application. ' . mysqli_error($con));
 }
 
 // Close connection

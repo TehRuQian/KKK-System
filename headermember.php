@@ -4,11 +4,11 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>KKK Online System</title>
-    <link href="bootstrap.css">
+    <link href="../bootstrap.css" rel="stylesheet">
     <link href="../img/kkk_logo.png" rel="icon" type="/image/x-icon">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet"> -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <!-- <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css"> -->
 </head>
 <style>
   ul li:hover{
@@ -18,7 +18,7 @@
 </style>
 <body>
 
-<nav class="navbar navbar-expand-lg bg-primary" data-bs-theme="dark">
+<nav class="navbar navbar-expand-lg bg-primary" data-bs-theme="dark" style="position: sticky; top: 0; z-index: 1030; ">
   <div class="container-fluid">
     <a class="navbar-brand" href="../member_main/member.php">
         <img src="../img/kkk_logo_cropped.png" alt="kkk" style="height: 30px;">
@@ -37,7 +37,7 @@
           <a class="nav-link active ms-2" href="../update_member_profile/profilmember.php">Profil</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link active ms-2" href="#">Pinjaman</a>
+          <a class="nav-link active ms-2" href="../loan_application/pinjaman.php">Pinjaman</a>
         </li>
         <li>
           <button onclick="window.location.href='../login.php';" class="btn btn-dark">Log Keluar</button>

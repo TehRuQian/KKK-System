@@ -41,10 +41,15 @@
             <li class="nav-item"><a class="nav-link" href="../loan_approval/loan_approval.php">Permohonan Pinjaman</a></li>
             <li class="nav-item"><a class="nav-link" href="../view_list/view_member_list.php">Senarai Anggota</a></li>
             <li class="nav-item"><a class="nav-link" href="../view_list/view_loan_list.php">Senarai Peminjam</a></li>
-            <li class="nav-item"><a class="nav-link" href="../transaksi/transaksi.php">Transaksi</a></li>
-            <li class="nav-item"><a class="nav-link" href="../kemaskini_polisi/kemaskini_polisi.php">Kemaskini Polisi</a></li>
-            <li class="nav-item"><a class="nav-link" href="#">Kemaskini Iklan</a></li>
-            <li class="nav-item"><a class="nav-link" href="#">Laporan</a></li>
+            <li class="nav-item dropdown">
+              <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">Transaksi</a>
+              <div class="dropdown-menu">
+                <a class="dropdown-item" href="../transaksi/potongan_gaji.php">Potongan Gaji</a>
+                <a class="dropdown-item" href="../transaksi/transaksi_lain.php">Lain-lain</a>
+              </div>
+            </li>
+            <li class="nav-item"><a class="nav-link" href="../kemaskini_iklan/kemaskini_iklan.php">Kemaskini Iklan</a></li>
+            <li class="nav-item"><a class="nav-link" href="../report_admin/_dashboardLaporan.php">Laporan</a></li>
           </ul>
         </div>
       </div>

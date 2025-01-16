@@ -1,15 +1,17 @@
-<?php 
-// Connect to DB
-include('dbconnect.php');
+<?php
+include('../kkksession.php');
+if (!session_id()) {
+    session_start();
+}
 
-// Start session
-session_start();
+include '../headermember.php';
+include '../db_connect.php';
 
 // Check if session variables are set
-if (!isset($_SESSION['uid'])) {
-    header('Location: login.php'); // Redirect to login if not logged in
-    exit();
-}
+// if (!isset($_SESSION['uid'])) {
+//     header('Location: login.php'); // Redirect to login if not logged in
+//     exit();
+// }
 
 // Loan
 if (!isset($_SESSION['loanApplicationID'])) {

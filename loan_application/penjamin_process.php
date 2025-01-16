@@ -1,11 +1,11 @@
 <?php
-session_start();
-
-// Check if the user is logged in
-if (!isset($_SESSION['uid'])) {
-    header('Location: login.php');
-    exit();
+include('../kkksession.php');
+if (!session_id()) {
+    session_start();
 }
+
+include '../headermember.php';
+include '../db_connect.php';
 
 // Get the loan application ID from the session
 if (!isset($_SESSION['loanApplicationID'])) {
@@ -15,9 +15,6 @@ $loanApplicationID = $_SESSION['loanApplicationID'];
 
 // Debug the loanApplicationID
 echo 'Loan Application ID from session: ' . $_SESSION['loanApplicationID'];
-
-// Connect to the database
-include('dbconnect.php');
 
 
 // Retrieve data from form

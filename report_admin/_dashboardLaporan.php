@@ -1,17 +1,13 @@
-<?php 
-include('pinjaman_sessions.php');
+<?php
+include('../kkksession.php');
 if (!session_id()) {
     session_start();
 }
-include('header_admin.php');
-include 'dbconnect.php';
 
+include '../header_admin.php';
+include '../db_connect.php';
 
-if (!isset($_SESSION['uid'])) {
-    header('Location: login.php');
-    exit(); 
-}
-
+$uid = $_SESSION['u_id'];
 
 $bulan = isset($_POST['Bulan']) ? $_POST['Bulan'] : '';
 $tahun = isset($_POST['Tahun']) ? $_POST['Tahun'] : '';

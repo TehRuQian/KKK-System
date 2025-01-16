@@ -1,15 +1,11 @@
 <?php
-session_start();
-
-// Check if the user is logged in
-if (!isset($_SESSION['uid'])) {
-    echo json_encode(['error' => 'User not logged in.']);
-    exit();
+include('../kkksession.php');
+if (!session_id()) {
+    session_start();
 }
 
-// Connect to the database
-include('dbconnect.php');
-
+include '../headermember.php';
+include '../db_connect.php';
 // Initialize response array
 $response = [];
 

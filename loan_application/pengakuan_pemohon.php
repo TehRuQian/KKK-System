@@ -1,18 +1,17 @@
-<?php 
-include ('pinjaman_sessions.php');
-if (!session_id())
-{
+<?php
+include('../kkksession.php');
+if (!session_id()) {
     session_start();
 }
-include ('headermain.php');
-include 'dbconnect.php';
 
+include '../headermember.php';
+include '../db_connect.php';
 // Check if the user is logged in by verifying the session variable
-if (!isset($_SESSION['uid'])) {
-  // If not logged in, redirect to login page
-  header('Location: login.php');
-  exit(); 
-}
+// if (!isset($_SESSION['uid'])) {
+//   // If not logged in, redirect to login page
+//   header('Location: ../login.php');
+//   exit(); 
+// }
 
 // Check if the 'status' parameter is present in the URL
 if (isset($_GET['status']) && $_GET['status'] == 'success') {

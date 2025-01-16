@@ -59,7 +59,7 @@ if (!$result) {
 
     <div class="my-3"></div>
 
-    <p style="text-align: center; font-size:30px;"><b>Rekod Bayaran Balik</b></p>
+    <h2>Rekod Bayaran Balik</h2>
 
     <nav>
       <ul class="dflex justify-content-center pagination ms-5 pagination-sm">
@@ -87,7 +87,7 @@ if (!$result) {
       <div class="card-header text-white bg-primary d-flex justify-content-between align-items-center">
         Rekod Bayaran Balik
         <button type="button" class="btn btn-info"  onclick="window.location.href='member.php'">
-            Balik
+        Kembali
         </button> 
       </div>
       <div class="card-body">

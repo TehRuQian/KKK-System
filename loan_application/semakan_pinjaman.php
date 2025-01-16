@@ -1,18 +1,18 @@
-<?php 
-include ('pinjaman_sessions.php');
-if (!session_id())
-{
+<?php
+include('../kkksession.php');
+if (!session_id()) {
     session_start();
 }
-include ('headermain.php');
-include 'dbconnect.php';
+
+include '../headermember.php';
+include '../db_connect.php';
 
 // Check if the user is logged in by verifying the session variable
-if (!isset($_SESSION['uid'])) {
-  // If not logged in, redirect to login page
-  header('Location: login.php');
-  exit(); // Ensure no further code is executed
-}
+// if (!isset($_SESSION['uid'])) {
+//   // If not logged in, redirect to login page
+//   header('Location: login.php');
+//   exit(); // Ensure no further code is executed
+// }
 
 // Loan
 if (!isset($_SESSION['loanApplicationID'])) {

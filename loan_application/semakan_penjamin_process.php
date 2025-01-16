@@ -1,11 +1,11 @@
 <?php
-session_start();
-
-// Check if the user is logged in
-if (!isset($_SESSION['uid'])) {
-    header('Location: login.php');
-    exit();
+include('../kkksession.php');
+if (!session_id()) {
+    session_start();
 }
+
+include '../headermember.php';
+include '../db_connect.php';
 
 // Get the loan application ID from the session
 $loanApplicationID = $_SESSION['loanApplicationID'];
@@ -16,10 +16,6 @@ $guarantorID2 = $_SESSION['guarantorID2'];
 if (!isset($loanApplicationID) || !isset($guarantorID1) || !isset($guarantorID2)) {
     die('Error: Required session data is missing.');
 }
-
-// Connect to the database
-include('dbconnect.php');
-
 
 // Retrieve data from form
 $memberNo1 = $_POST['anggotaPenjamin1'];

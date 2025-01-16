@@ -1,18 +1,13 @@
-<?php 
-include ('pinjaman_sessions.php');
-if (!session_id())
-{
+<?php
+include('../kkksession.php');
+if (!session_id()) {
     session_start();
 }
-include ('headermain.php');
-include 'dbconnect.php';
 
-// Check if the user is logged in by verifying the session variable
-if (!isset($_SESSION['uid'])) {
-  // If not logged in, redirect to login page
-  header('Location: login.php');
-  exit(); 
-}
+include '../headermember.php';
+include '../db_connect.php';
+
+$uid = $_SESSION['u_id'];
 
 if (!isset($_SESSION['loanApplicationID'])) {
     die('Error: Loan application ID is missing.');
@@ -20,10 +15,10 @@ if (!isset($_SESSION['loanApplicationID'])) {
 
 $loanApplicationID = $_SESSION['loanApplicationID']; // Retrieve from session
 
-// Check if the 'status' parameter is present in the URL
-if (isset($_GET['status']) && $_GET['status'] == 'success') {
-  echo '<script>alert("Anda telah berjaya disimpan.");</script>';
-}
+// // Check if the 'status' parameter is present in the URL
+// if (isset($_GET['status']) && $_GET['status'] == 'success') {
+//   echo '<script>alert("Anda telah berjaya disimpan.");</script>';
+// }
 
 
 ?>

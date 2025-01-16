@@ -27,12 +27,12 @@ if ($count == 1) { // Check if user exists
     $_SESSION['funame'] = $funame;
     if ($row['u_type'] == 1) { // Check user type
         // Redirect to admin page
-        header('Location: admin.php');
+        header('Location: admin_main/admin.php');
         exit;
     }
     if ($row['u_type'] == 2) { // Check user type
         // Redirect to Member page
-        header('Location: member.php');
+        header('Location: member_main/member.php');
         exit;
     }
 } else {
