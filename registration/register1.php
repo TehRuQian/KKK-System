@@ -3,7 +3,6 @@ include '..\header_reg.php';
 include 'functions.php';
 session_start();
 $errors = [];
-include('functions.php');
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $cleanPost = cleanPost($_POST);
 
