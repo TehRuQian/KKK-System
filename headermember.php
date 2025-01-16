@@ -37,7 +37,7 @@
           <a class="nav-link active ms-2" href="../update_member_profile/profilmember.php">Profil</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link active ms-2" href="../loan_application/pinjaman.php">Pinjaman</a>
+          <a class="nav-link active ms-2" href="../loan_application/dashboard_pinjaman.php">Pinjaman</a>
         </li>
         <li>
           <button onclick="window.location.href='../login.php';" class="btn btn-dark">Log Keluar</button>
