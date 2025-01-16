@@ -6,7 +6,7 @@ if(!session_id())
 
 if(isset($_SESSION['u_id']) != session_id())
 {
-    header('Location: login.php');
+    header('Location: ../login.php');
 }
 
 ?>
