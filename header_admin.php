@@ -6,6 +6,8 @@
       <title>KKK Online System</title>
       <link href="../bootstrap.css" rel="stylesheet">
       <link href="../img/kkk_logo.png" rel="icon" type="/image/x-icon">
+      <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+      <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
   </head>
 
   <style>
@@ -36,7 +38,7 @@
         <div class="collapse navbar-collapse" id="navbarColor02">
           <ul class="navbar-nav me-auto">
             <li class="nav-item"><a class="nav-link" href="../member_approval/member_approval.php">Permohonan Anggota</a></li>
-            <li class="nav-item"><a class="nav-link" href="#">Permohonan Pinjaman</a></li>
+            <li class="nav-item"><a class="nav-link" href="../loan_approval/loan_approval.php">Permohonan Pinjaman</a></li>
             <li class="nav-item"><a class="nav-link" href="../view_list/view_member_list.php">Senarai Anggota</a></li>
             <li class="nav-item"><a class="nav-link" href="../view_list/view_loan_list.php">Senarai Peminjam</a></li>
             <li class="nav-item"><a class="nav-link" href="../transaksi/transaksi.php">Transaksi</a></li>
