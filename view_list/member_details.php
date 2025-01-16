@@ -75,6 +75,10 @@ if (isset($_GET['id']))
             <td><?php echo $member['m_phoneNumber']; ?></td>
         </tr>
         <tr>
+            <th>Email:</th>
+            <td><?php echo $member['m_email']; ?></td>
+        </tr>
+        <tr>
             <th>No. Telefon Rumah:</th>
             <td><?php echo $member['m_homeNumber']; ?></td>
         </tr>
@@ -106,3 +110,10 @@ if (isset($_GET['id']))
     </table>
     <?php } ?>
 </div>
+
+
+<div style="display: flex; gap: 10px; justify-content: center;">
+            <button type="button" class="btn btn-primary" onclick="window.location.href='member_list.php'">Kembali</button>
+</div>
+
+<br>

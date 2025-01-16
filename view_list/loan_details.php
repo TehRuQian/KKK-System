@@ -90,3 +90,9 @@ if (isset($_GET['id'])) {
         <p>Maklumat peminjam tidak dijumpai.</p>
     <?php } ?>
 </div>
+
+<div style="display: flex; gap: 10px; justify-content: center;">
+            <button type="button" class="btn btn-primary" onclick="window.location.href='member_list.php'">Kembali</button>
+</div>
+
+<br>

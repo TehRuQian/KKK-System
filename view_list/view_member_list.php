@@ -1,18 +1,37 @@
 <?php
 
 include('../kkksession.php');
-if(!session_id())
-{
-  session_start();
+if (!session_id()) {
+    session_start();
 }
 
 include '../header_admin.php';
 include '../db_connect.php';
 
-$sql = "SELECT * FROM tb_member WHERE m_status = 3";
+// Number of records of member per page
+$records_per_page = 10;  
 
-//  Execute the SQL statement on DB
+// Get the current page from the URL (default to 1 if not set)
+$current_page = isset($_GET['page']) ? $_GET['page'] : 1;
+$start_from = ($current_page - 1) * $records_per_page;
+
+// Correct SQL query with DATE_FORMAT for m_approvalDate
+$sql = "SELECT m_memberNo, m_pfNo, m_name, 
+        DATE_FORMAT(m_approvalDate, '%d-%m-%Y') AS formattedDate 
+        FROM tb_member 
+        WHERE m_status = 3
+        LIMIT $start_from, $records_per_page"; 
+
+// Execute the SQL statement on DB
 $result = mysqli_query($con, $sql);
+
+// Get total records count for pagination
+$total_sql = "SELECT COUNT(*) FROM tb_member WHERE m_status = 3";
+$total_result = mysqli_query($con, $total_sql);
+$total_row = mysqli_fetch_row($total_result);
+$total_records = $total_row[0];
+$total_pages = ceil($total_records / $records_per_page);
+
 ?>
 
 <div class="container">
@@ -21,28 +40,60 @@ $result = mysqli_query($con, $sql);
     <table class="table table-hover">
         <thead>
         <tr>
-        <th scope="col">No. Anggota</th>
-        <th scope="col">No. PF</th>
+        <th scope="col" class='text-center'>No. Anggota</th>
+        <th scope="col" class='text-center'>No. PF</th>
         <th scope="col">Nama Anggota</th>
-        <th scope="col">Tarikh Masuk</th>
-        <th scope="col">Butiran</th>
+        <th scope="col" class='text-center'>Tarikh Masuk</th>
+        <th scope="col" class='text-center'>Butiran</th>
         </tr>
         </thead>
         <tbody>
             <?php
-            while($row = mysqli_fetch_array($result))
-            {
+            while ($row = mysqli_fetch_array($result)) {
                 echo "<tr>";
-                echo "<td>".$row['m_memberNo']."</td>";
-                echo "<td>".$row['m_pfNo']."</td>";
+                echo "<td class='text-center'>".$row['m_memberNo']."</td>";        
+                echo "<td class='text-center'>".$row['m_pfNo']."</td>";           
                 echo "<td>".$row['m_name']."</td>";
-                echo "<td>".$row['m_approvalDate']."</td>";
-                echo "<td><a href='member_details.php?id=".$row['m_memberNo']."' title='View Details'>...</a></td>";
+                echo "<td class='text-center'>".$row['formattedDate']."</td>"; 
+                echo "<td class='text-center'>";                                
+                echo "<a href='member_details.php?id=".$row['m_memberNo']."' title='View Details'>";
+                echo "<i class='fa fa-ellipsis-h' aria-hidden='true'></i>";       
+                echo "</a>";
+                echo "</td>";
                 echo "</tr>";
             }
             ?>
         </tbody>
     </table>
 
+    <nav>
+        <ul class="pagination justify-content-center">
+            <!-- Previous Button -->
+            <li class="page-item <?php if($current_page == 1) echo 'disabled'; ?>">
+                <a class="page-link" href="?page=<?php echo $current_page - 1; ?>">&laquo;</a>
+            </li>
+
+            <!-- Page Numbers -->
+            <?php for($i = 1; $i <= $total_pages; $i++) { ?>
+                <li class="page-item <?php if($i == $current_page) echo 'active'; ?>">
+                    <a class="page-link" href="?page=<?php echo $i; ?>"><?php echo $i; ?></a>
+                </li>
+            <?php } ?>
+
+            <!-- Next Button -->
+            <li class="page-item <?php if($current_page == $total_pages) echo 'disabled'; ?>">
+                <a class="page-link" href="?page=<?php echo $current_page + 1; ?>">&raquo;</a>
+            </li>
+        </ul>
+    </nav>
+
+</div>
+<br>
+<div style="display: flex; gap: 10px; justify-content: center;">
+            <button type="button" class="btn btn-primary" onclick="window.location.href='member_list.php'">Kembali</button>
 </div>
 
+<br>
+<?php
+include '../footer.php';
+?>
