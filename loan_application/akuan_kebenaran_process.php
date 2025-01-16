@@ -8,6 +8,7 @@ if (!session_id()) {
 include '../headermember.php';
 include '../db_connect.php';
 
+////////
 
 // Check if the 'status' parameter is present in the URL
 if (isset($_GET['status']) && $_GET['status'] == 'success') {
