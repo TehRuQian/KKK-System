@@ -113,7 +113,7 @@ if (isset($_GET['id']))
 
 
 <div style="display: flex; gap: 10px; justify-content: center;">
-            <button type="button" class="btn btn-primary" onclick="window.location.href='member_list.php'">Kembali</button>
+            <button type="button" class="btn btn-primary" onclick="window.location.href='view_member_list.php'">Kembali</button>
 </div>
 
 <br>
