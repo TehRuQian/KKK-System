@@ -1,10 +1,14 @@
-<?php include 'headermain.php'; ?>
+<?php 
+include 'headermain.php'; 
+include 'login_function.php';
+?>
 
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <title>Login Page</title>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <style>
         body {
             margin: 0;
@@ -87,11 +91,10 @@
 
 <body>
     <div class="top-half">
-    <br>
-    <img src="img/kkk_logo_cropped.png" style="width:10%">
-    <br>
-    <h1 class="text-center">Sistem KKK Digital Bersepadu</h1>
-
+        <br>
+        <img src="img/kkk_logo_cropped.png" style="width:10%">
+        <br>
+        <h1 class="text-center">Sistem KKK Digital Bersepadu</h1>
     </div>
     <div class="bottom-half">
         <div class="login-container">
@@ -115,12 +118,14 @@
                         <br>
                         <button type="submit" class="btn btn-primary custom-width center-button">Log Masuk</button>
                         <br><br>
-                        <h6 class="text-center"><b><a href="register.php">Pemohonan Menjadi Anggota</a></b></h6>
+                        <h6 class="text-center"><b><a href="registration/register.php">Pemohonan Menjadi Anggota</a></b></h6>
+                        <h6 class="text-center"><b><a href="javascript:void(0)" onclick="pwResetEmail()">Lupa Kata Laluan</a></b></h6>
                         <br><br><br>
                     </fieldset>
                 </form>
             </div>
         </div>
     </div>
+
 </body>
 </html>
