@@ -78,22 +78,23 @@ $total_pages = ceil($total_records / $records_per_page);
 </div>
 
 <nav>
-    <ul class="pagination justify-content-center">
-        <!-- Previous Button -->
-        <li class="page-item <?php if($current_page == 1) echo 'disabled'; ?>">
-        <a class="page-link" href="?page=<?php echo $current_page - 1; ?>">&laquo;</a>
+    <ul class="d-flex justify-content-center pagination pagination-sm">
+        <?php if($current_page > 1): ?>
+        <li class="page-item">
+        <a class="page-link" href="?page=<?= $current_page - 1; ?>">&laquo;</a>
         </li>
+        <?php endif; ?>
 
-        <!-- Page Numbers -->
-        <?php for($i = 1; $i <= $total_pages; $i++) { ?>
-            <li class="page-item <?php if($i == $current_page) echo 'active'; ?>">
-                <a class="page-link" href="?page=<?php echo $i; ?>"><?php echo $i; ?></a>
-            </li>
-        <?php } ?>
-
-        <!-- Next Button -->
-        <li class="page-item <?php if($current_page == $total_pages) echo 'disabled'; ?>">
-            <a class="page-link" href="?page=<?php echo $current_page + 1; ?>">&raquo;</a>
+        <?php for($i = 1; $i <= $total_pages; $i++): ?>
+        <li class="page-item <?= ($i == $current_page) ? 'active' : ''; ?>">
+        <a class="page-link" href="?page=<?= $i; ?>"><?= $i; ?></a>
         </li>
+        <?php endfor; ?>
+
+        <?php if($current_page < $total_pages): ?>
+        <li class="page-item">
+        <a class="page-link" href="?page=<?= $current_page + 1; ?>">&raquo;</a>
+        </li>
+        <?php endif; ?>
     </ul>
 </nav>

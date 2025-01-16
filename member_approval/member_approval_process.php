@@ -34,7 +34,7 @@ function sendApprovalEmail($email, $name, $memberNo, $temporaryPassword) {
                "[Pautan ke Halaman Tukar Kata Laluan]\n\n" .
                "Sekian, Terima Kasih.\n\n" .
                "Tech-Hi-Five";
-    
+
     $headers = "From: no_reply@kada.com\r\n" .
                "Reply-To: hello@gmail.com\r\n" .
                "X-Mailer: PHP/" . phpversion();
@@ -42,8 +42,9 @@ function sendApprovalEmail($email, $name, $memberNo, $temporaryPassword) {
     return mail($email, $subject, $message, $headers);
 }
 
-// SQL Update Operation
+// Handle approval or rejection
 if ($mstatus == 3 && $mMemberNo) {
+    // Approval logic
     $sql1 = "UPDATE tb_member
              SET m_adminID = '$uid', m_status = '$mstatus', m_approvalDate = '$currentDate', m_memberNo = '$mMemberNo'
              WHERE m_memberApplicationID = $mApplicationID";
@@ -85,6 +86,28 @@ if ($mstatus == 3 && $mMemberNo) {
                 window.history.back();
               </script>";
     }
+} elseif ($mstatus == 2) {
+    // Rejection logic
+    $sqlReject = "UPDATE tb_member
+                  SET m_adminID = '$uid', m_status = '$mstatus', m_approvalDate = '$currentDate'
+                  WHERE m_memberApplicationID = $mApplicationID";
+
+    if (mysqli_query($con, $sqlReject)) {
+        echo "<script>
+                alert('Member has been rejected successfully.');
+                window.location.href = 'member_approval.php';
+              </script>";
+    } else {
+        echo "<script>
+                alert('Error rejecting member: " . mysqli_error($con) . "');
+                window.history.back();
+              </script>";
+    }
+} else {
+    echo "<script>
+            alert('Invalid action.');
+            window.history.back();
+          </script>";
 }
 
 // Close Connection
