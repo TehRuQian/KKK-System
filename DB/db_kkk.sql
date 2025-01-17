@@ -399,10 +399,11 @@ CREATE TABLE `tb_member` (
   `m_simpananTetap` double NOT NULL COMMENT 'Sumbangan Tabung Tabung Kebajikan ',
   `m_feeLain` double NOT NULL,
   `m_status` int(11) NOT NULL,
-  `m_applicationDate` datetime NOT NULL,
+  `m_applicationDate` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
   `m_approvalDate` timestamp NULL DEFAULT NULL,
   `m_adminID` int(11) DEFAULT NULL COMMENT 'Admin who approve the application'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
 
 --
 -- Dumping data for table `tb_member`
