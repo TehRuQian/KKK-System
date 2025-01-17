@@ -306,8 +306,8 @@ CREATE TABLE `tb_loan` (
   `l_monthlyNetSalary` double NOT NULL,
   `l_signature` varchar(50) NOT NULL,
   `l_status` int(11) NOT NULL,
-  `l_applicationDate` timestamp NULL DEFAULT NULL,
-  `l_approvalDate` timestamp NULL DEFAULT current_timestamp(),
+  `l_applicationDate` datetime DEFAULT NULL,
+  `l_approvalDate` timestamp NULL DEFAULT NULL,
   `l_adminID` int(11) DEFAULT NULL COMMENT 'Admin who approved the application'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
@@ -399,7 +399,7 @@ CREATE TABLE `tb_member` (
   `m_feeLain` double NOT NULL,
   `m_status` int(11) NOT NULL,
   `m_applicationDate` datetime DEFAULT NULL,
-  `m_approvalDate` timestamp NULL DEFAULT current_timestamp(),
+  `m_approvalDate` timestamp NULL DEFAULT NULL,
   `m_adminID` int(11) DEFAULT NULL COMMENT 'Admin who approve the application'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 

@@ -10,8 +10,8 @@ include '../db_connect.php';
 // Get application ID
 $mApplicationID = $_GET['id'];
 
-if ($lApplicationID === 0) {
-    echo "<script>alert('ID aplikasi tidak sah.'); window.location.href = 'loan_approval.php';</script>";
+if ($mApplicationID === 0) {
+    echo "<script>alert('ID aplikasi tidak sah.'); window.location.href = 'member_approval.php';</script>";
     exit;
 }
 
