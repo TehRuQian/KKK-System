@@ -9,7 +9,7 @@
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
-SET time_zone = "+00:00";
+SET time_zone = "+08:00";
 
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
@@ -306,8 +306,8 @@ CREATE TABLE `tb_loan` (
   `l_monthlyNetSalary` double NOT NULL,
   `l_signature` varchar(50) NOT NULL,
   `l_status` int(11) NOT NULL,
-  `l_applicationDate` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
-  `l_approvalDate` timestamp NULL DEFAULT NULL,
+  `l_applicationDate` timestamp NULL DEFAULT NULL,
+  `l_approvalDate` timestamp NULL DEFAULT current_timestamp(),
   `l_adminID` int(11) DEFAULT NULL COMMENT 'Admin who approved the application'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
@@ -398,8 +398,8 @@ CREATE TABLE `tb_member` (
   `m_simpananTetap` double NOT NULL COMMENT 'Sumbangan Tabung Tabung Kebajikan ',
   `m_feeLain` double NOT NULL,
   `m_status` int(11) NOT NULL,
-  `m_applicationDate` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
-  `m_approvalDate` timestamp NULL DEFAULT NULL,
+  `m_applicationDate` datetime DEFAULT NULL,
+  `m_approvalDate` timestamp NULL DEFAULT current_timestamp(),
   `m_adminID` int(11) DEFAULT NULL COMMENT 'Admin who approve the application'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
@@ -411,16 +411,23 @@ CREATE TABLE `tb_member` (
 INSERT INTO `tb_member` (`m_memberApplicationID`, `m_name`, `m_ic`, `m_email`, `m_gender`, `m_religion`, `m_race`, `m_maritalStatus`, `m_homeAddress`, `m_homePostcode`, `m_homeCity`, `m_homeState`, `m_memberNo`, `m_pfNo`, `m_position`, `m_positionGrade`, `m_officeAddress`, `m_officePostcode`, `m_officeCity`, `m_officeState`, `m_phoneNumber`, `m_homeNumber`, `m_monthlySalary`, `m_feeMasuk`, `m_modalSyer`, `m_modalYuran`, `m_deposit`, `m_alAbrar`, `m_simpananTetap`, `m_feeLain`, `m_status`, `m_applicationDate`, `m_approvalDate`, `m_adminID`) VALUES
 (1001, 'Ali Ahmad', '900101-02-0111', 'aliahmad@gmail.com', 1, 1, 1, 1, 'No.1, Kampung Peringat', 15000, 'Kota Bharu', 3, NULL, 1001, 'Pengurus', 'G41', 'Jalan Dato Lundang', 15000, 'Kota Bharu', 3, '0123456789', NULL, 3500, 0, 0, 0, 0, 0, 0, 0, 2, '2025-11-01 00:00:00', '2025-11-11 16:00:00', 200),
 (1002, 'Nur Aisyah', '910201-03-0222', 'nuraisyah@gmail.com', 2, 1, 1, 2, 'No.12, Kampung Tunjong', 15010, 'Kota Bharu', 3, NULL, 1002, 'Penolong Pegurus', 'G29', 'Jalan Dato Lundang', 15010, 'Kota Bharu', 3, '0129876543', NULL, 3200, 0, 0, 0, 0, 0, 0, 0, 2, '2025-11-02 00:00:00', '2025-11-14 16:00:00', 201),
-(1003, 'Tan Mei Ling', '050111-04-1234', 'tanmeiling@gmail.com', 2, 1, 1, 1, 'No.15, Taman Mount Austi', 8110, 'Johor Bahr', 2, 1, 1, 'Keran', 'N1', 'Jalan Dato Lundan', 150, 'Kota Bhar', 4, '01122334456', '07522334', 2500, 0, 0, 0, 0, 0, 0, 0, 3, '2025-11-03 00:00:00', '2025-11-14 16:00:00', 200),
+(1003, 'Tan Mei Ling', '050111-04-1234', 'tanmeiling@gmail.com', 2, 1, 1, 1, 'No.15, Taman Mount Austi', 8110, 'Johor Bahru', 2, 1, 1, 'Keran', 'N1', 'Jalan Dato Lundan', 150, 'Kota Bhar', 4, '01122334456', '07522334', 250, 0, 0, 0, 0, 0, 0, 0, 3, '2025-11-03 00:00:00', '2025-11-14 16:00:00', 200),
 (1004, 'Mohd Hafiz', '880701-05-0444', 'mohdhafiz@gmail.com', 1, 1, 1, 2, 'No.20, Kampung Kubang Kerian', 15020, 'Kota Bharu', 3, 2, 1004, 'Ketua Pegawai', 'G52', 'Jalan Dato Lundang ', 15020, 'Kota Bharu', 3, '0142233445', '073334455', 6000, 0, 0, 0, 0, 0, 0, 0, 3, '2025-11-04 00:00:00', '2025-11-14 16:00:00', 201),
 (1005, 'Ravi Kumar', '870401-06-0555', 'ravikumar@gmail.com', 1, 3, 3, 2, 'No.25, Taman Desa Aman', 54000, 'Kuala Lumpur', 12, 3, 1005, 'Pegawai Teknikal', 'J41', 'Jalan Dato Lundang', 15000, 'Kota Bharu', 12, '0163344556', '0182221234', 4500, 0, 0, 0, 0, 0, 0, 0, 3, '2025-11-05 00:00:00', '2025-11-14 16:00:00', 200),
 (1006, 'Anisa Karim', '900501-07-0666', 'anisakarim@gmail.com', 2, 1, 1, 1, 'No.30, Kampung Kota, Kota Bharu, Kelantan', 15030, 'Kota Bharu', 3, 4, 1006, 'Setiausaha', 'N29', 'Jalan Dato Lundang', 15030, 'Kota Bharu', 3, '0174455667', '-', 3200, 0, 0, 0, 0, 0, 0, 0, 3, '2025-11-06 00:00:00', '2025-11-14 16:00:00', 201),
 (1007, 'Lim Wei Sheng', '850301-08-0777', 'limweisheng@gmail.com', 1, 4, 2, 1, 'No.35, Taman Pelangi, Johor Bahru', 81200, 'Johor Bahru', 1, 5, 1007, 'Penganalisis', 'G43', 'Jalan Dato Lundang', 15000, 'Kota Bharu', 3, '0185566778', '075223355', 5000, 0, 0, 0, 0, 0, 0, 0, 3, '2025-11-07 00:00:00', '2025-11-14 16:00:00', 200),
 (1008, 'Aminah Saad', '920201-09-0888', 'aminahsaad@gmail.com', 2, 1, 1, 1, 'No.40, Kampung Sireh, Kota Bharu, Kelantan', 0, 'Kota Bharu', 3, 6, 1008, 'Pegawai Kew', 'W41', 'Jalan Dato Lundang', 15040, 'Kota Bharu', 3, '0196677889', '073456789', 4700, 0, 0, 0, 0, 0, 0, 0, 3, '2024-11-08 00:00:00', '2024-11-14 16:00:00', 201),
-(1009, 'Farid Hakim', '930101-10-0999', 'faridhakim@gmail.com', 1, 1, 1, 1, 'No.50, Taman Bukit Mewah, Kajang, Selangor', 43000, 'Kajang', 10, NULL, 1009, 'Pegawai Komputer', 'S41', 'Jalan Dato Lundang ', 15000, 'Kota Bharu', 3, '0197788990', NULL, 3500, 0, 0, 0, 0, 0, 0, 0, 1, '2024-11-09 00:00:00', NULL, NULL),
-(1010, 'Zarina Mohd', '940201-11-0000', 'zarinamohd@gmail.com', 2, 1, 1, 2, 'No.60, Kampung Pasir Tumboh, Kota Bharu, Kelantan', 15060, 'Kota Bharu', 3, NULL, 1010, 'Penyelaras ', 'G41', 'Jalan Dato Lundang ', 15060, 'Kota Bharu', 3, '0198899001', '073456123', 3800, 0, 0, 0, 0, 0, 0, 0, 1, '2024-11-10 00:00:00', NULL, NULL),
-(1011, 'Shalini Devi', '890301-12-0111', 'shalinidevi@gmail.com', 2, 3, 3, 1, 'No.70, Taman Universiti, Skudai, Johor', 81300, 'Skudai', 1, NULL, 1011, 'Pegawai ICT', 'F41', 'Jalan Dato Lundang ', 15000, 'Kota Bharu', 3, '0118899002', NULL, 4600, 0, 0, 0, 0, 0, 0, 0, 1, '2024-11-11 00:00:00', NULL, NULL),
-(1012, 'Roslan Mansor', '860201-13-0222', 'roslanmansor@gmail.com', 1, 1, 1, 1, 'No.80, Kampung Panji, Kota Bharu, Kelantan', 15080, 'Kota Bharu', 3, NULL, 1012, 'Pegawai Audit', 'W43', 'Jalan Dato Lundang ', 15080, 'Kota Bharu', 3, '0137788002', '073345678', 5500, 0, 0, 0, 0, 0, 0, 0, 1, '2024-11-12 00:00:00', NULL, NULL);
+(1009, 'Farid Hakim', '930101-10-0999', 'faridhakim@gmail.com', 1, 1, 1, 1, 'No.50, Taman Bukit Mewah, Kajang, Selangor', 43000, 'Kajang', 10, NULL, 1009, 'Pegawai Komputer', 'S41', 'Jalan Dato Lundang ', 15000, 'Kota Bharu', 3, '0197788990', NULL, 3500, 0, 0, 0, 0, 0, 0, 0, 2, '2024-11-09 00:00:00', '2025-01-16 07:18:46', 0),
+(1010, 'Zarina Mohd', '940201-11-0000', 'zarinamohd@gmail.com', 2, 1, 1, 2, 'No.60, Kampung Pasir Tumboh, Kota Bharu, Kelantan', 15060, 'Kota Bharu', 3, 8, 1010, 'Penyelaras ', 'G41', 'Jalan Dato Lundang ', 15060, 'Kota Bharu', 3, '0198899001', '073456123', 3800, 0, 0, 0, 0, 0, 0, 0, 3, '2024-11-10 00:00:00', '2025-01-16 09:30:48', 0),
+(1011, 'Shalini Devi', '890301-12-0111', 'shalinidevi@gmail.com', 2, 3, 3, 1, 'No.70, Taman Universiti, Skudai, Johor', 81300, 'Skudai', 1, 9, 1011, 'Pegawai ICT', 'F41', 'Jalan Dato Lundang ', 15000, 'Kota Bharu', 3, '0118899002', NULL, 4600, 0, 0, 0, 0, 0, 0, 0, 3, '2024-11-11 00:00:00', '2025-01-16 09:44:50', 0),
+(1012, 'Roslan Mansor', '860201-13-0222', 'roslanmansor@gmail.com', 1, 1, 1, 1, 'No.80, Kampung Panji, Kota Bharu, Kelantan', 15080, 'Kota Bharu', 3, 12, 1012, 'Pegawai Audit', 'W43', 'Jalan Dato Lundang ', 15080, 'Kota Bharu', 3, '0137788002', '073345678', 5500, 0, 0, 0, 0, 0, 0, 0, 3, '2024-11-12 00:00:00', '2025-01-17 08:07:34', 0),
+(1013, 'Ali yang bernama Ali', '040622-01-0101', 'hello@graduate.utm.my', 1, 2, 2, 1, '10, Jalan 1', 78456, 'Hello', 11, 7, 1013, 'Manager', 'N17', '1, Jalan Ali', 78945, 'hr', 11, '0145669966', '077760237', 2500, 40, 300, 56, 6656, 5965, 595, 595, 3, '2025-01-16 15:26:23', '2025-01-16 09:30:00', 0),
+(1014, 'Teh Ru Qian', '040404-04-0404', 'tehruqian@graduate.utm.my', 1, 4, 3, 3, '10, Jalan Ali', 78945, 'JB', 1, 10, 1014, 'Pegawai', 'M14', '11', 78456, 'Home', 2, '0123456789', NULL, 10000, 0, 0, 0, 0, 0, 0, 0, 3, '2025-01-17 22:57:47', '2025-01-17 07:57:47', 0),
+(1015, 'Goe Jie Ying', '040404-04-0404', 'jygoe63@gmail.com', 1, 5, 4, 3, '10, Jalan Ali', 78945, 'JB', 1, NULL, 1015, 'Pegawai', 'M14', '11', 78456, 'Home', 4, '0123456789', NULL, 10000, 35, 35, 0, 0, 0, 0, 0, 1, '2025-01-16 17:32:34', NULL, 0),
+(1016, 'Chua Jia Lin', '010101-01-1010', 'chuajialin@graduate.utm.my', 2, 1, 2, 2, '10, Jalan Ali', 78945, 'JB', 3, NULL, 1016, 'Pegawai', 'M14', '11', 78456, 'Home', 14, '0123456789', NULL, 10000, 35, 0, 0, 0, 0, 0, 0, 1, '2025-01-17 21:47:37', NULL, NULL),
+(1017, 'Tan Yi Ya', '040404-01-0404', 'tanyiya@graduate.utm.my', 2, 3, 3, 1, '10, Jalan Ali', 78945, 'JB', 1, NULL, 1017, 'Pegawai', 'M14', '11', 78456, 'Home', 14, '0123456789', NULL, 10000, 35, 0, 0, 0, 0, 0, 0, 1, '2025-01-17 21:48:47', NULL, 0),
+(1018, 'Lam Yoke Yu', '010101-01-1010', 'lam.yu@graduate.utm.my', 2, 1, 2, 2, '10, Jalan Ali', 78945, 'JB', 1, 11, 1018, 'Pegawai', 'M14', '11', 78456, 'Home', 3, '0123456789', NULL, 10000, 35, 0, 0, 0, 0, 0, 0, 3, '2025-01-17 23:02:40', '2025-01-17 08:02:40', 0),
+(1019, 'Lim Chong Chong', '045689-01-5698', 'bello@graduate.utm.my', 1, 2, 2, 3, '10, Jalan Ali', 78456, 'JB', 14, 13, 1019, 'Manager', 'N17', '10, Jalan Ali', 78945, 'hr', 11, '0145669966', '075896478', 15000, 35, 300, 35, 50, 35, 50, 35, 3, '2025-01-17 16:37:05', '2025-01-17 09:02:10', 0);
 
 -- --------------------------------------------------------
 
@@ -1031,11 +1038,10 @@ ALTER TABLE `tb_heir`
 -- Constraints for table `tb_loan`
 --
 ALTER TABLE `tb_loan`
-  ADD CONSTRAINT `tb_loan_ibfk_1` FOREIGN KEY (`l_adminID`) REFERENCES `tb_admin` (`a_adminID`),
-  ADD CONSTRAINT `tb_loan_ibfk_2` FOREIGN KEY (`l_loanType`) REFERENCES `tb_ltype` (`lt_lid`),
-  ADD CONSTRAINT `tb_loan_ibfk_3` FOREIGN KEY (`l_status`) REFERENCES `tb_status` (`s_sid`),
-  ADD CONSTRAINT `tb_loan_ibfk_4` FOREIGN KEY (`l_memberNo`) REFERENCES `tb_member` (`m_memberNo`),
-  ADD CONSTRAINT `tb_loan_ibfk_5` FOREIGN KEY (`l_bankName`) REFERENCES `tb_lbank` (`lb_id`);
+  ADD CONSTRAINT `tb_loan_ibfk_1` FOREIGN KEY (`l_loanType`) REFERENCES `tb_ltype` (`lt_lid`),
+  ADD CONSTRAINT `tb_loan_ibfk_2` FOREIGN KEY (`l_status`) REFERENCES `tb_status` (`s_sid`),
+  ADD CONSTRAINT `tb_loan_ibfk_3` FOREIGN KEY (`l_memberNo`) REFERENCES `tb_member` (`m_memberNo`),
+  ADD CONSTRAINT `tb_loan_ibfk_4` FOREIGN KEY (`l_bankName`) REFERENCES `tb_lbank` (`lb_id`);
 
 --
 -- Constraints for table `tb_member`
