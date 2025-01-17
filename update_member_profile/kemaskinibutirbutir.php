@@ -154,7 +154,7 @@ if(!empty($_POST)) {
   
   <div class="my-3"></div>
 
-    <p style="text-align: center; font-size:30px;"><b>Butir-butir Peribadi Pemohon</b></p>
+    <h2 style="text-align: center;">Butir-butir Peribadi Pemohon</h2>
 
   <div class="my-3"></div>
 
