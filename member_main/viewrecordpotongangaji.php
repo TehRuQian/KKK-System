@@ -1,3 +1,4 @@
+
 <?php 
 
 include('../kkksession.php');
@@ -57,8 +58,8 @@ if (!$result) {
 </style>
 
     <div class="my-3"></div>
-    <h2>Rekod Potongan Gaji</h2>
-
+    <h2 style="text-align:center;">Rekod Potongan Gaji</h2>
+    <br>
     <nav>
       <ul class="dflex justify-content-center pagination ms-5 pagination-sm">
         <?php if($current_page>1): ?>
@@ -106,7 +107,7 @@ if (!$result) {
             <tr>
               <td scope="row"><?= $row['t_transactionID']; ?></td>
               <td><?= $row['type']; ?></td>
-              <td><?= $row['t_transactionAmt']; ?></td>
+              <td><?= number_format($row['t_transactionAmt'] ?? 0, 2); ?></td>
               <td><?= $row['month']; ?></td>
               <td><?= $row['t_year']; ?></td>
               <td><?php
