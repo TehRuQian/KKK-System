@@ -7,20 +7,20 @@ if (!session_id()) {
 include '../header_admin.php';
 include '../db_connect.php';
 
-// Validate form data
-if (empty($_POST['loanStatus']) || empty($_POST['lApplicationID'])) {
-    echo "<script>
-            alert('Invalid submission. Please try again.');
-            window.history.back();
-          </script>";
-    exit;
-}
-
-// Retrieve data from form
+// Retrieve data
 $uid = $_SESSION['u_id'];
-$loanStatus = intval($_POST['loanStatus']);
-$lApplicationID = intval($_POST['lApplicationID']);
+$loanStatus = $_POST['lstatus'];
+$lApplicationID = $_POST['lApplicationID'];
 $currentDate = date('Y-m-d H:i:s');
+
+// // Validate form data
+// if (empty($_POST['loanStatus']) || empty($_POST['lApplicationID'])) {
+//     echo "<script>
+//             alert('Invalid submission. Please try again.');
+//             window.history.back();
+//           </script>";
+//     exit;
+// }
 
 // Validate loan status
 $statusCheck = mysqli_query($con, "SELECT COUNT(*) AS count FROM tb_status WHERE s_sid = $loanStatus");
@@ -35,7 +35,7 @@ if ($statusRow['count'] == 0) {
 }
 
 // SQL Update Operation
-$sql1 = "UPDATE tb_loan
+$sql = "UPDATE tb_loan
         SET l_adminID = '$uid', l_status = '$loanStatus', l_approvalDate = '$currentDate'
         WHERE l_loanApplicationID = $lApplicationID";
 

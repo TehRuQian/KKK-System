@@ -26,11 +26,9 @@ $sql = "SELECT
             tb_member.m_memberApplicationID,
             tb_member.m_pfNo,
             tb_member.m_name,
-            DATE_FORMAT(tb_member.m_applicationDate, '%d-%m-%Y') AS formattedDate,
-            tb_status.s_sid 
+            DATE_FORMAT(tb_member.m_applicationDate, '%d-%m-%Y') AS formattedDate
         FROM tb_member 
-        LEFT JOIN tb_status ON tb_member.m_status = tb_status.s_sid
-        WHERE m_applicationDate >= DATE_SUB('$currentDate', INTERVAL 3 MONTH) AND m_status = 1";
+        WHERE m_status = 1";
 
 // Execute the SQL statement on DB
 $result = mysqli_query($con, $sql);

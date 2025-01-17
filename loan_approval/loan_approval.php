@@ -23,7 +23,7 @@ $sql = "SELECT tb_loan.l_loanApplicationID, tb_loan.l_memberNo, tb_member.m_name
         DATE_FORMAT(tb_loan.l_applicationDate, '%d-%m-%Y') AS formattedDate 
         FROM tb_loan 
         LEFT JOIN tb_member ON tb_loan.l_memberNo = tb_member.m_memberNo 
-        WHERE tb_loan.l_status = 1 
+        WHERE l_status = 1 
         LIMIT $start_from, $records_per_page";
 
 // Execute the SQL statement on DB

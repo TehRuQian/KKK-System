@@ -10,6 +10,11 @@ include '../db_connect.php';
 // Get application ID
 $mApplicationID = $_GET['id'];
 
+if ($lApplicationID === 0) {
+    echo "<script>alert('ID aplikasi tidak sah.'); window.location.href = 'loan_approval.php';</script>";
+    exit;
+}
+
 // Retrieve member details
 $sql = "SELECT * FROM tb_member 
         LEFT JOIN tb_status ON tb_member.m_status = tb_status.s_sid
@@ -131,7 +136,7 @@ $suggestedMemberNo = $lastMemberNo + 1;
 <form method="POST" action="member_approval_process.php" onsubmit="return validateForm()">
     <input type="hidden" name="mApplicationID" value="<?php echo $mApplicationID; ?>">
     <fieldset>
-
+    <div class="container" style="display: flex; justify-content: center; align-items: center; flex-direction: column;">
         <label class="form-label mt-4" style="justify-content: center">Status Anggota</label>
         <div class="dropdown">
             <button class="btn btn-secondary dropdown-toggle" type="button" id="statusDropdown" data-bs-toggle="dropdown" aria-expanded="false">
@@ -149,18 +154,19 @@ $suggestedMemberNo = $lastMemberNo + 1;
                 }
                 ?>
             </ul>
-        </div>
-        
+        </div>    
         <br>
 
-        <?php // To display the suggested memberNo ?>
+        <?php // To store the status ?>
         <input type="hidden" name="mstatus" id="mstatus" value="1" />
 
+        <?php // To display the suggested memberNo ?>
         <div id="memberNoContainer" style="display:none;">
             <label for="mMemberNo">Member No:</label>
             <input type="text" class="form-control" id="mMemberNo" name="mMemberNo" value="<?php echo $suggestedMemberNo; ?>" />
             <small>Suggested: <?php echo $suggestedMemberNo; ?></small>
         </div><br>
+    </div>
 
         <div style="display: flex; gap: 10px; justify-content: center;">
             <button type="button" class="btn btn-primary" onclick="window.location.href='member_approval.php'">Kembali</button>
