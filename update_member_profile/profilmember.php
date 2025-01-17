@@ -76,7 +76,7 @@ $memberApplicationID = $row['m_memberApplicationID'];
 
     <div class="my-3"></div>
 
-    <p style="text-align: center; font-size:30px;"><b>Maklumat Peribadi</b></p>
+    <h2 style="text-align: center;">Maklumat Peribadi</h2>
 
     <div class="my-4"></div>
 
@@ -91,99 +91,99 @@ $memberApplicationID = $row['m_memberApplicationID'];
         <table class="table table-hover">
           <tbody>
             <tr>
-              <td scope="row">Nama :</td>
+              <td scope="row">Nama</td>
               <td><?= $row['m_name']; ?></td>
             </tr>
             <tr>
-              <td scope="row">No. KP :</td>
+              <td scope="row">No. KP</td>
               <td><?= $row['m_ic']; ?></td>
             </tr>
             <tr>
-              <td scope="row">E-mel :</td>
+              <td scope="row">E-mel</td>
               <td><?= $row['m_email']; ?></td>
             </tr>
             <tr>
-              <td scope="row">Jantina :</td>
+              <td scope="row">Jantina</td>
               <td><?= $row['gender']; ?></td>
             </tr>
             <tr>
-              <td scope="row">Agama :</td>
+              <td scope="row">Agama</td>
               <td><?= $row['religion']; ?></td>
             </tr>
             <tr>
-              <td scope="row">Bangsa :</td>
+              <td scope="row">Bangsa</td>
               <td><?= $row['race']; ?></td>
             </tr>
             <tr>
-              <td scope="row">Taraf Perkahwinan :</td>
+              <td scope="row">Taraf Perkahwinan</td>
               <td><?= $row['maritalstatus']; ?></td>
             </tr>
             <tr>
-              <td scope="row">Alamat Rumah :</td>
+              <td scope="row">Alamat Rumah</td>
               <td><?= $row['m_homeAddress']; ?></td>
             </tr>
             <tr>
-              <td scope="row">Poskod :</td>
+              <td scope="row">Poskod</td>
               <td><?= $row['m_homePostcode']; ?></td>
             </tr>
             <tr>
-              <td scope="row">Bandar :</td>
+              <td scope="row">Bandar</td>
               <td><?= $row['m_homeCity']; ?></td>
             </tr>
             <tr>
-              <td scope="row">Negeri :</td>
+              <td scope="row">Negeri</td>
               <td><?= $row['homeState']; ?></td>
             </tr>
             <tr>
-              <td scope="row">No. Anggota :</td>
+              <td scope="row">No. Anggota</td>
               <td><?= $row['m_memberNo']; ?></td>
             </tr>
             <tr>
-              <td scope="row">No. PF :</td>
+              <td scope="row">No. PF</td>
               <td><?= $row['m_pfNo']; ?></td>
             </tr>
             <tr>
-              <td scope="row">Jawatan :</td>
+              <td scope="row">Jawatan</td>
               <td><?= $row['m_position']; ?></td>
             </tr>
             <tr>
-              <td scope="row">Gred :</td>
+              <td scope="row">Gred</td>
               <td><?= $row['m_positionGrade']; ?></td>
             </tr>
             <tr>
-              <td scope="row">Alamat Pejabat :</td>
+              <td scope="row">Alamat Pejabat</td>
               <td><?= $row['m_officeAddress']; ?></td>
             </tr>
             <tr>
-              <td scope="row">Poskod :</td>
+              <td scope="row">Poskod</td>
               <td><?= $row['m_officePostcode']; ?></td>
             </tr>
             <tr>
-              <td scope="row">Bandar :</td>
+              <td scope="row">Bandar</td>
               <td><?= $row['m_officeCity']; ?></td>
             </tr>
             <tr>
-              <td scope="row">Negeri :</td>
+              <td scope="row">Negeri</td>
               <td><?= $row['officeState']; ?></td>
             </tr>
             <tr>
-              <td scope="row">No. Tel Bimbit :</td>
+              <td scope="row">No. Tel Bimbit</td>
               <td><?= $row['m_phoneNumber']; ?></td>
             </tr>
             <tr>
-              <td scope="row">No. Tel Rumah :</td>
+              <td scope="row">No. Tel Rumah</td>
               <td><?= $row['m_homeNumber'] ?? '-'; ?></td>
             </tr>
             <tr>
-              <td scope="row">Gaji Bulanan :</td>
+              <td scope="row">Gaji Bulanan</td>
               <td><?= $row['m_monthlySalary']; ?></td>
             </tr>
             <tr>
-              <td scope="row">Nama Bank :</td>
+              <td scope="row">Nama Bank</td>
               <td><?= $row['bankname']; ?></td>
             </tr>
             <tr>
-              <td scope="row">No. Akaun Bank :</td>
+              <td scope="row">No. Akaun Bank</td>
               <td><?= $row['bankaccount'] ?? '-'; ?></td>
             </tr>
           </tbody>
@@ -218,22 +218,22 @@ $memberApplicationID = $row['m_memberApplicationID'];
 
               $count = 1;
               while ($heir_row = mysqli_fetch_assoc($heir_result)) {
-                  if($count > 5) break; 
+                  if($count > 20) break; 
                   ?>
                   <tr>
                     <td scope="row"><b>Keluarga / Pewaris <?= $count++; ?></b></td>
                     <td></td>
                   </tr>
                   <tr>
-                    <td scope="row">Nama :</td>
+                    <td scope="row">Nama</td>
                     <td><?= $heir_row['h_name']; ?></td>
                   </tr>
                   <tr>
-                    <td scope="row">No. KP :</td>
+                    <td scope="row">No. KP</td>
                     <td><?= $heir_row['h_ic']; ?></td>
                   </tr>
                   <tr>
-                    <td scope="row">Hubungan :</td>
+                    <td scope="row">Hubungan</td>
                     <td><?= $heir_row['heirrelation']; ?></td>
                   </tr>
                   <tr><td><br></td><td><br></td></tr>
