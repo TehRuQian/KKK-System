@@ -14,6 +14,7 @@ $memberNo = $_SESSION['funame'];
 // member personal data
 $nama = $_POST['nama']; 
 $noKad = $_POST['noKad'];
+$email = $_POST['email'];
 $selectedGender = $_POST['ugender'];
 $selectedReligion = $_POST['ureligion'];
 $selectedRace = $_POST['urace'];
@@ -40,6 +41,7 @@ $selectedNoTeleBim = $_POST['noTeleBim'];
 if (!empty($selectedGender) && !empty($memberNo)) {
     $sql = "UPDATE tb_member 
             SET m_name = '$nama', 
+                m_email = '$email', 
                 m_gender = '$selectedGender', 
                 m_religion = '$selectedReligion', 
                 m_race = '$selectedRace', 

@@ -136,12 +136,15 @@ $sql = "
         </div>
         <div class="row">
           <a href="d_penjamin.php" class="text-center">Butir-Butir Penjamin<br></a>
+          <hr>
         </div>
         <div class="row">
           <a href="e_pengesahan_majikan.php" class="text-center">Pengesahan Majikan<br></a>
+          <hr>
         </div>
         <div class="row">
           <a href="f_akuan_kebenaran.php" class="text-center">Akuan Kebenaran<br></a>
+          <hr>
         </div>
   </div>
 </div>
@@ -153,19 +156,21 @@ $sql = "
       <br>
       <div class="jumbotron">
         <h2>Butir-Butir Pembiayaan</h2>
+        <h2>Butir-Butir Pembiayaan</h2>
         <label class="form-label mt-4">Jenis Pembiayaan</label>
         <br>
+        <select class="form-select" name="jenis_pembiayaan" class="form-select">
         <?php
         $sql="SELECT * FROM tb_ltype";
         $result=mysqli_query($con,$sql);
 
         while($row=mysqli_fetch_array($result))
         {
-          $checked = isset($_COOKIE['jenis_pembiayaan']) && $_COOKIE['jenis_pembiayaan'] == $row['lt_lid'] ? 'checked' : '';
-          echo '<input type="radio" id="loanType' . $row['lt_lid'] . '" name="jenis_pembiayaan" value="' . $row['lt_lid'] . '">';
-          echo '<label for="loanType' . $row['lt_lid'] . '">' . $row['lt_desc'] . '</label><br>';
+          $selected = isset($_COOKIE['jenis_pembiayaan']) && $_COOKIE['jenis_pembiayaan'] == $row['lt_lid'] ? 'selected' : '';
+          echo '<option value="' . $row['lt_lid'] . '" ' . $selected . '>' . $row['lt_desc'] . '</option>';
         }
         ?>
+        </select>
 
         <!-- Hidden input to store profit rate -->
         <input type="hidden" id="kadarKeuntungan" value="<?php echo $policy['p_profitRate']; ?>">
@@ -199,19 +204,21 @@ $sql = "
         </div>
           <p class="mt-2" style="font-size: 0.9rem; color: #6c757d;">*Sila rujuk jadual pembayaran balik pembiayaan skim </p>
 
-        <label class="form-label mt-4">Nama Bank/Cawangan</label>
-        <br>
-        <?php
-        $sql="SELECT * FROM tb_lbank";
-        $result=mysqli_query($con,$sql);
+        <div>
+          <label class="form-label mt-4">Nama Bank/Cawangan</label>
 
-        while($row=mysqli_fetch_array($result))
-        {
-          $checked = isset($_COOKIE['namaBank']) && $_COOKIE['namaBank'] == $row['lb_id'] ? 'checked' : '';
-          echo '<input type="radio" id="namaBank' . $row['lb_id'] . '" name="namaBank" value="' . $row['lb_id'] . '">';
-          echo '<label for="namaBank' . $row['lb_id'] . '">' . $row['lb_desc'] . '</label><br>';
-        }
-        ?>
+          <?php
+            $sql = "SELECT * FROM tb_lbank";
+            $result = mysqli_query($con, $sql);
+
+            echo '<select class="form-select" name="namaBank" id="namaBank">';
+            while ($row = mysqli_fetch_array($result)) {
+                $selected = isset($_COOKIE['namaBank']) && $_COOKIE['namaBank'] == $row['lb_id'] ? 'selected' : '';
+                echo '<option value="' . $row['lb_id'] . '" ' . $selected . '>' . $row['lb_desc'] . '</option>';
+            }
+            echo '</select>';
+            ?>
+        </div>
 
         <div>
           <label class="form-label mt-4">Bank Account</label>

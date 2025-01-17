@@ -14,12 +14,142 @@ if (isset($_GET['status']) && $_GET['status'] == 'success') {
 
 // Guarantor data 
 if (!isset($_SESSION['guarantorID1']) || !isset($_SESSION['guarantorID2'])) {
-  die('Error: Guarantor ID1 or Guarantor ID2 is missing.');
+  echo "<script>
+          alert('Sila simpan maklumat Butir-Butir Penjamin.');
+          window.location.href = 'd_penjamin.php'; 
+        </script>";
+        exit();
 }
 
 $guarantorID1 = $_SESSION['guarantorID1'];
 $guarantorID2 = $_SESSION['guarantorID2'];
 ?>
+
+<head>
+    <style>
+        .row-spacing {
+            margin-bottom: 4rem;
+        }
+
+        a:hover {}
+
+        a:active,
+        a.active {
+            color: black !important;
+        }
+
+        a {
+            text-decoration: none;
+            margin-bottom: 0.5rem;
+        }
+
+        .container-fluid {
+            padding-left: 0;   
+            padding-right: 0;
+        }
+
+        .is-invalid {
+            border: 2px solid red;
+        }
+        
+        .sidebar {
+          position: fixed;    
+            top: 60px;           
+            left: 0;        
+            width: 16.666667%; 
+            min-height: 100vh;  
+            background-color: #9ccfff;
+            padding-top: 20px;
+            z-index: 1000;   
+        }
+        
+         
+        .sidebar .row {
+            width: 100%;
+            padding: 10px;
+        }
+
+        .sidebar a {
+            display: block;
+            width: 100%;
+            text-decoration: none;
+            margin-bottom: 0.5rem;
+        }
+
+        .sidebar hr {
+            width: 100%;
+            margin: 0;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 850px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        .row {
+            margin: 0;    
+        }
+
+        .col-2, .col-10 {
+            padding: 0;    
+        }
+
+        .main-content {
+            margin-left: 16.666667%; 
+        }
+
+        footer {
+        width: calc(100% - 16.666667%) !important; 
+        margin-left: 16.666667% !important; 
+        padding: 0 20px !important;
+    }
+
+        
+        footer .container,
+        footer .container-fluid {
+            width: 100% !important;
+            max-width: none !important;
+            margin: 0 !important;
+            padding: 0 !important;
+        }
+          
+    </style>
+</head>
+
+<div class="container-fluid">
+  <div class="row">
+    <div class="col-2 sidebar">
+        <div class="row">
+          <a href="a_pinjaman.php" class="text-center active"><br>Butir-Butir Pembiayaan</a>
+          <hr>
+        </div>
+        <div class="row">
+          <a href="b_butir_peribadi.php" class="text-center">Butir-Butir Peribadi Pemohon</a>
+          <hr>
+        </div>
+        <div class="row">
+          <a href="c_pengakuan_pemohon.php" class="text-center">Pengakuan Pemohon<br></a>
+          <hr>
+        </div>
+        <div class="row">
+          <a href="d_penjamin.php" class="text-center">Butir-Butir Penjamin<br></a>
+          <hr>
+        </div>
+        <div class="row">
+          <a href="e_pengesahan_majikan.php" class="text-center">Pengesahan Majikan<br></a>
+          <hr>
+        </div>
+        <div class="row">
+          <a href="f_akuan_kebenaran.php" class="text-center active">Akuan Kebenaran<br></a>
+          <hr>
+        </div>
+  </div>
+</div>
+
+
+<div class="col-10 main-content">
 
 <form method = "post" action = "f_akuan_kebenaran_process.php">
   <fieldset>
@@ -48,20 +178,6 @@ $guarantorID2 = $_SESSION['guarantorID2'];
         </p>
       </hr>
 
-
-      <div class="btn-toolbar" role="toolbar" aria-label="Toolbar with button groups" style="float: right;">
-          <div class="btn-group" role="group" aria-label="Page navigation">
-            <a href="pinjaman.php" class="btn <?php echo basename($_SERVER['PHP_SELF']) == 'pinjaman.php' ? 'btn-primary' : 'btn-secondary'; ?>">1</a>
-            <a href="butir_peribadi.php" class="btn <?php echo basename($_SERVER['PHP_SELF']) == 'butir_peribadi.php' ? 'btn-primary' : 'btn-secondary'; ?>">2</a>
-            <a href="pengakuan_pemohon.php" class="btn <?php echo basename($_SERVER['PHP_SELF']) == 'pengakuan_pemohon.php' ? 'btn-primary' : 'btn-secondary'; ?>">3</a>
-            <a href="penjamin.php" class="btn <?php echo basename($_SERVER['PHP_SELF']) == 'penjamin.php' ? 'btn-primary' : 'btn-secondary'; ?>">4</a>
-            <a href="pengesahan_majikan.php" class="btn <?php echo basename($_SERVER['PHP_SELF']) == 'pengesahan_majikan.php' ? 'btn-primary' : 'btn-secondary'; ?>">5</a>
-            <a href="akuan_kebenaran.php" class="btn <?php echo basename($_SERVER['PHP_SELF']) == 'akuan_kebenaran.php' ? 'btn-primary' : 'btn-secondary'; ?>">6</a>
-          </div>
-        </div>
-
-        <br> <br>
-  
     </div>   
   </fieldset>
 </form>

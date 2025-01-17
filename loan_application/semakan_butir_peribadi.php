@@ -19,6 +19,7 @@ $memberNo = isset($_SESSION['funame']) ? $_SESSION['funame'] : null;
 // Member personal data
 $memberName = '';
 $memberIC = '';
+$memberEmail = '';
 $memberGender = null;
 $memberRace = null;
 $memberReligion = null;
@@ -45,7 +46,7 @@ $memberPhoneTele = '';
 
 // Fetch data
 if ($memberNo !== null) {
-  $sql = "SELECT m_name, m_ic, m_gender, m_religion, m_race, m_maritalStatus, m_pfNo,
+  $sql = "SELECT m_name, m_ic, m_email, m_gender, m_religion, m_race, m_maritalStatus, m_pfNo,
                    m_monthlySalary, m_homeAddress, m_homePostcode, m_homeCity, m_homeState,
                    m_positionGrade, m_position, m_officeAddress, m_officePostcode,
                    m_officeCity, m_officeState, m_homeNumber, m_phoneNumber FROM tb_member WHERE m_memberNo = '$memberNo'";
@@ -54,6 +55,7 @@ if ($memberNo !== null) {
   if ($row = mysqli_fetch_assoc($result)) {
     $memberName = htmlspecialchars($row['m_name']); 
     $memberIC = htmlspecialchars($row['m_ic']);
+    $memberEmail = htmlspecialchars($row['m_email']);
     $memberGender = $row['m_gender'];
     $memberReligion = ($row['m_religion']); 
     $memberRace = ($row['m_race']); 
@@ -97,6 +99,13 @@ if ($memberNo !== null) {
           <label class="form-label mt-4">No. Kad Pengenalan</label>
             <div class="input-group mt-2">
               <input type="text" name = "noKad" class="form-control" id="noKad" aria-label="noKad" placeholder="000000-00-0000" value="<?php echo $memberIC; ?>" readonly required style="background-color: #f0f0f0; color: #000;">
+            </div>  
+      </div>
+
+      <div>
+          <label class="form-label mt-4">Email</label>
+            <div class="input-group mt-2">
+              <input type="text" name = "email" class="form-control" id="email" aria-label="email" placeholder="abc@gmail.com" value="<?php echo $memberEmail; ?>" required>
             </div>  
       </div>
       

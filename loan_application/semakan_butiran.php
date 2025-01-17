@@ -87,6 +87,7 @@ $memberNo = isset($_SESSION['funame']) ? $_SESSION['funame'] : null;
 // Member personal data
 $memberName = '';
 $memberIC = '';
+$memberEmail = '';
 $memberGender_ID = '';
 $memberGender = null;
 $memberRace_ID = '';
@@ -119,7 +120,7 @@ $memberPhoneTele = '';
 
 // Fetch data
 if ($memberNo !== null) {
-  $sql = "SELECT m_name, m_ic, m_gender, m_religion, m_race, m_maritalStatus, m_pfNo,
+  $sql = "SELECT m_name, m_ic, m_email, m_gender, m_religion, m_race, m_maritalStatus, m_pfNo,
                    m_monthlySalary, m_homeAddress, m_homePostcode, m_homeCity, m_homeState,
                    m_positionGrade, m_position, m_officeAddress, m_officePostcode,
                    m_officeCity, m_officeState, m_homeNumber, m_phoneNumber FROM tb_member WHERE m_memberNo = '$memberNo'";
@@ -128,6 +129,7 @@ if ($memberNo !== null) {
   if ($row = mysqli_fetch_assoc($result)) {
     $memberName = htmlspecialchars($row['m_name']); 
     $memberIC = htmlspecialchars($row['m_ic']);
+    $memberEmail = htmlspecialchars($row['m_email']);
     $memberGender_ID = $row['m_gender'];
     $memberReligion_ID = ($row['m_religion']); 
     $memberRace_ID = ($row['m_race']); 
@@ -359,6 +361,11 @@ if ($row = mysqli_fetch_assoc($result)) {
                     <tr>
                     <td scope="row">No. Kad Pengenalan</td>
                     <td><?php echo $memberIC; ?></td>
+                    </tr>
+
+                    <tr>
+                    <td scope="row">Email</td>
+                    <td><?php echo $memberEmail; ?></td>
                     </tr>
 
                     <tr>
