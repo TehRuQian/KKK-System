@@ -305,10 +305,9 @@ CREATE TABLE `tb_loan` (
   `l_monthlyGrossSalary` double NOT NULL,
   `l_monthlyNetSalary` double NOT NULL,
   `l_signature` varchar(50) NOT NULL,
-  `l_file` varchar(50) NOT NULL COMMENT '(Pengesahan Majikan)',
   `l_status` int(11) NOT NULL,
-  `l_applicationDate` date NOT NULL,
-  `l_approvalDate` date DEFAULT NULL,
+  `l_applicationDate` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
+  `l_approvalDate` timestamp NULL DEFAULT NULL,
   `l_adminID` int(11) DEFAULT NULL COMMENT 'Admin who approved the application'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
