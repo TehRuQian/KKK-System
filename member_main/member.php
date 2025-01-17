@@ -65,7 +65,7 @@ $banners = mysqli_query($con, $sql);
   }
 </style>
 
-<div class="card-body"><br>
+<div class="card-body">
         <div id="bannerCarousel" class="carousel slide" data-bs-ride="carousel">
             <div class="carousel-inner">
                 <?php while ($row = mysqli_fetch_assoc($banners)) { ?>
