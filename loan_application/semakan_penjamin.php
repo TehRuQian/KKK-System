@@ -111,7 +111,7 @@ if ($loanApplicationID !== null) {
         </div>
 
         <div>
-          <label for="fileSignPenjamin1" class="form-label mt-4">Signature</label>
+          <label for="fileSignPenjamin1" class="form-label mt-4">Tandatangan</label>
           <input class="form-control" type="file" id="fileSignPenjamin1" name="fileSignPenjamin1" accept=".png, .jpg, .jpeg" required>
           <p class="mt-2" style="font-size: 0.9rem; color: #6c757d;">*Fail yang dibenarkan adalah dalam format PNG, JPG, dan JPEG sahaja. Sila pastikan saiz fail tidak melebihi 5MB.</p>
         </div>
@@ -150,8 +150,8 @@ if ($loanApplicationID !== null) {
         </div>
 
         <div>
-          <label for="fileSignPenjamin1" class="form-label mt-4">Signature</label>
-          <input class="form-control" type="file" id="fileSignPenjamin1" name="fileSignPenjamin1" accept=".png, .jpg, .jpeg" required>
+          <label for="fileSignPenjamin2" class="form-label mt-4">Tandatangan</label>
+          <input class="form-control" type="file" id="fileSignPenjamin2" name="fileSignPenjamin2" accept=".png, .jpg, .jpeg" required>
           <p class="mt-2" style="font-size: 0.9rem; color: #6c757d;">*Fail yang dibenarkan adalah dalam format PNG, JPG, dan JPEG sahaja. Sila pastikan saiz fail tidak melebihi 5MB.</p>
         </div>
 
@@ -164,80 +164,93 @@ if ($loanApplicationID !== null) {
   </fieldset>
 </form>
 </div>
-
-<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-<script>
-  $(document).ready(function () {
-    // Handle input event for No. Anggota
-    $('#anggotaPenjamin1').on('input', function () {
-      const anggotaPenjamin1 = $(this).val();
-
-      // Check if input is not empty
-      if (anggotaPenjamin1.trim() !== '') {
-        $.ajax({
-          url: 'fetch_member.php', // Backend script to fetch data
-          type: 'POST',
-          data: { anggotaPenjamin1: anggotaPenjamin1},
-          success: function (response) {
-            const data = JSON.parse(response);
-            if (data.penjamin1) {
-              $('#namaPenjamin1').val(data.penjamin1.m_name);
-              $('#icPenjamin1').val(data.penjamin1.m_ic);
-              $('#pfPenjamin1').val(data.penjamin1.m_pfNo);
-            } else {
-              $('#namaPenjamin1').val('');
-              $('#icPenjamin1').val('');
-              $('#pfPenjamin1').val('');
-              alert(data.penjamin1_error || 'No member found.');
-            }
-          },
-          error: function () {
-            alert('An error occurred while fetching data.');
-          }
-        });
-      } else {
-        $('#namaPenjamin1').val('');
-        $('#icPenjamin1').val('');
-        $('#pfPenjamin1').val('');
-      }
-    });
-
-    $('#anggotaPenjamin2').on('input', function () {
-      const anggotaPenjamin2 = $(this).val();
-
-      // Check if input is not empty
-      if (anggotaPenjamin2.trim() !== '') {
-        $.ajax({
-          url: 'fetch_member.php', // Backend script to fetch data
-          type: 'POST',
-          data: { anggotaPenjamin2: anggotaPenjamin2},
-          success: function (response) {
-            const data = JSON.parse(response);
-            if (data.penjamin2) {
-              $('#namaPenjamin2').val(data.penjamin2.m_name);
-              $('#icPenjamin2').val(data.penjamin2.m_ic);
-              $('#pfPenjamin2').val(data.penjamin2.m_pfNo);
-            } else {
-              $('#namaPenjamin2').val('');
-              $('#icPenjamin2').val('');
-              $('#pfPenjamin2').val('');
-              alert(data.penjamin2_error || 'No member found.');
-            }
-          },
-          error: function () {
-            alert('An error occurred while fetching data.');
-          }
-        });
-      } else {
-        $('#namaPenjamin2').val('');
-        $('#icPenjamin2').val('');
-        $('#pfPenjamin2').val('');
-      }
-    });
-  });
-</script>
-
 </body>
 </html>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+$(document).ready(function() {
+    
+    $('#anggotaPenjamin1').on('change', function() {
+        var anggotaPenjamin1 = $(this).val().trim();
+        if (anggotaPenjamin1 !== '') {
+            $(this).addClass('loading');
+            
+            $.ajax({
+                url: 'fetch_member.php',
+                type: 'POST',
+                data: { anggotaPenjamin1: anggotaPenjamin1 },
+                dataType: 'json',
+                success: function(data) {
+                    console.log('Response:', data);
+                    if (data.penjamin1) {
+                        $('#namaPenjamin1').val(data.penjamin1.m_name);
+                        $('#icPenjamin1').val(data.penjamin1.m_ic);
+                        $('#pfPenjamin1').val(data.penjamin1.m_pfNo);
+                    } else {
+                        $('#namaPenjamin1, #icPenjamin1, #pfPenjamin1').val('');
+                        alert(data.penjamin1_error || 'No member found.');
+                    }
+                },
+                error: function(xhr, status, error) {
+                    console.error('Ajax error:', error); 
+                    alert('Error fetching member data. Please try again.');
+                },
+                complete: function() {
+                    $('#anggotaPenjamin1').removeClass('loading');
+                }
+            });
+        } else {
+            $('#namaPenjamin1, #icPenjamin1, #pfPenjamin1').val('');
+        }
+    });
+
+   
+    $('#anggotaPenjamin2').on('change', function() {
+        var anggotaPenjamin2 = $(this).val().trim();
+        if (anggotaPenjamin2 !== '') {
+            $(this).addClass('loading');
+            
+            $.ajax({
+                url: 'fetch_member.php',
+                type: 'POST',
+                data: { anggotaPenjamin2: anggotaPenjamin2 },
+                dataType: 'json',
+                success: function(data) {
+                    console.log('Response:', data); 
+                    if (data.penjamin2) {
+                        $('#namaPenjamin2').val(data.penjamin2.m_name);
+                        $('#icPenjamin2').val(data.penjamin2.m_ic);
+                        $('#pfPenjamin2').val(data.penjamin2.m_pfNo);
+                    } else {
+                        $('#namaPenjamin2, #icPenjamin2, #pfPenjamin2').val('');
+                        alert(data.penjamin2_error || 'No member found.');
+                    }
+                },
+                error: function(xhr, status, error) {
+                    console.error('Ajax error:', error); 
+                    alert('Error fetching member data. Please try again.');
+                },
+                complete: function() {
+                    $('#anggotaPenjamin2').removeClass('loading');
+                }
+            });
+        } else {
+            $('#namaPenjamin2, #icPenjamin2, #pfPenjamin2').val('');
+        }
+    });
+});
+
+function showSuccessNotification() {
+  alert("Maklumat anda telah berjaya disimpan!");
+}
+
+if (window.location.search.includes('status=success')) {
+    showSuccessNotification();
+  }
+
+
+</script>
+
+
 
 <?php include '../footer.php'; ?>

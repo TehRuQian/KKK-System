@@ -31,82 +31,128 @@ if (!is_dir($uploadFileDir)) {
 
 // Function to handle file uploads
 function handleFileUpload($fileKey, $uploadFileDir) {
-    if (!isset($_FILES[$fileKey])) {
-        echo "Error: No file uploaded for $fileKey."; // Debugging output
-        die('Error: File upload failed.');
+    
+    if (!isset($_FILES[$fileKey]) || empty($_FILES[$fileKey]['name'])) {
+        return ''; 
     }
 
-    if (!isset($_FILES[$fileKey]) || $_FILES[$fileKey]['error'] !== UPLOAD_ERR_OK) {
-        echo 'Upload error: ' . $_FILES[$fileKey]['error']; // Debugging output
-        die('Error: File upload failed.');
+    if ($_FILES[$fileKey]['error'] !== UPLOAD_ERR_OK) {
+        $errorMessages = [
+            UPLOAD_ERR_INI_SIZE => 'File size exceeds the limit set in php.ini',
+            UPLOAD_ERR_FORM_SIZE => 'File size exceeds the limit set in the form',
+            UPLOAD_ERR_PARTIAL => 'File was only partially uploaded',
+            UPLOAD_ERR_NO_FILE => 'No file was uploaded',
+            UPLOAD_ERR_NO_TMP_DIR => 'Temporary folder not found',
+            UPLOAD_ERR_CANT_WRITE => 'Failed to write file to disk'
+        ];
+        $errorMessage = isset($errorMessages[$_FILES[$fileKey]['error']]) 
+            ? $errorMessages[$_FILES[$fileKey]['error']] 
+            : 'error in uploading file';
+        error_log("File upload error for $fileKey: $errorMessage");
+        return '';
     }
 
-    $fileTmpPath = $_FILES[$fileKey]['tmp_name'];
-    $fileNameCmps = explode(".", $_FILES[$fileKey]['name']);
-    $fileExtension = strtolower(end($fileNameCmps));
-    $allowedExtensions = ['jpg', 'jpeg', 'png'];
+    
+    $fileName = $_FILES[$fileKey]['name'];
+    $tmpName = $_FILES[$fileKey]['tmp_name'];
+    $fileSize = $_FILES[$fileKey]['size'];
+    $fileType = $_FILES[$fileKey]['type'];
 
-    if (!in_array($fileExtension, $allowedExtensions)) {
-        die('Error: Invalid file type. Only JPG, JPEG and PNG are allowed.');
-    }
-
-    if ($_FILES[$fileKey]['size'] > 5 * 1024 * 1024) {
-        die('Error: File size exceeds the maximum limit of 5MB.');
-    }
-
-    $newFileName = md5(time() . $_FILES[$fileKey]['name']) . '.' . $fileExtension;
+    
+    $fileExtension = pathinfo($fileName, PATHINFO_EXTENSION);
+    $newFileName = uniqid() . '.' . $fileExtension;
     $dest_path = $uploadFileDir . $newFileName;
 
-    if (file_exists($dest_path)){
-        $newFileName = md5(time() . rand()) . '.' . $fileExtension;
-        $dest_path = $uploadFileDir . $newFileName;
-    }
-
-
-    if (!move_uploaded_file($fileTmpPath, $dest_path)) {
-        die('Error: File upload failed.');
+    
+    if (!move_uploaded_file($tmpName, $dest_path)) {
+        error_log("Failed to move uploaded file: $fileKey");
+        return '';
     }
 
     return $dest_path;
 }
 
-// Handle file uploads
-$fileSignPenjamin1 = mysqli_real_escape_string($con, handleFileUpload('fileSignPenjamin1', $uploadFileDir));
-$fileSignPenjamin2 = mysqli_real_escape_string($con, handleFileUpload('fileSignPenjamin2', $uploadFileDir));
 
-echo "File1 path: " . $fileSignPenjamin1;
-echo "File2 path: " . $fileSignPenjamin2;
+$sql_check1 = "SELECT g_signature FROM tb_guarantor WHERE g_guarantorID = '$guarantorID1'";
+$sql_check2 = "SELECT g_signature FROM tb_guarantor WHERE g_guarantorID = '$guarantorID2'";
 
-// Prepare SQL query for insertion with quoted string
-if (!empty($memberNo1)){
-    $sql1 = "UPDATE tb_guarantor
+$result1 = mysqli_query($con, $sql_check1);
+$result2 = mysqli_query($con, $sql_check2);
+
+$existing_signature1 = '';
+$existing_signature2 = '';
+
+if ($row1 = mysqli_fetch_assoc($result1)) {
+    $existing_signature1 = $row1['g_signature'];
+}
+if ($row2 = mysqli_fetch_assoc($result2)) {
+    $existing_signature2 = $row2['g_signature'];
+}
+
+$fileSignPenjamin1 = $existing_signature1; 
+$fileSignPenjamin2 = $existing_signature2; 
+
+
+if (isset($_FILES['fileSignPenjamin1']) && !empty($_FILES['fileSignPenjamin1']['name'])) {
+    
+    if (!empty($existing_signature1) && file_exists($existing_signature1)) {
+        unlink($existing_signature1);
+    }
+    $newFile1 = handleFileUpload('fileSignPenjamin1', $uploadFileDir);
+    if ($newFile1 !== '') {
+        $fileSignPenjamin1 = mysqli_real_escape_string($con, $newFile1);
+        error_log("Debug - New Guarantor 1 file path: " . $fileSignPenjamin1);
+    }
+}
+
+
+if (isset($_FILES['fileSignPenjamin2']) && !empty($_FILES['fileSignPenjamin2']['name'])) {
+    
+    if (!empty($existing_signature2) && file_exists($existing_signature2)) {
+        unlink($existing_signature2);
+    }
+    $newFile2 = handleFileUpload('fileSignPenjamin2', $uploadFileDir);
+    if ($newFile2 !== '') {
+        $fileSignPenjamin2 = mysqli_real_escape_string($con, $newFile2);
+        error_log("Debug - New Guarantor 2 file path: " . $fileSignPenjamin2);
+    }
+}
+
+
+if (!empty($memberNo1)) {
+    $sql1 = "UPDATE tb_guarantor 
              SET g_memberNo = '$memberNo1', 
                  g_signature = '$fileSignPenjamin1'
-
-            WHERE g_guarantorID = '$guarantorID1'";
-    //mysqli_query($con, $sql1);
-
+             WHERE g_guarantorID = '$guarantorID1'";
+    
+    error_log("Debug - SQL Query 1: " . $sql1);
+    
     if (!mysqli_query($con, $sql1)) {
+        error_log("Debug - MySQL Error 1: " . mysqli_error($con));
         die('Error: Unable to update guarantor 1 information. ' . mysqli_error($con));
     }
 }
 
-if (!empty($memberNo2)){
-    $sql2 = "UPDATE tb_guarantor
+
+if (!empty($memberNo2)) {
+    $sql2 = "UPDATE tb_guarantor 
              SET g_memberNo = '$memberNo2', 
                  g_signature = '$fileSignPenjamin2'
-
-            WHERE g_guarantorID = '$guarantorID2'";
-    mysqli_query($con, $sql2);
-
+             WHERE g_guarantorID = '$guarantorID2'";
+    
+    error_log("Debug - SQL Query 2: " . $sql2);
+    
     if (!mysqli_query($con, $sql2)) {
+        error_log("Debug - MySQL Error 2: " . mysqli_error($con));
         die('Error: Unable to update guarantor 2 information. ' . mysqli_error($con));
     }
 }
 
 
+error_log("Debug - Update completed successfully");
+
 // Redirect to semakan_butiran page
-header('Location: semakan_butiran.php');
+header('Location: semakan_butiran.php?status=success');
 
 // Close the database connection
 mysqli_close($con);

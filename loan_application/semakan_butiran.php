@@ -319,7 +319,7 @@ if ($row = mysqli_fetch_assoc($result)) {
                     </tr>
 
                     <tr>
-                    <td scope="row">Signature</td>
+                    <td scope="row">Tandatangan</td>
                     <td>
                     <?php if (!empty($selected_signature)) : ?>
                         <img src="<?php echo $selected_signature; ?>" alt="Signature" style="max-width: 200px; height: auto;">
@@ -508,7 +508,7 @@ if ($row = mysqli_fetch_assoc($result)) {
                     </tr>
 
                     <tr>
-                    <td scope="row">Signature</td>
+                    <td scope="row">Tandatangan</td>
                     <td>
                     <?php if (!empty($signaturePenjamin1)) : ?>
                         <img src="<?php echo $signaturePenjamin1; ?>" alt="Signature" style="max-width: 200px; height: auto;">
@@ -545,7 +545,7 @@ if ($row = mysqli_fetch_assoc($result)) {
                     </tr>
 
                     <tr>
-                    <td scope="row">Signature</td>
+                    <td scope="row">Tandatangan</td>
                     <td>
                     <?php if (!empty($signaturePenjamin2)) : ?>
                         <img src="<?php echo $signaturePenjamin2; ?>" alt="Signature" style="max-width: 200px; height: auto;">

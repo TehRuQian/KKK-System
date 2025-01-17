@@ -312,10 +312,17 @@ if ($memberNo !== null) {
   </fieldset>
 </form>
 </div>
-
-
-
 </body>
 </html>
 
+<script>
+function showSuccessNotification() {
+  alert("Maklumat anda telah berjaya disimpan!");
+}
+
+if (window.location.search.includes('status=success')) {
+    showSuccessNotification();
+  }
+
+</script>
 <?php include '../footer.php'; ?>

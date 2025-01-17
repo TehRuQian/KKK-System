@@ -156,7 +156,6 @@ $sql = "
       <br>
       <div class="jumbotron">
         <h2>Butir-Butir Pembiayaan</h2>
-        <h2>Butir-Butir Pembiayaan</h2>
         <label class="form-label mt-4">Jenis Pembiayaan</label>
         <br>
         <select class="form-select" name="jenis_pembiayaan" class="form-select">
@@ -176,6 +175,7 @@ $sql = "
         <input type="hidden" id="kadarKeuntungan" value="<?php echo $policy['p_profitRate']; ?>">
         <input type="hidden" id="maxFinancingAmt" value="<?php echo $policy['p_maxFinancingAmt']; ?>">
         <input type="hidden" id="maxInstallmentPeriod" value="<?php echo $policy['p_maxInstallmentPeriod']; ?>">
+        <input type="hidden" name="tunggakan" id="tunggakan" value="0.00">
 
         <div>
           <label class="form-label mt-4">Amaun Dipohon*</label>
@@ -242,7 +242,7 @@ $sql = "
         </div>
 
         <div>
-          <label for="fileSign" class="form-label mt-4">Signature</label>
+          <label for="fileSign" class="form-label mt-4">Tandatangan</label>
           <input class="form-control" type="file" id="fileSign" name="fileSign" accept=".png, .jpg, .jpeg" required>
           <p class="mt-2" style="font-size: 0.9rem; color: #6c757d;">*Fail yang dibenarkan adalah dalam format PNG, JPG dan JPEG sahaja. Sila pastikan saiz fail tidak melebihi 5MB.</p>
         </div>
@@ -267,13 +267,9 @@ $sql = "
 const maxFinancingAmt1 = <?php echo floatval($policy['p_maxFinancingAmt']); ?>;
 const maxInstallmentPeriod1 = <?php echo floatval($policy['p_maxInstallmentPeriod']); ?>;
 
-const profitRate = parseFloat(document.getElementById('kadarKeuntungan').value) || 0;
-const maxFinancingAmt = parseFloat(document.getElementById('maxFinancingAmt').value) || 0; 
-const maxInstallmentPeriod = parseFloat(document.getElementById('maxInstallmentPeriod').value) || 0; 
-
 
 function calculateInstallment(){
-  
+  const profitRate = parseFloat(document.getElementById('kadarKeuntungan').value) || 0;
   const amaunDipohon = parseFloat(document.getElementById('amaunDipohon').value) || 0;
   const tempohPembiayaan = parseFloat(document.getElementById('tempohPembiayaan').value) || 0;
 
@@ -282,6 +278,7 @@ function calculateInstallment(){
     alert(`Amaun Dipohon telah melebihi RM ${maxFinancingAmt1.toFixed(2)}! Sila masukkan amaun yang sah.`);
     document.getElementById('amaunDipohon').value = ''; 
     document.getElementById('ansuranBulanan').value = '0.00';
+    document.getElementById('tunggakan').value = '0.00';
     return; 
   }
 
@@ -289,17 +286,20 @@ function calculateInstallment(){
     alert(`Tempoh Pembiayaan telah melebihi ${maxInstallmentPeriod1} tahun! Sila masukkan tempoh yang sah.`);
     document.getElementById('tempohPembiayaan').value = ''; 
     document.getElementById('ansuranBulanan').value = '0.00';
+    document.getElementById('tunggakan').value = '0.00';
     return; 
   }
 
-  if(amaunDipohon > 0 && tempohPembiayaan > 0  && amaunDipohon <= maxFinancingAmt){
+  if(amaunDipohon > 0 && tempohPembiayaan > 0){
     const totalPayable = amaunDipohon * (1+(profitRate*tempohPembiayaan)/100);
     const installment = totalPayable/ (tempohPembiayaan*12);
 
     // Update the installment field
     document.getElementById('ansuranBulanan').value = installment.toFixed(2);
+    document.getElementById('tunggakan').value = totalPayable.toFixed(2);
     } else {
       document.getElementById('ansuranBulanan').value = '0.00';
+      document.getElementById('tunggakan').value = '0.00';
     }
   }
 

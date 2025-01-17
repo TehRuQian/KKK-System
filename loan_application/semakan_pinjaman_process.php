@@ -19,10 +19,23 @@ $loanType = $_POST['loanType'];
 $amaunDipohon = $_POST['amaunDipohon']; 
 $tempohPembiayaan = $_POST['tempohPembiayaan']; 
 $ansuranBulanan = $_POST['ansuranBulanan']; 
+$tunggakan = $_POST['tunggakan'];
 $namaBank = $_POST['namaBank']; 
 $bankAcc = $_POST['bankAcc']; 
 $gajiKasar = $_POST['gajiKasar']; 
 $gajiBersih = $_POST['gajiBersih']; 
+
+echo "Received POST data:<br>";
+echo "loanApplicationID: " . $loanApplicationID . "<br>";
+echo "loanType: " . $loanType . "<br>";
+echo "amaunDipohon: " . $amaunDipohon . "<br>";
+echo "tempohPembiayaan: " . $tempohPembiayaan . "<br>";
+echo "ansuranBulanan: " . $ansuranBulanan . "<br>";
+echo "tunggakan: " . $tunggakan . "<br>";
+echo "namaBank: " . $namaBank . "<br>";
+echo "bankAcc: " . $bankAcc . "<br>";
+echo "gajiKasar: " . $gajiKasar . "<br>";
+echo "gajiBersih: " . $gajiBersih . "<br>";
 
 // signature image
 $fileSign = '';
@@ -71,6 +84,7 @@ if (!empty($loanApplicationID)) {
                 l_appliedLoan = '$amaunDipohon', 
                 l_loanPeriod = '$tempohPembiayaan', 
                 l_monthlyInstalment = '$ansuranBulanan', 
+                l_loanPayable = '$tunggakan',
                 l_bankName = '$namaBank',
                 l_bankAccountNo = '$bankAcc',
                 l_monthlyGrossSalary = '$gajiKasar',
@@ -78,10 +92,12 @@ if (!empty($loanApplicationID)) {
                 l_signature = '$fileSign'
 
             WHERE l_loanApplicationID = '$loanApplicationID'";
+
+    echo "<br>SQL Query: " . $sql . "<br>";
     
     if (mysqli_query($con, $sql)) {
-  
-        header('Location: semakan_butiran.php');
+        echo "Update successful!<br>";
+        header('Location: semakan_butiran.php?status=success');
         exit();
     } else {
         echo "Error updating record: " . mysqli_error($con);
@@ -89,6 +105,10 @@ if (!empty($loanApplicationID)) {
 } else {
     echo "Error: Missing member number.";
 }
+
+echo "<br>Session data:<br>";
+echo "Session ID: " . session_id() . "<br>";
+echo "loanApplicationID in session: " . $_SESSION['loanApplicationID'] . "<br>";
 
 //close SQL
 mysqli_close($con);

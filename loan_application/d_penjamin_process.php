@@ -16,8 +16,7 @@ $loanApplicationID = $_SESSION['loanApplicationID'];
 // Debug the loanApplicationID
 echo 'Loan Application ID from session: ' . $_SESSION['loanApplicationID'];
 
-
-// Retrieve data from form
+// Retrieve data from form and store in session
 $memberNo1 = $_POST['anggotaPenjamin1'];
 $memberNo2 = $_POST['anggotaPenjamin2'];
 
@@ -30,17 +29,6 @@ $_SESSION['anggotaPenjamin2'] = $_POST['anggotaPenjamin2'];
 $_SESSION['namaPenjamin2'] = $_POST['namaPenjamin2'];
 $_SESSION['icPenjamin2'] = $_POST['icPenjamin2'];
 $_SESSION['pfPenjamin2'] = $_POST['pfPenjamin2'];
-
-if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-    setcookie('anggotaPenjamin1', $_POST['anggotaPenjamin1'], time() + (86400 * 7), "/");
-    setcookie('namaPenjamin1', $_POST['namaPenjamin1'], time() + (86400 * 7), "/");
-    setcookie('icPenjamin1', $_POST['icPenjamin1'], time() + (86400 * 7), "/");
-    setcookie('pfPenjamin1', $_POST['pfPenjamin1'], time() + (86400 * 7), "/");
-    setcookie('anggotaPenjamin2', $_POST['anggotaPenjamin2'], time() + (86400 * 7), "/");
-    setcookie('namaPenjamin2', $_POST['namaPenjamin2'], time() + (86400 * 7), "/");
-    setcookie('icPenjamin2', $_POST['icPenjamin2'], time() + (86400 * 7), "/");
-    setcookie('pfPenjamin2', $_POST['pfPenjamin2'], time() + (86400 * 7), "/");
-}
 
 // File upload directory
 $uploadFileDir = './uploads/';

@@ -44,6 +44,7 @@ $memberNo = isset($_SESSION['funame']) ? $_SESSION['funame'] : null;
                     <th>Jumlah Permohonan (RM)</th>
                     <th>Tempoh Pinjaman (Bulan)</th>
                     <th>Ansuran Bulanan (RM)</th>
+                    <th>Tunggakan (RM)</th>
                     <th>Tarikh Permohonan</th>
                     <th>Status</th>
                     </tr>
@@ -54,7 +55,7 @@ $memberNo = isset($_SESSION['funame']) ? $_SESSION['funame'] : null;
                 $count = 1;
 
                 // Fetch data
-                $sql = "SELECT l_loanType, l_appliedLoan, l_loanPeriod, l_monthlyInstalment, l_status, l_applicationDate FROM tb_loan WHERE l_memberNo= $memberNo";
+                $sql = "SELECT l_loanType, l_appliedLoan, l_loanPeriod, l_monthlyInstalment, l_loanPayable, l_status, l_applicationDate FROM tb_loan WHERE l_memberNo= $memberNo";
                 $result = mysqli_query($con, $sql);
 
                 while ($row = mysqli_fetch_assoc($result)) {
@@ -62,6 +63,7 @@ $memberNo = isset($_SESSION['funame']) ? $_SESSION['funame'] : null;
                   $selected_amaunDipohon = htmlspecialchars($row['l_appliedLoan']);  
                   $selected_tempohPembiayaan = htmlspecialchars($row['l_loanPeriod']);  
                   $selected_ansuranBulanan = htmlspecialchars($row['l_monthlyInstalment']);   
+                  $selected_tunggakan = htmlspecialchars($row['l_loanPayable']);
                   $status_loan_ID = htmlspecialchars($row['l_status']);  
                   $application_date = htmlspecialchars($row['l_applicationDate']);  
 
@@ -91,6 +93,7 @@ $memberNo = isset($_SESSION['funame']) ? $_SESSION['funame'] : null;
                   echo "<td>{$selected_amaunDipohon}</td>";
                   echo "<td>{$selected_tempohPembiayaan}</td>";
                   echo "<td>{$selected_ansuranBulanan}</td>";
+                  echo "<td>{$selected_tunggakan}</td>";
                   echo "<td>{$application_date}</td>";
                   echo "<td>{$status_loan}</td>";
                   echo "</tr>";

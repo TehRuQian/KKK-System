@@ -147,7 +147,7 @@ $gajiBersih = '';
   <div class="row">
     <div class="col-2 sidebar">
         <div class="row">
-          <a href="a_pinjaman.php" class="text-center active"><br>Butir-Butir Pembiayaan</a>
+          <a href="a_pinjaman.php" class="text-center"><br>Butir-Butir Pembiayaan</a>
           <hr>
         </div>
         <div class="row">

@@ -70,7 +70,7 @@ if (!empty($selectedGender) && !empty($memberNo)) {
     
     if (mysqli_query($con, $sql)) {
   
-        header('Location: semakan_butiran.php');
+        header('Location: semakan_butiran.php?status=success');
         exit();
     } else {
         echo "Error updating record: " . mysqli_error($con);
