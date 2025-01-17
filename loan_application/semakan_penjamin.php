@@ -92,21 +92,21 @@ if ($loanApplicationID !== null) {
         <div>
           <label class="form-label mt-4">Nama</label>
           <div class="input-group mt-2">
-            <input type="text" name = "namaPenjamin1" class="form-control" id="namaPenjamin1" aria-label="namaPenjamin1" placeholder="Ali bin Abu"  value="<?php echo $namePenjamin1; ?>" readonly required>
+            <input type="text" name = "namaPenjamin1" class="form-control" id="namaPenjamin1" aria-label="namaPenjamin1" placeholder="Ali bin Abu"  value="<?php echo $namePenjamin1; ?>" readonly>
           </div>
         </div>
 
         <div>
           <label class="form-label mt-4">No. Kad Pengenalan</label>
           <div class="input-group mt-2">
-            <input type="text" name = "icPenjamin1" class="form-control" id="icPenjamin1" aria-label="icPenjamin1" placeholder="000000-00-0000"  value="<?php echo $icPenjamin1; ?>" readonly required>
+            <input type="text" name = "icPenjamin1" class="form-control" id="icPenjamin1" aria-label="icPenjamin1" placeholder="000000-00-0000"  value="<?php echo $icPenjamin1; ?>" readonly>
           </div>
         </div>
 
         <div>
           <label class="form-label mt-4">No. PF</label>
           <div class="input-group mt-2">
-            <input type="text" name = "pfPenjamin1" class="form-control" id="pfPenjamin1" aria-label="pfPenjamin1" placeholder="1001"  value="<?php echo $pfNoPenjamin1; ?>" reaonly required>
+            <input type="text" name = "pfPenjamin1" class="form-control" id="pfPenjamin1" aria-label="pfPenjamin1" placeholder="1001"  value="<?php echo $pfNoPenjamin1; ?>" readonly>
           </div>
         </div>
 

@@ -176,7 +176,7 @@ $gajiBersih = '';
 
 <div class="col-10 main-content">
 
-<form method = "post" action = "e_pengesahan_majikan_process.php">
+<form method = "post" action = "e_pengesahan_majikan_process.php" enctype="multipart/form-data">
   <fieldset>
     <!--Pengesahan Majikan-->
     <div class="container">

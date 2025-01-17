@@ -1,29 +1,19 @@
 <?php
 include('../kkksession.php');
-if(!session_id()) {
+if (!session_id()) {
     session_start();
-}
-
-if(isset($_SESSION['u_id']) != session_id()) {
-    header('Location:../login.php'); 
 }
 
 include '../headermember.php';
 include '../db_connect.php';
 
+//Loan
 if (!isset($_SESSION['loanApplicationID'])) {
-    echo "<script>
-        alert('Sila simpan maklumat Butir-Butir Pembiayaan.');
-        window.location.href = 'a_pinjaman.php'; 
-        </script>";
-    exit();
+    die('Error: Loan application ID is missing.');
 }
 
-$loanApplicationID = $_SESSION['loanApplicationID'];
+$loanApplicationID = $_SESSION['loanApplicationID']; // Retrieve from session
 
-if (isset($_GET['status']) && $_GET['status'] == 'success') {
-    echo '<script>alert("Anda telah berjaya disimpan.");</script>';
-}
 ?>
 
 <head>
@@ -153,167 +143,198 @@ if (isset($_GET['status']) && $_GET['status'] == 'success') {
 <div class="container-fluid">
     
     <div class="col-10 main-content">
-        <form method="post" action="d_penjamin_process.php" enctype="multipart/form-data">
-            <fieldset>
-                <div class="container">
-                    <br>
-                    <div class="jumbotron">
-                        <h2>Butir-Butir Penjamin</h2>
+<form method = "post" action = "d_penjamin_process.php"  enctype="multipart/form-data">
+  <fieldset>
+    <div class="container">
+      <br>
+      <div class="jumbotron">
+        <h2>Butir-Butir Penjamin</h2>
 
-                        <!-- Penjamin 1 -->
-                        <div class="input-group">
-                            <input type="text" class="form-control" placeholder="Penjamin 1" readonly style="background-color: #6a9bf0; color: #00000;">
-                        </div>
-
-                        <div>
-                            <label class="form-label mt-4">No. Anggota</label>
-                            <div class="input-group mt-2">
-                                <input type="text" name="anggotaPenjamin1" class="form-control" id="anggotaPenjamin1" placeholder="1" required>
-                            </div>
-                        </div>
-
-                        <div>
-                            <label class="form-label mt-4">Nama</label>
-                            <div class="input-group mt-2">
-                                <input type="text" name="namaPenjamin1" class="form-control" id="namaPenjamin1" placeholder="Ali bin Abu" readonly required>
-                            </div>
-                        </div>
-
-                        <div>
-                            <label class="form-label mt-4">No. Kad Pengenalan</label>
-                            <div class="input-group mt-2">
-                                <input type="text" name="icPenjamin1" class="form-control" id="icPenjamin1" placeholder="000000-00-0000" readonly required>
-                            </div>
-                        </div>
-
-                        <div>
-                            <label class="form-label mt-4">No. PF</label>
-                            <div class="input-group mt-2">
-                                <input type="text" name="pfPenjamin1" class="form-control" id="pfPenjamin1" placeholder="1001" readonly required>
-                            </div>
-                        </div>
-
-                        <div>
-                          <label for="fileSignPenjamin1" class="form-label mt-4">Tandatangan</label>
-                          <input class="form-control" type="file" id="fileSignPenjamin1" name="fileSignPenjamin1" accept=".png, .jpg, .jpeg" required>
-                          <p class="mt-2" style="font-size: 0.9rem; color: #6c757d;">*Fail yang dibenarkan adalah dalam format PNG, JPG, dan JPEG sahaja. Sila pastikan saiz fail tidak melebihi 5MB.</p>
-                        </div>
-
-                        <!-- Penjamin 2 -->
-                        <div class="input-group mt-4">
-                            <input type="text" class="form-control" placeholder="Penjamin 2" readonly style="background-color: #6a9bf0; color: #00000;">
-                        </div>
-
-                        <div>
-                            <label class="form-label mt-4">No. Anggota</label>
-                            <div class="input-group mt-2">
-                                <input type="text" name="anggotaPenjamin2" class="form-control" id="anggotaPenjamin2" placeholder="2" required>
-                            </div>
-                        </div>
-
-                        <div>
-                            <label class="form-label mt-4">Nama</label>
-                            <div class="input-group mt-2">
-                                <input type="text" name="namaPenjamin2" class="form-control" id="namaPenjamin2" placeholder="Ali bin Abu" readonly required>
-                            </div>
-                        </div>
-
-                        <div>
-                            <label class="form-label mt-4">No. Kad Pengenalan</label>
-                            <div class="input-group mt-2">
-                                <input type="text" name="icPenjamin2" class="form-control" id="icPenjamin2" placeholder="000000-00-0000" readonly required>
-                            </div>
-                        </div>
-
-                        <div>
-                            <label class="form-label mt-4">No. PF</label>
-                            <div class="input-group mt-2">
-                                <input type="text" name="pfPenjamin2" class="form-control" id="pfPenjamin2" placeholder="1002" readonly required>
-                            </div>
-                        </div>                        
-
-                        <div>
-                          <label for="fileSignPenjamin2" class="form-label mt-4">Tandatangan</label>
-                          <input class="form-control" type="file" id="fileSignPenjamin2" name="fileSignPenjamin2" accept=".png, .jpg, .jpeg" required>
-                          <p class="mt-2" style="font-size: 0.9rem; color: #6c757d;">*Fail yang dibenarkan adalah dalam format PNG, JPG, dan JPEG sahaja. Sila pastikan saiz fail tidak melebihi 5MB.</p>
-                        </div>
-
-                        <hr class="my-4">
-                        <p class="lead">
-                            <button type="submit" class="btn btn-primary">Simpan</button>
-                        </p>
-                    </div>   
-                </fieldset>
-            </form>
+        <!-- Penjamin 1 -->
+        <div class="input-group">
+            <input type="text" class="form-control" placeholder="Penjamin 1" readonly style="background-color: #6a9bf0; color: #00000;">
         </div>
-    </div>
-</div>
 
+        <div>
+          <label class="form-label mt-4">No. Anggota</label>
+          <div class="input-group mt-2">
+            <input type="text" name = "anggotaPenjamin1" class="form-control" id="anggotaPenjamin1" aria-label="anggotaPenjamin1" placeholder="1" required>
+          </div>
+        </div>
+
+        <div>
+          <label class="form-label mt-4">Nama</label>
+          <div class="input-group mt-2">
+            <input type="text" name = "namaPenjamin1" class="form-control" id="namaPenjamin1" aria-label="namaPenjamin1" placeholder="Ali bin Abu" readonly>
+          </div>
+        </div>
+
+        <div>
+          <label class="form-label mt-4">No. Kad Pengenalan</label>
+          <div class="input-group mt-2">
+            <input type="text" name = "icPenjamin1" class="form-control" id="icPenjamin1" aria-label="icPenjamin1" placeholder="000000-00-0000" readonly>
+          </div>
+        </div>
+
+        <div>
+          <label class="form-label mt-4">No. PF</label>
+          <div class="input-group mt-2">
+            <input type="text" name = "pfPenjamin1" class="form-control" id="pfPenjamin1" aria-label="pfPenjamin1" placeholder="1001"  reaonly >
+          </div>
+        </div>
+
+        <div>
+          <label for="fileSignPenjamin1" class="form-label mt-4">Tandatangan</label>
+          <input class="form-control" type="file" id="fileSignPenjamin1" name="fileSignPenjamin1" accept=".png, .jpg, .jpeg" required>
+          <p class="mt-2" style="font-size: 0.9rem; color: #6c757d;">*Fail yang dibenarkan adalah dalam format PNG, JPG, dan JPEG sahaja. Sila pastikan saiz fail tidak melebihi 5MB.</p>
+        </div>
+
+      <!-- Penjamin 2 -->
+      <div class="input-group mt-4">
+            <input type="text" class="form-control" placeholder="Penjamin 2" readonly style="background-color: #6a9bf0; color: #00000;">
+        </div>
+
+        <div>
+          <label class="form-label mt-4">No. Anggota</label>
+          <div class="input-group mt-2">
+            <input type="text" name="anggotaPenjamin2" class="form-control" id="anggotaPenjamin2" aria-label="anggotaPenjamin2" placeholder="2" required>
+          </div>
+        </div>
+
+        <div>
+          <label class="form-label mt-4">Nama</label>
+          <div class="input-group mt-2">
+            <input type="text" name="namaPenjamin2" class="form-control" id="namaPenjamin2" aria-label="namaPenjamin2" placeholder="Abu bin Ali" readonly>
+          </div>
+        </div>
+
+        <div>
+          <label class="form-label mt-4">No. Kad Pengenalan</label>
+          <div class="input-group mt-2">
+            <input type="text" name="icPenjamin2" class="form-control" id="icPenjamin2" aria-label="icPenjamin2" placeholder="000000-00-0001" readonly>
+          </div>
+        </div>
+
+        <div>
+          <label class="form-label mt-4">No. PF</label>
+          <div class="input-group mt-2">
+            <input type="text" name="pfPenjamin2" class="form-control" id="pfPenjamin2" aria-label="pfPenjamin2" placeholder="1002" reaonly >
+          </div>
+        </div>
+
+        <div>
+          <label for="fileSignPenjamin2" class="form-label mt-4">Tandatangan</label>
+          <input class="form-control" type="file" id="fileSignPenjamin2" name="fileSignPenjamin2" accept=".png, .jpg, .jpeg" required>
+          <p class="mt-2" style="font-size: 0.9rem; color: #6c757d;">*Fail yang dibenarkan adalah dalam format PNG, JPG, dan JPEG sahaja. Sila pastikan saiz fail tidak melebihi 5MB.</p>
+        </div>
+
+      <hr class="my-4">                                    
+        <p class="lead">
+        <button type="submit" class="btn btn-primary">Simpan</button>
+        </p>
+      </hr>
+    </div>   
+  </fieldset>
+</form>                                 
+</div>
+</body>
+</html>
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script>
 $(document).ready(function() {
-   
+      $('<style>')
+        .text(`
+            .readonly-field {
+                background-color: #e9ecef !important;
+                cursor: not-allowed;
+            }
+        `)
+        .appendTo('head');
+
+        $('#namaPenjamin1, #icPenjamin1, #pfPenjamin1, #namaPenjamin2, #icPenjamin2, #pfPenjamin2')
+        .addClass('readonly-field');
+
+  
     $('#anggotaPenjamin1').on('change', function() {
         var anggotaPenjamin1 = $(this).val().trim();
+        console.log('Input member number:', anggotaPenjamin1);
+        
         if (anggotaPenjamin1 !== '') {
-            $(this).addClass('loading');
+            
+            $('#namaPenjamin1, #icPenjamin1, #pfPenjamin1')
+                .val('Sedang memuat...')
+                .prop('disabled', true);
             
             $.ajax({
-                url: 'fetch_member.php',
+                url: 'fetch_member1.php',
                 type: 'POST',
                 data: { anggotaPenjamin1: anggotaPenjamin1 },
                 dataType: 'json',
-                success: function(data) {
-                    console.log('Response:', data); 
-                    if (data.penjamin1) {
-                        $('#namaPenjamin1').val(data.penjamin1.m_name);
-                        $('#icPenjamin1').val(data.penjamin1.m_ic);
-                        $('#pfPenjamin1').val(data.penjamin1.m_pfNo);
+                success: function(response) {
+                    console.log('Server response:', response);
+                    
+                    if (response.status === 'success' && response.penjamin1) {
+                        $('#namaPenjamin1').val(response.penjamin1.m_name);
+                        $('#icPenjamin1').val(response.penjamin1.m_ic);
+                        $('#pfPenjamin1').val(response.penjamin1.m_pfNo);
                     } else {
                         $('#namaPenjamin1, #icPenjamin1, #pfPenjamin1').val('');
-                        alert(data.penjamin1_error || 'No member found.');
+                        console.log('Debug info:', response.debug);
+                        alert(response.message);
                     }
                 },
                 error: function(xhr, status, error) {
-                    console.error('Ajax error:', error); 
-                    alert('Error fetching member data. Please try again.');
+                    console.error('AJAX Error:', {
+                        status: status,
+                        error: error,
+                        response: xhr.responseText
+                    });
+                    $('#namaPenjamin1, #icPenjamin1, #pfPenjamin1').val('');
+                    alert('Error: ' + error);
                 },
-                complete: function() {
-                    $('#anggotaPenjamin1').removeClass('loading');
-                }
             });
-        } else {
-            $('#namaPenjamin1, #icPenjamin1, #pfPenjamin1').val('');
+
         }
     });
 
+    
     $('#anggotaPenjamin2').on('change', function() {
         var anggotaPenjamin2 = $(this).val().trim();
+        
         if (anggotaPenjamin2 !== '') {
-            $(this).addClass('loading');
+            
+            $('#namaPenjamin2, #icPenjamin2, #pfPenjamin2')
+                .val('Sedang memuat...')
+                .prop('disabled', true);
             
             $.ajax({
-                url: 'fetch_member.php',
+                url: 'fetch_member1.php',
                 type: 'POST',
                 data: { anggotaPenjamin2: anggotaPenjamin2 },
                 dataType: 'json',
-                success: function(data) {
-                    console.log('Response:', data); 
-                    if (data.penjamin2) {
-                        $('#namaPenjamin2').val(data.penjamin2.m_name);
-                        $('#icPenjamin2').val(data.penjamin2.m_ic);
-                        $('#pfPenjamin2').val(data.penjamin2.m_pfNo);
+                success: function(response) {
+                    console.log('Server response:', response);
+                    
+                    if (response.status === 'success' && response.penjamin2) {
+                        $('#namaPenjamin2').val(response.penjamin2.m_name);
+                        $('#icPenjamin2').val(response.penjamin2.m_ic);
+                        $('#pfPenjamin2').val(response.penjamin2.m_pfNo);
                     } else {
                         $('#namaPenjamin2, #icPenjamin2, #pfPenjamin2').val('');
-                        alert(data.penjamin2_error || 'No member found.');
+                        alert(response.message || 'Tiada maklumat anggota dijumpai');
                     }
                 },
                 error: function(xhr, status, error) {
-                    console.error('Ajax error:', error); 
-                    alert('Error fetching member data. Please try again.');
+                    console.error('AJAX Error:', {
+                        status: status,
+                        error: error,
+                        response: xhr.responseText
+                    });
+                    $('#namaPenjamin2, #icPenjamin2, #pfPenjamin2').val('');
+                    alert('Ralat semasa mendapatkan maklumat anggota. Sila cuba lagi.');
                 },
                 complete: function() {
-                    $('#anggotaPenjamin2').removeClass('loading');
+                    $('#namaPenjamin2, #icPenjamin2, #pfPenjamin2').prop('disabled', false);
                 }
             });
         } else {
@@ -322,34 +343,8 @@ $(document).ready(function() {
     });
 });
 
-function validateFile(input, previewId) {
-    /
-    const maxSize = 5 * 1024 * 1024; // 5MB
-    if (input.files[0].size > maxSize) {
-        alert('Saiz fail tidak boleh melebihi 5MB');
-        input.value = '';
-        return false;
-    }
-
-    const allowedTypes = ['image/jpeg', 'image/jpg', 'image/png'];
-    if (!allowedTypes.includes(input.files[0].type)) {
-        alert('Hanya format PNG, JPG dan JPEG sahaja dibenarkan');
-        input.value = '';
-        return false;
-    }
-
-   
-    const preview = document.getElementById(previewId);
-    const reader = new FileReader();
-    
-    reader.onload = function(e) {
-        preview.src = e.target.result;
-        preview.style.display = 'block';
-    }
-    
-    reader.readAsDataURL(input.files[0]);
-}
-
 </script>
+
+
 
 <?php include '../footer.php'; ?>

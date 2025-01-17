@@ -27,6 +27,12 @@ if (!isset($_SESSION['loanApplicationID'])) {
 $loanApplicationID = $_SESSION['loanApplicationID']; 
 
 // Guarantor
+if (!isset($_SESSION['guarantorID1'])) {
+  die('Error: Guarantor ID1 is missing.');
+}
+
+$guarantorID1 = $_SESSION['guarantorID1']; 
+
 if (!isset($_SESSION['guarantorID2'])) {
   die('Error: Guarantor ID2 is missing.');
 }
@@ -213,51 +219,41 @@ $pfPenjamin2 = '';
 $signaturePenjamin2 = '';
 
 // Fetch data
-$sql = "SELECT g_memberNo, g_signature FROM tb_guarantor WHERE g_loanApplicationID = $loanApplicationID";
+$sql = "SELECT g.g_memberNo, g.g_signature, m.m_name, m.m_ic, m.m_pfNo 
+        FROM tb_guarantor g
+        LEFT JOIN tb_member m ON g.g_memberNo = m.m_memberNo 
+        WHERE g.g_guarantorID = '$guarantorID1'";
 $result = mysqli_query($con, $sql);
 
-if ($row = mysqli_fetch_assoc($result)) {
-  $anggotaPenjamin1 = $row['g_memberNo'];  
-  $signaturePenjamin1 = $row['g_signature'];  
-}
-
-if ($anggotaPenjamin1) {
-  $sql = "SELECT m_name, m_ic, m_pfNo FROM tb_member WHERE m_memberNo = $anggotaPenjamin1";
-  $result = mysqli_query($con, $sql);
-  if ($row = mysqli_fetch_assoc($result)) {
-      $namaPenjamin1 = $row['m_name'];
-      $icPenjamin1 = $row['m_ic'];
-      $pfPenjamin1 = $row['m_pfNo'];
-  }
+if ($result && $row = mysqli_fetch_assoc($result)) {
+    $anggotaPenjamin1 = $row['g_memberNo'];
+    $signaturePenjamin1 = $row['g_signature'];
+    $namaPenjamin1 = $row['m_name'];
+    $icPenjamin1 = $row['m_ic'];
+    $pfPenjamin1 = $row['m_pfNo'];
 }
 
 // Fetch penjamin2
-$sql2 = "SELECT g_memberNo, g_signature FROM tb_guarantor WHERE g_guarantorID = $guarantorID2";
-$result = mysqli_query($con, $sql2);
+$sql2 = "SELECT g.g_memberNo, g.g_signature, m.m_name, m.m_ic, m.m_pfNo 
+         FROM tb_guarantor g
+         LEFT JOIN tb_member m ON g.g_memberNo = m.m_memberNo 
+         WHERE g.g_guarantorID = '$guarantorID2'";
+$result2 = mysqli_query($con, $sql2);
 
-if ($row = mysqli_fetch_assoc($result)) {
-  // penjamin2 
-  $anggotaPenjamin2 = $row['g_memberNo'];  
-  $signaturePenjamin2 = $row['g_signature'];  
+if ($result2 && $row2 = mysqli_fetch_assoc($result2)) {
+    $anggotaPenjamin2 = $row2['g_memberNo'];
+    $signaturePenjamin2 = $row2['g_signature'];
+    $namaPenjamin2 = $row2['m_name'];
+    $icPenjamin2 = $row2['m_ic'];
+    $pfPenjamin2 = $row2['m_pfNo'];
 }
 
-if ($anggotaPenjamin2) {
-  $sql2 = "SELECT m_name, m_ic, m_pfNo FROM tb_member WHERE m_memberNo = $anggotaPenjamin2";
-  $result = mysqli_query($con, $sql2);
-  if ($row = mysqli_fetch_assoc($result)) {
-      // penjamin2 
-      $namaPenjamin2 = $row['m_name'];
-      $icPenjamin2 = $row['m_ic'];
-      $pfPenjamin2 = $row['m_pfNo'];
-  }
-}
-
-
-if ($row = mysqli_fetch_assoc($result)) {
-  // penjamin2 
-  $anggotaPenjamin2 = $row['g_memberNo'];  
-  $signaturePenjamin2 = $row['g_signature'];  
-}
+error_log("Debug - Guarantor 1 ID: " . $guarantorID1);
+error_log("Debug - Guarantor 1 Member No: " . $anggotaPenjamin1);
+error_log("Debug - Guarantor 1 Name: " . $namaPenjamin1);
+error_log("Debug - Guarantor 2 ID: " . $guarantorID2);
+error_log("Debug - Guarantor 2 Member No: " . $anggotaPenjamin2);
+error_log("Debug - Guarantor 2 Name: " . $namaPenjamin2);
 ?>
 
 <form method = "post" action = "semakan_butiran_process.php">
