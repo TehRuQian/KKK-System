@@ -1,54 +1,82 @@
 <?php
 session_start();
-include 'headermain.php';
-include 'login_function.php';
-
+// Start output buffering
+ob_start(); 
 // Connect to DB
 include('db_connect.php');
-
-// Retrieve data from form
-$funame = $_POST['funame'];
-$fpwd = $_POST['fpwd'];
-
-// SQL Retrieve Operation to get user data from DB (login)
-$sql = "SELECT * FROM tb_user WHERE u_id= '$funame' AND u_pwd= '$fpwd'";
-
-// Execute SQL
-$result = mysqli_query($con, $sql);
-// Retrieve data
-$row = mysqli_fetch_array($result);
-// Count result to check
-$count = mysqli_num_rows($result);
-
-// Rule-based AI login
-if ($count == 1) { // Check if user exists
-    // Set session
-    $_SESSION['u_id'] = session_id();
-    $_SESSION['funame'] = $funame;
-    if ($row['u_type'] == 1) { // Check user type
-        // Redirect to admin page
-        header('Location: admin_main/admin.php');
-        exit;
-    }
-    if ($row['u_type'] == 2) { // Check user type
-        // Redirect to Member page
-        header('Location: member_main/member.php');
-        exit;
-    }
+if ($con) {
+    include 'login.php';
 } else {
-    // Login failed: Display SweetAlert
-    echo "<script src=\"https://cdn.jsdelivr.net/npm/sweetalert2@11\"></script>";
-    echo "<script>
-        Swal.fire({
-            icon: 'error',
-            title: 'Login Failed',
-            text: 'Incorrect username or password. Would you like to reset your password?',
-            footer: '<a href=\"javascript:void(0)\" onclick=\"pwResetEmail()\">Reset Password</a>'
-        });
-        
-    </script>";
+    echo "Failed to connect to the database.";
 }
 
-// Close connection
+//error array
+$errors = [];
+
+// Sanitise Data
+if ($_POST){
+    $cleanPost = cleanPost($_POST);
+
+    $funame = $cleanPost['funame'];
+    $fpwd = $cleanPost['fpwd'];  
+    if(empty($errors)){
+        $sql = "SELECT * FROM tb_user WHERE u_id = ?";
+        $stmt = mysqli_prepare($con, $sql);
+        mysqli_stmt_bind_param($stmt, 'i', $funame);  
+        mysqli_stmt_execute($stmt);
+        $result = mysqli_stmt_get_result($stmt);
+        $user = mysqli_fetch_assoc($result);
+        $matches = false;
+       
+
+        if($user){
+            $matches = password_verify($fpwd, $user['u_pwd']);
+
+            if($matches){
+                // Successful login - Set session and redirect
+                $_SESSION['u_id'] = $user['u_id'];  // Set the session variable for the user
+                $_SESSION['funame'] = $user['u_id'];  // Store username in session
+
+                // Redirect based on user type
+                if ($user['u_type'] == 1) { // Admin type
+                    header('Location: admin_main/admin.php');
+                    exit;
+                } else if ($user['u_type'] == 2) { // Member type
+                    header('Location: member_main/member.php');
+                    exit;
+                }
+            }
+
+            else {
+                echo '<script src="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/1.1.3/sweetalert.min.js"></script>
+                      <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/1.1.3/sweetalert.min.css">
+                      <script>
+                          Swal.fire({
+                              icon: "error",
+                              title: "Log Masuk Gagal.",
+                              text: "Pengguna ID atau Kata Laluan Salah.",
+                              footer: "<a href=\'forgot_password.php\'>Lupa Kata Laluan</a>"
+                          });
+                      </script>';
+                      exit; 
+            }
+        }
+        else echo '<script src="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/1.1.3/sweetalert.min.js"></script>
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/1.1.3/sweetalert.min.css">
+        <script>
+            Swal.fire({
+                icon: "error",
+                title: "Log Masuk Gagal.",
+                text: "Pengguna tidak wujud.",
+            });
+        </script>';
+        exit; 
+        
+    }
+}
+
+
 mysqli_close($con);
+ob_end_flush(); 
 ?>
+
