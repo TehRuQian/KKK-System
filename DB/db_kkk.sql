@@ -3,13 +3,13 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jan 17, 2025 at 01:17 PM
+-- Generation Time: Jan 17, 2025 at 06:34 PM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
-SET time_zone = "+08:00";
+SET time_zone = "+00:00";
 
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
@@ -93,7 +93,8 @@ INSERT INTO `tb_financial` (`f_memberNo`, `f_shareCapital`, `f_feeCapital`, `f_f
 (3, 5, 50, 350, 50, 400, 0, 0, 0, 0, 0, 0, 0, '2024-11-12'),
 (4, 20, 200, 600, 50, 650, 0, 0, 0, 0, 0, 0, 0, '2024-11-29'),
 (5, 10, 100, 400, 50, 450, 0, 0, 0, 0, 0, 0, 0, '2024-11-26'),
-(6, 15, 150, 350, 50, 400, 11260, 0, 0, 0, 0, 0, 0, '2024-11-30');
+(6, 15, 150, 350, 50, 400, 11260, 0, 0, 0, 0, 0, 0, '2024-11-30'),
+(14, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, '2025-01-17');
 
 -- --------------------------------------------------------
 
@@ -138,7 +139,15 @@ INSERT INTO `tb_guarantor` (`g_guarantorID`, `g_loanApplicationID`, `g_memberNo`
 (23, 22, 2, './uploads/389e344fd978cc02a4f1f004614ea389.jpeg'),
 (24, 22, 3, './uploads/389e344fd978cc02a4f1f004614ea389.jpeg'),
 (25, 23, 2, './uploads/75b28e607c66474be14e887f2ed9a3f1.png'),
-(26, 23, 3, './uploads/b0268bad9ddb80f55d024450e07fc58e.jpg');
+(26, 23, 3, './uploads/b0268bad9ddb80f55d024450e07fc58e.jpg'),
+(27, 24, 10, './uploads/34bf812efa5a8b6cc05f08fea319a472.png'),
+(28, 24, 11, './uploads/34bf812efa5a8b6cc05f08fea319a472.png'),
+(29, 25, 10, './uploads/6794527a4ff9710760b341ac23aa6dc6.png'),
+(30, 25, 11, './uploads/108e908faa2378374a17ccabb77d21e3.png'),
+(31, 26, 10, './uploads/7ae39faaa688068df6977caa69db6fb3.png'),
+(32, 26, 11, './uploads/ea01cd37be78185cf503a922fd5517d4.png'),
+(33, 27, 10, './uploads/ac51740f20b1bc4371f01859bebf5185.png'),
+(34, 27, 11, './uploads/05a5c4f09bac0567f8b9b8125dc6ee1b.png');
 
 -- --------------------------------------------------------
 
@@ -188,7 +197,10 @@ INSERT INTO `tb_heir` (`h_heirID`, `h_memberApplicationID`, `h_name`, `h_relatio
 (27, 1009, 'Hassan Hakim', 5, '850301-08-0777'),
 (28, 1010, 'Halim Mohd', 2, '940201-11-0000'),
 (29, 1010, 'Izzah Mohd', 3, '890301-12-0111'),
-(30, 1010, 'Farah Mohd', 4, '880701-05-0444');
+(30, 1010, 'Farah Mohd', 4, '880701-05-0444'),
+(31, 1020, 'qjdoqiwjdoqw', 2, '014044-85-8955'),
+(32, 1020, 'efewwewf', 5, '010101-01-0101'),
+(33, 1020, 'fwefwegwe', 5, '010101-01-0101');
 
 -- --------------------------------------------------------
 
@@ -305,6 +317,7 @@ CREATE TABLE `tb_loan` (
   `l_monthlyGrossSalary` double NOT NULL,
   `l_monthlyNetSalary` double NOT NULL,
   `l_signature` varchar(50) NOT NULL,
+  `l_file` varchar(50) NOT NULL COMMENT '(Pengesahan Majikan)',
   `l_status` int(11) NOT NULL,
   `l_applicationDate` datetime DEFAULT NULL,
   `l_approvalDate` timestamp NULL DEFAULT NULL,
@@ -316,25 +329,29 @@ CREATE TABLE `tb_loan` (
 --
 
 INSERT INTO `tb_loan` (`l_loanApplicationID`, `l_memberNo`, `l_loanType`, `l_appliedLoan`, `l_loanPeriod`, `l_monthlyInstalment`, `l_loanPayable`, `l_bankAccountNo`, `l_bankName`, `l_monthlyGrossSalary`, `l_monthlyNetSalary`, `l_signature`, `l_file`, `l_status`, `l_applicationDate`, `l_approvalDate`, `l_adminID`) VALUES
-(1, 1, 1, 2000, 2, 90.33, 2168, 214748364, 3, 10000, 8000, 'tanmeiling', '', 3, '2024-12-01', '2024-12-27', 200),
-(2, 2, 2, 10000, 6, 173.89, 12520, 1234567892, 2, 12000, 9000, 'mohdhafiz', '', 3, '2024-12-02', '2024-12-27', 201),
-(3, 3, 3, 15000, 2, 677.5, 16260, 1234567893, 3, 8000, 6000, 'ravikumar', '', 1, '2024-12-03', NULL, NULL),
-(4, 4, 4, 10000, 4, 243.33, 11680, 1234567894, 4, 15000, 10000, 'anisakarim', '', 2, '2024-12-04', '2024-12-27', 200),
-(5, 1, 5, 2000, 6, 34.78, 2504, 214748364, 3, 9000, 7000, 'tanmeiling', '', 2, '2024-12-05', '2024-12-27', 201),
-(6, 6, 1, 10000, 3, 312.18, 11260, 12345678, 2, 2500, 2000, 'abc', '', 3, '2024-01-01', '2024-01-02', 200),
-(8, 1, 1, 10000, 2, 451.67, 10840, 12345678, 2, 2500, 2000, 'abc', '', 3, '2023-01-01', '2023-01-02', 200),
-(9, 1, 6, 213, 2, 9.76, 0, 1234, 20, 456, 456, './uploads/8d969f4e9e3586a1226cc389a6a29b1b.jpeg', '', 1, '2025-01-14', NULL, NULL),
-(10, 1, 6, 213, 2, 9.76, 0, 1234, 20, 456, 456555, './uploads/5f75d98b16da6313773ec91aa7791c2e.jpeg', '', 1, '2025-01-14', NULL, NULL),
-(14, 1, 6, 213, 2, 9.76, 0, 1234, 20, 456, 456555, './uploads/38781eba16fb36924b91f8acf55624c3.jpeg', '', 1, '2025-01-16', NULL, NULL),
-(15, 3, 6, 213, 2, 9.76, 0, 1234, 20, 456, 456555, './uploads/c21c8bb494addaa196a6b04b73c3d433.jpeg', '', 1, '2025-01-16', NULL, NULL),
-(16, 3, 4, 2888, 4, 72.2, 0, 12345678, 1, 12345, 12345, './uploads/8c23a911d8bfc370889dced3ab007ee1.jpg', '', 1, '2025-01-17', NULL, NULL),
-(17, 3, 4, 2888, 4, 72.2, 0, 12345678, 1, 12345, 12345, './uploads/c85707a41f5afa7fef4440266664f202.png', '', 1, '2025-01-17', NULL, NULL),
-(18, 3, 4, 28845, 3, 921.44, 0, 12345678, 16, 12345, 12345, './uploads/7afcfb4fe06432536eee8bb2d8d3dceb.jpeg', '', 1, '2025-01-17', NULL, NULL),
-(19, 3, 3, 5555, 5, 115.73, 6943.75, 12345678, 10, 12345, 12345, './uploads/43d780267eff044655f3bc893fb84d15.jpeg', '', 1, '2025-01-17', NULL, NULL),
-(20, 3, 3, 5555, 5, 115.73, 6943.75, 12345678, 10, 12345, 12345, './uploads/ef4549d90c827e51e3b6514ad5ab0d84.jpg', '', 1, '2025-01-17', NULL, NULL),
-(21, 1, 5, 555, 5, 11.56, 693.75, 12345678, 3, 12345, 12345, './uploads/aa8d8dc9b307dc01de2b947959845c89.jpeg', '', 1, '2025-01-17', NULL, NULL),
-(22, 1, 2, 555, 5, 11.56, 693.75, 12345678, 3, 12345, 12345, './uploads/f7846d9740bfb5e82a9690e0fb5847c7.jpeg', '', 1, '2025-01-17', NULL, NULL),
-(23, 1, 3, 555, 5, 11.56, 693.75, 12345678, 3, 12345, 12345, './uploads/26ad487315b802676dd3668b6e534155.png', 'employer_confirmation_23_1737116043.pdf', 1, '2025-01-17', NULL, NULL);
+(1, 1, 1, 2000, 2, 90.33, 2168, 214748364, 3, 10000, 8000, 'tanmeiling', '', 3, '2024-12-01 00:00:00', '2024-12-26 16:00:00', 200),
+(2, 2, 2, 10000, 6, 173.89, 12520, 1234567892, 2, 12000, 9000, 'mohdhafiz', '', 3, '2024-12-02 00:00:00', '2024-12-26 16:00:00', 201),
+(3, 3, 3, 15000, 2, 677.5, 16260, 1234567893, 3, 8000, 6000, 'ravikumar', '', 1, '2024-12-03 00:00:00', NULL, NULL),
+(4, 4, 4, 10000, 4, 243.33, 11680, 1234567894, 4, 15000, 10000, 'anisakarim', '', 2, '2024-12-04 00:00:00', '2024-12-26 16:00:00', 200),
+(5, 1, 5, 2000, 6, 34.78, 2504, 214748364, 3, 9000, 7000, 'tanmeiling', '', 2, '2024-12-05 00:00:00', '2024-12-26 16:00:00', 201),
+(6, 6, 1, 10000, 3, 312.18, 11260, 12345678, 2, 2500, 2000, 'abc', '', 3, '2024-01-01 00:00:00', '2024-01-01 16:00:00', 200),
+(8, 1, 1, 10000, 2, 451.67, 10840, 12345678, 2, 2500, 2000, 'abc', '', 3, '2023-01-01 00:00:00', '2023-01-01 16:00:00', 200),
+(9, 1, 6, 213, 2, 9.76, 0, 1234, 20, 456, 456, './uploads/8d969f4e9e3586a1226cc389a6a29b1b.jpeg', '', 1, '2025-01-14 00:00:00', NULL, NULL),
+(10, 1, 6, 213, 2, 9.76, 0, 1234, 20, 456, 456555, './uploads/5f75d98b16da6313773ec91aa7791c2e.jpeg', '', 1, '2025-01-14 00:00:00', NULL, NULL),
+(14, 1, 6, 213, 2, 9.76, 0, 1234, 20, 456, 456555, './uploads/38781eba16fb36924b91f8acf55624c3.jpeg', '', 1, '2025-01-16 00:00:00', NULL, NULL),
+(15, 3, 6, 213, 2, 9.76, 0, 1234, 20, 456, 456555, './uploads/c21c8bb494addaa196a6b04b73c3d433.jpeg', '', 1, '2025-01-16 00:00:00', NULL, NULL),
+(16, 3, 4, 2888, 4, 72.2, 0, 12345678, 1, 12345, 12345, './uploads/8c23a911d8bfc370889dced3ab007ee1.jpg', '', 1, '2025-01-17 00:00:00', NULL, NULL),
+(17, 3, 4, 2888, 4, 72.2, 0, 12345678, 1, 12345, 12345, './uploads/c85707a41f5afa7fef4440266664f202.png', '', 1, '2025-01-17 00:00:00', NULL, NULL),
+(18, 3, 4, 28845, 3, 921.44, 0, 12345678, 16, 12345, 12345, './uploads/7afcfb4fe06432536eee8bb2d8d3dceb.jpeg', '', 1, '2025-01-17 00:00:00', NULL, NULL),
+(19, 3, 3, 5555, 5, 115.73, 6943.75, 12345678, 10, 12345, 12345, './uploads/43d780267eff044655f3bc893fb84d15.jpeg', '', 1, '2025-01-17 00:00:00', NULL, NULL),
+(20, 3, 3, 5555, 5, 115.73, 6943.75, 12345678, 10, 12345, 12345, './uploads/ef4549d90c827e51e3b6514ad5ab0d84.jpg', '', 1, '2025-01-17 00:00:00', NULL, NULL),
+(21, 1, 5, 555, 5, 11.56, 693.75, 12345678, 3, 12345, 12345, './uploads/aa8d8dc9b307dc01de2b947959845c89.jpeg', '', 1, '2025-01-17 00:00:00', NULL, NULL),
+(22, 1, 2, 555, 5, 11.56, 693.75, 12345678, 3, 12345, 12345, './uploads/f7846d9740bfb5e82a9690e0fb5847c7.jpeg', '', 1, '2025-01-17 00:00:00', NULL, NULL),
+(23, 1, 3, 555, 5, 11.56, 693.75, 12345678, 3, 12345, 12345, './uploads/26ad487315b802676dd3668b6e534155.png', 'employer_confirmation_23_1737116043.pdf', 1, '2025-01-17 00:00:00', NULL, NULL),
+(24, 1, 5, 6122, 5, 127.54, 7652.5, 12345678, 13, 4556, 456, './uploads/ddaffdfeceffef31dae625af2d9700ea.png', 'pengesahan_majikan_24_1737134244.pdf', 3, '2025-01-18 01:16:12', '2025-01-17 10:18:10', 0),
+(25, 2, 5, 6122, 5, 127.54, 7652.5, 12345678, 13, 4556, 456, './uploads/54a74522c911b5a2755c10706fca3960.png', 'pengesahan_majikan_25_1737134407.pdf', 3, '2025-01-18 01:19:21', '2025-01-17 10:21:03', 0),
+(26, 3, 5, 6122, 5, 127.54, 7652.5, 12345678, 13, 4556, 456, './uploads/3aa255e0b1e35675342ddc8147022bd5.png', 'pengesahan_majikan_26_1737134761.pdf', 3, '2025-01-18 01:25:27', '2025-01-17 10:26:46', 0),
+(27, 1, 5, 3566, 2, 163.44, 3922.6, 12345678, 13, 4556, 456, './uploads/1d87864819ad14e7046c239e68754273.png', 'pengesahan_majikan_27_1737134933.pdf', 3, '2025-01-18 01:28:25', '2025-01-17 10:29:27', 0);
 
 -- --------------------------------------------------------
 
@@ -403,31 +420,32 @@ CREATE TABLE `tb_member` (
   `m_adminID` int(11) DEFAULT NULL COMMENT 'Admin who approve the application'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
-
 --
 -- Dumping data for table `tb_member`
 --
 
 INSERT INTO `tb_member` (`m_memberApplicationID`, `m_name`, `m_ic`, `m_email`, `m_gender`, `m_religion`, `m_race`, `m_maritalStatus`, `m_homeAddress`, `m_homePostcode`, `m_homeCity`, `m_homeState`, `m_memberNo`, `m_pfNo`, `m_position`, `m_positionGrade`, `m_officeAddress`, `m_officePostcode`, `m_officeCity`, `m_officeState`, `m_phoneNumber`, `m_homeNumber`, `m_monthlySalary`, `m_feeMasuk`, `m_modalSyer`, `m_modalYuran`, `m_deposit`, `m_alAbrar`, `m_simpananTetap`, `m_feeLain`, `m_status`, `m_applicationDate`, `m_approvalDate`, `m_adminID`) VALUES
-(1001, 'Ali Ahmad', '900101-02-0111', 'aliahmad@gmail.com', 1, 1, 1, 1, 'No.1, Kampung Peringat', 15000, 'Kota Bharu', 3, NULL, 1001, 'Pengurus', 'G41', 'Jalan Dato Lundang', 15000, 'Kota Bharu', 3, '0123456789', NULL, 3500, 0, 0, 0, 0, 0, 0, 0, 2, '2025-11-01 00:00:00', '2025-11-11 16:00:00', 200),
-(1002, 'Nur Aisyah', '910201-03-0222', 'nuraisyah@gmail.com', 2, 1, 1, 2, 'No.12, Kampung Tunjong', 15010, 'Kota Bharu', 3, NULL, 1002, 'Penolong Pegurus', 'G29', 'Jalan Dato Lundang', 15010, 'Kota Bharu', 3, '0129876543', NULL, 3200, 0, 0, 0, 0, 0, 0, 0, 2, '2025-11-02 00:00:00', '2025-11-14 16:00:00', 201),
-(1003, 'Tan Mei Ling', '050111-04-1234', 'tanmeiling@gmail.com', 2, 1, 1, 1, 'No.15, Taman Mount Austi', 8110, 'Johor Bahru', 2, 1, 1, 'Keran', 'N1', 'Jalan Dato Lundan', 150, 'Kota Bhar', 4, '01122334456', '07522334', 250, 0, 0, 0, 0, 0, 0, 0, 3, '2025-11-03 00:00:00', '2025-11-14 16:00:00', 200),
-(1004, 'Mohd Hafiz', '880701-05-0444', 'mohdhafiz@gmail.com', 1, 1, 1, 2, 'No.20, Kampung Kubang Kerian', 15020, 'Kota Bharu', 3, 2, 1004, 'Ketua Pegawai', 'G52', 'Jalan Dato Lundang ', 15020, 'Kota Bharu', 3, '0142233445', '073334455', 6000, 0, 0, 0, 0, 0, 0, 0, 3, '2025-11-04 00:00:00', '2025-11-14 16:00:00', 201),
-(1005, 'Ravi Kumar', '870401-06-0555', 'ravikumar@gmail.com', 1, 3, 3, 2, 'No.25, Taman Desa Aman', 54000, 'Kuala Lumpur', 12, 3, 1005, 'Pegawai Teknikal', 'J41', 'Jalan Dato Lundang', 15000, 'Kota Bharu', 12, '0163344556', '0182221234', 4500, 0, 0, 0, 0, 0, 0, 0, 3, '2025-11-05 00:00:00', '2025-11-14 16:00:00', 200),
-(1006, 'Anisa Karim', '900501-07-0666', 'anisakarim@gmail.com', 2, 1, 1, 1, 'No.30, Kampung Kota, Kota Bharu, Kelantan', 15030, 'Kota Bharu', 3, 4, 1006, 'Setiausaha', 'N29', 'Jalan Dato Lundang', 15030, 'Kota Bharu', 3, '0174455667', '-', 3200, 0, 0, 0, 0, 0, 0, 0, 3, '2025-11-06 00:00:00', '2025-11-14 16:00:00', 201),
-(1007, 'Lim Wei Sheng', '850301-08-0777', 'limweisheng@gmail.com', 1, 4, 2, 1, 'No.35, Taman Pelangi, Johor Bahru', 81200, 'Johor Bahru', 1, 5, 1007, 'Penganalisis', 'G43', 'Jalan Dato Lundang', 15000, 'Kota Bharu', 3, '0185566778', '075223355', 5000, 0, 0, 0, 0, 0, 0, 0, 3, '2025-11-07 00:00:00', '2025-11-14 16:00:00', 200),
-(1008, 'Aminah Saad', '920201-09-0888', 'aminahsaad@gmail.com', 2, 1, 1, 1, 'No.40, Kampung Sireh, Kota Bharu, Kelantan', 0, 'Kota Bharu', 3, 6, 1008, 'Pegawai Kew', 'W41', 'Jalan Dato Lundang', 15040, 'Kota Bharu', 3, '0196677889', '073456789', 4700, 0, 0, 0, 0, 0, 0, 0, 3, '2024-11-08 00:00:00', '2024-11-14 16:00:00', 201),
-(1009, 'Farid Hakim', '930101-10-0999', 'faridhakim@gmail.com', 1, 1, 1, 1, 'No.50, Taman Bukit Mewah, Kajang, Selangor', 43000, 'Kajang', 10, NULL, 1009, 'Pegawai Komputer', 'S41', 'Jalan Dato Lundang ', 15000, 'Kota Bharu', 3, '0197788990', NULL, 3500, 0, 0, 0, 0, 0, 0, 0, 2, '2024-11-09 00:00:00', '2025-01-16 07:18:46', 0),
-(1010, 'Zarina Mohd', '940201-11-0000', 'zarinamohd@gmail.com', 2, 1, 1, 2, 'No.60, Kampung Pasir Tumboh, Kota Bharu, Kelantan', 15060, 'Kota Bharu', 3, 8, 1010, 'Penyelaras ', 'G41', 'Jalan Dato Lundang ', 15060, 'Kota Bharu', 3, '0198899001', '073456123', 3800, 0, 0, 0, 0, 0, 0, 0, 3, '2024-11-10 00:00:00', '2025-01-16 09:30:48', 0),
-(1011, 'Shalini Devi', '890301-12-0111', 'shalinidevi@gmail.com', 2, 3, 3, 1, 'No.70, Taman Universiti, Skudai, Johor', 81300, 'Skudai', 1, 9, 1011, 'Pegawai ICT', 'F41', 'Jalan Dato Lundang ', 15000, 'Kota Bharu', 3, '0118899002', NULL, 4600, 0, 0, 0, 0, 0, 0, 0, 3, '2024-11-11 00:00:00', '2025-01-16 09:44:50', 0),
-(1012, 'Roslan Mansor', '860201-13-0222', 'roslanmansor@gmail.com', 1, 1, 1, 1, 'No.80, Kampung Panji, Kota Bharu, Kelantan', 15080, 'Kota Bharu', 3, 12, 1012, 'Pegawai Audit', 'W43', 'Jalan Dato Lundang ', 15080, 'Kota Bharu', 3, '0137788002', '073345678', 5500, 0, 0, 0, 0, 0, 0, 0, 3, '2024-11-12 00:00:00', '2025-01-17 08:07:34', 0),
-(1013, 'Ali yang bernama Ali', '040622-01-0101', 'hello@graduate.utm.my', 1, 2, 2, 1, '10, Jalan 1', 78456, 'Hello', 11, 7, 1013, 'Manager', 'N17', '1, Jalan Ali', 78945, 'hr', 11, '0145669966', '077760237', 2500, 40, 300, 56, 6656, 5965, 595, 595, 3, '2025-01-16 15:26:23', '2025-01-16 09:30:00', 0),
-(1014, 'Teh Ru Qian', '040404-04-0404', 'tehruqian@graduate.utm.my', 1, 4, 3, 3, '10, Jalan Ali', 78945, 'JB', 1, 10, 1014, 'Pegawai', 'M14', '11', 78456, 'Home', 2, '0123456789', NULL, 10000, 0, 0, 0, 0, 0, 0, 0, 3, '2025-01-17 22:57:47', '2025-01-17 07:57:47', 0),
-(1015, 'Goe Jie Ying', '040404-04-0404', 'jygoe63@gmail.com', 1, 5, 4, 3, '10, Jalan Ali', 78945, 'JB', 1, NULL, 1015, 'Pegawai', 'M14', '11', 78456, 'Home', 4, '0123456789', NULL, 10000, 35, 35, 0, 0, 0, 0, 0, 1, '2025-01-16 17:32:34', NULL, 0),
+(1001, 'Ali Ahmad', '900101-02-0111', 'aliahmad@gmail.com', 1, 1, 1, 1, 'No.1, Kampung Peringat', 15000, 'Kota Bharu', 3, NULL, 1001, 'Pengurus', 'G41', 'Jalan Dato Lundang', 15000, 'Kota Bharu', 3, '0123456789', NULL, 3500, 0, 0, 0, 0, 0, 0, 0, 2, '2025-11-01 00:00:00', '2025-11-11 08:00:00', 200),
+(1002, 'Nur Aisyah', '910201-03-0222', 'nuraisyah@gmail.com', 2, 1, 1, 2, 'No.12, Kampung Tunjong', 15010, 'Kota Bharu', 3, NULL, 1002, 'Penolong Pegurus', 'G29', 'Jalan Dato Lundang', 15010, 'Kota Bharu', 3, '0129876543', NULL, 3200, 0, 0, 0, 0, 0, 0, 0, 2, '2025-11-02 00:00:00', '2025-11-14 08:00:00', 201),
+(1003, 'Tan Mei Ling', '050111-04-1234', 'tanmeiling@gmail.com', 2, 1, 1, 1, 'No.15, Taman Mount Austi', 8110, 'Johor Bahru', 2, 1, 1, 'Keran', 'N1', 'Jalan Dato Lundan', 150, 'Kota Bhar', 4, '01122334456', '07522334', 250, 0, 0, 0, 0, 0, 0, 0, 3, '2025-11-03 00:00:00', '2025-11-14 08:00:00', 200),
+(1004, 'Mohd Hafiz', '880701-05-0444', 'mohdhafiz@gmail.com', 1, 1, 1, 2, 'No.20, Kampung Kubang Kerian', 15020, 'Kota Bharu', 3, 2, 1004, 'Ketua Pegawai', 'G52', 'Jalan Dato Lundang ', 15020, 'Kota Bharu', 3, '0142233445', '073334455', 6000, 0, 0, 0, 0, 0, 0, 0, 3, '2025-11-04 00:00:00', '2025-11-14 08:00:00', 201),
+(1005, 'Ravi Kumar', '870401-06-0555', 'ravikumar@gmail.com', 1, 3, 3, 2, 'No.25, Taman Desa Aman', 54000, 'Kuala Lumpur', 12, 3, 1005, 'Pegawai Teknikal', 'J41', 'Jalan Dato Lundang', 15000, 'Kota Bharu', 12, '0163344556', '0182221234', 4500, 0, 0, 0, 0, 0, 0, 0, 3, '2025-11-05 00:00:00', '2025-11-14 08:00:00', 200),
+(1006, 'Anisa Karim', '900501-07-0666', 'anisakarim@gmail.com', 2, 1, 1, 1, 'No.30, Kampung Kota, Kota Bharu, Kelantan', 15030, 'Kota Bharu', 3, 4, 1006, 'Setiausaha', 'N29', 'Jalan Dato Lundang', 15030, 'Kota Bharu', 3, '0174455667', '-', 3200, 0, 0, 0, 0, 0, 0, 0, 3, '2025-11-06 00:00:00', '2025-11-14 08:00:00', 201),
+(1007, 'Lim Wei Sheng', '850301-08-0777', 'limweisheng@gmail.com', 1, 4, 2, 1, 'No.35, Taman Pelangi, Johor Bahru', 81200, 'Johor Bahru', 1, 5, 1007, 'Penganalisis', 'G43', 'Jalan Dato Lundang', 15000, 'Kota Bharu', 3, '0185566778', '075223355', 5000, 0, 0, 0, 0, 0, 0, 0, 3, '2025-11-07 00:00:00', '2025-11-14 08:00:00', 200),
+(1008, 'Aminah Saad', '920201-09-0888', 'aminahsaad@gmail.com', 2, 1, 1, 1, 'No.40, Kampung Sireh, Kota Bharu, Kelantan', 0, 'Kota Bharu', 3, 6, 1008, 'Pegawai Kew', 'W41', 'Jalan Dato Lundang', 15040, 'Kota Bharu', 3, '0196677889', '073456789', 4700, 0, 0, 0, 0, 0, 0, 0, 3, '2024-11-08 00:00:00', '2024-11-14 08:00:00', 201),
+(1009, 'Farid Hakim', '930101-10-0999', 'faridhakim@gmail.com', 1, 1, 1, 1, 'No.50, Taman Bukit Mewah, Kajang, Selangor', 43000, 'Kajang', 10, NULL, 1009, 'Pegawai Komputer', 'S41', 'Jalan Dato Lundang ', 15000, 'Kota Bharu', 3, '0197788990', NULL, 3500, 0, 0, 0, 0, 0, 0, 0, 2, '2024-11-09 00:00:00', '2025-01-15 23:18:46', 0),
+(1010, 'Zarina Mohd', '940201-11-0000', 'zarinamohd@gmail.com', 2, 1, 1, 2, 'No.60, Kampung Pasir Tumboh, Kota Bharu, Kelantan', 15060, 'Kota Bharu', 3, 8, 1010, 'Penyelaras ', 'G41', 'Jalan Dato Lundang ', 15060, 'Kota Bharu', 3, '0198899001', '073456123', 3800, 0, 0, 0, 0, 0, 0, 0, 3, '2024-11-10 00:00:00', '2025-01-16 01:30:48', 0),
+(1011, 'Shalini Devi', '890301-12-0111', 'shalinidevi@gmail.com', 2, 3, 3, 1, 'No.70, Taman Universiti, Skudai, Johor', 81300, 'Skudai', 1, 9, 1011, 'Pegawai ICT', 'F41', 'Jalan Dato Lundang ', 15000, 'Kota Bharu', 3, '0118899002', NULL, 4600, 0, 0, 0, 0, 0, 0, 0, 3, '2024-11-11 00:00:00', '2025-01-16 01:44:50', 0),
+(1012, 'Roslan Mansor', '860201-13-0222', 'roslanmansor@gmail.com', 1, 1, 1, 1, 'No.80, Kampung Panji, Kota Bharu, Kelantan', 15080, 'Kota Bharu', 3, 12, 1012, 'Pegawai Audit', 'W43', 'Jalan Dato Lundang ', 15080, 'Kota Bharu', 3, '0137788002', '073345678', 5500, 0, 0, 0, 0, 0, 0, 0, 3, '2024-11-12 00:00:00', '2025-01-17 00:07:34', 0),
+(1013, 'Ali yang bernama Ali', '040622-01-0101', 'hello@graduate.utm.my', 1, 2, 2, 1, '10, Jalan 1', 78456, 'Hello', 11, 7, 1013, 'Manager', 'N17', '1, Jalan Ali', 78945, 'hr', 11, '0145669966', '077760237', 2500, 40, 300, 56, 6656, 5965, 595, 595, 3, '2025-01-16 15:26:23', '2025-01-16 01:30:00', 0),
+(1014, 'Teh Ru Qian', '040404-04-0404', 'tehruqian@graduate.utm.my', 1, 4, 3, 3, '10, Jalan Ali', 78945, 'JB', 1, 10, 1014, 'Pegawai', 'M14', '11', 78456, 'Home', 2, '0123456789', NULL, 10000, 0, 0, 0, 0, 0, 0, 0, 3, '2025-01-17 22:57:47', '2025-01-16 23:57:47', 0),
+(1015, 'Goe Jie Ying', '040404-04-0404', 'jygoe63@gmail.com', 1, 5, 4, 3, '10, Jalan Ali', 78945, 'JB', 1, NULL, 1015, 'Pegawai', 'M14', '11', 78456, 'Home', 4, '0123456789', NULL, 10000, 35, 35, 0, 0, 0, 0, 0, 2, '2025-01-16 17:32:34', '2025-01-17 10:08:33', 0),
 (1016, 'Chua Jia Lin', '010101-01-1010', 'chuajialin@graduate.utm.my', 2, 1, 2, 2, '10, Jalan Ali', 78945, 'JB', 3, NULL, 1016, 'Pegawai', 'M14', '11', 78456, 'Home', 14, '0123456789', NULL, 10000, 35, 0, 0, 0, 0, 0, 0, 1, '2025-01-17 21:47:37', NULL, NULL),
 (1017, 'Tan Yi Ya', '040404-01-0404', 'tanyiya@graduate.utm.my', 2, 3, 3, 1, '10, Jalan Ali', 78945, 'JB', 1, NULL, 1017, 'Pegawai', 'M14', '11', 78456, 'Home', 14, '0123456789', NULL, 10000, 35, 0, 0, 0, 0, 0, 0, 1, '2025-01-17 21:48:47', NULL, 0),
-(1018, 'Lam Yoke Yu', '010101-01-1010', 'lam.yu@graduate.utm.my', 2, 1, 2, 2, '10, Jalan Ali', 78945, 'JB', 1, 11, 1018, 'Pegawai', 'M14', '11', 78456, 'Home', 3, '0123456789', NULL, 10000, 35, 0, 0, 0, 0, 0, 0, 3, '2025-01-17 23:02:40', '2025-01-17 08:02:40', 0),
-(1019, 'Lim Chong Chong', '045689-01-5698', 'bello@graduate.utm.my', 1, 2, 2, 3, '10, Jalan Ali', 78456, 'JB', 14, 13, 1019, 'Manager', 'N17', '10, Jalan Ali', 78945, 'hr', 11, '0145669966', '075896478', 15000, 35, 300, 35, 50, 35, 50, 35, 3, '2025-01-17 16:37:05', '2025-01-17 09:02:10', 0);
+(1018, 'Lam Yoke Yu', '010101-01-1010', 'lam.yu@graduate.utm.my', 2, 1, 2, 2, '10, Jalan Ali', 78945, 'JB', 1, 11, 1018, 'Pegawai', 'M14', '11', 78456, 'Home', 3, '0123456789', NULL, 10000, 35, 0, 0, 0, 0, 0, 0, 3, '2025-01-17 23:02:40', '2025-01-17 00:02:40', 0),
+(1019, 'Lim Chong Chong', '045689-01-5698', 'bello@graduate.utm.my', 1, 2, 2, 3, '10, Jalan Ali', 78456, 'JB', 14, 13, 1019, 'Manager', 'N17', '10, Jalan Ali', 78945, 'hr', 11, '0145669966', '075896478', 15000, 35, 300, 35, 50, 35, 50, 35, 3, '2025-01-17 16:37:05', '2025-01-17 01:02:10', 0),
+(1020, 'Adam nama Adam', '014589-78-4585', 'mello@gmail.com', 2, 2, 1, 4, '10, Jalan Ali', 78456, 'JB', 13, 14, 1020, 'Manager', 'N17', '10, Jalan Ali', 78945, 'hr', 13, '0145669966', '078459645', 30000, 35, 300, 50, 50, 50, 50, 50, 3, '2025-01-17 18:05:31', '2025-01-17 10:06:26', 0),
+(1021, 'hi', '040404-04-0404', 'gembira@gmail.com', 1, 4, 4, 2, '10, Jalan Ali', 78945, 'JB', 1, NULL, 1021, 'Pegawai', 'M14', '11', 78456, 'Home', 6, '0123456789', NULL, 10000, 35, 300, 50, 50, 50, 50, 50, 1, NULL, NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -492,8 +510,8 @@ CREATE TABLE `tb_policies` (
 --
 
 INSERT INTO `tb_policies` (`p_policyID`, `p_memberRegFee`, `p_minShareCapital`, `p_minFeeCapital`, `p_minFixedSaving`, `p_minMemberFund`, `p_minMemberSaving`, `p_minOtherFees`, `p_minShareCapitalForLoan`, `p_profitRate`, `p_maxInstallmentPeriod`, `p_maxFinancingAmt`, `p_salaryDeductionForSaving`, `p_salaryDeductionForMemberFund`, `p_dateUpdated`, `p_adminID`) VALUES
-(1, 35, 300, 0, 0, 5, 50, 0, 300, 5, 6, 40000, 50, 5, '2023-05-11 16:00:00', 200),
-(2, 35, 300, 0, 50, 5, 50, 0, 300, 5, 6, 40000, 50, 5, '2024-12-03 16:00:00', 201);
+(1, 35, 300, 0, 0, 5, 50, 0, 300, 5, 6, 40000, 50, 5, '2023-05-11 08:00:00', 200),
+(2, 35, 300, 0, 50, 5, 50, 0, 300, 5, 6, 40000, 50, 5, '2024-12-03 08:00:00', 201);
 
 -- --------------------------------------------------------
 
@@ -589,33 +607,33 @@ CREATE TABLE `tb_transaction` (
 --
 
 INSERT INTO `tb_transaction` (`t_transactionID`, `t_transactionType`, `t_transactionAmt`, `t_month`, `t_year`, `t_desc`, `t_transactionDate`, `t_memberNo`, `t_adminID`) VALUES
-(1, 2, 100, 1, 2024, '', '2024-01-14 03:39:35', 1, 200),
-(2, 3, 200, 1, 2024, '', '2024-01-14 03:39:48', 2, 201),
-(3, 4, 350, 1, 2024, '', '2024-01-14 03:38:19', 3, 200),
-(4, 5, 50, 1, 2024, '', '2024-01-14 03:47:40', 4, 201),
-(5, 6, 200, 11, 2024, '', '2024-11-06 16:00:00', 5, 200),
-(6, 7, 100, 11, 2024, '', '2024-11-27 16:00:00', 6, 201),
-(7, 8, 250, 11, 2024, '', '2024-11-24 16:00:00', 1, 200),
-(8, 9, 100, 12, 2024, '', '2024-12-02 16:00:00', 2, 201),
-(9, 10, 150, 12, 2024, '', '2024-11-30 16:00:00', 3, 200),
-(10, 1, 50, 12, 2024, '', '2024-12-01 16:00:00', 4, 201),
-(11, 1, 50, 1, 2025, '', '2025-01-03 16:00:00', 3, 201),
-(12, 2, 50, 1, 2025, '', '2025-01-04 16:00:00', 3, 201),
-(13, 3, 50, 1, 2025, '', '2025-01-05 16:00:00', 3, 201),
-(14, 4, 50, 1, 2025, '', '2025-01-05 16:00:00', 3, 201),
-(15, 5, 50, 1, 2025, '', '2025-01-06 16:00:00', 3, 201),
-(16, 6, 50, 1, 2025, '', '2025-01-06 16:00:00', 3, 201),
-(17, 7, 50, 1, 2025, '', '2025-01-06 16:00:00', 3, 201),
-(18, 8, 50, 1, 2025, '', '2025-01-07 16:00:00', 3, 201),
-(19, 9, 50, 1, 2025, '', '2025-01-07 16:00:00', 3, 201),
-(20, 10, 50, 1, 2025, '', '2025-01-08 16:00:00', 3, 201),
-(21, 11, 50, 1, 2025, '', '2025-01-08 16:00:00', 3, 201),
-(22, 12, 50, 1, 2025, '', '2025-01-08 16:00:00', 3, 201),
-(23, 1, 50, 1, 2025, '', '2025-01-09 16:00:00', 3, 201),
-(24, 2, 50, 1, 2025, '', '2025-01-09 16:00:00', 3, 201),
-(25, 3, 50, 1, 2025, '', '2025-01-09 16:00:00', 3, 201),
-(26, 4, 50, 1, 2025, '', '2025-01-05 16:00:00', 3, 201),
-(27, 5, 50, 1, 2025, '', '2025-01-04 16:00:00', 3, 201);
+(1, 2, 100, 1, 2024, '', '2024-01-13 19:39:35', 1, 200),
+(2, 3, 200, 1, 2024, '', '2024-01-13 19:39:48', 2, 201),
+(3, 4, 350, 1, 2024, '', '2024-01-13 19:38:19', 3, 200),
+(4, 5, 50, 1, 2024, '', '2024-01-13 19:47:40', 4, 201),
+(5, 6, 200, 11, 2024, '', '2024-11-06 08:00:00', 5, 200),
+(6, 7, 100, 11, 2024, '', '2024-11-27 08:00:00', 6, 201),
+(7, 8, 250, 11, 2024, '', '2024-11-24 08:00:00', 1, 200),
+(8, 9, 100, 12, 2024, '', '2024-12-02 08:00:00', 2, 201),
+(9, 10, 150, 12, 2024, '', '2024-11-30 08:00:00', 3, 200),
+(10, 1, 50, 12, 2024, '', '2024-12-01 08:00:00', 4, 201),
+(11, 1, 50, 1, 2025, '', '2025-01-03 08:00:00', 3, 201),
+(12, 2, 50, 1, 2025, '', '2025-01-04 08:00:00', 3, 201),
+(13, 3, 50, 1, 2025, '', '2025-01-05 08:00:00', 3, 201),
+(14, 4, 50, 1, 2025, '', '2025-01-05 08:00:00', 3, 201),
+(15, 5, 50, 1, 2025, '', '2025-01-06 08:00:00', 3, 201),
+(16, 6, 50, 1, 2025, '', '2025-01-06 08:00:00', 3, 201),
+(17, 7, 50, 1, 2025, '', '2025-01-06 08:00:00', 3, 201),
+(18, 8, 50, 1, 2025, '', '2025-01-07 08:00:00', 3, 201),
+(19, 9, 50, 1, 2025, '', '2025-01-07 08:00:00', 3, 201),
+(20, 10, 50, 1, 2025, '', '2025-01-08 08:00:00', 3, 201),
+(21, 11, 50, 1, 2025, '', '2025-01-08 08:00:00', 3, 201),
+(22, 12, 50, 1, 2025, '', '2025-01-08 08:00:00', 3, 201),
+(23, 1, 50, 1, 2025, '', '2025-01-09 08:00:00', 3, 201),
+(24, 2, 50, 1, 2025, '', '2025-01-09 08:00:00', 3, 201),
+(25, 3, 50, 1, 2025, '', '2025-01-09 08:00:00', 3, 201),
+(26, 4, 50, 1, 2025, '', '2025-01-05 08:00:00', 3, 201),
+(27, 5, 50, 1, 2025, '', '2025-01-04 08:00:00', 3, 201);
 
 -- --------------------------------------------------------
 
@@ -751,6 +769,7 @@ INSERT INTO `tb_user` (`u_id`, `u_pwd`, `u_type`) VALUES
 (3, '123456', 2),
 (4, '123456', 2),
 (5, '123456', 2),
+(14, '$2y$10$UtoMQuDSc', 2),
 (200, '123456', 1),
 (201, '123456', 1);
 
@@ -966,25 +985,25 @@ ALTER TABLE `tb_banner`
 -- AUTO_INCREMENT for table `tb_guarantor`
 --
 ALTER TABLE `tb_guarantor`
-  MODIFY `g_guarantorID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=27;
+  MODIFY `g_guarantorID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=35;
 
 --
 -- AUTO_INCREMENT for table `tb_heir`
 --
 ALTER TABLE `tb_heir`
-  MODIFY `h_heirID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=31;
+  MODIFY `h_heirID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=34;
 
 --
 -- AUTO_INCREMENT for table `tb_loan`
 --
 ALTER TABLE `tb_loan`
-  MODIFY `l_loanApplicationID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=24;
+  MODIFY `l_loanApplicationID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=28;
 
 --
 -- AUTO_INCREMENT for table `tb_member`
 --
 ALTER TABLE `tb_member`
-  MODIFY `m_memberApplicationID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=1013;
+  MODIFY `m_memberApplicationID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=1022;
 
 --
 -- AUTO_INCREMENT for table `tb_policies`
