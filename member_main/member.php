@@ -48,6 +48,9 @@ while($row_pinjaman=mysqli_fetch_assoc($result_pinjaman)){
   $loanTotals[$row_pinjaman['loanName']]=$row_pinjaman['totalLoan'];
 }
 
+$sql = "SELECT * FROM tb_banner;";
+$banners = mysqli_query($con, $sql);
+
 ?>
 
 <style>
@@ -62,7 +65,28 @@ while($row_pinjaman=mysqli_fetch_assoc($result_pinjaman)){
   }
 </style>
 
-<img src="../img/advertisement.jpg" alt="Advertisement" class="hero-img">
+<div class="card-body">
+        <div id="bannerCarousel" class="carousel slide" data-bs-ride="carousel">
+            <div class="carousel-inner">
+                <?php while ($row = mysqli_fetch_assoc($banners)) { ?>
+                    <?php if ($row['b_status'] == 1) { ?>
+                    <div class="carousel-item active">
+                    <img src="../img/iklan/<?php echo $row['b_banner']; ?>" class="d-block w-100" alt="Banner Image" style="height: 450px; width: 100%; object-fit: cover;">
+                    </div>
+                <?php }} ?>
+            </div>
+            <button class="carousel-control-prev" type="button" data-bs-target="#bannerCarousel" data-bs-slide="prev">
+                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                <span class="visually-hidden">Previous</span>
+            </button>
+            <button class="carousel-control-next" type="button" data-bs-target="#bannerCarousel" data-bs-slide="next">
+                <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                <span class="visually-hidden">Next</span>
+            </button>
+        </div>
+      </div>
+    </div>
+    
     <div class="card mb-3 col-10 my-5 mx-auto">
       <div class="card-header text-white bg-primary d-flex justify-content-between align-items-center">
         Maklumat Saham Ahli
@@ -74,24 +98,24 @@ while($row_pinjaman=mysqli_fetch_assoc($result_pinjaman)){
         <table class="table table-hover">
           <tbody>
             <tr>
-              <td scope="row">Modah Syer :</td>
-              <td>RM <?= $row_saham['f_shareCapital'] ?? '0'; ?></td>
+              <td scope="row">Modah Syer</td>
+              <td>RM <?= number_format($row_saham['f_shareCapital'] ?? 0, 2); ?></td>
             </tr>
             <tr>
-              <td scope="row">Modal Yuran :</td>
-              <td>RM <?= $row_saham['f_feeCapital'] ?? '0'; ?></td>
+              <td scope="row">Modal Yuran</td>
+              <td>RM <?= number_format($row_saham['f_feeCapital'] ?? 0, 2); ?></td>
             </tr>
             <tr>
-              <td scope="row">Simpanan Tetap :</td>
-              <td>RM <?= $row_saham['f_fixedSaving'] ?? '0'; ?></td>
+              <td scope="row">Simpanan Tetap</td>
+              <td>RM <?= number_format($row_saham['f_fixedSaving'] ?? 0, 2); ?></td>
             </tr>
             <tr>
-              <td scope="row">Tabung Anggota :</td>
-              <td>RM <?= $row_saham['f_memberFund'] ?? '0'; ?></td>
+              <td scope="row">Tabung Anggota</td>
+              <td>RM <?= number_format($row_saham['f_memberFund'] ?? 0, 2); ?></td>
             </tr>
             <tr>
-              <td scope="row">Simpanan Anggota :</td>
-              <td>RM <?= $row_saham['f_memberSaving'] ?? '0'; ?></td>
+              <td scope="row">Simpanan Anggota</td>
+              <td>RM <?= number_format($row_saham['f_memberSaving'] ?? 0, 2); ?></td>
             </tr>
           </tbody>
         </table>
@@ -111,8 +135,8 @@ while($row_pinjaman=mysqli_fetch_assoc($result_pinjaman)){
           <?php if(!empty($loanTotals)):?>
           <?php foreach($loanTotals AS $loanName=>$totalLoan):?>
           <tr>
-            <td scope="row"><?= $loanName; ?> :</td>
-            <td>RM <?= $totalLoan ?? 0; ?></td>
+            <td scope="row"><?= $loanName; ?></td>
+            <td>RM <?= number_format($totalLoan ?? 0, 2); ?></td>
           </tr>
           <?php endforeach; ?>
           <?php endif; ?>
