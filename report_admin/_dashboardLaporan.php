@@ -184,9 +184,7 @@ $policies_result = mysqli_query($con, $policies_sql);
                     <?php if ($bulan || $tahun): ?>
                       <div style="float: right;">
                         <!-- Simpan Log --> 
-                        <button type="button" 
-                                class="btn btn-success" 
-                                onclick="saveRetrievalLog(<?= $bulan ?? 'null' ?>, <?= $tahun ?? 'null' ?>, <?= $adminID ?? 'null' ?>)">
+                        <button type="button" class="btn btn-success" onclick="saveRetrievalLog(<?= $bulan ?? 'null' ?>, <?= $tahun ?? 'null' ?>, <?= $adminID ?? 'null' ?>)">
                             <i class="fas fa-save"></i> Simpan Log
                         </button>
 
@@ -279,67 +277,36 @@ $policies_result = mysqli_query($con, $policies_sql);
 </form>
 
 <script>
+function saveRetrievalLog(month, year, adminID) {
+    // 创建表单数据
+    var formData = new FormData();
+    formData.append('month', month);
+    formData.append('year', year);
+
+    // 发送POST请求
+    fetch('save_report_log.php', {
+        method: 'POST',
+        body: formData
+    })
+    .then(response => {
+        if (response.ok) {
+            alert('Log berjaya disimpan');
+            window.location.reload();
+        } else {
+            alert('Error menyimpan log');
+        }
+    })
+    .catch(error => {
+        console.error('Error:', error);
+        alert('Error menyimpan log');
+    });
+}
+
 document.querySelector('form').addEventListener('submit', function(e) {
     document.getElementById('loading').style.display = 'block';
 });
 
-if (!adminID) {
-        Swal.fire({
-            icon: 'error',
-            title: 'Ralat!',
-            text: 'Sila log masuk semula.'
-        });
-        document.getElementById('loading').style.display = 'none';
-        return;
-    }
-
-    
-    fetch('save_report_log.php', {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-            month: month,
-            year: year,
-            adminID: adminID
-        })
-    })
-    .then(response => {
-        console.log('Response received:', response); 
-        return response.json();
-    })
-    .then(data => {
-        console.log('Data received:', data); 
-        document.getElementById('loading').style.display = 'none';
-        
-        if (data.success) {
-            Swal.fire({
-                icon: 'success',
-                title: 'Berjaya!',
-                text: 'Log berjaya disimpan!',
-                timer: 2000,
-                showConfirmButton: false
-            });
-        } else {
-            Swal.fire({
-                icon: 'error',
-                title: 'Ralat!',
-                text: data.message || 'Ralat semasa menyimpan log.'
-            });
-        }
-    })
-    .catch(error => {
-        console.error('Error:', error); 
-        document.getElementById('loading').style.display = 'none';
-        
-        Swal.fire({
-            icon: 'error',
-            title: 'Ralat!',
-            text: 'Ralat semasa menyimpan log: ' + error.message
-        });
-    });
-}
+</script>
 
 </div>
 </body>
