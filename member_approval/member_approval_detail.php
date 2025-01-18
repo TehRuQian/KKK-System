@@ -149,7 +149,7 @@ $suggestedMemberNo = $lastMemberNo + 1;
     </tr>
     <tr>
         <th>Fee Lain</th>
-        <td><?php echo $row['feeLain']; ?></td>
+        <td><?php echo $row['m_feeLain']; ?></td>
     </tr>
     <tr>
         <th>Tarikh Pohon:</th>
