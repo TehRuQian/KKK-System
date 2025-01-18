@@ -15,11 +15,9 @@ if ($lApplicationID === 0) {
     exit;
 }
 
-// Retrieve loan and guarantor details
-$sqlLoan = "SELECT l.*, g1.g_memberNo AS guarantorID1, g2.g_memberNo AS guarantorID2, m.m_name, m.m_pfNo, lt.lt_desc, b.lb_id, b.lb_desc
+// Retrieve loan details
+$sqlLoan = "SELECT l.*, m.m_name, m.m_pfNo, lt.lt_desc, b.lb_id, b.lb_desc
             FROM tb_loan l
-            LEFT JOIN tb_guarantor g1 ON l.l_loanApplicationID = g1.g_loanApplicationID
-            LEFT JOIN tb_guarantor g2 ON l.l_loanApplicationID = g2.g_loanApplicationID
             LEFT JOIN tb_member m ON l.l_memberNo = m.m_memberNo
             LEFT JOIN tb_ltype lt ON l.l_loanType = lt.lt_lid
             LEFT JOIN tb_lbank b ON l.l_bankName = b.lb_id
@@ -28,16 +26,29 @@ $sqlLoan = "SELECT l.*, g1.g_memberNo AS guarantorID1, g2.g_memberNo AS guaranto
 $resultLoan = mysqli_query($con, $sqlLoan);
 if ($rowLoan = mysqli_fetch_assoc($resultLoan)) {
     // Loan details
-    $guarantorID1 = $rowLoan['guarantorID1'];
-    $guarantorID2 = $rowLoan['guarantorID2'];
+    $guarantorID1 = null;
+    $guarantorID2 = null;
+
+    // Fetch the guarantors for this loan application
+    $sqlGuarantors = "SELECT g.g_memberNo, g.g_signature FROM tb_guarantor g WHERE g.g_loanApplicationID = '$lApplicationID' LIMIT 2";
+    $resultGuarantors = mysqli_query($con, $sqlGuarantors);
+
+    // Assuming there are two guarantors, fetch their member IDs and signatures
+    $guarantors = mysqli_fetch_all($resultGuarantors, MYSQLI_ASSOC);
+    if (count($guarantors) == 2) {
+        $guarantorID1 = $guarantors[0]['g_memberNo'];
+        $guarantorID2 = $guarantors[1]['g_memberNo'];
+        $guarantor1Signature = $guarantors[0]['g_signature'];
+        $guarantor2Signature = $guarantors[1]['g_signature'];
+    }
 
     // Fetch member details for guarantor 1
-    $sqlGuarantor1 = "SELECT m.m_name, m.m_ic, m.m_pfNo FROM tb_member m WHERE m.m_memberNo = '$guarantorID1'";
+    $sqlGuarantor1 = "SELECT m.m_name, m.m_ic, m.m_pfNo, m.m_memberNo FROM tb_member m WHERE m.m_memberNo = '$guarantorID1'";
     $resultGuarantor1 = mysqli_query($con, $sqlGuarantor1);
     $guarantor1 = mysqli_fetch_assoc($resultGuarantor1);
 
     // Fetch member details for guarantor 2
-    $sqlGuarantor2 = "SELECT m.m_name, m.m_ic, m.m_pfNo FROM tb_member m WHERE m.m_memberNo = '$guarantorID2'";
+    $sqlGuarantor2 = "SELECT m.m_name, m.m_ic, m.m_pfNo, m.m_memberNo FROM tb_member m WHERE m.m_memberNo = '$guarantorID2'";
     $resultGuarantor2 = mysqli_query($con, $sqlGuarantor2);
     $guarantor2 = mysqli_fetch_assoc($resultGuarantor2);
 } else {
@@ -45,21 +56,29 @@ if ($rowLoan = mysqli_fetch_assoc($resultLoan)) {
     exit;
 }
 
-$selected_signature = $rowLoan['l_signature']; 
-$selected_file = $rowLoan['l_file'];    
+$basePath1 = 'C:/xampp/htdocs/KKK-System/loan_application/';
+$basePath2 = 'C:/xampp/htdocs/KKK-System/loan_application/uploads/';
 
-if (file_exists($selected_signature)) {
-    echo "The signature file exists!";
-} else {
-    echo "The signature file does not exist!";
-}
+// Assign the file paths correctly
+$selected_signature = $basePath1 . trim($rowLoan['l_signature']);
+$selected_file = $basePath2 . trim($rowLoan['l_file']);
 
-if (file_exists($selected_file)) {
-    echo "The file exists!";
-} else {
-    echo "The file does not exist!";
-}
+// // Debugging paths
+// echo "Signature file path: " . $selected_signature . "<br>";
+// echo "File path: " . $selected_file . "<br>";
 
+// // Check if the files exist
+// if (file_exists($selected_signature)) {
+//     echo "The signature file exists!<br>";
+// } else {
+//     echo "The signature file does not exist!<br>";
+// }
+
+// if (file_exists($selected_file)) {
+//     echo "The file exists!<br>";
+// } else {
+//     echo "The file does not exist!<br>";
+// }
 ?>
 
 <div class="container">
@@ -113,27 +132,30 @@ if (file_exists($selected_file)) {
             <th>Gaji Bersih:</th>
             <td><?php echo $rowLoan['l_monthlyNetSalary']; ?></td>
         </tr>
-        
         <tr>
             <th scope="row">Tandatangan</th>
             <td>
-            <?php if (!empty($selected_signature)) : ?>
-                <img src="<?php echo $selected_signature; ?>" alt="Signature" style="max-width: 200px; height: auto;">
-            <?php  else : ?>
+            <?php
+            $signature_url = 'http://localhost/KKK-System/loan_application/uploads/' . basename($selected_signature);
+
+            if (file_exists($selected_signature)) : ?>
+                <img src="<?php echo $signature_url; ?>" alt="Signature" style="max-width: 200px; height: auto;">
+            <?php else : ?>
                 <span>Tiada tandatangan.</span>
             <?php endif; ?>
             </td>
         </tr>
-        <tr>
+
+        <!-- <tr>
             <th>Pengesahan Majikan:</th>
             <td>
             <?php if (!empty($selected_file)) : ?>
-                <a href="<?php echo $selected_file; ?>" alt="Signature" style="max-width: 200px; height: auto;"></a>
-            <?php  else : ?>
+                <a href="#" onclick="window.open('<?php echo $selected_file; ?>', '_blank'); return false;">View PDF</a>
+            <?php else : ?>
                 <span>Tiada fail.</span>
             <?php endif; ?>
             </td>
-        </tr>
+        </tr> -->
 
         <tr>
             <th>Tarikh Pohon:</th>
@@ -143,12 +165,13 @@ if (file_exists($selected_file)) {
             <th>Tarikh Lulus:</th>
             <td><?php echo $rowLoan['l_approvalDate']; ?></td>
         </tr>
+
         <tr>
             <th colspan="2">Maklumat Penjamin 1</th>
         </tr>
         <tr>
             <th>No. Anggota:</th>
-            <td><?php echo $guarantor1['g_memberNo'] ?? 'N/A'; ?></td>
+            <td><?php echo $guarantor1['m_memberNo'] ?? 'N/A'; ?></td>
         </tr>
         <tr>
             <th>Nama Penjamin:</th>
@@ -165,8 +188,8 @@ if (file_exists($selected_file)) {
         <tr>
             <th>Tandatangan Penjamin 1:</th>
             <td>
-            <?php if (!empty($guarantor1['g_signature'])) : ?>
-                <img src="<?php echo $guarantor1['g_signature']; ?>" alt="Signature" style="max-width: 200px; height: auto;">
+            <?php if (!empty($guarantor1Signature)) : ?>
+                <img src="http://localhost/KKK-System/loan_application/uploads/<?php echo basename($guarantor1Signature); ?>" alt="Signature" style="max-width: 200px; height: auto;">
             <?php  else : ?>
                 <span>Tiada tandatangan.</span>
             <?php endif; ?>
@@ -178,7 +201,7 @@ if (file_exists($selected_file)) {
         </tr>
         <tr>
             <th>No. Anggota:</th>
-            <td><?php echo $guarantor2['g_memberNo'] ?? 'N/A'; ?></td>
+            <td><?php echo $guarantor2['m_memberNo'] ?? 'N/A'; ?></td>
         </tr>
         <tr>
             <th>Nama Penjamin:</th>
@@ -195,84 +218,12 @@ if (file_exists($selected_file)) {
         <tr>
             <th>Tandatangan Penjamin 2:</th>
             <td>
-            <?php if (!empty($guarantor2['g_signature'])) : ?>
-                <img src="<?php echo $guarantor2['g_signature']; ?>" alt="Signature" style="max-width: 200px; height: auto;">
+            <?php if (!empty($guarantor2Signature)) : ?>
+                <img src="http://localhost/KKK-System/loan_application/uploads/<?php echo basename($guarantor2Signature); ?>" alt="Signature" style="max-width: 200px; height: auto;">
             <?php  else : ?>
                 <span>Tiada tandatangan.</span>
             <?php endif; ?>
             </td>
         </tr>
     </table>
-
-    <form method="POST" action="loan_approval_process.php" onsubmit="return confirmSubmission()">
-        <input type="hidden" name="lApplicationID" value="<?php echo $lApplicationID; ?>">
-        <fieldset>
-            <div class="container" style="display: flex; justify-content: center; align-items: center; flex-direction: column;">
-                <label class="form-label mt-4" style="justify-content: center">Status Anggota</label>
-                <div class="dropdown">
-                    <button class="btn btn-secondary dropdown-toggle" type="button" id="statusDropdown" data-bs-toggle="dropdown" aria-expanded="false">
-                        Pilih Status
-                    </button>
-                    <ul class="dropdown-menu" aria-labelledby="statusDropdown">
-                        <?php
-                        $sql = "SELECT * FROM tb_status";
-                        $result = mysqli_query($con, $sql);
-
-                        while ($rowStatus = mysqli_fetch_array($result)) {
-                            $selected = ($rowStatus['s_sid'] == 1) ? 'selected' : '';
-                            echo "<li><a class='dropdown-item' href='#' onclick='setStatus(event, ".$rowStatus['s_sid'].", \"".$rowStatus['s_desc']."\")'>".$rowStatus['s_desc']."</a></li>";
-                        }
-                        ?>
-                    </ul>
-                </div>   
-                <br>
-
-                <?php // To store the status ?>
-                <input type="hidden" name="lstatus" id="lstatus"> 
-
-                <div style="display: flex; gap: 10px; justify-content: center;">
-                    <button type="button" class="btn btn-primary" onclick="window.location.href='loan_approval.php'">Kembali</button>
-                    <button type="submit" class="btn btn-primary">Hantar</button>
-                </div>
-            </div>
-        </fieldset>
-    </form>
-    <br>
 </div>
-
-<script>
-function setStatus(event, status, statusDesc) {
-    event.preventDefault();  // Prevent the page from scrolling up when changing different status
-
-    // Set the hidden input to the selected status
-    document.getElementById('lstatus').value = status;
-
-    // Change the button text and colour
-    const statusButton = document.getElementById('statusDropdown');
-    statusButton.textContent = statusDesc;
-
-    if (status == 1) {
-        statusButton.classList.remove('btn-warning', 'btn-danger', 'btn-success');
-        statusButton.classList.add('btn-secondary');
-    } else if (status == 2) {
-        statusButton.classList.remove('btn-secondary', 'btn-success', 'btn-warning');
-        statusButton.classList.add('btn-danger');
-    } else if (status == 3) {
-        statusButton.classList.remove('btn-secondary', 'btn-danger', 'btn-warning');
-        statusButton.classList.add('btn-success');
-    }
-}
-
-function confirmSubmission() {
-    const status = document.getElementById('lstatus').value;
-
-    if (status == 2) {
-        return confirm("Adakah anda pasti untuk menolak permohonan ini?");
-    } else if (status == 3) {
-        return confirm("Adakah anda pasti mahu meluluskan permohonan ini?");
-    }
-    return true;
-}
-
-setStatus(null, 1, "Sedang Diproses");
-</script>
