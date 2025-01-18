@@ -11,7 +11,7 @@
       echo "
         <script>
             alert ('Sila pilih sekurang-kurangnya satu anggota.');
-            window.location.href = 'transaksi.php';
+            window.location.href = 'potongan_gaji.php';
         </script>";
   }
 
