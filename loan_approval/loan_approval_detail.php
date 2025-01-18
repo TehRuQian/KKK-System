@@ -86,6 +86,10 @@ if ($result && $row = mysqli_fetch_array($result)) {
             <td><?php echo $row['l_monthlyNetSalary']; ?></td>
         </tr>
         <tr>
+            <th>Tandatangan:</th>
+            <td><?php echo $row['l_signature']; ?></td>
+        </tr>
+        <tr>
             <th>Tarikh Pohon:</th>
             <td><?php echo $row['l_applicationDate']; ?></td>
         </tr>
