@@ -64,68 +64,92 @@ $suggestedMemberNo = $lastMemberNo + 1;
 
 <table class="table table-hover">
     <tr>
-        <th>No. Aplikasi Anggota:</th>
+        <th>No. Aplikasi Anggota</th>
         <td><?php echo $row['m_memberApplicationID']; ?></td>
     </tr>
     <tr>
-        <th>No. PF:</th>
+        <th>No. PF</th>
         <td><?php echo $row['m_pfNo']; ?></td>
     </tr>
     <tr>
-        <th>Nama Anggota:</th>
+        <th>Nama Anggota</th>
         <td><?php echo $row['m_name']; ?></td>
     </tr>
     <tr>
-        <th>No. Kad Pengenalan:</th>
+        <th>No. Kad Pengenalan</th>
         <td><?php echo $row['m_ic']; ?></td>
     </tr>
     <tr>
-        <th>Jantina:</th>
+        <th>Jantina</th>
         <td><?php echo $row['ug_desc']; ?></td>
     </tr>
     <tr>
-        <th>Agama:</th>
+        <th>Agama</th>
         <td><?php echo $row['ua_desc']; ?></td>
     </tr>
     <tr>
-        <th>Bangsa:</th>
+        <th>Bangsa</th>
         <td><?php echo $row['ur_desc']; ?></td>
     </tr>
     <tr>
-        <th>Status Perkahwinan:</th>
+        <th>Status Perkahwinan</th>
         <td><?php echo $row['hr_desc']; ?></td>
     </tr>
     <tr>
-        <th>Alamat Rumah:</th>
+        <th>Alamat Rumah</th>
         <td><?php echo $row['m_homeAddress']; ?></td>
     </tr>
     <tr>
-        <th>No. Telefon:</th>
+        <th>No. Telefon</th>
         <td><?php echo $row['m_phoneNumber']; ?></td>
     </tr>
     <tr>
-            <th>Email:</th>
+            <th>Email</th>
             <td><?php echo $row['m_email']; ?></td>
         </tr>
     <tr>
-        <th>No. Telefon Rumah:</th>
+        <th>No. Telefon Rumah</th>
         <td><?php echo $row['m_homeNumber']; ?></td>
     </tr>
     <tr>
-        <th>Jawatan:</th>
+        <th>Jawatan</th>
         <td><?php echo $row['m_position']; ?></td>
     </tr>
     <tr>
-        <th>Gred:</th>
+        <th>Gred</th>
         <td><?php echo $row['m_positionGrade']; ?></td>
     </tr>
     <tr>
-        <th>Alamat Pejabat:</th>
+        <th>Alamat Pejabat</th>
         <td><?php echo $row['m_officeAddress']; ?></td>
     </tr>
     <tr>
-        <th>Gaji Bulanan:</th>
+        <th>Gaji Bulanan</th>
         <td><?php echo $row['m_monthlySalary']; ?></td>
+    </tr>
+    <tr>
+        <th>Fee Masuk</th>
+        <td><?php echo $row['m_feeMasuk']; ?></td>
+    </tr>
+    <tr>
+        <th>Modal Yuran</th>
+        <td><?php echo $row['m_modalYuran']; ?></td>
+    </tr>
+    <tr>
+        <th>Deposit</th>
+        <td><?php echo $row['m_deposit']; ?></td>
+    </tr>
+    <tr>
+        <th>alAbrar</th>
+        <td><?php echo $row['m_alAbrar']; ?></td>
+    </tr>
+    <tr>
+        <th>Simpanan Tetap</th>
+        <td><?php echo $row['m_simpananTetap']; ?></td>
+    </tr>
+    <tr>
+        <th>Fee Lain</th>
+        <td><?php echo $row['feeLain']; ?></td>
     </tr>
     <tr>
         <th>Tarikh Pohon:</th>
