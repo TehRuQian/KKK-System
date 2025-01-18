@@ -296,8 +296,8 @@ CREATE TABLE `tb_loan` (
   `l_signature` varchar(50) NOT NULL,
   `l_file` varchar(50) NOT NULL COMMENT '(Pengesahan Majikan)',
   `l_status` int(11) NOT NULL,
-  `l_applicationDate` date NOT NULL,
-  `l_approvalDate` date DEFAULT NULL,
+  `l_applicationDate` datetime DEFAULT NULL,
+  `l_approvalDate` timestamp NULL DEFAULT NULL,
   `l_adminID` int(11) DEFAULT NULL COMMENT 'Admin who approved the application'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
@@ -378,7 +378,7 @@ CREATE TABLE `tb_member` (
   `m_simpananTetap` double NOT NULL COMMENT 'Sumbangan Tabung Tabung Kebajikan ',
   `m_feeLain` double NOT NULL,
   `m_status` int(11) NOT NULL,
-  `m_applicationDate` datetime NOT NULL,
+  `m_applicationDate` datetime DEFAULT NULL,
   `m_approvalDate` timestamp NULL DEFAULT NULL,
   `m_adminID` int(11) DEFAULT NULL COMMENT 'Admin who approve the application'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
@@ -1012,11 +1012,10 @@ ALTER TABLE `tb_heir`
 -- Constraints for table `tb_loan`
 --
 ALTER TABLE `tb_loan`
-  ADD CONSTRAINT `tb_loan_ibfk_1` FOREIGN KEY (`l_adminID`) REFERENCES `tb_admin` (`a_adminID`),
-  ADD CONSTRAINT `tb_loan_ibfk_2` FOREIGN KEY (`l_loanType`) REFERENCES `tb_ltype` (`lt_lid`),
-  ADD CONSTRAINT `tb_loan_ibfk_3` FOREIGN KEY (`l_status`) REFERENCES `tb_status` (`s_sid`),
-  ADD CONSTRAINT `tb_loan_ibfk_4` FOREIGN KEY (`l_memberNo`) REFERENCES `tb_member` (`m_memberNo`),
-  ADD CONSTRAINT `tb_loan_ibfk_5` FOREIGN KEY (`l_bankName`) REFERENCES `tb_lbank` (`lb_id`);
+  ADD CONSTRAINT `tb_loan_ibfk_1` FOREIGN KEY (`l_loanType`) REFERENCES `tb_ltype` (`lt_lid`),
+  ADD CONSTRAINT `tb_loan_ibfk_2` FOREIGN KEY (`l_status`) REFERENCES `tb_status` (`s_sid`),
+  ADD CONSTRAINT `tb_loan_ibfk_3` FOREIGN KEY (`l_memberNo`) REFERENCES `tb_member` (`m_memberNo`),
+  ADD CONSTRAINT `tb_loan_ibfk_4` FOREIGN KEY (`l_bankName`) REFERENCES `tb_lbank` (`lb_id`);
 
 --
 -- Constraints for table `tb_member`
