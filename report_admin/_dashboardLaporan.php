@@ -278,12 +278,12 @@ $policies_result = mysqli_query($con, $policies_sql);
 
 <script>
 function saveRetrievalLog(month, year, adminID) {
-    // 创建表单数据
+
     var formData = new FormData();
     formData.append('month', month);
     formData.append('year', year);
 
-    // 发送POST请求
+    
     fetch('save_report_log.php', {
         method: 'POST',
         body: formData

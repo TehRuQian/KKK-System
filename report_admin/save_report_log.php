@@ -31,7 +31,7 @@ try {
     $sql = "INSERT INTO tb_reportretrievallog (r_retrievalDate, r_month, r_year, r_adminID) 
             VALUES (CURRENT_TIMESTAMP(), ?, ?, ?)";
     
-    // 使用预处理语句
+    
     $stmt = $con->prepare($sql);
     if (!$stmt) {
         throw new Exception("Prepare failed: " . $con->error);
