@@ -68,6 +68,13 @@
                          WHERE tb_loan.l_memberNo = $memberNo AND tb_loan.l_status = 3;";
             $result_loan = mysqli_query($con, $sql_loan);
 
+            $sql_transaction = "SELECT COUNT(t_transactionID) FROM tb_transaction
+                                WHERE t_memberNo = $memberNo
+                                AND t_month = $f_month
+                                AND t_year = $f_year;";
+            $result_transaction = mysqli_query($con, $sql_transaction);
+            $record_exists = mysqli_fetch_row($result_transaction)[0] > 0;
+
             $newShareCapital = $financial['f_shareCapital'];
             $newFeeCapital = $financial['f_feeCapital'];
             $newFixedSaving = $financial['f_fixedSaving'];
@@ -88,8 +95,12 @@
             }
 
             $totalAmount = $salaryDeductionForMemberFund + $salaryDeductionForSaving;
-
-            echo "<tr id='member_{$memberNo}'>";
+            // if ($record_exists) {
+            //   echo "<tr id='member_{$memberNo}' class='table-danger'>";
+            // }
+            // else{
+              echo "<tr id='member_{$memberNo}'>";
+            // }
                 echo "<td>" . $financial['f_memberNo'] . "</td>";
                 echo "<td>" . $member['m_name'] . "</td>";
                 echo "<td>
@@ -156,7 +167,15 @@
                     }
                 echo "Jumlah Potongan Gaji: RM " . number_format($totalAmount, 2);
                 echo "</td>";
-                echo "<td><button type='button' class='btn btn-warning' onclick='removeMember(" . $financial['f_memberNo'] . ")'>Keluarkan</button></td>";
+                echo "<td>";
+                if ($record_exists) {
+                  // echo "<p class='text-danger'>Transaksi telah wujud untuk bulan ini!</p>";
+                  echo "
+                  <div class='alert alert-dismissible alert-danger'>
+                    <strong>Amaran: </strong>Transaksi telah <br> wujud untuk bulan ini!
+                  </div>";
+                }
+                echo "<button type='button' class='btn btn-warning' onclick='removeMember(" . $financial['f_memberNo'] . ")'>Keluarkan</button></td>";
             echo "</tr>";
           }
         ?>
