@@ -18,7 +18,7 @@ $start_from = ($current_page - 1) * $records_per_page;
 // Get User ID
 $uid = $_SESSION['u_id'];
 
-// Modify SQL query to fetch loan records with consistent conditions
+// Modify SQL query to fetch loan records
 $sql = "SELECT tb_loan.l_loanApplicationID, tb_loan.l_memberNo, tb_member.m_name, 
         DATE_FORMAT(tb_loan.l_applicationDate, '%d-%m-%Y') AS formattedDate 
         FROM tb_loan 
