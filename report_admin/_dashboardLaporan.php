@@ -7,10 +7,15 @@ if (!session_id()) {
 include '../header_admin.php';
 include '../db_connect.php';
 
-$uid = $_SESSION['u_id'];
+$adminID = $_SESSION['u_id'] ?? null;
 
-$bulan = isset($_POST['Bulan']) ? $_POST['Bulan'] : '';
-$tahun = isset($_POST['Tahun']) ? $_POST['Tahun'] : '';
+
+error_log('Current Session: ' . print_r($_SESSION, true));
+error_log('Admin ID from session: ' . $adminID);
+
+
+$bulan = isset($_POST['Bulan']) ? $_POST['Bulan'] : '';  
+$tahun = isset($_POST['Tahun']) ? $_POST['Tahun'] : ''; 
 
 $period = "";
 if ($bulan && $tahun) {
@@ -28,6 +33,8 @@ if ($bulan && $tahun) {
 } elseif ($tahun) {
     $period = "Tahun " . $tahun;
 }
+
+
 
 //member data
 $member_count = 0;
@@ -171,17 +178,35 @@ $policies_result = mysqli_query($con, $policies_sql);
             </div>
 
             <div class="report-details mt-4">
-                <div class="d-flex justify-content-between align-items-center mb-3">
-                    <h3><strong>Laporan Kewangan <?= $period ?></strong></h3>
-                    <form method="post" action="generate_pdf.php" target="_blank">
-                        <input type="hidden" name="bulan" value="<?= $bulan ?>">
-                        <input type="hidden" name="tahun" value="<?= $tahun ?>">
-                        <button type="submit" class="btn btn-primary">
-                            <i class="fas fa-download"></i> Muat Turun PDF
-                        </button>
-                    </form>
-                </div>
+              <div class="d-flex justify-content-between align-items-center mb-3">
+                <h3><strong>Laporan Kewangan <?= htmlspecialchars($period) ?></strong></h3>
 
+                    <?php if ($bulan || $tahun): ?>
+                      <div style="float: right;">
+                        <!-- Simpan Log --> 
+                        <button type="button" 
+                                class="btn btn-success" 
+                                onclick="saveRetrievalLog(<?= $bulan ?? 'null' ?>, <?= $tahun ?? 'null' ?>, <?= $adminID ?? 'null' ?>)">
+                            <i class="fas fa-save"></i> Simpan Log
+                        </button>
+
+                      <!-- PDF -->
+                        <a href="generate_pdf.php?bulan=<?= urlencode($bulan) ?>&tahun=<?= urlencode($tahun) ?>" 
+                           class="btn btn-primary" 
+                           target="_blank">
+                            <i class="fas fa-download"></i> Muat Turun PDF
+                        </a>
+                      </div>
+                    <?php endif; ?>
+              </div>
+            </div>
+
+             <div id="loading" style="display: none;">
+                    <p>Memuat data...</p>
+              </div>
+
+              <?php if ($bulan || $tahun): ?>
+                <div class="report-content">
                 <p><strong>1. Ringkasan Eksekutif</strong></p>
                 <p>Laporan ini memberikan analisis terperinci mengenai prestasi kewangan syarikat untuk tempoh <?= $period ?>, 
                    termasuk metrik utama seperti permohonan ahli, permohonan pinjaman, rekod transaksi dan kesihatan kewangan keseluruhan.</p>
@@ -244,10 +269,77 @@ $policies_result = mysqli_query($con, $policies_sql);
                 <p>Jumlah Pendapatan untuk Tempoh: RM <?= number_format($transaction_total, 2) ?></p>
                 <p>Jumlah Perbelanjaan untuk Tempoh: RM <?= number_format($total_approved_loans, 2) ?></p>
                 <p>Keuntungan Bersih untuk Tempoh: RM <?= number_format($net_profit, 2) ?></p>
-            </div>
+                </div>
+              </div>
+              <?php else: ?>
+                <p>Sila pilih bulan dan/atau tahun untuk melihat laporan.</p>
+              <?php endif; ?>
         </div>
     </fieldset>
 </form>
+
+<script>
+document.querySelector('form').addEventListener('submit', function(e) {
+    document.getElementById('loading').style.display = 'block';
+});
+
+if (!adminID) {
+        Swal.fire({
+            icon: 'error',
+            title: 'Ralat!',
+            text: 'Sila log masuk semula.'
+        });
+        document.getElementById('loading').style.display = 'none';
+        return;
+    }
+
+    
+    fetch('save_report_log.php', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+            month: month,
+            year: year,
+            adminID: adminID
+        })
+    })
+    .then(response => {
+        console.log('Response received:', response); 
+        return response.json();
+    })
+    .then(data => {
+        console.log('Data received:', data); 
+        document.getElementById('loading').style.display = 'none';
+        
+        if (data.success) {
+            Swal.fire({
+                icon: 'success',
+                title: 'Berjaya!',
+                text: 'Log berjaya disimpan!',
+                timer: 2000,
+                showConfirmButton: false
+            });
+        } else {
+            Swal.fire({
+                icon: 'error',
+                title: 'Ralat!',
+                text: data.message || 'Ralat semasa menyimpan log.'
+            });
+        }
+    })
+    .catch(error => {
+        console.error('Error:', error); 
+        document.getElementById('loading').style.display = 'none';
+        
+        Swal.fire({
+            icon: 'error',
+            title: 'Ralat!',
+            text: 'Ralat semasa menyimpan log: ' + error.message
+        });
+    });
+}
 
 </div>
 </body>
