@@ -11,7 +11,7 @@ include '../db_connect.php';
 
 // Check if the 'status' parameter is present in the URL
 if (isset($_GET['status']) && $_GET['status'] == 'success') {
-    echo '<script>alert("Anda telah berjaya disimpan.");</script>';
+    echo '<script>alert("Maklumat anda telah berjaya disimpan!");</script>';
 }
   
 //Redirect user to semakan_butiran page
