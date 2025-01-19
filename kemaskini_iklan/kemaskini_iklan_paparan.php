@@ -7,9 +7,24 @@ if (!session_id()) {
   include '../header_admin.php';
   include '../db_connect.php';
 
+  $records_per_page = 5;  
+  $current_page = isset($_GET['page']) ? $_GET['page'] : 1;
+  $start_from = ($current_page - 1) * $records_per_page;
+
   // Retrieve latest banner with newest ID
-  $sql = "SELECT * FROM tb_banner ORDER BY b_status DESC, b_name ASC";
+  $sql = "SELECT * FROM tb_banner 
+          ORDER BY b_bannerID ASC 
+          LIMIT $start_from, $records_per_page";
+//   $sql = "SELECT * FROM tb_banner 
+//           ORDER BY b_status DESC, b_bannerID ASC 
+//           LIMIT $start_from, $records_per_page";
   $result = mysqli_query($con, $sql);
+
+  $total_sql = "SELECT COUNT(*) FROM tb_banner;";
+  $total_result = mysqli_query($con, $total_sql);
+  $total_row = mysqli_fetch_row($total_result);
+  $total_records = $total_row[0];
+  $total_pages = ceil($total_records / $records_per_page);
 ?>
 
 <!-- Main Content -->
@@ -19,7 +34,6 @@ if (!session_id()) {
     <div class="alert alert-warning" role="alert" id="active-banner-warning" style="display:none;">
         Tiada iklan aktif. Sila pastikan sekurang-kurangnya satu iklan diaktifkan.
     </div>
-
 
     <form method="POST" action="kemaskini_iklan_paparan_process.php">
         <table class="table table-hover" style="text-align: center;">
@@ -62,9 +76,32 @@ if (!session_id()) {
         </table>
     </form>
 
+    <nav>
+      <ul class="d-flex justify-content-center pagination pagination-sm">
+        <?php if($current_page > 1): ?>
+          <li class="page-item">
+            <a class="page-link" href="?page=<?= $current_page - 1; ?>">&laquo;</a>
+          </li>
+        <?php endif; ?>
+
+        <?php for($i = 1; $i <= $total_pages; $i++): ?>
+          <li class="page-item <?= ($i == $current_page) ? 'active' : ''; ?>">
+            <a class="page-link" href="?page=<?= $i; ?>"><?= $i; ?></a>
+          </li>
+        <?php endfor; ?>
+
+        <?php if($current_page < $total_pages): ?>
+          <li class="page-item">
+            <a class="page-link" href="?page=<?= $current_page + 1; ?>">&raquo;</a>
+          </li>
+        <?php endif; ?>
+      </ul>
+    </nav>
+
     <div class="d-flex justify-content-center">
         <button type="button" class="btn btn-primary" onclick="window.location.href='kemaskini_iklan.php'">Kembali</button>
     </div>
+    <br>
 </div>
 
 <script>
@@ -126,32 +163,29 @@ function toggleStatus(bannerID, status) {
     .catch(error => {
         alert("Ralat: " + error);
     });
+}
 
-    function checkActiveBanners() {
-        fetch('kemaskini_iklan_paparan_process.php', {
-            method: 'POST',
-            body: new URLSearchParams({
-                action: 'check_active_banners'
-            })
-        })
-        .then(response => response.json())
-        .then(data => {
-            const warningElement = document.getElementById('active-banner-warning');
-            
-            if (data.active_banners_count == 0) {
-                warningElement.style.display = 'block';
-            } else {
-                warningElement.style.display = 'none';
-            }
-        })
-        .catch(error => {
-            alert("Ralat: " + error);
-        });
-    }
+document.addEventListener('DOMContentLoaded', function() { checkActiveBanners(); });
 
-    // Call checkActiveBanners on page load to initialize the warning state
-    document.addEventListener('DOMContentLoaded', function() {
-        checkActiveBanners();
+function checkActiveBanners() {
+    fetch('kemaskini_iklan_paparan_process.php', {
+        method: 'POST',
+        body: new URLSearchParams({
+            action: 'check_active_banners'
+        })
+    })
+    .then(response => response.json())
+    .then(data => {
+        const warningElement = document.getElementById('active-banner-warning');
+        
+        if (data.active_banners_count == 0) {
+            warningElement.style.display = 'block';
+        } else {
+            warningElement.style.display = 'none';
+        }
+    })
+    .catch(error => {
+        alert("Ralat: " + error);
     });
 }
 </script>
