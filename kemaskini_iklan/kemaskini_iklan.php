@@ -46,11 +46,10 @@
       </div>
     </div>
 
-
     <h5>Muat Naik Iklan Baru</h5>
     <form method="POST" action="kemaskini_iklan_muat_naik.php" enctype="multipart/form-data">
       <div>
-        <label class="form-label mt-4">Banner Baru</label>
+        <label class="form-label mt-4">Nama Iklan Baru</label>
         <input type="text" class="form-control" name="bannerName" required>
         <label for="formFile" class="form-label mt-4">Muat Naik Iklan Baharu</label>
         <input class="form-control" type="file" id="banner" name="banner" accept="image/*" required>
