@@ -24,6 +24,21 @@ $sql = "
   $result = mysqli_query($con, $sql);
   $policy = mysqli_fetch_assoc($result);
 
+  $sql = "SELECT f_shareCapital FROM tb_financial WHERE f_memberNo = $memberNo";
+  $result = mysqli_query($con, $sql);
+
+  if ($row = mysqli_fetch_assoc($result)) {
+    $shareCapital = htmlspecialchars($row['f_shareCapital']); 
+  }
+
+if ($shareCapital < $policy['p_minShareCapitalForLoan']) {
+    echo "<script>
+            alert('Maaf, anda tidak layak untuk memohon pinjaman kerana Modal Syer anda (RM" . number_format($shareCapital, 2) . ") kurang daripada jumlah minimum yang diperlukan (RM" . number_format($policy['p_minShareCapitalForLoan'], 2) . ").');
+            window.location.href = 'dashboard_pinjaman.php';
+        </script>";
+        exit();
+}
+
 ?>
 
 <head>
