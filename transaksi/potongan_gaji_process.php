@@ -94,8 +94,7 @@
                 $difference = $row['l_loanPayable'];
                 $status = 4;
             }
-            $difference *= -1;
-            $newLoanPayable = $row['l_loanPayable'] + $difference;
+            $newLoanPayable = $row['l_loanPayable'] - $difference;
             $transactionType = $row['l_loanType'] + 5;
             $desc = "Potongan Gaji Bayaran Balik " . $loanID;
             
