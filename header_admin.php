@@ -48,6 +48,7 @@
                 <a class="dropdown-item" href="../transaksi/transaksi_lain.php">Lain-lain</a>
               </div>
             </li>
+            <li class="nav-item"><a class="nav-link" href="../kemaskini_polisi/kemaskini_polisi.php">Kemaskini Polisi</a></li>
             <li class="nav-item"><a class="nav-link" href="../kemaskini_iklan/kemaskini_iklan.php">Kemaskini Iklan</a></li>
             <li class="nav-item"><a class="nav-link" href="../report_admin/_dashboardLaporan.php">Laporan</a></li>
           </ul>
