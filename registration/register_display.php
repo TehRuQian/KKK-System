@@ -209,6 +209,28 @@ if (isset($_GET['member_id']) && !empty($_GET['member_id'])) {
       <?php endif; ?>
     </div>
   </div>
-
-  
+ <br>
+ <div class="d-flex justify-content-center">
+  <button type="button" class="btn btn-primary" id="done"> Selesai </button>
+  </div>
+  <br><br>
 </div>
+
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+    const done = document.getElementById("done");
+
+    // Handle 'Simpan' button click
+    done.addEventListener("click", function (e) {
+        Swal.fire({
+            icon: "success",
+            title: "Pemohonan Berjaya",
+            text: "Pemohonan anda akan diproses oleh pentadbir dalam tempoh sebulan.",
+        }).then((result) => {
+            if (result.isConfirmed || result.isDismissed) {
+                window.location.href = '../login.php';
+            }
+        });
+    });
+});
+</script>

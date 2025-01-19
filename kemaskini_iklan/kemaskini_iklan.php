@@ -8,8 +8,8 @@
   include '../db_connect.php';
   $admin_id = $_SESSION['u_id'];
 
-  // Retrieve latest policy with newest ID
-  $sql = "SELECT * FROM tb_banner;";
+  // Retrieve latest banner
+  $sql = "SELECT * FROM tb_banner WHERE b_status = 1;";
   $banners = mysqli_query($con, $sql);
 ?>
 
@@ -61,4 +61,5 @@
           <button type="submit" class="btn btn-primary">Muat Naik</button>
       </div>
     </form>
+    <br>
 </div>

@@ -17,9 +17,9 @@
 <nav class="navbar navbar-expand-lg" style="background-color: #5ab0ff;" data-bs-theme="light">
   <div class="container-fluid">
     <a class="navbar-brand" href="#">
-        <img src="../img/kkk_logo_cropped.png" alt="kkk" style="height: 30px;">
+        <img src="../img/kkk_logo_cropped.png" alt="kkk" style="height: 30px">
     </a>
-    <a href="../login.php" class="btn btn-dark d-flex">Log Keluar</a>
+
   </div>
 </nav>
 

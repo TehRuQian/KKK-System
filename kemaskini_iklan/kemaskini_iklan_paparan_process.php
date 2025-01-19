@@ -50,14 +50,21 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['action']) && $_POST['a
 
 // Check active banner
 if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['action']) && $_POST['action'] == 'check_active_banners') {
-    $sql = "SELECT COUNT(*) as active_count FROM tb_banner WHERE b_status = 1";
+    $sql = "SELECT COUNT(*) FROM tb_banner WHERE b_status = 1";
     $result = mysqli_query($con, $sql);
-    $row = mysqli_fetch_assoc($result);
-    $count = $row['active_count'];
+    if ($result) {
+        $row = mysqli_fetch_row($result);
+        if ($row && isset($row[0])) {
+            $count = $row[0];
+        } else {
+            $count = 0;
+        }
+    } else {
+        $count = 0;
+    }
 
     echo json_encode(['active_banners_count' => $count]);
     exit;
 }
-
 
 ?>
