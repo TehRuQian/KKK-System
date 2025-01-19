@@ -58,7 +58,10 @@ if (isset($_FILES['fileSign']) && $_FILES['fileSign']['error'] === UPLOAD_ERR_OK
         die('Error: File size exceeds the 5MB limit.');
     }
 
-    $newFileName = md5(time() . $fileName) . '.' . $fileExtension;
+
+    
+     // Create new filename with loan application ID
+    $newFileName = "gambar_pemohon_" . $GLOBALS['loanApplicationID'] . "." . $fileExtension;
     
     // Directory to store the file
     $uploadFileDir = './uploads/';
@@ -69,7 +72,7 @@ if (isset($_FILES['fileSign']) && $_FILES['fileSign']['error'] === UPLOAD_ERR_OK
 
     // Move the uploaded file to the destination directory
     if (move_uploaded_file($fileTmpPath, $dest_path)) {
-        $fileSign = $dest_path; // Store the file path in the database
+        $fileSign = $newFileName; 
     } else {
         die('Error: File upload failed. Please try again.');
     }

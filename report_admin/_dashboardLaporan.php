@@ -192,7 +192,7 @@ $policies_result = mysqli_query($con, $policies_sql);
                         <a href="generate_pdf.php?bulan=<?= urlencode($bulan) ?>&tahun=<?= urlencode($tahun) ?>" 
                            class="btn btn-primary" 
                            target="_blank">
-                            <i class="fas fa-download"></i> Muat Turun PDF
+                            <i class="fas fa-download"></i> Lihat dalam PDF
                         </a>
                       </div>
                     <?php endif; ?>

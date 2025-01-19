@@ -61,26 +61,34 @@ try {
         }
     }
 
-   
     $fileSignPenjamin1 = $existing_signature1;
     if (isset($_FILES['fileSignPenjamin1']) && !empty($_FILES['fileSignPenjamin1']['name'])) {
-        if (!empty($existing_signature1) && file_exists($existing_signature1)) {
-            unlink($existing_signature1);
+        
+        if (!empty($existing_signature1)) {
+            $oldFile = $uploadFileDir . basename($existing_signature1);
+            if (file_exists($oldFile)) {
+                unlink($oldFile);
+            }
         }
         $newFile1 = handleFileUpload('fileSignPenjamin1', $uploadFileDir);
         if ($newFile1 !== '') {
+            
             $fileSignPenjamin1 = $newFile1;
         }
     }
 
-    
     $fileSignPenjamin2 = $existing_signature2;
     if (isset($_FILES['fileSignPenjamin2']) && !empty($_FILES['fileSignPenjamin2']['name'])) {
-        if (!empty($existing_signature2) && file_exists($existing_signature2)) {
-            unlink($existing_signature2);
+      
+        if (!empty($existing_signature2)) {
+            $oldFile = $uploadFileDir . basename($existing_signature2);
+            if (file_exists($oldFile)) {
+                unlink($oldFile);
+            }
         }
         $newFile2 = handleFileUpload('fileSignPenjamin2', $uploadFileDir);
         if ($newFile2 !== '') {
+           
             $fileSignPenjamin2 = $newFile2;
         }
     }
@@ -149,10 +157,18 @@ function handleFileUpload($fileKey, $uploadFileDir) {
 
     $fileName = $_FILES[$fileKey]['name'];
     $tmpName = $_FILES[$fileKey]['tmp_name'];
-    
-    
     $fileExtension = pathinfo($fileName, PATHINFO_EXTENSION);
-    $newFileName = uniqid() . '.' . $fileExtension;
+    
+    
+   // Set the filename based on which guarantor (penjamin)
+    if (strpos($fileKey, '1') !== false) {
+        $newFileName = "gambar_penjamin1_" .$GLOBALS['loanApplicationID']. "." . $fileExtension;
+    } else if (strpos($fileKey, '2') !== false) {
+        $newFileName = "gambar_penjamin2_" . $GLOBALS['loanApplicationID']. "." . $fileExtension;
+    } else {
+        die('Error: Invalid file key');
+    }
+
     $dest_path = $uploadFileDir . $newFileName;
 
     if (!move_uploaded_file($tmpName, $dest_path)) {
@@ -160,6 +176,6 @@ function handleFileUpload($fileKey, $uploadFileDir) {
         return '';
     }
 
-    return $dest_path;
+    return $newFileName;
 }
 ?>

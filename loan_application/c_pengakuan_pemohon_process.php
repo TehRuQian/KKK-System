@@ -10,13 +10,13 @@ include '../db_connect.php';
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     echo "<script>
-            alert('Anda telah berjaya disimpan.');
-            window.location.href = 'd_penjamin.php';
+            alert('Maklumat anda telah berjaya disimpan!.');
+            window.location.href = 'd_penjamin.php?status=success';
           </script>";
 
 } else {
 
-    header('Location: d_penjamin.php?status=success'); 
+    header('Location: c_pengakuan_pemohon.php'); 
     exit();
 }
 ?>

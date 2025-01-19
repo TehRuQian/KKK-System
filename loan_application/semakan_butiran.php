@@ -318,7 +318,7 @@ error_log("Debug - Guarantor 2 Name: " . $namaPenjamin2);
                     <td scope="row">Tandatangan</td>
                     <td>
                     <?php if (!empty($selected_signature)) : ?>
-                        <img src="<?php echo $selected_signature; ?>" alt="Signature" style="max-width: 200px; height: auto;">
+                        <img src="./uploads/<?php echo $selected_signature; ?>" alt="Signature" style="max-width: 200px; height: auto;">
                     <?php  else : ?>
                         <span>No signature available</span>
                     <?php endif; ?>
@@ -507,7 +507,7 @@ error_log("Debug - Guarantor 2 Name: " . $namaPenjamin2);
                     <td scope="row">Tandatangan</td>
                     <td>
                     <?php if (!empty($signaturePenjamin1)) : ?>
-                        <img src="<?php echo $signaturePenjamin1; ?>" alt="Signature" style="max-width: 200px; height: auto;">
+                        <img src="./uploads/<?php echo $signaturePenjamin1; ?>" alt="Signature" style="max-width: 200px; height: auto;">
                     <?php  else : ?>
                         <span>No signature available</span>
                     <?php endif; ?>
@@ -544,7 +544,7 @@ error_log("Debug - Guarantor 2 Name: " . $namaPenjamin2);
                     <td scope="row">Tandatangan</td>
                     <td>
                     <?php if (!empty($signaturePenjamin2)) : ?>
-                        <img src="<?php echo $signaturePenjamin2; ?>" alt="Signature" style="max-width: 200px; height: auto;">
+                        <img src="./uploads/<?php echo $signaturePenjamin2; ?>" alt="Signature" style="max-width: 200px; height: auto;">
                     <?php  else : ?>
                         <span>No signature available</span>
                     <?php endif; ?>
