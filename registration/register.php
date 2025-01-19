@@ -144,9 +144,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['submit'])) {
                 </div>
                 <form method="post" autocomplete="on" id="main-form">
                 <fieldset>
-                <form method="post" action="">
-    <button type="submit" name="reset_session">Reset Form</button>
-</form>
+                
         <div>
             <label class="form-label mt-4">Nama</label>
             <input type="text" name="funame" class="form-control" placeholder="Seperti dalam IC" 

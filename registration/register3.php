@@ -56,7 +56,7 @@ include('functions.php');
                 <div class="container">
                     <br>
                     <div class="text-center">
-                        <h3>Akaun Kebenaran</h3>
+                        <h3>Akuan Kebenaran</h3>
                     </div>
 
                     <p class="text-dark"> Saya mengaku bahawa semua maklumat yang diberi adalah benar dan betul.
