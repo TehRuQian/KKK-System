@@ -48,19 +48,33 @@ function handleFileUpload($fileKey, $uploadFileDir) {
     $fileNameCmps = explode(".", $_FILES[$fileKey]['name']);
     $fileExtension = strtolower(end($fileNameCmps));
     $allowedExtensions = ['jpg', 'jpeg', 'png', 'pdf'];
+    $maxFileSize = 5 * 1024 * 1024; // 5MB
 
     if (!in_array($fileExtension, $allowedExtensions)) {
         die('Error: Invalid file type. Only JPG, JPEG, PNG, and PDF are allowed.');
     }
 
-    $newFileName = md5(time() . $_FILES[$fileKey]['name']) . '.' . $fileExtension;
+    if ($_FILES[$fileKey]['size'] > $maxFileSize) {
+        die('Error: File size exceeds 5MB limit for ' . $fileKey);
+    }
+
+    
+    // Set the filename based on which guarantor (penjamin)
+    if (strpos($fileKey, '1') !== false) {
+        $newFileName = "gambar_penjamin1_" . $GLOBALS['loanApplicationID'] . "." . $fileExtension;
+    } else if (strpos($fileKey, '2') !== false) {
+        $newFileName = "gambar_penjamin2_" . $GLOBALS['loanApplicationID'] . "." . $fileExtension;
+    } else {
+        die('Error: Invalid file key');
+    }
+    
     $dest_path = $uploadFileDir . $newFileName;
 
     if (!move_uploaded_file($fileTmpPath, $dest_path)) {
         die('Error: File upload failed.');
     }
 
-    return $dest_path;
+    return $newFileName;
 }
 
 // Handle file uploads

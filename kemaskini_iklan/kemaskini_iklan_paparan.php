@@ -1,9 +1,13 @@
 <?php 
+include('../kkksession.php');
+if (!session_id()) {
+    session_start();
+}
 
   include '../header_admin.php';
   include '../db_connect.php';
 
-  // Retrieve latest policy with newest ID
+  // Retrieve latest banner with newest ID
   $sql = "SELECT * FROM tb_banner ORDER BY b_status DESC, b_name ASC";
   $result = mysqli_query($con, $sql);
 ?>
@@ -11,6 +15,12 @@
 <!-- Main Content -->
 <div class="container">
     <h2>Kemaskini Iklan</h2>
+
+    <div class="alert alert-warning" role="alert" id="active-banner-warning" style="display:none;">
+        Tiada iklan aktif. Sila pastikan sekurang-kurangnya satu iklan diaktifkan.
+    </div>
+
+
     <form method="POST" action="kemaskini_iklan_paparan_process.php">
         <table class="table table-hover" style="text-align: center;">
             <thead>
@@ -33,11 +43,11 @@
                     <td>
                       <div class="btn-group" role="group">
                         <button type="button" class="btn btn-<?php echo ($row['b_status'] == 1) ? 'success' : 'primary'; ?> dropdown-toggle" id="btnStatus<?php echo $row['b_bannerID']; ?>" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                          <?php echo ($row['b_status'] == 1) ? 'Active' : 'Inactive'; ?>
+                          <?php echo ($row['b_status'] == 1) ? 'Aktif' : 'Tidak aktif'; ?>
                         </button>
                         <div class="dropdown-menu" aria-labelledby="btnStatus<?php echo $row['b_bannerID']; ?>">
-                          <a class="dropdown-item" href="#" onclick="toggleStatus(<?php echo $row['b_bannerID']; ?>, 'active')">Active</a>
-                          <a class="dropdown-item" href="#" onclick="toggleStatus(<?php echo $row['b_bannerID']; ?>, 'inactive')">Inactive</a>
+                          <a class="dropdown-item" href="#" onclick="toggleStatus(<?php echo $row['b_bannerID']; ?>, 'active')">Mengaktifkan</a>
+                          <a class="dropdown-item" href="#" onclick="toggleStatus(<?php echo $row['b_bannerID']; ?>, 'inactive')">Menyahaktifkan</a>
                         </div>
                       </div>
                     </td>
@@ -51,11 +61,15 @@
             </tbody>
         </table>
     </form>
+
+    <div class="d-flex justify-content-center">
+        <button type="button" class="btn btn-primary" onclick="window.location.href='kemaskini_iklan.php'">Kembali</button>
+    </div>
 </div>
 
 <script>
 function deleteBanner(bannerID, row) {
-    if (confirm("Adakah anda pasti mahu memadamkan sepanduk ini?")) {
+    if (confirm("Adakah anda pasti mahu memadamkan iklan ini?")) {
         fetch('kemaskini_iklan_paparan_process.php', {
             method: 'POST',
             body: new URLSearchParams({
@@ -67,9 +81,10 @@ function deleteBanner(bannerID, row) {
         .then(data => {
             if (data.success) {
                 row.remove();
-                alert("Sepanduk berjaya dipadam.");
+                alert("Iklan berjaya dipadam.");
+                checkActiveBanners();
             } else {
-                alert("Ralat memadamkan sepanduk: " + (data.error || 'Unknown error'));
+                alert("Ralat memadamkan iklan: " + (data.error || 'Unknown error'));
             }
         })
         .catch(error => {
@@ -94,15 +109,16 @@ function toggleStatus(bannerID, status) {
             // Update the dropdown text and button class
             let statusButton = document.getElementById('btnStatus' + bannerID);
             if (status === 'active') {
-                statusButton.textContent = 'Active';
+                statusButton.textContent = 'Aktif';
                 statusButton.classList.remove('btn-primary');
                 statusButton.classList.add('btn-success');
             } else {
-                statusButton.textContent = 'Inactive';
+                statusButton.textContent = 'Tidak aktif';
                 statusButton.classList.remove('btn-success');
                 statusButton.classList.add('btn-primary');
             }
             alert("Status berjaya dikemaskini.");
+            checkActiveBanners();
         } else {
             alert("Ralat mengemaskini status: " + (data.error || 'Unknown error'));
         }
@@ -110,9 +126,35 @@ function toggleStatus(bannerID, status) {
     .catch(error => {
         alert("Ralat: " + error);
     });
+
+    function checkActiveBanners() {
+        fetch('kemaskini_iklan_paparan_process.php', {
+            method: 'POST',
+            body: new URLSearchParams({
+                action: 'check_active_banners'
+            })
+        })
+        .then(response => response.json())
+        .then(data => {
+            const warningElement = document.getElementById('active-banner-warning');
+            
+            if (data.active_banners_count == 0) {
+                warningElement.style.display = 'block';
+            } else {
+                warningElement.style.display = 'none';
+            }
+        })
+        .catch(error => {
+            alert("Ralat: " + error);
+        });
+    }
+
+    // Call checkActiveBanners on page load to initialize the warning state
+    document.addEventListener('DOMContentLoaded', function() {
+        checkActiveBanners();
+    });
 }
 </script>
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
-

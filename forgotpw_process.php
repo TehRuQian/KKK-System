@@ -34,7 +34,7 @@ if ($_POST) {
         mysqli_stmt_execute($stmt);
 
         // Create the reset password link with the token
-        $resetLink = "http://127.0.0.1/kkk/reset_password.php?token=$token";
+        $resetLink = "http://127.0.0.1/KKK-System/reset_password.php?token=$token";
 
         //  send email
         $subject = "Reset Kata Laluan Anda";

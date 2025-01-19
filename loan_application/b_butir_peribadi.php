@@ -15,7 +15,7 @@ include '../db_connect.php';
 $memberNo = $_SESSION['funame'];
 
 if (isset($_GET['status']) && $_GET['status'] == 'success') {
-  echo '<script>alert("Anda telah berjaya disimpan.");</script>';
+  echo '<script>alert("Maklumat anda telah berjaya disimpan!");</script>';
 }
 
 //Extract from database

@@ -1,6 +1,12 @@
 <?php 
+  include('../kkksession.php');
+  if (!session_id()) {
+      session_start();
+  }
+
   include '../header_admin.php';
   include '../db_connect.php';
+  $admin_id = $_SESSION['u_id'];
 
   // Get selected members and action
   if (isset($_POST['selected_members']) && !empty($_POST['selected_members'])) {
@@ -10,8 +16,8 @@
   } else {
       echo "
         <script>
-            alert ('No members selected.');
-            window.location.href = 'transaksi.php';
+            alert ('Sila pilih sekurang-kurangnya satu anggota.');
+            window.location.href = 'potongan_gaji.php';
         </script>";
   }
 
@@ -47,35 +53,39 @@
         <tr>
           <th scope="col">No Ahli</th>
           <th scope="col">Nama</th>
-          <th scope="col">Status Semasa</th>
-          <th scope="col">Status Baru</th>
+          <th scope="col">Perubahan Status</th>
           <th scope="col">Tindakan</th>
         </tr>
       </thead>
       <tbody>
         <?php
           foreach ($selectedMembers as $memberNo){
-            $sql = "SELECT * FROM tb_financial WHERE f_memberNo = $memberNo;";
-            $result = mysqli_query($con, $sql);
-            $financial = mysqli_fetch_assoc($result);
+            $sql_financial = "SELECT * FROM tb_financial WHERE f_memberNo = $memberNo;";
+            $result_financial = mysqli_query($con, $sql_financial);
+            $financial = mysqli_fetch_assoc($result_financial);
 
-            $sql = "SELECT m_name FROM tb_member WHERE m_memberNo = $memberNo;";
-            $result = mysqli_query($con, $sql);
-            $name = mysqli_fetch_assoc($result)['m_name'];
+            $sql_member = "SELECT * FROM tb_member WHERE m_memberNo = $memberNo;";
+            $result_member = mysqli_query($con, $sql_member);
+            $member = mysqli_fetch_assoc($result_member);
 
-            $sql = "SELECT * FROM tb_loan 
-                    WHERE l_memberNo = $memberNo AND l_status = 3;";
+            $sql_loan = "SELECT tb_loan.*, tb_ltype.lt_desc
+                         FROM tb_loan 
+                         JOIN tb_ltype ON tb_loan.l_loanType = tb_ltype.lt_lid
+                         WHERE tb_loan.l_memberNo = $memberNo AND tb_loan.l_status = 3;";
+            $result_loan = mysqli_query($con, $sql_loan);
+
+            $sql_transaction = "SELECT COUNT(t_transactionID) FROM tb_transaction
+                                WHERE t_memberNo = $memberNo
+                                AND t_month = $f_month
+                                AND t_year = $f_year;";
+            $result_transaction = mysqli_query($con, $sql_transaction);
+            $record_exists = mysqli_fetch_row($result_transaction)[0] > 0;
 
             $newShareCapital = $financial['f_shareCapital'];
-            $newMemberFund = $financial['f_memberFund'];
+            $newFeeCapital = $financial['f_feeCapital'];
             $newFixedSaving = $financial['f_fixedSaving'];
-            $newAlBai = $financial['f_alBai'];
-            $newAlInnah = $financial['f_alInnah'];
-            $newBPulihKenderaan = $financial['f_bPulihKenderaan'];
-            $newRoadTaxInsurance = $financial['f_roadTaxInsurance'];
-            $newSpecialScheme = $financial['f_specialScheme'];
-            $newSpecialSeasonCarnival = $financial['f_specialSeasonCarnival'];
-            $newAlQadrulHassan = $financial['f_alQadrulHassan'];
+            $newMemberFund = $financial['f_memberFund'];
+            $newMemberSaving = $financial['f_memberSaving'];
             
             if ($financial['f_shareCapital'] < $minShareCapital) {
               $newShareCapital += $salaryDeductionForSaving;
@@ -90,32 +100,98 @@
               $newFixedSaving += $salaryDeductionForSaving;
             }
 
-            // if ($newAlBai != 0){
-            //   if($newAlBai - )
+            $totalAmount = $salaryDeductionForMemberFund + $salaryDeductionForSaving;
+            // if ($record_exists) {
+            //   echo "<tr id='member_{$memberNo}' class='table-danger'>";
             // }
-
-            echo "<tr id='member_{$memberNo}'>";
+            // else{
+              echo "<tr id='member_{$memberNo}'>";
+            // }
                 echo "<td>" . $financial['f_memberNo'] . "</td>";
-                echo "<td>" . $name . "</td>";
+                echo "<td>" . $member['m_name'] . "</td>";
                 echo "<td>
-                        Modah Syer: " . number_format($financial['f_shareCapital'], 2) . "<br>
-                        Tabung Anggota: " . number_format($financial['f_memberFund'], 2) . "<br>
-                        Simpanan Anggota: " . number_format($financial['f_fixedSaving'], 2) . "
-                      </td>";
-                echo "<td>
-                        Modah Syer: " . number_format($newShareCapital, 2) . "<br>
-                        Tabung Anggota: " . number_format($newMemberFund, 2) . "<br>
-                        Simpanan Anggota: " . number_format($newFixedSaving, 2) . "
-                      </td>";
-                echo "<td><button type='button' class='btn btn-warning' onclick='removeMember(" . $financial['f_memberNo'] . ")'>Keluarkan</button></td>";
-                echo "</tr>";
+                        <table class='table table-hover'>
+                          <tr>
+                            <th>Perkara</th>
+                            <th>Status Semasa</th>
+                            <th>Perubahan</th>
+                            <th>Status Baharu</th>
+                          </tr>";
+                          if($newShareCapital - $financial['f_shareCapital'] != 0){
+                            echo "
+                                <tr>
+                                <td>Modah Syer</td>
+                                <td>" . number_format($financial['f_shareCapital'], 2) . "</td>
+                                <td>" . number_format($newShareCapital - $financial['f_shareCapital'], 2) . "</td>
+                                <td>" . number_format($newShareCapital, 2) . "</td>
+                            </tr>";
+                          };
+                          if($newMemberFund - $financial['f_memberFund'] != 0){
+                            echo "
+                                <tr>
+                                <td>Tabung Anggota</td>
+                                <td>" . number_format($financial['f_memberFund'], 2) . "</td>
+                                <td>" . number_format($newMemberFund - $financial['f_memberFund'], 2) . "</td>
+                                <td>" . number_format($newMemberFund, 2) . "</td>
+                            </tr>";
+                          }
+                          if($newFixedSaving - $financial['f_fixedSaving'] != 0){
+                            echo "
+                                <tr>
+                                <td>Simpanan Anggota</td>
+                                <td>" . number_format($financial['f_fixedSaving'], 2) . "</td>
+                                <td>" . number_format($newFixedSaving - $financial['f_fixedSaving'], 2) . "</td>
+                                <td>" . number_format($newFixedSaving, 2) . "</td>
+                            </tr>";
+                          }
+                    echo"</table>";
+                    if(mysqli_num_rows($result_loan) > 0){
+                        echo "<table class='table table-hover'>
+                                <tr>
+                                    <th>ID</th>
+                                    <th>Pinjaman</th>
+                                    <th>Tangukkan Semasa</th>
+                                    <th>Bayaran</th>
+                                    <th>Tangukkan Baharu</th>
+                                </tr>";
+                        while($row = mysqli_fetch_assoc($result_loan)){
+                            $difference = $row['l_monthlyInstalment'];
+                            if ($difference > $row['l_loanPayable']){
+                                $difference = $row['l_loanPayable'];
+                            }
+                            $newLoanPayable = $row['l_loanPayable'] - $difference;
+                            $totalAmount += $difference;
+                            echo "<tr>";
+                                echo "<td>" . $row['l_loanApplicationID'] . "</td>";
+                                echo "<td>" . $row['lt_desc'] . "</td>";
+                                echo "<td>" . number_format($row['l_loanPayable'], 2) . "</td>";
+                                echo "<td>" . number_format($difference, 2) . "</td>";
+                                echo "<td>" . number_format($newLoanPayable, 2) . "</td>";
+                            echo "</tr>";
+                        }
+                        echo"</table>";
+                    }
+                echo "Jumlah Potongan Gaji: RM " . number_format($totalAmount, 2);
+                echo "</td>";
+                echo "<td>";
+                if ($record_exists) {
+                  // echo "<p class='text-danger'>Transaksi telah wujud untuk bulan ini!</p>";
+                  echo "
+                  <div class='alert alert-dismissible alert-danger'>
+                    <strong>Amaran: </strong>Transaksi telah <br> wujud untuk bulan ini!
+                  </div>";
+                }
+                echo "<button type='button' class='btn btn-warning' onclick='removeMember(" . $financial['f_memberNo'] . ")'>Keluarkan</button></td>";
+            echo "</tr>";
           }
         ?>
       </tbody>
     </table>
-
-    <button type="submit" class="btn btn-primary">Hantar</button>
+    <div class="d-flex justify-content-center">
+        <button type="submit" class="btn btn-primary">Hantar</button>
+    </div>
   </form>
+  <br>
 </div>
 
 <script>
@@ -125,16 +201,11 @@
 
     var selectedMembersInput = document.getElementById('selected_members');
     var currentSelection = selectedMembersInput.value.split(',');
-
-    // Remove the memberNo from the array
     var newSelection = currentSelection.filter(function(item) {
       return item !== memberNo.toString();
     });
 
-    // Update the hidden input with the new selected members
     selectedMembersInput.value = newSelection.join(',');
 
-    // Debugging: log the new value of selected_members
-    console.log("Updated selected_members:", selectedMembersInput.value);
   }
 </script>

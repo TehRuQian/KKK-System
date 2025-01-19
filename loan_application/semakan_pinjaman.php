@@ -77,7 +77,8 @@ $sql = "
           <label class="form-label mt-4">Ansuran Bulanan*</label>
           <div class="input-group mt-2">
             <span class="input-group-text">RM</span> 
-            <input type="text" name="ansuranBulanan" class="form-control" id="ansuranBulanan" aria-label="ansuranBulanan" placeholder="0.00" value="<?php echo isset($_COOKIE['ansuranBulanan']) ? $_COOKIE['ansuranBulanan'] : ''; ?>" required>          </div>  
+            <input type="text" name="ansuranBulanan" class="form-control" id="ansuranBulanan" aria-label="ansuranBulanan" placeholder="0.00" value="<?php echo isset($_COOKIE['ansuranBulanan']) ? $_COOKIE['ansuranBulanan'] : ''; ?>" required>          
+          </div>  
         </div>
           <p class="mt-2" style="font-size: 0.9rem; color: #6c757d;">*Sila rujuk jadual pembayaran balik pembiayaan skim </p>
 
@@ -100,14 +101,16 @@ $sql = "
         <div>
           <label class="form-label mt-4">Bank Account</label>
           <div class="input-group mt-2">
-          <input type="text" name="bankAcc" class="form-control" id="bankAcc" aria-label="bankAcc" placeholder="000000000" value="<?php echo isset($_COOKIE['bankAcc']) ? $_COOKIE['bankAcc'] : ''; ?>" required>          </div>  
+          <input type="text" name="bankAcc" class="form-control" id="bankAcc" aria-label="bankAcc" placeholder="000000000" value="<?php echo isset($_COOKIE['bankAcc']) ? $_COOKIE['bankAcc'] : ''; ?>" required>          
+        </div>  
         </div>
 
         <div>
           <label class="form-label mt-4">Gaji Kasar Bulanan</label>
           <div class="input-group mt-2">
             <span class="input-group-text">RM</span> 
-            <input type="text" name="gajiKasar" class="form-control" id="gajiKasar" aria-label="gajiKasar" placeholder="0.00" value="<?php echo isset($_COOKIE['gajiKasar']) ? $_COOKIE['gajiKasar'] : ''; ?>" required>          </div>  
+            <input type="text" name="gajiKasar" class="form-control" id="gajiKasar" aria-label="gajiKasar" placeholder="0.00" value="<?php echo isset($_COOKIE['gajiKasar']) ? $_COOKIE['gajiKasar'] : ''; ?>" required>          
+          </div>  
         </div>
 
         <div>

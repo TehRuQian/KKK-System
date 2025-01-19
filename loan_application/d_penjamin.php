@@ -9,7 +9,11 @@ include '../db_connect.php';
 
 //Loan
 if (!isset($_SESSION['loanApplicationID'])) {
-    die('Error: Loan application ID is missing.');
+  echo "<script>
+  alert('Sila simpan naklumat Butir-Butir Pembiayaan.');
+  window.location.href = 'a_pinjaman.php';
+  </script>";
+  exit();
 }
 
 $loanApplicationID = $_SESSION['loanApplicationID']; // Retrieve from session

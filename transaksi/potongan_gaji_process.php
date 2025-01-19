@@ -1,7 +1,11 @@
-<?php
-  include '../db_connect.php';
+<?php 
+  if (!session_id()) {
+      session_start();
+  }
 
-  $admin_id = 200;                    //! Needs to change
+  include '../header_admin.php';
+  include '../db_connect.php';
+  $admin_id = $_SESSION['u_id'];
 
   // Retrieve Policy  Info
   $sql = "SELECT p_minShareCapital, p_salaryDeductionForSaving, p_salaryDeductionForMemberFund
@@ -18,7 +22,6 @@
       echo "Error: " . mysqli_error($con);
   }
 
-  // Process Selection
   $f_month = $_POST['f_month'];
   $f_year = $_POST['f_year'];
   if (isset($_POST['selected_members']) && !empty($_POST['selected_members'])) {
@@ -26,12 +29,16 @@
     $action = $_POST['action'];
 
     foreach ($selectedMembers as $memberNo) {
-      // Process each selected member
-      $sql = "SELECT * FROM tb_financial WHERE f_memberNo = $memberNo;";
-      $result = mysqli_query($con, $sql);
-      $financial = mysqli_fetch_assoc($result);
+      $sql_financial = "SELECT * FROM tb_financial WHERE f_memberNo = $memberNo;";
+      $result_financial = mysqli_query($con, $sql_financial);
+      $financial = mysqli_fetch_assoc($result_financial);
 
-      // Calculate new financial status
+      $sql_loan = "SELECT tb_loan.*, tb_ltype.lt_desc
+                   FROM tb_loan 
+                   JOIN tb_ltype ON tb_loan.l_loanType = tb_ltype.lt_lid
+                   WHERE tb_loan.l_memberNo = $memberNo AND tb_loan.l_status = 3;";
+      $result_loan = mysqli_query($con, $sql_loan);
+
       $newShareCapital = $financial['f_shareCapital'];
       $newMemberFund = $financial['f_memberFund'];
       $newFixedSaving = $financial['f_fixedSaving'];
@@ -76,19 +83,47 @@
                 VALUES ('4', '$difference', '$f_month', '$f_year',  'Potongan Gaji', '$memberNo', '$admin_id')";
         mysqli_query($con, $sql);
       }
+
+      // Process Loans
+      if(mysqli_num_rows($result_loan) > 0){
+        while($row = mysqli_fetch_assoc($result_loan)){
+            $loanID = $row['l_loanApplicationID'];
+            $difference = $row['l_monthlyInstalment'];
+            $status = 3;
+            if ($difference > $row['l_loanPayable']){
+                $difference = $row['l_loanPayable'];
+                $status = 4;
+            }
+            $difference *= -1;
+            $newLoanPayable = $row['l_loanPayable'] + $difference;
+            $transactionType = $row['l_loanType'] + 5;
+            $desc = "Potongan Gaji Bayaran Balik " . $loanID;
+            
+            $sql = "INSERT INTO tb_transaction(t_transactionType, t_transactionAmt, t_month, t_year, t_desc, t_memberNo, t_adminID)
+                    VALUES ('$transactionType', $difference, '$f_month', '$f_year', '$desc', '$memberNo', '$admin_id');";
+            mysqli_query($con, $sql);
+
+            $sql = "UPDATE tb_loan
+                    SET l_loanPayable = $newLoanPayable,
+                        l_status = $status
+                    WHERE l_loanApplicationID = $loanID;";
+            mysqli_query($con, $sql);
+        }
+      }
+
     }
 
     // Redirect back to the transaction page after processing
     echo "
         <script>
-            alert ('Data has been successfully updated!');
+            alert ('Data berjaya dikemaskini.');
             window.location.href = 'potongan_gaji.php';
         </script>";
   }
   else {
     echo "
         <script>
-            alert ('No members selected.');
+            alert ('Sila pilih sekurang-kurangnya satu anggota.');
             window.location.href = 'potongan_gaji.php';
         </script>";
   }
