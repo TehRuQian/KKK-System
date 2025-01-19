@@ -1,7 +1,11 @@
-<?php
-  include '../db_connect.php';
+<?php 
+  if (!session_id()) {
+      session_start();
+  }
 
-  $admin_id = 200;                    //! Needs to change
+  include '../header_admin.php';
+  include '../db_connect.php';
+  $admin_id = $_SESSION['u_id'];
 
   // Retrieve Policy  Info
   $sql = "SELECT p_minShareCapital, p_salaryDeductionForSaving, p_salaryDeductionForMemberFund

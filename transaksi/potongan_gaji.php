@@ -1,6 +1,12 @@
 <?php 
+  include('../kkksession.php');
+  if (!session_id()) {
+      session_start();
+  }
+
   include '../header_admin.php';
   include '../db_connect.php';
+  $admin_id = $_SESSION['u_id'];
 
   // Retrieve financial list of all members
   $sql = "

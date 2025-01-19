@@ -1,7 +1,12 @@
-<?php
-include '../header_admin.php';
-include '../db_connect.php';
-$admin_id = 200;                    //! Needs to change
+<?php 
+  include('../kkksession.php');
+  if (!session_id()) {
+      session_start();
+  }
+
+  include '../header_admin.php';
+  include '../db_connect.php';
+  $admin_id = $_SESSION['u_id'];
 
 $target_dir = "../img/iklan/";
 $target_file = $target_dir . basename($_FILES["banner"]["name"]);
