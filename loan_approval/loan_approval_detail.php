@@ -25,7 +25,6 @@ $sqlLoan = "SELECT l.*, m.m_name, m.m_pfNo, lt.lt_desc, b.lb_id, b.lb_desc
 
 $resultLoan = mysqli_query($con, $sqlLoan);
 if ($rowLoan = mysqli_fetch_assoc($resultLoan)) {
-    // Loan details
     $guarantorID1 = null;
     $guarantorID2 = null;
 
@@ -59,176 +58,74 @@ if ($rowLoan = mysqli_fetch_assoc($resultLoan)) {
 $basePath1 = 'C:/xampp/htdocs/KKK-System/loan_application/';
 $basePath2 = 'C:/xampp/htdocs/KKK-System/loan_application/uploads/';
 
-// Assign the file paths correctly
 $selected_signature = $basePath1 . trim($rowLoan['l_signature']);
 $selected_file = $basePath2 . trim($rowLoan['l_file']);
-
-// // Debugging paths
-// echo "Signature file path: " . $selected_signature . "<br>";
-// echo "File path: " . $selected_file . "<br>";
-
-// // Check if the files exist
-// if (file_exists($selected_signature)) {
-//     echo "The signature file exists!<br>";
-// } else {
-//     echo "The signature file does not exist!<br>";
-// }
-
-// if (file_exists($selected_file)) {
-//     echo "The file exists!<br>";
-// } else {
-//     echo "The file does not exist!<br>";
-// }
 ?>
 
 <div class="container">
     <h2>Maklumat Peminjam</h2>
     <table class="table table-hover">
-        <tr>
-            <th>No. Aplikasi Pinjaman:</th>
-            <td><?php echo $rowLoan['l_loanApplicationID']; ?></td>
-        </tr>
-        <tr>
-            <th>No. Anggota:</th>
-            <td><?php echo $rowLoan['l_memberNo']; ?></td>
-        </tr>
-        <tr>
-            <th>Nama Peminjam:</th>
-            <td><?php echo $rowLoan['m_pfNo']; ?></td>
-        </tr>
-        <tr>
-            <th>Nama Anggota:</th>
-            <td><?php echo $rowLoan['m_name']; ?></td>
-        </tr>
-        <tr>
-            <th>Jenis Pinjaman:</th>
-            <td><?php echo $rowLoan['lt_desc']; ?></td>
-        </tr>
-        <tr>
-            <th>Jumlah Pinjaman:</th>
-            <td><?php echo $rowLoan['l_appliedLoan']; ?></td>
-        </tr>
-        <tr>
-            <th>Tempoh Pinjaman:</th>
-            <td><?php echo $rowLoan['l_loanPeriod']; ?></td>
-        </tr>
-        <tr>
-            <th>Ansuran Bulanan:</th>
-            <td><?php echo $rowLoan['l_monthlyInstalment']; ?></td>
-        </tr>
-        <tr>
-            <th>Akaun Bank:</th>
-            <td><?php echo $rowLoan['l_bankAccountNo']; ?></td>
-        </tr>
-        <tr>
-            <th>Nama Bank:</th>
-            <td><?php echo isset($rowLoan['lb_desc']) ? $rowLoan['lb_desc'] : 'N/A'; ?></td>
-        </tr>
-        <tr>
-            <th>Gaji Kasar:</th>
-            <td><?php echo $rowLoan['l_monthlyGrossSalary']; ?></td>
-        </tr>
-        <tr>
-            <th>Gaji Bersih:</th>
-            <td><?php echo $rowLoan['l_monthlyNetSalary']; ?></td>
-        </tr>
+        <tr><th>No. Aplikasi Pinjaman:</th><td><?php echo $rowLoan['l_loanApplicationID']; ?></td></tr>
+        <tr><th>No. Anggota:</th><td><?php echo $rowLoan['l_memberNo']; ?></td></tr>
+        <tr><th>Nama Peminjam:</th><td><?php echo $rowLoan['m_pfNo']; ?></td></tr>
+        <tr><th>Nama Anggota:</th><td><?php echo $rowLoan['m_name']; ?></td></tr>
+        <tr><th>Jenis Pinjaman:</th><td><?php echo $rowLoan['lt_desc']; ?></td></tr>
+        <tr><th>Jumlah Pinjaman:</th><td><?php echo $rowLoan['l_appliedLoan']; ?></td></tr>
+        <tr><th>Tempoh Pinjaman:</th><td><?php echo $rowLoan['l_loanPeriod']; ?></td></tr>
+        <tr><th>Ansuran Bulanan:</th><td><?php echo $rowLoan['l_monthlyInstalment']; ?></td></tr>
+        <tr><th>Akaun Bank:</th><td><?php echo $rowLoan['l_bankAccountNo']; ?></td></tr>
+        <tr><th>Nama Bank:</th><td><?php echo $rowLoan['lb_desc'] ?? 'N/A'; ?></td></tr>
+        <tr><th>Gaji Kasar:</th><td><?php echo $rowLoan['l_monthlyGrossSalary']; ?></td></tr>
+        <tr><th>Gaji Bersih:</th><td><?php echo $rowLoan['l_monthlyNetSalary']; ?></td></tr>
         <tr>
             <th scope="row">Tandatangan</th>
             <td>
-            <?php
-            $signature_url = 'http://localhost/KKK-System/loan_application/uploads/' . basename($selected_signature);
-
-            if (file_exists($selected_signature)) : ?>
-                <img src="<?php echo $signature_url; ?>" alt="Signature" style="max-width: 200px; height: auto;">
-            <?php else : ?>
-                <span>Tiada tandatangan.</span>
-            <?php endif; ?>
+                <?php
+                $signature_url = 'http://localhost/KKK-System/loan_application/uploads/' . basename($selected_signature);
+                if (file_exists($selected_signature)) : ?>
+                    <img src="<?php echo $signature_url; ?>" alt="Signature" style="max-width: 200px; height: auto;">
+                <?php else : ?>
+                    <span>Tiada tandatangan.</span>
+                <?php endif; ?>
             </td>
         </tr>
-
-        <!-- <tr>
-            <th>Pengesahan Majikan:</th>
-            <td>
-            <?php if (!empty($selected_file)) : ?>
-                <a href="#" onclick="window.open('<?php echo $selected_file; ?>', '_blank'); return false;">View PDF</a>
-            <?php else : ?>
-                <span>Tiada fail.</span>
-            <?php endif; ?>
-            </td>
-        </tr> -->
-
-        <tr>
-            <th>Tarikh Pohon:</th>
-            <td><?php echo $rowLoan['l_applicationDate']; ?></td>
-        </tr>
-        <tr>
-            <th>Tarikh Lulus:</th>
-            <td><?php echo $rowLoan['l_approvalDate']; ?></td>
-        </tr>
-
-        <tr>
-            <th colspan="2">Maklumat Penjamin 1</th>
-        </tr>
-        <tr>
-            <th>No. Anggota:</th>
-            <td><?php echo $guarantor1['m_memberNo'] ?? 'N/A'; ?></td>
-        </tr>
-        <tr>
-            <th>Nama Penjamin:</th>
-            <td><?php echo $guarantor1['m_name'] ?? 'N/A'; ?></td>
-        </tr>
-        <tr>
-            <th>No. Kad Pengenalan:</th>
-            <td><?php echo $guarantor1['m_ic'] ?? 'N/A'; ?></td>
-        </tr>
-        <tr>
-            <th>No. PF:</th>
-            <td><?php echo $guarantor1['m_pfNo'] ?? 'N/A'; ?></td>
-        </tr>
+        <tr><th>Tarikh Pohon:</th><td><?php echo $rowLoan['l_applicationDate']; ?></td></tr>
+        <tr><th>Tarikh Lulus:</th><td><?php echo $rowLoan['l_approvalDate']; ?></td></tr>
+        <!-- Guarantor Information -->
+        <tr><th colspan="2">Maklumat Penjamin 1</th></tr>
+        <tr><th>No. Anggota:</th><td><?php echo $guarantor1['m_memberNo'] ?? 'N/A'; ?></td></tr>
+        <tr><th>Nama Penjamin:</th><td><?php echo $guarantor1['m_name'] ?? 'N/A'; ?></td></tr>
+        <tr><th>No. Kad Pengenalan:</th><td><?php echo $guarantor1['m_ic'] ?? 'N/A'; ?></td></tr>
+        <tr><th>No. PF:</th><td><?php echo $guarantor1['m_pfNo'] ?? 'N/A'; ?></td></tr>
         <tr>
             <th>Tandatangan Penjamin 1:</th>
             <td>
-            <?php if (!empty($guarantor1Signature)) : ?>
-                <img src="http://localhost/KKK-System/loan_application/uploads/<?php echo basename($guarantor1Signature); ?>" alt="Signature" style="max-width: 200px; height: auto;">
-            <?php  else : ?>
-                <span>Tiada tandatangan.</span>
-            <?php endif; ?>
+                <?php if (!empty($guarantor1Signature)) : ?>
+                    <img src="http://localhost/KKK-System/loan_application/uploads/<?php echo basename($guarantor1Signature); ?>" alt="Signature" style="max-width: 200px; height: auto;">
+                <?php else : ?>
+                    <span>Tiada tandatangan.</span>
+                <?php endif; ?>
             </td>
         </tr>
-
-        <tr>
-            <th colspan="2">Maklumat Penjamin 2</th>
-        </tr>
-        <tr>
-            <th>No. Anggota:</th>
-            <td><?php echo $guarantor2['m_memberNo'] ?? 'N/A'; ?></td>
-        </tr>
-        <tr>
-            <th>Nama Penjamin:</th>
-            <td><?php echo $guarantor2['m_name'] ?? 'N/A'; ?></td>
-        </tr>
-        <tr>
-            <th>No. Kad Pengenalan:</th>
-            <td><?php echo $guarantor2['m_ic'] ?? 'N/A'; ?></td>
-        </tr>
-        <tr>
-            <th>No. PF:</th>
-            <td><?php echo $guarantor2['m_pfNo'] ?? 'N/A'; ?></td>
-        </tr>
+        <tr><th colspan="2">Maklumat Penjamin 2</th></tr>
+        <tr><th>No. Anggota:</th><td><?php echo $guarantor2['m_memberNo'] ?? 'N/A'; ?></td></tr>
+        <tr><th>Nama Penjamin:</th><td><?php echo $guarantor2['m_name'] ?? 'N/A'; ?></td></tr>
+        <tr><th>No. Kad Pengenalan:</th><td><?php echo $guarantor2['m_ic'] ?? 'N/A'; ?></td></tr>
+        <tr><th>No. PF:</th><td><?php echo $guarantor2['m_pfNo'] ?? 'N/A'; ?></td></tr>
         <tr>
             <th>Tandatangan Penjamin 2:</th>
             <td>
-            <?php if (!empty($guarantor2Signature)) : ?>
-                <img src="http://localhost/KKK-System/loan_application/uploads/<?php echo basename($guarantor2Signature); ?>" alt="Signature" style="max-width: 200px; height: auto;">
-            <?php  else : ?>
-                <span>Tiada tandatangan.</span>
-            <?php endif; ?>
+                <?php if (!empty($guarantor2Signature)) : ?>
+                    <img src="http://localhost/KKK-System/loan_application/uploads/<?php echo basename($guarantor2Signature); ?>" alt="Signature" style="max-width: 200px; height: auto;">
+                <?php else : ?>
+                    <span>Tiada tandatangan.</span>
+                <?php endif; ?>
             </td>
         </tr>
     </table>
 </div>
 
-<form method="POST" action="loan_approval_process.php" onsubmit="return confirmSubmission()">
+<form method="POST" action="loan_approval_process.php" onsubmit="return validateForm()"> 
     <input type="hidden" name="lApplicationID" value="<?php echo $lApplicationID; ?>">
     <fieldset>
         <div class="container" style="display: flex; justify-content: center; align-items: center; flex-direction: column;">
@@ -248,21 +145,19 @@ $selected_file = $basePath2 . trim($rowLoan['l_file']);
                     }
                     ?>
                 </ul>
-            </div>   
+            </div>    
             <br>
 
             <?php // To store the status ?>
-            <input type="hidden" name="lstatus" id="lstatus"> 
+            <input type="hidden" name="lstatus" id="lstatus" value="1" />
 
             <div style="display: flex; gap: 10px; justify-content: center;">
                 <button type="button" class="btn btn-primary" onclick="window.location.href='loan_approval.php'">Kembali</button>
                 <button type="submit" class="btn btn-primary">Hantar</button>
             </div>
-        </fieldset>
-    </form>
-    <br>
-</div>
-
+        </div>
+    </fieldset>
+</form>
 
 <script>
 function setStatus(event, status, statusDesc) {
@@ -277,17 +172,17 @@ function setStatus(event, status, statusDesc) {
 
     if (status == 1) {
         statusButton.classList.remove('btn-warning', 'btn-danger', 'btn-success');
-        statusButton.classList.add('btn-secondary');
+        statusButton.classList.add('btn-secondary');  // Sedang Diproses
     } else if (status == 2) {
         statusButton.classList.remove('btn-secondary', 'btn-success', 'btn-warning');
-        statusButton.classList.add('btn-danger');
+        statusButton.classList.add('btn-danger');  // Ditolak
     } else if (status == 3) {
         statusButton.classList.remove('btn-secondary', 'btn-danger', 'btn-warning');
-        statusButton.classList.add('btn-success');
+        statusButton.classList.add('btn-success');  // Diluluskan
     }
 }
 
-function confirmSubmission() {
+function validateForm() {
     const status = document.getElementById('lstatus').value;
 
     if (status == 2) {
@@ -295,7 +190,9 @@ function confirmSubmission() {
     } else if (status == 3) {
         return confirm("Adakah anda pasti mahu meluluskan permohonan ini?");
     }
-    return true;
+    return true; 
 }
 
-setStatus(null, 1, "Sedang Diproses");
+setStatus(null, 1, "Sedang Diproses");  // Default status
+</script>
+
