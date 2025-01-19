@@ -1,10 +1,13 @@
 <?php 
+  include('../kkksession.php');
+  if (!session_id()) {
+      session_start();
+  }
+
   include '../header_admin.php';
   include '../db_connect.php';
-
-  // Retrieve data from form
-  // $u_id = $_SESSION['u_id'];
-  $admin_id = 200;                    //! Needs to change
+  $admin_id = $_SESSION['u_id'];
+  
   $f_minShareCapitalForLoan = $_POST['f_minShareCapitalForLoan'];
   $f_profitRate = $_POST['f_profitRate'];
   $f_maxInstallmentPeriod = $_POST['f_maxInstallmentPeriod'];

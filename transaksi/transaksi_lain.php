@@ -1,6 +1,12 @@
 <?php 
+  include('../kkksession.php');
+  if (!session_id()) {
+      session_start();
+  }
+
   include '../header_admin.php';
   include '../db_connect.php';
+  $admin_id = $_SESSION['u_id'];
 
   $financial = null;
   if (isset($_POST['f_memberNo']) && !empty($_POST['f_memberNo'])){
