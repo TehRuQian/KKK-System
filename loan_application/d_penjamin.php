@@ -14,6 +14,10 @@ if (!isset($_SESSION['loanApplicationID'])) {
 
 $loanApplicationID = $_SESSION['loanApplicationID']; // Retrieve from session
 
+if (isset($_GET['status']) && $_GET['status'] == 'success') {
+  echo '<script>alert("Maklumat anda telah berjaya disimpan!");</script>';
+}
+
 ?>
 
 <head>
