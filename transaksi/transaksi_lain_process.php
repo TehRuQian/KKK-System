@@ -14,13 +14,6 @@
   $fixedSavingChange = $_POST['fixedSavingChange'];
   $memberSavingChange = $_POST['memberSavingChange'];
   $memberFundChange = $_POST['memberFundChange'];
-  $alBaiChange = $_POST['alBaiChange'];
-  $alInnahChange = $_POST['alInnahChange'];
-  $bPulihKenderaanChange = $_POST['bPulihKenderaanChange'];
-  $roadTaxInsuranceChange = $_POST['roadTaxInsuranceChange'];
-  $specialSchemeChange = $_POST['specialSchemeChange'];
-  $specialSeasonCarnivalChange = $_POST['specialSeasonCarnivalChange'];
-  $alQadrulHassanChange = $_POST['alQadrulHassanChange'];
   $desc = $_POST['f_desc'];
 
   $currentMonth = date('n');
@@ -45,13 +38,6 @@
     3 => $fixedSavingChange,
     4 => $memberSavingChange,
     5 => $memberFundChange,
-    6 => $alBaiChange,
-    7 => $alInnahChange,
-    8 => $bPulihKenderaanChange,
-    9 => $roadTaxInsuranceChange,
-    10 => $specialSchemeChange,
-    11 => $specialSeasonCarnivalChange,
-    12 => $alQadrulHassanChange
   ];
 
   foreach ($transactionTypes as $type => $changeAmount) {
@@ -62,27 +48,64 @@
     }
   }
 
+  if (isset($_POST['payment']) && is_array($_POST['payment'])) {
+    foreach ($_POST['payment'] as $loanID => $paymentAmount) {
+      if($paymentAmount != 0){
+        $sql = "SELECT * FROM tb_loan WHERE l_loanApplicationID = '$loanID' AND l_memberNo = '$memberNo'";
+        $result_loan = mysqli_query($con, $sql);
+        if ($result_loan && mysqli_num_rows($result_loan) == 1) {
+          $loan = mysqli_fetch_assoc($result_loan);
+          $newLoanPayable = $loan['l_loanPayable'] - $paymentAmount;
+
+          if($newLoanPayable == 0){
+            $status = 4;
+          }
+          else{
+            $status = 3;
+          }
+
+          // Update loan table
+          $sql = "UPDATE tb_loan 
+                  SET l_loanPayable = '$newLoanPayable',
+                  l_status = '$status'
+                  WHERE l_loanApplicationID = '$loanID'";
+          mysqli_query($con, $sql);
+
+          $sql = "SELECT l_loanType from tb_loan 
+                  WHERE l_loanApplicationID = '$loanID'";
+          $result = mysqli_fetch_assoc(mysqli_query($con, $sql));
+          $ttype = $result['l_loanType'] + 5;
+          $desc .= ": Bayaran Balik " . $loanID;
+
+          // Log transaction table
+          $sql = "INSERT INTO tb_transaction (t_transactionType, t_transactionAmt, t_month, t_year, t_desc, t_memberNo, t_adminID)
+                  VALUES ('$ttype', '$paymentAmount', '$currentMonth', '$currentYear', '$desc', '$memberNo', '$admin_id')";
+          mysqli_query($con, $sql);
+        }
+      }
+    }
+  }
+
   $sql = "UPDATE tb_financial
         SET 
             f_shareCapital = f_shareCapital + '$shareCapitalChange',
             f_feeCapital = f_feeCapital + '$feeCapitalChange',
             f_fixedSaving = f_fixedSaving + '$fixedSavingChange',
             f_memberSaving = f_memberSaving + '$memberSavingChange',
-            f_memberFund = f_memberFund + '$memberFundChange',
-            f_alBai = f_alBai + '$alBaiChange',
-            f_alInnah = f_alInnah + '$alInnahChange',
-            f_bPulihKenderaan = f_bPulihKenderaan + '$bPulihKenderaanChange',
-            f_roadTaxInsurance = f_roadTaxInsurance + '$roadTaxInsuranceChange',
-            f_specialScheme = f_specialScheme + '$specialSchemeChange',
-            f_specialSeasonCarnival = f_specialSeasonCarnival + '$specialSeasonCarnivalChange',
-            f_alQadrulHassan = f_alQadrulHassan + '$alQadrulHassanChange'
+            f_memberFund = f_memberFund + '$memberFundChange'
         WHERE f_memberNo = '$memberNo'";
   mysqli_query($con, $sql);
 
+
   echo "
     <script>
-        alert ('Data has been successfully updated!');
-        window.location.href = 'transaksi_lain.php';
+        Swal.fire({
+            title: 'Berjaya!',
+            text: 'Data berjaya dikemaskini.',
+            icon: 'success',
+            confirmButtonText: 'OK'
+        }).then(() => {
+            window.location.href = 'transaksi_lain.php';
+        });
     </script>";
-
 ?>

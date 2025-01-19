@@ -54,6 +54,7 @@ if($imageFileType != "jpg" && $imageFileType != "png" && $imageFileType != "jpeg
 if ($uploadOk == 0) {
 //   echo "Sorry, your file was not uploaded.";
 // if everything is ok, try to upload file
+  $alertType = 'error';
 } else {
   if (move_uploaded_file($_FILES["banner"]["tmp_name"], $target_file)) {
     // echo "The file ". htmlspecialchars( basename( $_FILES["banner"]["name"])). " has been uploaded.";
@@ -64,19 +65,35 @@ if ($uploadOk == 0) {
 
     if (mysqli_query($con, $sql)) {
         $mssg = htmlspecialchars( basename( $_FILES["banner"]["name"])). " telah berjaya dimuat naik.";
+        $alertType = 'success';
     } else {
         // Database insert failed
         $mssg = "Error: " . mysqli_error($con);
+        $alertType = 'error';
     }
   } else {
     // echo "Sorry, there was an error uploading your file.";
     $mssg = "Maaf, terdapat ralat semasa memuat naik fail anda.";
+    $alertType = 'error';
   }
 }
 
+// echo "
+//     <script>
+//         alert ('$mssg');
+//         window.location.href = 'kemaskini_iklan.php';
+//     </script>";
+
 echo "
-    <script>
-        alert ('$mssg');
+  <script>
+    Swal.fire({
+      text: '$mssg',
+      title: 'Iklan Baru',
+      icon: '$alertType',
+      confirmButtonText: 'OK',
+      willClose: () => {
         window.location.href = 'kemaskini_iklan.php';
-    </script>";
+      }
+    });
+  </script>";
 ?>

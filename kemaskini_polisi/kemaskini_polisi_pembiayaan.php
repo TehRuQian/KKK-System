@@ -78,12 +78,14 @@
       </tr>
       <tbody id="paymentRows"></tbody>
     </table>
+    <br>
 
     <div style="display: flex; gap: 10px; justify-content: center;">
       <button type="button" class="btn btn-primary" onclick="window.location.href='kemaskini_polisi.php'">Kembali</button>
       <button type="submit" class="btn btn-primary">Kemaskini</button>
     </div>
   </form>
+  <br>
 </div>
 
 <script>

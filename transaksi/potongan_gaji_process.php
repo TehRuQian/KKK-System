@@ -26,7 +26,6 @@
   $f_year = $_POST['f_year'];
   if (isset($_POST['selected_members']) && !empty($_POST['selected_members'])) {
     $selectedMembers = explode(',', $_POST['selected_members']);
-    $action = $_POST['action'];
 
     foreach ($selectedMembers as $memberNo) {
       $sql_financial = "SELECT * FROM tb_financial WHERE f_memberNo = $memberNo;";
@@ -111,19 +110,28 @@
       }
 
     }
-
-    // Redirect back to the transaction page after processing
     echo "
         <script>
-            alert ('Data berjaya dikemaskini.');
-            window.location.href = 'potongan_gaji.php';
+            Swal.fire({
+                title: 'Berjaya!',
+                text: 'Data berjaya dikemaskini.',
+                icon: 'success',
+                confirmButtonText: 'OK'
+            }).then(() => {
+                window.location.href = 'potongan_gaji.php';
+            });
         </script>";
-  }
-  else {
+  } else {
     echo "
         <script>
-            alert ('Sila pilih sekurang-kurangnya satu anggota.');
-            window.location.href = 'potongan_gaji.php';
+            Swal.fire({
+                title: 'Ralat!',
+                text: 'Sila pilih sekurang-kurangnya satu anggota.',
+                icon: 'error',
+                confirmButtonText: 'OK'
+            }).then(() => {
+                window.location.href = 'potongan_gaji.php';
+            });
         </script>";
   }
 ?>
