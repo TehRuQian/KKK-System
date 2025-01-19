@@ -80,7 +80,7 @@ if (isset($_FILES['fileSign']) && $_FILES['fileSign']['error'] === UPLOAD_ERR_OK
     die('Error: No file uploaded or file upload error.');
 }
 
-// Update the user's data in the database
+// Update the data in the database
 if (!empty($loanApplicationID)) {
     $sql = "UPDATE tb_loan 
             SET l_loanType = '$loanType', 
