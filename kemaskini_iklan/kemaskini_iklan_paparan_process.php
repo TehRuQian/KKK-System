@@ -1,6 +1,11 @@
 <?php
 include '../db_connect.php';
 
+include('../kkksession.php');
+  if (!session_id()) {
+      session_start();
+  }
+
 if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['action']) && $_POST['action'] == 'delete' && isset($_POST['bannerID'])) {
     $bannerID = $_POST['bannerID'];
     $bannerID = intval($bannerID); 
@@ -40,6 +45,17 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['action']) && $_POST['a
         echo json_encode(['success' => false, 'error' => mysqli_error($con)]);
     }
     mysqli_close($con);
+    exit;
+}
+
+// Check active banner
+if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['action']) && $_POST['action'] == 'check_active_banners') {
+    $sql = "SELECT COUNT(*) as active_count FROM tb_banner WHERE b_status = 1";
+    $result = mysqli_query($con, $sql);
+    $row = mysqli_fetch_assoc($result);
+    $count = $row['active_count'];
+
+    echo json_encode(['active_banners_count' => $count]);
     exit;
 }
 
