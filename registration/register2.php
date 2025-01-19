@@ -90,7 +90,7 @@ if ($result && $row = mysqli_fetch_assoc($result)) {
                 <label class='form-label'>Fee Masuk</label>
                 <div class='input-group'>
                   <span class='input-group-text'>RM</span>
-                  <input type='number' class='form-control' name='ffee' placeholder='0.00' 
+                  <input type='number' class='form-control' name='ffee' placeholder='Nilai Minima: <?php echo (getValue('ffee')); ?>' 
                   value="<?php echo (getValue('ffee')); ?>" 
                   min='<?php echo $minValues['ffee']; ?>' required>
                 </div>
@@ -104,6 +104,7 @@ if ($result && $row = mysqli_fetch_assoc($result)) {
                   value='<?php echo $minValues['fmodal']; ?>' readonly="">
                 </div>
               </div>
+              
 
           <?php
 
@@ -123,7 +124,7 @@ if ($result && $row = mysqli_fetch_assoc($result)) {
                   <label class='form-label'>$label</label>
                   <div class='input-group'>
                     <span class='input-group-text'>RM</span>
-                    <input type='number' class='form-control' name='$key' placeholder='0.00' value='$value' min='$minValue' required>
+                    <input type='number' class='form-control' name='$key' placeholder='Nilai Minima: $minValue' value='$value' min='$minValue' required>
                   </div>
                 </div>
                 ";
@@ -147,19 +148,25 @@ if ($result && $row = mysqli_fetch_assoc($result)) {
         const proceedBtn = document.getElementById("proceed-btn");
         const mainForm3 = document.getElementById("main-form3");
         const links = document.querySelectorAll("#kebenaran-link");
+        const Form2Completed = <?php echo isset($_SESSION['form2_completed']) ? 'true' : 'false'; ?>;
 
-        if (!<?php echo isset($_SESSION['form2_completed']) ? 'true' : 'false'; ?>) {
-            links.forEach(link => {
-                link.addEventListener("click", function (e) {
+        links.forEach(link => {
+            link.addEventListener("click", function (e) {
+                if (Form2Completed) {
+                    if (link.id === "kebenaran-link") {
+                        window.location.href = "register3.php";
+                    }
+                } else {
+                    // Show alert if the form is not completed
                     e.preventDefault();
                     Swal.fire({
                         icon: 'warning',
                         title: 'Perhatian',
                         text: 'Lengkapkan dan simpan maklumat sebelum meneruskan!',
                     });
-                });
+                }
             });
-        }
+        });
 
         saveBtn.addEventListener("click", function (e) {
             const requiredFields = mainForm3.querySelectorAll("[required]");
