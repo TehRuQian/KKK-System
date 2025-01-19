@@ -8,10 +8,10 @@
   include '../db_connect.php';
   $admin_id = $_SESSION['u_id'];
 
+  $totalAmount = 0;
   $financial = null;
   if (isset($_POST['f_memberNo']) && !empty($_POST['f_memberNo'])){
     $memberNo = $_POST['f_memberNo'];
-    // $memberNo = 1;
 
     $sql = "
         SELECT tb_financial.*, tb_member.m_name, tb_member.m_ic, tb_member.m_pfNo
@@ -24,8 +24,13 @@
     if ($result && mysqli_num_rows($result) == 1){
         $financial = mysqli_fetch_assoc($result);
     }
-  }
 
+    $sql_loan = "SELECT tb_loan.*, tb_ltype.lt_desc
+                 FROM tb_loan 
+                 JOIN tb_ltype ON tb_loan.l_loanType = tb_ltype.lt_lid
+                 WHERE tb_loan.l_memberNo = $memberNo AND tb_loan.l_status = 3;";
+    $result_loan = mysqli_query($con, $sql_loan);
+  }
 ?>
 
 <style>
@@ -67,7 +72,7 @@
         </tr>
     </table>
 
-    <h5>Maklumat Kewangan</h5>
+    <h5>Maklumat Saham Ahli</h5>
     <form method="POST" action="transaksi_lain_process.php">
         <input type="hidden" name="memberNo" value="<?php echo ($financial['f_memberNo']) ?>">
         <table class="table table-hover">
@@ -107,49 +112,36 @@
             <td><input type="text" class="form-control" id="memberFundChange" name="memberFundChange" value="0.00"></td>
             <td id="memberFundNew"><?php echo number_format($financial['f_memberFund'], 2); ?></span></td>
         </tr>
-        <tr>
-            <th>Al-Bai</th>
-            <td id="alBai"><?php echo number_format($financial['f_alBai'], 2); ?></td>
-            <td><input type="text" class="form-control" id="alBaiChange" name="alBaiChange" value="0.00"></td>
-            <td id="alBaiNew"><?php echo number_format($financial['f_alBai'], 2); ?></span></td>
-        </tr>
-        <tr>
-            <th>Al-Innah</th>
-            <td id="alInnah"><?php echo number_format($financial['f_alInnah'], 2); ?></td>
-            <td><input type="text" class="form-control" id="alInnahChange" name="alInnahChange" value="0.00"></td>
-            <td id="alInnahNew"><?php echo number_format($financial['f_alInnah'], 2); ?></span></td>
-        </tr>
-        <tr>
-            <th>B/Pulih Kenderaan</th>
-            <td id="bPulihKenderaan"><?php echo number_format($financial['f_bPulihKenderaan'], 2); ?></td>
-            <td><input type="text" class="form-control" id="bPulihKenderaanChange" name="bPulihKenderaanChange" value="0.00"></td>
-            <td id="bPulihKenderaanNew"><?php echo number_format($financial['f_bPulihKenderaan'], 2); ?></span></td>
-        </tr>
-        <tr>
-            <th>Road Tax & Insuran</th>
-            <td id="roadTaxInsurance"><?php echo number_format($financial['f_roadTaxInsurance'], 2); ?></td>
-            <td><input type="text" class="form-control" id="roadTaxInsuranceChange" name="roadTaxInsuranceChange" value="0.00"></td>
-            <td id="roadTaxInsuranceNew"><?php echo number_format($financial['f_roadTaxInsurance'], 2); ?></span></td>
-        </tr>
-        <tr>
-            <th>Khas</th>
-            <td id="specialScheme"><?php echo number_format($financial['f_specialScheme'], 2); ?></td>
-            <td><input type="text" class="form-control" id="specialSchemeChange" name="specialSchemeChange" value="0.00"></td>
-            <td id="specialSchemeNew"><?php echo number_format($financial['f_specialScheme'], 2); ?></span></td>
-        </tr>
-        <tr>
-            <th>Karnival Musim Istimewa</th>
-            <td id="specialSeasonCarnival"><?php echo number_format($financial['f_specialSeasonCarnival'], 2); ?></td>
-            <td><input type="text" class="form-control" id="specialSeasonCarnivalChange" name="specialSeasonCarnivalChange" value="0.00"></td>
-            <td id="specialSeasonCarnivalNew"><?php echo number_format($financial['f_specialSeasonCarnival'], 2); ?></span></td>
-        </tr>
-        <tr>
-            <th>Al-Qadrul Hassan</th>
-            <td id="alQadrulHassan"><?php echo number_format($financial['f_alQadrulHassan'], 2); ?></td>
-            <td><input type="text" class="form-control" id="alQadrulHassanChange" name="alQadrulHassanChange" value="0.00"></td>
-            <td id="alQadrulHassanNew"><?php echo number_format($financial['f_alQadrulHassan'], 2); ?></span></td>
-        </tr>
         </table>
+        <?php
+        if(mysqli_num_rows($result_loan) > 0){
+          echo "<h5>Maklumat Pinjaman Ahli</h5>";
+          echo "<table class='table table-hover'>
+                  <tr>
+                      <th>ID</th>
+                      <th>Pinjaman</th>
+                      <th>Tangukkan Semasa</th>
+                      <th>Ansuran Bulanan</th>
+                      <th>Bayaran</th>
+                      <th>Tangukkan Baharu</th>
+                  </tr>";
+          while($row = mysqli_fetch_assoc($result_loan)){
+              $newLoanPayable = $row['l_loanPayable'];
+              echo "<tr>";
+                  echo "<td>" . $row['l_loanApplicationID'] . "</td>";
+                  echo "<td>" . $row['lt_desc'] . "</td>";
+                  echo "<td id='loanPayable_" . $row['l_loanApplicationID'] . "'>" . number_format($row['l_loanPayable'], 2) . "</td>";
+                  echo "<td>" . $row['l_monthlyInstalment'] . "</td>";
+                  echo "<td><input type='number' class='form-control' id='payment_" . $row['l_loanApplicationID'] . "' name='payment[" . $row['l_loanApplicationID'] . "]' value='0.00' min='0' step='0.01' data-max='" . $row['l_loanPayable'] . "' oninput='validateLoanPayment(" . $row['l_loanApplicationID'] . ")'></td>";
+                  echo "<td id='newLoan_" . $row['l_loanApplicationID'] . "'>" . number_format($newLoanPayable, 2) . "</td>";
+              echo "</tr>";
+          }
+          echo"</table>";
+        }
+        ?>
+        <div>
+          <p id="totalAmount">Jumlah Bayaran: RM 0.00</p>
+        </div>
         <div>
           <label class="form-label mt-4">Ulasan</label>
             <input type="text" class="form-control" name="f_desc" required>
@@ -164,11 +156,13 @@
 </div>
 
 <script>
+  let totalAmount = 0;
   function calculateNewValue(currentID, changeID, newID) {
     const current = parseFloat(document.getElementById(currentID).textContent.replace(/,/g, '') || 0);
     const change = parseFloat(document.getElementById(changeID).value || 0);
     const newValue = current + change;
     document.getElementById(newID).textContent = newValue.toFixed(2);
+    updateTotalAmount();
   }
 
   document.querySelectorAll('[id$="Change"]').forEach(function(input) {
@@ -177,4 +171,41 @@
       calculateNewValue(id, e.target.id, id + 'New');
     });
   });
+
+  function validateLoanPayment(loanID) {
+    const loanPayable = parseFloat(document.getElementById('loanPayable_' + loanID).textContent.replace(/,/g, ''));
+    let payment = parseFloat(document.getElementById('payment_' + loanID).value);
+    
+    // If exceed loan payable
+    if (payment > loanPayable) {
+      payment = loanPayable;
+      document.getElementById('payment_' + loanID).value = payment.toFixed(2);
+    }
+
+    let newLoanPayable = loanPayable - payment;
+    document.getElementById('newLoan_' + loanID).textContent = newLoanPayable.toFixed(2);
+    updateTotalAmount();
+  }
+
+  function updateTotalAmount(){
+    totalAmount = 0;
+
+    const fieldsToSum = [
+      'shareCapitalChange', 'feeCapitalChange', 'fixedSavingChange', 
+      'memberSavingChange', 'memberFundChange'
+    ];
+
+    fieldsToSum.forEach(function(field) {
+      const value = parseFloat(document.getElementById(field).value || 0);
+      totalAmount += value;
+    });
+
+    const loanPayments = document.querySelectorAll('[id^="payment_"]');
+    loanPayments.forEach(function(input) {
+      const payment = parseFloat(input.value || 0);
+      totalAmount += payment;
+    });
+
+    document.getElementById('totalAmount').textContent = 'Jumlah Bayaran: RM ' + totalAmount.toFixed(2);
+  }
 </script>

@@ -13,6 +13,7 @@
   $f_minFeeCapital = $_POST['f_minFeeCapital'];
   $f_minFixedSaving = $_POST['f_minFixedSaving'];
   $f_minMemberFund = $_POST['f_minMemberFund'];
+  $f_minMemberSaving = $_POST['f_minMemberSaving'];
   $f_minOtherFees = $_POST['f_minOtherFees'];
 
   // Get other data that are not changed
@@ -30,8 +31,7 @@
   $d_salaryDeductionForSaving = $policy['p_salaryDeductionForSaving'];
   $d_salaryDeductionForMemberFund = $policy['p_salaryDeductionForMemberFund'];
 
-  // SQL Insert Operation
-  // Admin ID needs to be changed later
+  // Insert
   $sql = "
     INSERT INTO tb_policies (
       p_memberRegFee, p_minShareCapital, p_minFeeCapital, p_minFixedSaving, p_minMemberFund, p_minMemberSaving, p_minOtherFees,
@@ -43,19 +43,31 @@
       '$d_minShareCapitalForLoan', '$d_profitRate', '$d_maxInstallmentPeriod', '$d_maxFinancingAmt',
       '$d_salaryDeductionForSaving', '$d_salaryDeductionForMemberFund',
       '$admin_id'); ";
+
   if (mysqli_query($con, $sql)) {
     echo "
         <script>
-            alert ('Data has been successfully updated!');
-            window.location.href = 'kemaskini_polisi.php';
+            Swal.fire({
+                title: 'Berjaya!',
+                text: 'Data telah berjaya dikemaskini!',
+                icon: 'success',
+                confirmButtonText: 'OK'
+            }).then(() => {
+                window.location.href = 'kemaskini_polisi.php';
+            });
         </script>";
-  }
-  else{
+  } else {
     echo "
         <script>
-            alert ('Error: " . mysqli_error($con) ."');
-            window.location.href = 'kemaskini_polisi.php';
+            Swal.fire({
+                title: 'Ralat!',
+                text: 'Ralat: " . mysqli_error($con) . "',
+                icon: 'error',
+                confirmButtonText: 'OK'
+            }).then(() => {
+                window.location.href = 'kemaskini_polisi.php';
+            });
         </script>";
-  };
+  }
   mysqli_close($con);
 ?>

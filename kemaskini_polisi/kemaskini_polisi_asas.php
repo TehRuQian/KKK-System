@@ -71,6 +71,16 @@
         </div>
     </div>
 
+    <!-- Simpanan Tetap Minimum -->
+    <div>
+      <label class="form-label mt-4">Simpanan Tetap Minimum</label>
+        <div class="input-group mb-3">
+          <span class="input-group-text">RM</span>
+          <input type="text" class="form-control" name="f_minMemberSaving" value="<?php echo htmlspecialchars($policy['p_minMemberFund']); ?>">
+          <span class="input-group-text">.00</span>
+        </div>
+    </div>
+
     <!-- Lain-lain -->
     <div>
       <label class="form-label mt-4">Lain-lain</label>
@@ -86,4 +96,5 @@
         <button type="submit" class="btn btn-primary">Kemaskini</button>
     </div>
   </form>
+  <br>
 </div>

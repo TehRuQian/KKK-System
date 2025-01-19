@@ -26,6 +26,7 @@
   $d_minFeeCapital = $policy['p_minFeeCapital'];
   $d_minFixedSaving = $policy['p_minFixedSaving'];
   $d_minMemberFund = $policy['p_minMemberFund'];
+  $d_minMemberSaving = $policy['p_minMemberSaving'];
   $d_minOtherFees = $policy['p_minOtherFees'];
   
   $d_salaryDeductionForSaving = $policy['p_salaryDeductionForSaving'];
@@ -44,19 +45,31 @@
       '$f_minShareCapitalForLoan', '$f_profitRate', '$f_maxInstallmentPeriod', '$f_maxFinancingAmt',
       '$d_salaryDeductionForSaving', '$d_salaryDeductionForMemberFund',
       '$admin_id'); ";
+
   if (mysqli_query($con, $sql)) {
     echo "
         <script>
-            alert ('Data has been successfully updated!');
-            window.location.href = 'kemaskini_polisi.php';
+            Swal.fire({
+                title: 'Berjaya!',
+                text: 'Data telah berjaya dikemaskini!',
+                icon: 'success',
+                confirmButtonText: 'OK'
+            }).then(() => {
+                window.location.href = 'kemaskini_polisi.php';
+            });
         </script>";
-  }
-  else{
+  } else {
     echo "
         <script>
-            alert ('Error: " . mysqli_error($con) ."');
-            window.location.href = 'kemaskini_polisi.php';
+            Swal.fire({
+                title: 'Ralat!',
+                text: 'Ralat: " . mysqli_error($con) . "',
+                icon: 'error',
+                confirmButtonText: 'OK'
+            }).then(() => {
+                window.location.href = 'kemaskini_polisi.php';
+            });
         </script>";
-  };
+  }
   mysqli_close($con);
 ?>

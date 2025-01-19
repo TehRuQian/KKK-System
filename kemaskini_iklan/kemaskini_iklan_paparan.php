@@ -106,32 +106,45 @@ if (!session_id()) {
 
 <script>
 function deleteBanner(bannerID, row) {
-    if (confirm("Adakah anda pasti mahu memadamkan iklan ini?")) {
-        fetch('kemaskini_iklan_paparan_process.php', {
-            method: 'POST',
-            body: new URLSearchParams({
-                action: 'delete',
-                bannerID: bannerID
+    Swal.fire({
+        title: 'Perhatian',
+        text: "Adakah anda pasti untuk memadamkan iklan ini?",
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonText: 'Ya, padamkan!',
+        cancelButtonText: 'Batal',
+        reverseButtons: true
+    }).then((result) => {
+        if (result.isConfirmed) {
+            fetch('kemaskini_iklan_paparan_process.php', {
+                method: 'POST',
+                body: new URLSearchParams({
+                    action: 'delete',
+                    bannerID: bannerID
+                })
             })
-        })
-        .then(response => response.json())
-        .then(data => {
-            if (data.success) {
-                row.remove();
-                alert("Iklan berjaya dipadam.");
-                checkActiveBanners();
-            } else {
-                alert("Ralat memadamkan iklan: " + (data.error || 'Unknown error'));
-            }
-        })
-        .catch(error => {
-            alert("Ralat: " + error);
-        });
-    }
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    row.remove();
+                    Swal.fire('Padam Berjaya!', 'Iklan telah berjaya dipadam.', 'success')
+                        .then(() => {
+                            checkActiveBanners();
+                        });
+                } else {
+                    Swal.fire('Ralat!', 'Terdapat masalah semasa memadamkan iklan: ' + (data.error || 'Unknown error'), 'error');
+                }
+            })
+            .catch(error => {
+                Swal.fire('Ralat!', 'Terdapat masalah semasa memadamkan iklan: ' + error, 'error');
+            });
+        } else {
+            Swal.fire('Dibatalkan', 'Iklan tidak dipadamkan.', 'info');
+        }
+    });
 }
 
 function toggleStatus(bannerID, status) {
-    // Perform a fetch request to update the status
     fetch('kemaskini_iklan_paparan_process.php', {
         method: 'POST',
         body: new URLSearchParams({
@@ -154,16 +167,33 @@ function toggleStatus(bannerID, status) {
                 statusButton.classList.remove('btn-success');
                 statusButton.classList.add('btn-primary');
             }
-            alert("Status berjaya dikemaskini.");
-            checkActiveBanners();
+            Swal.fire({
+                title: 'Berjaya!',
+                text: 'Status iklan telah berjaya dikemaskini.',
+                icon: 'success',
+                confirmButtonText: 'OK'
+            }).then(() => {
+                checkActiveBanners();
+            });
         } else {
-            alert("Ralat mengemaskini status: " + (data.error || 'Unknown error'));
+            Swal.fire({
+                title: 'Ralat!',
+                text: 'Terdapat masalah semasa mengemaskini status: ' + (data.error || 'Unknown error'),
+                icon: 'error',
+                confirmButtonText: 'OK'
+            });
         }
     })
     .catch(error => {
-        alert("Ralat: " + error);
+        Swal.fire({
+            title: 'Ralat!',
+            text: 'Terdapat masalah semasa mengemaskini status: ' + error,
+            icon: 'error',
+            confirmButtonText: 'OK'
+        });
     });
 }
+
 
 document.addEventListener('DOMContentLoaded', function() { checkActiveBanners(); });
 
@@ -185,7 +215,13 @@ function checkActiveBanners() {
         }
     })
     .catch(error => {
-        alert("Ralat: " + error);
+        // Show error SweetAlert in case of a fetch error
+        Swal.fire({
+            title: 'Ralat!',
+            text: 'Terdapat masalah semasa memuatkan status iklan aktif: ' + error,
+            icon: 'error',
+            confirmButtonText: 'OK'
+        });
     });
 }
 </script>
