@@ -66,20 +66,20 @@
       // Log Update to Transaction
       if($newShareCapital != $financial['f_shareCapital']){
         $difference = $newShareCapital - $financial['f_shareCapital'];
-        $sql = "INSERT INTO tb_transaction(t_transactionType, t_transactionAmt, t_month, t_year, t_desc, t_memberNo, t_adminID)
-                VALUES ('1', '$difference', '$f_month', '$f_year', 'Potongan Gaji', '$memberNo', '$admin_id')";
+        $sql = "INSERT INTO tb_transaction(t_transactionType, t_method, t_transactionAmt, t_month, t_year, t_desc, t_memberNo, t_adminID)
+                VALUES ('1', 'Potongan Gaji', '$difference', '$f_month', '$f_year', 'Potongan Gaji', '$memberNo', '$admin_id')";
         mysqli_query($con, $sql);
       }
       if($newFixedSaving != $financial['f_fixedSaving']){
         $difference = $newFixedSaving - $financial['f_fixedSaving'];
-        $sql = "INSERT INTO tb_transaction(t_transactionType, t_transactionAmt, t_month, t_year, t_desc, t_memberNo, t_adminID)
-                VALUES ('3', '$difference', '$f_month', '$f_year', 'Potongan Gaji', '$memberNo', '$admin_id')";
+        $sql = "INSERT INTO tb_transaction(t_transactionType, t_method, t_transactionAmt, t_month, t_year, t_desc, t_memberNo, t_adminID)
+                VALUES ('3', 'Potongan Gaji', '$difference', '$f_month', '$f_year', 'Potongan Gaji', '$memberNo', '$admin_id')";
         mysqli_query($con, $sql);
       }
       if($newMemberFund != $financial['f_memberFund']){
         $difference = $newMemberFund - $financial['f_memberFund'];
-        $sql = "INSERT INTO tb_transaction(t_transactionType, t_transactionAmt, t_month, t_year, t_desc, t_memberNo, t_adminID)
-                VALUES ('4', '$difference', '$f_month', '$f_year',  'Potongan Gaji', '$memberNo', '$admin_id')";
+        $sql = "INSERT INTO tb_transaction(t_transactionType, t_method, t_transactionAmt, t_month, t_year, t_desc, t_memberNo, t_adminID)
+                VALUES ('4', 'Potongan Gaji', '$difference', '$f_month', '$f_year',  'Potongan Gaji', '$memberNo', '$admin_id')";
         mysqli_query($con, $sql);
       }
 
@@ -97,8 +97,8 @@
             $transactionType = $row['l_loanType'] + 5;
             $desc = "Potongan Gaji Bayaran Balik " . $loanID;
             
-            $sql = "INSERT INTO tb_transaction(t_transactionType, t_transactionAmt, t_month, t_year, t_desc, t_memberNo, t_adminID)
-                    VALUES ('$transactionType', $difference, '$f_month', '$f_year', '$desc', '$memberNo', '$admin_id');";
+            $sql = "INSERT INTO tb_transaction(t_transactionType, t_method, t_transactionAmt, t_month, t_year, t_desc, t_memberNo, t_adminID)
+                    VALUES ('$transactionType', 'Potongan Gaji', $difference, '$f_month', '$f_year', '$desc', '$memberNo', '$admin_id');";
             mysqli_query($con, $sql);
 
             $sql = "UPDATE tb_loan

@@ -77,7 +77,8 @@
             $sql_transaction = "SELECT COUNT(t_transactionID) FROM tb_transaction
                                 WHERE t_memberNo = $memberNo
                                 AND t_month = $f_month
-                                AND t_year = $f_year;";
+                                AND t_year = $f_year
+                                AND t_method = 'Potongan Gaji';";
             $result_transaction = mysqli_query($con, $sql_transaction);
             $record_exists = mysqli_fetch_row($result_transaction)[0] > 0;
 
