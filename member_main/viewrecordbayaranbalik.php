@@ -60,27 +60,7 @@ if (!$result) {
     <div class="my-3"></div>
 
     <h2 style="text-align:center;">Rekod Bayaran Balik</h2>
-    <br>
-    <nav>
-      <ul class="dflex justify-content-center pagination ms-5 pagination-sm">
-        <?php if($current_page>1): ?>
-        <li class="page-item">
-          <a class="page-link" href="?page=<?=$current_page-1;?>">&laquo</a>
-        </li>
-        <?php endif;?>
-
-        <?php for($i=1;$i<=$total_pages;$i++):?>
-        <li class="page-item <?=($i==$current_page)?'active':'';?>">
-          <a class="page-link" href="?page=<?=$i;?>"><?=$i;?></a>
-        </li>
-        <?php endfor;?>
-        <?php if($current_page<$total_pages):?>
-        <li class="page-item">
-          <a class="page-link" href="?page=<?=$current_page+1;?>">&raquo</a>
-        </li>
-        <?php endif;?>
-      </ul>
-    </nav>
+    
 
 
     <div class="card mb-3 col-10 my-5 mx-auto">
@@ -123,8 +103,28 @@ if (!$result) {
         </table>
       </div>
     </div>
-  <br><br><br>
+  
 
+<nav>
+      <ul class="dflex justify-content-center pagination ms-5 pagination-sm">
+        <?php if($current_page>1): ?>
+        <li class="page-item">
+          <a class="page-link" href="?page=<?=$current_page-1;?>">&laquo</a>
+        </li>
+        <?php endif;?>
+
+        <?php for($i=1;$i<=$total_pages;$i++):?>
+        <li class="page-item <?=($i==$current_page)?'active':'';?>">
+          <a class="page-link" href="?page=<?=$i;?>"><?=$i;?></a>
+        </li>
+        <?php endfor;?>
+        <?php if($current_page<$total_pages):?>
+        <li class="page-item">
+          <a class="page-link" href="?page=<?=$current_page+1;?>">&raquo</a>
+        </li>
+        <?php endif;?>
+      </ul>
+    </nav>
 
 
 <?php include '../footer.php'; ?>

@@ -157,8 +157,12 @@ if (!$heir_result) {
             <?php 
             $count=1;
             while ($heir = mysqli_fetch_assoc($heir_result)){ ?>
-
-                <label class="form-label mt-4"><h5>Maklumat Pewaris <?= $count; ?></h5></label>
+                <div class="d-flex align-items-center justify-content-between mt-4">
+                    <label class="form-label mt-4"><h5>Maklumat Pewaris <?= $count; ?></h5></label>
+                    <button type="submit" class="btn btn-danger mt-4" onclick="confirmDelete(<?= $heir['h_heirID']; ?>)">
+                        <i class="fa-solid fa-trash"></i> Padam
+                    </button>
+                </div>
                 <input type="hidden" name="memberApplicationID" value="<?= $memberApplicationID ?>">
                 <input type="hidden" name="heirs[<?= $count ?>][id]" value="<?= $heir['h_heirID']; ?>">
                 <div>
@@ -167,12 +171,11 @@ if (!$heir_result) {
                 </div>
                 <div class="my-3">
                     <label class="form-label">No. KP / No. Srt Beranak <span class="required">*</span></label>
-                    <input type="text" class="form-control" name="heirs[<?= $count ?>][ic]" value="<?= htmlspecialchars($heir['h_ic'], ENT_QUOTES, 'UTF-8'); ?>" required>
+                    <input type="text" class="form-control" name="heirs[<?= $count ?>][ic]" value="<?= htmlspecialchars($heir['h_ic'], ENT_QUOTES, 'UTF-8'); ?>"  pattern="\d{6}-\d{2}-\d{4}" required>
                 </div>
                 <div>
                     <label class="form-label">Hubungan <span class="required">*</span></label>
                     <select class="form-select" name="heirs[<?= $count ?>][relation]" required>
-                        <option value="7" <?= $heir['h_relationWithMember'] == 7 ? 'selected' : ''; ?>>Tiada Hubungan</option>
                         <option value="1" <?= $heir['h_relationWithMember'] == 1 ? 'selected' : ''; ?>>Suami Isteri</option>
                         <option value="2" <?= $heir['h_relationWithMember'] == 2 ? 'selected' : ''; ?>>Anak</option>
                         <option value="3" <?= $heir['h_relationWithMember'] == 3 ? 'selected' : ''; ?>>Keturunan</option>
@@ -180,9 +183,6 @@ if (!$heir_result) {
                         <option value="5" <?= $heir['h_relationWithMember'] == 5 ? 'selected' : ''; ?>>Saudara Kandung</option>
                         <option value="6" <?= $heir['h_relationWithMember'] == 6 ? 'selected' : ''; ?>>Lain-lain</option>
                     </select>
-                </div>
-                <div class="d-flex justify-content-center">
-                    <button type="submit" class="btn btn-danger mt-4" onclick="confirmDelete(<?= $heir['h_heirID']; ?>)">Padam Pewaris</button>
                 </div>
             <?php $count++; } ?>
 
@@ -200,31 +200,40 @@ if (!$heir_result) {
 
     <div class="d-flex justify-content-center">
         <button onclick="confirmationKembali()" class="btn btn-primary mt-4">Kembali</button>
-    </div>
+    </div><br>
     
 
     <script>
         function confirmationKembali(){
-            let msg = "Adakah anda pasti ingin kembali ke Profil? Perubahan anda tidak akan disimpan.";
-                if (confirm(msg) == true) {
-                    alert("Perubahan anda tidak disimpan!");
-                    window.location.href = "profilmember.php";
+            Swal.fire({
+                title: 'Adakah anda pasti ingin kembali ke Profil?',
+                text: 'Perubahan anda yang belum disimpan tidak akan disimpan.',
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonText: 'Ya',
+                cancelButtonText: 'Tidak'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    Swal.fire('Maklumat tidak disimpan!', '', 'info').then(() => {
+                        window.location.href = "profilmember.php";
+                    });
                 }
+            });
         }
           
 
         function confirmDelete(heirId) {
             const confirmation = confirm("Adakah anda pasti ingin memadam pewaris ini?");
-            if (confirmation) {
-                const deleteField = document.createElement("input");
-                deleteField.type = "hidden";
-                deleteField.name = "delete_heir";
-                deleteField.value = heirId;
+        if (confirmation) {
+            const deleteField = document.createElement("input");
+            //deleteField.type = "hidden";
+            deleteField.name = "delete_heir";
+            deleteField.value = heirId;
 
-                const form = document.querySelector("form");
-                form.appendChild(deleteField);
-                form.submit();
-            }
+            const form = document.querySelector("form");
+            form.appendChild(deleteField);
+            form.submit();
+        }
         }
 
 
@@ -234,24 +243,28 @@ if (!$heir_result) {
             heirCount--;
         }
 
-    let heirCount = <?= $count; ?>;
+        let heirCount = <?= $count; ?>;
 
-    document.getElementById('add_heir').addEventListener('click', function() {
+        document.getElementById('add_heir').addEventListener('click', function() {
         let heirDiv = document.createElement('div');
         heirDiv.innerHTML = `
-            <label class="form-label mt-4"><h5>Maklumat Pewaris Baru</h5></label>
+            <div class="d-flex align-items-center justify-content-between mt-4">
+                <label class="form-label mt-4"><h5>Maklumat Pewaris Baru</h5></label>
+                <button type="submit" class="btn btn-danger mt-4" onclick="removeHeir(this)">
+                    <i class="fa-solid fa-trash"></i> Padam
+                </button>
+            </div> 
             <div>
                 <label class="form-label">Nama <span class="required">*</span></label>
                 <input type="text" class="form-control" name="heirs[${heirCount +1}][name]" required>
             </div>
             <div class="my-3">
                 <label class="form-label">No. KP / No. Srt Beranak <span class="required">*</span></label>
-                <input type="text" class="form-control" name="heirs[${heirCount +1}][ic]" required>
+                <input type="text" class="form-control" name="heirs[${heirCount +1}][ic]" pattern="\\d{6}-\\d{2}-\\d{4}" required>
             </div>
             <div>
                 <label class="form-label">Hubungan <span class="required">*</span></label>
                 <select class="form-select" name="heirs[${heirCount +1}][relation]" required>
-                    <option value="7">Tiada Hubungan</option>
                     <option value="1">Suami Isteri</option>
                     <option value="2">Anak</option>
                     <option value="3">Keturunan</option>
@@ -260,9 +273,6 @@ if (!$heir_result) {
                     <option value="6">Lain-lain</option>
                 </select>
             </div><br>
-            <div class="d-flex justify-content-center">
-                <button type="button" class="btn btn-danger" onclick="removeHeir(this)">Padam Pewaris</button>
-            </div>
         `;
 
         document.getElementById('new-heirs-container').appendChild(heirDiv);
@@ -274,7 +284,20 @@ if (!$heir_result) {
             const fields = document.querySelectorAll("[required]");
             for (let field of fields) {
                 if (field.value.trim() === "") {
-                    alert("Sila isi semua medan yang diperlukan.");
+                    Swal.fire({
+                icon: 'error',
+                title: 'Sila isi semua medan yang diperlukan.',
+                text: 'Tolong pastikan semua medan yang diperlukan diisi.',
+            });
+                    event.preventDefault();
+                    return false;
+                }
+                if(!field.checkValidity()){
+                    Swal.fire({
+                icon: 'error',
+                title: `Error: ${field.name || field.placeholder}`,
+                text: 'Medan ini adalah wajib atau tidak sah.',
+            });
                     event.preventDefault();
                     return false;
                 }

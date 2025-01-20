@@ -288,13 +288,13 @@ if(!empty($_POST)) {
   <div class="col">
     <div>
       <label class="form-label mt-4">Poskod <span class="required">*</span></label>
-      <input type="text" class="form-control" name="homepostcode" value="<?= $row['m_homePostcode']; ?>" required>
+      <input type="text" class="form-control" name="homepostcode" value="<?= $row['m_homePostcode']; ?>" pattern="\d{5}" required>
     </div>
   </div>
   <div class="col">
     <div>
       <label class="form-label mt-4">Bandar <span class="required">*</span></label>
-      <input type="text" class="form-control" name="homecity" value="<?= $row['m_homeCity']; ?>" required>
+      <input type="text" class="form-control" name="homecity" value="<?= $row['m_homeCity']; ?>" pattern="[A-Za-z\s]+" required>
     </div>
   </div>
 </div>
@@ -335,7 +335,7 @@ if(!empty($_POST)) {
 </div>
     <div>
       <label class="form-label mt-4">Jawatan <span class="required">*</span></label>
-      <input type="text" class="form-control"  name="position" value="<?= $row['m_position']; ?>" required>
+      <input type="text" class="form-control"  name="position" value="<?= $row['m_position']; ?>" pattern="[A-Za-z\s]+" required>
     </div>
       <div>
       <label class="form-label mt-4">Gred <span class="required">*</span></label>
@@ -349,13 +349,13 @@ if(!empty($_POST)) {
   <div class="col">
     <div>
       <label class="form-label mt-4">Poskod <span class="required">*</span></label>
-      <input type="text" class="form-control" name="officepostcode" value="<?= $row['m_officePostcode']; ?>" required>
+      <input type="text" class="form-control" name="officepostcode" value="<?= $row['m_officePostcode']; ?>" pattern="\d{5}" required>
     </div>
   </div>
   <div class="col">
     <div>
       <label class="form-label mt-4">Bandar <span class="required">*</span></label>
-      <input type="text" class="form-control" name="officecity" value="<?= $row['m_officeCity']; ?>" required>
+      <input type="text" class="form-control" name="officecity" value="<?= $row['m_officeCity']; ?>" pattern="[A-Za-z\s]+" required>
     </div>
   </div>
 </div>
@@ -385,13 +385,13 @@ if(!empty($_POST)) {
   <div class="col">
     <div>
       <label class="form-label mt-4">No. Telefon Rumah</label>
-      <input type="text" class="form-control" name="homephonenum" value="<?= $row['m_homeNumber']; ?>" required>
+      <input type="text" class="form-control" name="homephonenum" value="<?= $row['m_homeNumber']; ?>" pattern="\d{9}">
     </div>
   </div>
   <div class="col">
     <div>
       <label class="form-label mt-4">No. Telefon Bimbit <span class="required">*</span></label>
-      <input type="text" class="form-control" name="phonenum" value="<?= $row['m_phoneNumber']; ?>" required>
+      <input type="text" class="form-control" name="phonenum" value="<?= $row['m_phoneNumber']; ?>" pattern="\d{10,11}" required>
     </div>
   </div>
 </div>
@@ -441,13 +441,18 @@ if(!empty($_POST)) {
 <script>
   function confirmation(event){
     const fields = document.querySelectorAll("[required]");
-    for (let field of fields) {
-      if (field.value.trim() === "") {
-        alert("Sila isi semua medan yang diperlukan.");
-        event.preventDefault();
-        return false;
+      for (let field of fields) {
+        if (field.value.trim() === "") {
+          alert("Sila isi semua medan yang diperlukan.");
+          event.preventDefault();
+          return false;
+        }
+        if(!field.checkValidity()){
+          alert(`Error: ${field.name || field.placeholder} is required or invalid.`);
+          event.preventDefault();
+          return false;
+        }
       }
-    }
     let msg="Adakah anda pasti ingin mengemaskini maklumat anda?";
     if(confirm(msg)==true){
       alert("Tahniah! Maklumat anda telah berjaya dikemaskini!");
