@@ -44,7 +44,7 @@ if (isset($_GET['member_id']) && !empty($_GET['member_id'])) {
 
 <div class="container mt-4">
   <div class="card mb-3">
-    <div class="card-header text-white d-flex justify-content-between align-items-center" style="background-color: #9ccfff;">
+    <div class="card-header text-white bg-primary d-flex justify-content-between align-items-center">
       <span>Maklumat Pemohon</span>
       </button>
     </div>
@@ -141,7 +141,7 @@ if (isset($_GET['member_id']) && !empty($_GET['member_id'])) {
   </div>
 
   <div class="card mb-3">
-    <div class="card-header text-white" style="background-color: #9ccfff;">
+    <div class="card-header text-white bg-primary d-flex justify-content-between align-items-center">
       Yuran dan Sumbangan
     </div>
     <div class="card-body">
@@ -181,7 +181,7 @@ if (isset($_GET['member_id']) && !empty($_GET['member_id'])) {
   </div>
 
   <div class="card mb-3">
-    <div class="card-header text-white" style="background-color: #9ccfff;">
+    <div class="card-header text-white bg-primary d-flex justify-content-between align-items-center">
       Maklumat Waris
     </div>
     <div class="card-body">
