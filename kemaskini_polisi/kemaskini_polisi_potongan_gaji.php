@@ -35,8 +35,9 @@
     <div>
       <label class="form-label mt-4">Sumbangan Tabung Kebajikan</label>
         <div class="input-group mb-3">
+        <span class="input-group-text">RM</span>
           <input type="text" class="form-control" name="f_salaryDeductionForMemberFund" value="<?php echo htmlspecialchars($policy['p_salaryDeductionForMemberFund']); ?>">
-          <span class="input-group-text">%</span>
+          <span class="input-group-text">.00</span>
         </div>
     </div>
 
