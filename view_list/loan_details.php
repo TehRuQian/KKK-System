@@ -30,59 +30,59 @@ if (isset($_GET['id'])) {
     <?php if (!empty($loan)) { ?>
     <table class="table table-hover">
         <tr>
-            <th>No. Aplikasi Pinjaman:</th>
+            <th>No. Aplikasi Pinjaman</th>
             <td><?php echo $loan['l_loanApplicationID']; ?></td>
         </tr>
         <tr>
-            <th>No. Anggota:</th>
+            <th>No. Anggota</th>
             <td><?php echo $loan['l_memberNo']; ?></td>
         </tr>
         <tr>
-            <th>Nama Peminjam:</th>
+            <th>Nama Peminjam</th>
             <td><?php echo $loan['m_pfNo']; ?></td>
         </tr>
         <tr>
-            <th>Nama Anggota:</th>
+            <th>Nama Anggota</th>
             <td><?php echo $loan['m_name']; ?></td>
         </tr>
         <tr>
-            <th>Jenis Pinjaman:</th>
+            <th>Jenis Pinjaman</th>
             <td><?php echo $loan['lt_desc']; ?></td>
         </tr>
         <tr>
-            <th>Jumlah Pinjaman:</th>
+            <th>Jumlah Pinjaman</th>
             <td><?php echo $loan['l_appliedLoan']; ?></td>
         </tr>
         <tr>
-            <th>Tempoh Pinjaman:</th>
+            <th>Tempoh Pinjaman</th>
             <td><?php echo $loan['l_loanPeriod']; ?></td>
         </tr>
         <tr>
-            <th>Ansuran Bulanan:</th>
+            <th>Ansuran Bulanan</th>
             <td><?php echo $loan['l_monthlyInstalment']; ?></td>
         </tr>
         <tr>
-            <th>Akaun Bank:</th>
+            <th>Akaun Bank</th>
             <td><?php echo $loan['l_bankAccountNo']; ?></td>
         </tr>
         <tr>
-            <th>Nama Bank:</th>
+            <th>Nama Bank</th>
             <td><?php echo $loan['lb_desc']; ?></td>
         </tr>
         <tr>
-            <th>Gaji Kasar:</th>
+            <th>Gaji Kasar</th>
             <td><?php echo $loan['l_monthlyGrossSalary']; ?></td>
         </tr>
         <tr>
-            <th>Gaji Bersih:</th>
+            <th>Gaji Bersih</th>
             <td><?php echo $loan['l_monthlyNetSalary']; ?></td>
         </tr>
         <tr>
-            <th>Tarikh Pohon:</th>
+            <th>Tarikh Pohon</th>
             <td><?php echo $loan['l_applicationDate']; ?></td>
         </tr>
         <tr>
-            <th>Tarikh Lulus:</th>
+            <th>Tarikh Lulus</th>
             <td><?php echo $loan['l_approvalDate']; ?></td>
         </tr>
     </table>

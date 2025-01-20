@@ -169,7 +169,7 @@ $suggestedMemberNo = $lastMemberNo + 1;
             <ul class="dropdown-menu" aria-labelledby="statusDropdown">
                 <?php
                 
-                $sql = "SELECT * FROM tb_status";
+                $sql = "SELECT * FROM tb_status WHERE s_sid IN (2, 3)";
                 $result = mysqli_query($con, $sql);
 
                 while ($rowStatus = mysqli_fetch_array($result)) {
@@ -202,7 +202,7 @@ $suggestedMemberNo = $lastMemberNo + 1;
 
 <script>
 function setStatus(event, status, statusDesc) {
-    event.preventDefault();  // Prevent the page from scrolling up when changing different status
+    event.preventDefault();  // Prevent the page from scrolling up
 
     // Set the hidden input to the selected status
     document.getElementById('mstatus').value = status;
