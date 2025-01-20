@@ -104,7 +104,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['submit'])) {
                         <div id="pewaris-fields">
                             <?php for ($i = 1; $i <= $_SESSION['pewarisCount']; $i++): ?>
                                 <div class="form-section" id="pewaris-<?= $i ?>">
-                                    <h4>Pewaris <?= $i ?></h4>
+                                    <h4 style="text-align: left;">Pewaris <?= $i ?></h4>
                                     <fieldset>
                                         <div>
                                             <label class="form-label mt-4">Nama</label>
