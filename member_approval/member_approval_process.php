@@ -49,8 +49,8 @@ if ($mstatus == 3 && $mMemberNo) {
              SET m_adminID = '$uid', m_status = '$mstatus', m_approvalDate = '$currentDate', m_memberNo = '$mMemberNo'
              WHERE m_memberApplicationID = $mApplicationID";
 
-    $sqlFin = "INSERT INTO tb_financial (f_memberNo, f_shareCapital, f_feeCapital, f_fixedSaving, f_memberFund, f_memberSaving, f_alBai, f_alInnah, f_bPulihKenderaan, f_roadTaxInsurance, f_specialScheme, f_specialSeasonCarnival, f_alQadrulHassan, f_dateUpdated)
-             VALUES ('$mMemberNo', 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, '$currentDate')";
+    $sqlFin = "INSERT INTO tb_financial (f_memberNo, f_shareCapital, f_feeCapital, f_fixedSaving, f_memberFund, f_memberSaving, f_dateUpdated)
+             VALUES ('$mMemberNo', 0, 0, 0, 0, 0, '$currentDate')";
 
     $sqlUser = "INSERT INTO tb_user (u_id, u_pwd, u_type)
                 VALUES ('$mMemberNo', '$hashedPassword', 2)";

@@ -173,7 +173,7 @@ $selected_file = $basePath . trim($rowLoan['l_file']);
                 </button>
                 <ul class="dropdown-menu" aria-labelledby="statusDropdown">
                     <?php
-                    $sql = "SELECT * FROM tb_status";
+                    $sql = "SELECT * FROM tb_status WHERE s_sid IN (2, 3)";
                     $result = mysqli_query($con, $sql);
 
                     while ($rowStatus = mysqli_fetch_array($result)) {
