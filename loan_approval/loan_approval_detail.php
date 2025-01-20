@@ -98,7 +98,7 @@ $selected_file = $basePath . trim($rowLoan['l_file']);
             <th scope="row">Tandatangan</th>
             <td>
                 <?php
-                $signature_url = 'http://localhost/KKK-System/loan_application/uploads/' . basename($selected_signature);
+                $signature_url = '../loan_application/uploads/' . basename($selected_signature);
                 if (file_exists($selected_signature)) : ?>
                     <img src="<?php echo $signature_url; ?>" alt="Signature" style="max-width: 200px; height: auto;">
                 <?php else : ?>
@@ -124,8 +124,6 @@ $selected_file = $basePath . trim($rowLoan['l_file']);
             </td>
         </tr>
 
-
-
         <tr><th>Tarikh Pohon</th><td><?php echo $rowLoan['l_applicationDate']; ?></td></tr>
         <tr><th>Tarikh Lulus</th><td><?php echo $rowLoan['l_approvalDate']; ?></td></tr>
         <!-- Guarantor Information -->
@@ -138,7 +136,7 @@ $selected_file = $basePath . trim($rowLoan['l_file']);
             <th>Tandatangan Penjamin 1</th>
             <td>
                 <?php if (!empty($guarantor1Signature)) : ?>
-                    <img src="http://localhost/KKK-System/loan_application/uploads/<?php echo basename($guarantor1Signature); ?>" alt="Signature" style="max-width: 200px; height: auto;">
+                    <img src="../loan_application/uploads/<?php echo basename($guarantor1Signature); ?>" alt="Signature" style="max-width: 200px; height: auto;">
                 <?php else : ?>
                     <span>Tiada tandatangan.</span>
                 <?php endif; ?>
@@ -153,7 +151,7 @@ $selected_file = $basePath . trim($rowLoan['l_file']);
             <th>Tandatangan Penjamin 2</th>
             <td>
                 <?php if (!empty($guarantor2Signature)) : ?>
-                    <img src="http://localhost/KKK-System/loan_application/uploads/<?php echo basename($guarantor2Signature); ?>" alt="Signature" style="max-width: 200px; height: auto;">
+                    <img src="../loan_application/uploads/<?php echo basename($guarantor2Signature); ?>" alt="Signature" style="max-width: 200px; height: auto;">
                 <?php else : ?>
                     <span>Tiada tandatangan.</span>
                 <?php endif; ?>
