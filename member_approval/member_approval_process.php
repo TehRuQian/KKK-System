@@ -38,22 +38,32 @@ $resetLink = "http://localhost/KKK-System/reset_password.php?token=$token";
 // Function to send an email for setting password
 function sendApprovalEmail($email, $name, $memberNo, $temporaryPassword, $resetLink) {
     $subject = "Tahniah! Keanggotaan Anda Telah Diluluskan";
-    $message = "Encik/Puan {$name},\n\n" . 
-               "Tahniah! Applikasi anda sebagai anggota Koperasi Kakitangan KADA telah diterima!\n\n" . 
-               "Berikut ialah butiran log masuk sementara anda:\n" . 
-               "- Username/No. Anggota: {$memberNo}\n" . 
-               "- Kata Laluan Sementara: {$temporaryPassword}\n\n" . 
-               "Sila gunakan pautan berikut untuk log masuk dan menukar kata laluan anda dengan segera:\n" . 
-               "$resetLink\n\n" . 
-               "Sekian, Terima Kasih.\n\n" . 
-               "Tech-Hi-Five";
+    $message = "
+    <html>
+    <body>
+        <p>Encik/Puan {$name},</p>
+        <p>Tahniah! Applikasi anda sebagai anggota Koperasi Kakitangan KADA telah diterima!</p>
+        <p>Berikut ialah butiran log masuk sementara anda:</p>
+        <ul>
+            <li><strong>Username/No. Anggota:</strong> {$memberNo}</li>
+            <li><strong>Kata Laluan Sementara:</strong> {$temporaryPassword}</li>
+        </ul>
+        <p>Sila gunakan pautan berikut untuk log masuk dan menukar kata laluan anda dengan segera:</p>
+        <p><a href='$resetLink'>$resetLink</a></p>
+        <p>Sekian, Terima Kasih.</p>
+        <p>Tech-Hi-Five</p>
+    </body>
+    </html>";
 
-    $headers = "From: no_reply@kada.com\r\n" . 
+    $headers = "MIME-Version: 1.0\r\n" . 
+               "Content-Type: text/html; charset=UTF-8\r\n" .
+               "From: no_reply@kada.com\r\n" . 
                "Reply-To: hello@gmail.com\r\n" . 
                "X-Mailer: PHP/" . phpversion();
 
     return mail($email, $subject, $message, $headers);
 }
+
 
 // Approval & Rejection
 if ($mstatus == 3 && $mMemberNo) {
