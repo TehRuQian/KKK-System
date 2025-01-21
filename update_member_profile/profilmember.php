@@ -19,8 +19,6 @@ $sql = "SELECT tb_member.*,
                tb_urace.ur_desc AS race,
                tb_ureligion.ua_desc AS religion,
                tb_umaritalstatus.um_desc AS maritalstatus,
-               tb_lbank.lb_desc AS bankname,
-               tb_loan.l_bankAccountNo AS bankaccount,
                tb_homeState.st_desc AS homeState,
                tb_officeState.st_desc AS officeState,
                tb_member.m_memberApplicationID
@@ -29,8 +27,6 @@ $sql = "SELECT tb_member.*,
         LEFT JOIN tb_urace ON tb_member.m_race=tb_urace.ur_rid
         LEFT JOIN tb_ureligion ON tb_member.m_religion=tb_ureligion.ua_rid
         LEFT JOIN tb_umaritalstatus ON tb_member.m_maritalStatus=tb_umaritalstatus.um_mid
-        LEFT JOIN tb_loan ON tb_member.m_memberNo = tb_loan.l_memberNo
-        LEFT JOIN tb_lbank ON tb_loan.l_bankName=tb_lbank.lb_id
         LEFT JOIN tb_homeState ON tb_member.m_homeState=tb_homeState.st_id
         LEFT JOIN tb_officeState ON tb_member.m_officeState=tb_officeState.st_id
         WHERE tb_member.m_memberNo = '$u_id'";
@@ -177,14 +173,6 @@ $memberApplicationID = $row['m_memberApplicationID'];
             <tr>
               <td scope="row">Gaji Bulanan</td>
               <td><?= $row['m_monthlySalary']; ?></td>
-            </tr>
-            <tr>
-              <td scope="row">Nama Bank</td>
-              <td><?= $row['bankname']; ?></td>
-            </tr>
-            <tr>
-              <td scope="row">No. Akaun Bank</td>
-              <td><?= $row['bankaccount'] ?? '-'; ?></td>
             </tr>
           </tbody>
         </table>
