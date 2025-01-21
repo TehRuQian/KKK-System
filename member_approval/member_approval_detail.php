@@ -73,8 +73,8 @@ print_r($heir);
 <div class="container">
 <h2>Maklumat Pemohon</h2>
 
-<div class="card mb-3">
-      <div class="card-header text-white bg-primary d-flex justify-content-between align-items-center">
+<div class="card mb-3 col-10 my-5 mx-auto">
+    <div class="card-header text-white bg-primary d-flex justify-content-between align-items-center">
         Maklumat Peribadi Pemohon
       </div>
       <div class="card-body">
@@ -99,8 +99,8 @@ print_r($heir);
             </table>
         </div>
 </div>
-  <div class="card mb-3">
-      <div class="card-header text-white bg-primary d-flex justify-content-between align-items-center">
+<div class="card mb-3 col-10 my-5 mx-auto">
+    <div class="card-header text-white bg-primary d-flex justify-content-between align-items-center">
     Maklumat Saham Pemohon
       </div>
       <div class="card-body">
@@ -115,7 +115,7 @@ print_r($heir);
     </div>
 </div>
 
-<div class="card mb-3">
+<div class="card mb-3 col-10 my-5 mx-auto">
     <div class="card-header text-white bg-primary d-flex justify-content-between align-items-center">
         Maklumat Pewaris
     </div>
