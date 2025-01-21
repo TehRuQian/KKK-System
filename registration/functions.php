@@ -59,17 +59,12 @@ function isSelected($key, $value) {
 }
 
 function query($sql, $binds = [], $executeOnly = false) {
-    // Database connection
-    $db = mysqli_connect("127.0.0.1", "root", "", "db_kkk");
-
-    if (!$db) {
-        die("Database connection failed: " . mysqli_connect_error());
-    }
+    include '..\db_connect.php';
 
     // Prepare the statement
-    $stmt = mysqli_stmt_init($db);
+    $stmt = mysqli_stmt_init($con);
     if (!mysqli_stmt_prepare($stmt, $sql)) {
-        die("SQL preparation failed: " . mysqli_error($db));
+        die("SQL preparation failed: " . mysqli_error($con));
     }
 
     // Bind parameters if provided
@@ -98,7 +93,7 @@ function query($sql, $binds = [], $executeOnly = false) {
 
     // Clean up
     mysqli_stmt_close($stmt);
-    mysqli_close($db);
+    mysqli_close($con);
 
     return $output;
 }

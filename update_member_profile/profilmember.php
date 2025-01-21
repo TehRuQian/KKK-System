@@ -163,6 +163,10 @@ $memberApplicationID = $row['m_memberApplicationID'];
               <td><?= $row['officeState']; ?></td>
             </tr>
             <tr>
+              <td scope="row">No. Tel / Fax</td>
+              <td><?= $row['m_faxNumber'] ?? '-'; ?></td>
+            </tr>
+            <tr>
               <td scope="row">No. Tel Bimbit</td>
               <td><?= $row['m_phoneNumber']; ?></td>
             </tr>

@@ -264,7 +264,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['submit'])) {
                 <select class="form-select" name="fstate" required>
                     <option value="" disabled hidden <?php echo (!isset($_SESSION['fstate']) && !isset($_POST['fstate'])) ? 'selected' : ''; ?>></option>
                     <?php 
-                        $states = ['1' => 'Johor', '2' => 'Kedah', '3' => 'Kelantan', '4' => 'Melaka', '5' => 'Negeri Sembilan', '6' => 'Pahang', '7' => 'Pulau Pinang', '8' => 'Sabah', '9' => 'Sarawak', '10' => 'Selangor', '11' => 'Terengganu', '12' => 'WP Kuala Lumpur', '13' => 'WP Labuan', '14' => 'WP Putrajaya'];
+                        $states = ['1' => 'Johor', '2' => 'Kedah', '3' => 'Kelantan', '4' => 'Melaka', '5' => 'Negeri Sembilan', '6' => 'Pahang', '7' => 'Pulau Pinang', '8' => 'Sabah', '9' => 'Sarawak', '10' => 'Selangor', '11' => 'Terengganu', '12' => 'WP Kuala Lumpur', '13' => 'WP Labuan', '14' => 'WP Putrajaya', '15' => 'Perak', '16' => 'Perlis'];
                         foreach ($states as $key => $value): 
                     ?>
                     <option value="<?php echo $key; ?>" 
@@ -324,7 +324,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['submit'])) {
                 <select class="form-select" name="fofficestate" required>
                     <option value="" disabled hidden <?php echo (!isset($_SESSION['fofficestate']) && !isset($_POST['fofficestate'])) ? 'selected' : ''; ?>></option>
                     <?php 
-                        $states = ['1' => 'Johor', '2' => 'Kedah', '3' => 'Kelantan', '4' => 'Melaka', '5' => 'Negeri Sembilan', '6' => 'Pahang', '7' => 'Pulau Pinang', '8' => 'Sabah', '9' => 'Sarawak', '10' => 'Selangor', '11' => 'Terengganu', '12' => 'WP Kuala Lumpur', '13' => 'WP Labuan', '14' => 'WP Putrajaya'];
+                    $states = ['1' => 'Johor', '2' => 'Kedah', '3' => 'Kelantan', '4' => 'Melaka', '5' => 'Negeri Sembilan', '6' => 'Pahang', '7' => 'Pulau Pinang', '8' => 'Sabah', '9' => 'Sarawak', '10' => 'Selangor', '11' => 'Terengganu', '12' => 'WP Kuala Lumpur', '13' => 'WP Labuan', '14' => 'WP Putrajaya', '15' => 'Perak', '16' => 'Perlis'];
                         foreach ($states as $key => $value): 
                     ?>
                     <option value="<?php echo $key; ?>" 
@@ -345,14 +345,21 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['submit'])) {
 
         <br>
         <div class="row g-3">
-            <div class="col-md-6">
-                <label class="form-label">No. Telefon</label>
+            <div class="col-md-4">
+                <label class="form-label">No. Telefon Fax</label>
+                <input type="text" class="form-control" placeholder="Nombor Fax Tanpa '-'" name="ffaxno" 
+                value="<?php echo (getValue('ffaxno')); ?>" 
+                pattern="\d{10,11}" 
+                title="Masukkan nombor telefon tanpa '-'.">
+            </div>
+            <div class="col-md-4">
+                <label class="form-label">No. Telefon Bimbit</label>
                 <input type="text" class="form-control" placeholder="Nombor Telefon Tanpa '-'" name="ftelno" 
                 value="<?php echo (getValue('ftelno')); ?>" 
                 pattern="\d{10,11}" 
                 title="Masukkan nombor telefon tanpa '-'." required>
             </div>
-            <div class="col-md-6">
+            <div class="col-md-4">
                 <label class="form-label">No. Telefon Rumah</label>
                 <input type="text" class="form-control" placeholder="Talian Rumah Tanpa '-'" name="fhomeno" 
                 value="<?php echo (getValue('fhomeno')); ?>" 
