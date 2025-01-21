@@ -234,13 +234,19 @@ INSERT INTO `tb_hrelation` (`hr_rid`, `hr_desc`) VALUES
 -- --------------------------------------------------------
 
 --
--- Table structure for table `tb_lbank`
+-- Dumping data for table `tb_hrelation`
 --
 
-CREATE TABLE `tb_lbank` (
-  `lb_id` int(11) NOT NULL,
-  `lb_desc` varchar(30) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+INSERT INTO `tb_hrelation` (`hr_rid`, `hr_desc`) VALUES
+(1, 'Suami Isteri'),
+(2, 'Anak'),
+(3, 'Keturunan'),
+(4, 'Orang Tua'),
+(5, 'Saudara kandung'),
+(6, 'Lain-lain'),
+(7, 'Tiada Hubungan');
+
+-- --------------------------------------------------------
 
 --
 -- Dumping data for table `tb_lbank`

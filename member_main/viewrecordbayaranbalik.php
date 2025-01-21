@@ -24,7 +24,7 @@ $current_page=isset($_GET['page'])?(int)$_GET['page']:1;
 $offset=($current_page-1)*$records_per_page;
 
 $count_sql="SELECT COUNT(*) AS total FROM tb_transaction 
-            WHERE t_memberNo='$u_id' AND t_transactionType IN (1,2,3,4,5)";
+            WHERE t_memberNo='$u_id' AND t_transactionType IN (6,7,8,9,10,11,12)";
 $count_result=mysqli_query($con,$count_sql);
 $total_records=mysqli_fetch_assoc($count_result)['total'];
 
@@ -60,27 +60,7 @@ if (!$result) {
     <div class="my-3"></div>
 
     <h2 style="text-align:center;">Rekod Bayaran Balik</h2>
-    <br>
-    <nav>
-      <ul class="dflex justify-content-center pagination ms-5 pagination-sm">
-        <?php if($current_page>1): ?>
-        <li class="page-item">
-          <a class="page-link" href="?page=<?=$current_page-1;?>">&laquo</a>
-        </li>
-        <?php endif;?>
-
-        <?php for($i=1;$i<=$total_pages;$i++):?>
-        <li class="page-item <?=($i==$current_page)?'active':'';?>">
-          <a class="page-link" href="?page=<?=$i;?>"><?=$i;?></a>
-        </li>
-        <?php endfor;?>
-        <?php if($current_page<$total_pages):?>
-        <li class="page-item">
-          <a class="page-link" href="?page=<?=$current_page+1;?>">&raquo</a>
-        </li>
-        <?php endif;?>
-      </ul>
-    </nav>
+    
 
 
     <div class="card mb-3 col-10 my-5 mx-auto">
@@ -123,8 +103,28 @@ if (!$result) {
         </table>
       </div>
     </div>
-  <br><br><br>
+  
 
+<nav>
+      <ul class="dflex justify-content-center pagination ms-5 pagination-sm">
+        <?php if($current_page>1): ?>
+        <li class="page-item">
+          <a class="page-link" href="?page=<?=$current_page-1;?>">&laquo</a>
+        </li>
+        <?php endif;?>
+
+        <?php for($i=1;$i<=$total_pages;$i++):?>
+        <li class="page-item <?=($i==$current_page)?'active':'';?>">
+          <a class="page-link" href="?page=<?=$i;?>"><?=$i;?></a>
+        </li>
+        <?php endfor;?>
+        <?php if($current_page<$total_pages):?>
+        <li class="page-item">
+          <a class="page-link" href="?page=<?=$current_page+1;?>">&raquo</a>
+        </li>
+        <?php endif;?>
+      </ul>
+    </nav>
 
 
 <?php include '../footer.php'; ?>

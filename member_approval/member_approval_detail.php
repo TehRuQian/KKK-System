@@ -21,7 +21,7 @@ $sql = "SELECT * FROM tb_member
         LEFT JOIN tb_ugender ON tb_member.m_gender = tb_ugender.ug_gid
         LEFT JOIN tb_ureligion ON tb_member.m_religion = tb_ureligion.ua_rid
         LEFT JOIN tb_urace ON tb_member.m_race = tb_urace.ur_rid
-        LEFT JOIN tb_hrelation ON tb_member.m_maritalStatus = tb_hrelation.hr_rid
+        LEFT JOIN tb_umaritalstatus ON tb_member.m_maritalStatus = tb_umaritalstatus.um_mid
         WHERE tb_member.m_memberApplicationID = '$mApplicationID'";
 
 // Execute the SQL statement on DB
@@ -62,100 +62,47 @@ $suggestedMemberNo = $lastMemberNo + 1;
 <div class="container">
 <h2>Maklumat Pemohon</h2>
 
-<table class="table table-hover">
-    <tr>
-        <th>No. Aplikasi Anggota</th>
-        <td><?php echo $row['m_memberApplicationID']; ?></td>
-    </tr>
-    <tr>
-        <th>No. PF</th>
-        <td><?php echo $row['m_pfNo']; ?></td>
-    </tr>
-    <tr>
-        <th>Nama Anggota</th>
-        <td><?php echo $row['m_name']; ?></td>
-    </tr>
-    <tr>
-        <th>No. Kad Pengenalan</th>
-        <td><?php echo $row['m_ic']; ?></td>
-    </tr>
-    <tr>
-        <th>Jantina</th>
-        <td><?php echo $row['ug_desc']; ?></td>
-    </tr>
-    <tr>
-        <th>Agama</th>
-        <td><?php echo $row['ua_desc']; ?></td>
-    </tr>
-    <tr>
-        <th>Bangsa</th>
-        <td><?php echo $row['ur_desc']; ?></td>
-    </tr>
-    <tr>
-        <th>Status Perkahwinan</th>
-        <td><?php echo $row['hr_desc']; ?></td>
-    </tr>
-    <tr>
-        <th>Alamat Rumah</th>
-        <td><?php echo $row['m_homeAddress']; ?></td>
-    </tr>
-    <tr>
-        <th>No. Telefon</th>
-        <td><?php echo $row['m_phoneNumber']; ?></td>
-    </tr>
-    <tr>
-            <th>Email</th>
-            <td><?php echo $row['m_email']; ?></td>
-        </tr>
-    <tr>
-        <th>No. Telefon Rumah</th>
-        <td><?php echo $row['m_homeNumber']; ?></td>
-    </tr>
-    <tr>
-        <th>Jawatan</th>
-        <td><?php echo $row['m_position']; ?></td>
-    </tr>
-    <tr>
-        <th>Gred</th>
-        <td><?php echo $row['m_positionGrade']; ?></td>
-    </tr>
-    <tr>
-        <th>Alamat Pejabat</th>
-        <td><?php echo $row['m_officeAddress']; ?></td>
-    </tr>
-    <tr>
-        <th>Gaji Bulanan</th>
-        <td><?php echo $row['m_monthlySalary']; ?></td>
-    </tr>
-    <tr>
-        <th>Fee Masuk</th>
-        <td><?php echo $row['m_feeMasuk']; ?></td>
-    </tr>
-    <tr>
-        <th>Modal Yuran</th>
-        <td><?php echo $row['m_modalYuran']; ?></td>
-    </tr>
-    <tr>
-        <th>Deposit</th>
-        <td><?php echo $row['m_deposit']; ?></td>
-    </tr>
-    <tr>
-        <th>alAbrar</th>
-        <td><?php echo $row['m_alAbrar']; ?></td>
-    </tr>
-    <tr>
-        <th>Simpanan Tetap</th>
-        <td><?php echo $row['m_simpananTetap']; ?></td>
-    </tr>
-    <tr>
-        <th>Fee Lain</th>
-        <td><?php echo $row['m_feeLain']; ?></td>
-    </tr>
-    <tr>
-        <th>Tarikh Pohon:</th>
-        <td><?php echo date('d-m-Y H:i:s', strtotime($row['m_applicationDate'])); ?></td>
-    </tr>
-</table>
+<div class="card mb-3">
+      <div class="card-header text-white bg-primary d-flex justify-content-between align-items-center">
+        Maklumat Peribadi Pemohon
+      </div>
+      <div class="card-body">
+            <table class="table table-hover">
+                <tr><th>No. Aplikasi Anggota</th><td><?php echo $row['m_memberApplicationID']; ?></td></tr>
+                <tr><th>No. PF</th><td><?php echo $row['m_pfNo']; ?></td></tr>
+                <tr><th>Nama Anggota</th><td><?php echo $row['m_name']; ?></td></tr>
+                <tr><th>No. Kad Pengenalan</th><td><?php echo $row['m_ic']; ?></td></tr>
+                <tr><th>Jantina</th><td><?php echo $row['ug_desc']; ?></td></tr>
+                <tr><th>Agama</th><td><?php echo $row['ua_desc']; ?></td></tr>
+                <tr><th>Bangsa</th><td><?php echo $row['ur_desc']; ?></td></tr>
+                <tr><th>Status Perkahwinan</th><td><?php echo $row['um_desc']; ?></td></tr>
+                <tr><th>Alamat Rumah</th><td><?php echo $row['m_homeAddress']; ?></td></tr>
+                <tr><th>No. Telefon</th><td><?php echo $row['m_phoneNumber']; ?></td></tr>
+                <tr><th>Email</th><td><?php echo $row['m_email']; ?></td></tr>
+                <tr><th>No. Telefon Rumah</th><td><?php echo !empty($row['m_homeNumber']) ? $row['m_homeNumber'] : 'N/A'; ?></td></tr>
+                <tr><th>Jawatan</th><td><?php echo $row['m_position']; ?></td></tr>
+                <tr><th>Gred</th><td><?php echo $row['m_positionGrade']; ?></td></tr>
+                <tr><th>Alamat Pejabat</th><td><?php echo $row['m_officeAddress']; ?></td></tr>
+                <tr><th>Gaji Bulanan</th><td><?php echo $row['m_monthlySalary']; ?></td></tr>
+                <tr><th>Tarikh Pohon:</th><td><?php echo date('d-m-Y H:i:s', strtotime($row['m_applicationDate'])); ?></td></tr>
+            </table>
+        </div>
+</div>
+  <div class="card mb-3">
+      <div class="card-header text-white bg-primary d-flex justify-content-between align-items-center">
+    Maklumat Saham Pemohon
+      </div>
+      <div class="card-body">
+        <table class="table table-hover">
+            <th>Fee Masuk</th><td><?php echo $row['m_feeMasuk']; ?></td></tr>
+            <tr><th>Modal Yuran</th><td><?php echo $row['m_modalYuran']; ?></td></tr>
+            <tr><th>Deposit</th><td><?php echo $row['m_deposit']; ?></td></tr>
+            <tr><th>alAbrar</th><td><?php echo $row['m_alAbrar']; ?></td></tr>
+            <tr><th>Simpanan Tetap</th><td><?php echo $row['m_simpananTetap']; ?></td></tr>
+            <tr><th>Fee Lain</th><td><?php echo $row['m_feeLain']; ?></td></tr>
+    </table>
+    </div>
+</div>
 
 <form method="POST" action="member_approval_process.php" onsubmit="return validateForm()">
     <input type="hidden" name="mApplicationID" value="<?php echo $mApplicationID; ?>">
@@ -169,7 +116,7 @@ $suggestedMemberNo = $lastMemberNo + 1;
             <ul class="dropdown-menu" aria-labelledby="statusDropdown">
                 <?php
                 
-                $sql = "SELECT * FROM tb_status";
+                $sql = "SELECT * FROM tb_status WHERE s_sid IN (2, 3)";
                 $result = mysqli_query($con, $sql);
 
                 while ($rowStatus = mysqli_fetch_array($result)) {
@@ -202,7 +149,8 @@ $suggestedMemberNo = $lastMemberNo + 1;
 
 <script>
 function setStatus(event, status, statusDesc) {
-    event.preventDefault();  // Prevent the page from scrolling up when changing different status
+    event.preventDefault();  // Prevent the page from scrolling up
+    console.log('Selected status:', status); // Debugging line
 
     // Set the hidden input to the selected status
     document.getElementById('mstatus').value = status;
@@ -211,6 +159,7 @@ function setStatus(event, status, statusDesc) {
     const statusButton = document.getElementById('statusDropdown');
     statusButton.textContent = statusDesc;
 
+    // Add or remove classes based on status
     if (status == 1) {
         statusButton.classList.remove('btn-warning', 'btn-danger', 'btn-success');
         statusButton.classList.add('btn-secondary');
@@ -222,8 +171,10 @@ function setStatus(event, status, statusDesc) {
         statusButton.classList.add('btn-success');
     }
 
+    // Toggle the visibility of the member number input field based on the selected status
     toggleMemberNoInput(status);
 }
+
 
 function toggleMemberNoInput(status) {
     const memberNoContainer = document.getElementById('memberNoContainer');
