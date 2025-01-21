@@ -150,6 +150,7 @@ $suggestedMemberNo = $lastMemberNo + 1;
 <script>
 function setStatus(event, status, statusDesc) {
     event.preventDefault();  // Prevent the page from scrolling up
+    console.log('Selected status:', status); // Debugging line
 
     // Set the hidden input to the selected status
     document.getElementById('mstatus').value = status;
@@ -158,6 +159,7 @@ function setStatus(event, status, statusDesc) {
     const statusButton = document.getElementById('statusDropdown');
     statusButton.textContent = statusDesc;
 
+    // Add or remove classes based on status
     if (status == 1) {
         statusButton.classList.remove('btn-warning', 'btn-danger', 'btn-success');
         statusButton.classList.add('btn-secondary');
@@ -169,8 +171,10 @@ function setStatus(event, status, statusDesc) {
         statusButton.classList.add('btn-success');
     }
 
+    // Toggle the visibility of the member number input field based on the selected status
     toggleMemberNoInput(status);
 }
+
 
 function toggleMemberNoInput(status) {
     const memberNoContainer = document.getElementById('memberNoContainer');
