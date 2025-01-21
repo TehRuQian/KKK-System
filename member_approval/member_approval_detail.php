@@ -73,6 +73,7 @@ print_r($heir);
 <div class="container">
 <h2>Maklumat Pemohon</h2>
 
+<!-- Applicant Details -->
 <div class="card mb-3 col-10 my-5 mx-auto">
     <div class="card-header text-white bg-primary d-flex justify-content-between align-items-center">
         Maklumat Peribadi Pemohon
@@ -91,6 +92,7 @@ print_r($heir);
                 <tr><th>No. Telefon</th><td><?php echo $row['m_phoneNumber']; ?></td></tr>
                 <tr><th>Email</th><td><?php echo $row['m_email']; ?></td></tr>
                 <tr><th>No. Telefon Rumah</th><td><?php echo !empty($row['m_homeNumber']) ? $row['m_homeNumber'] : 'N/A'; ?></td></tr>
+                <tr><th>No. Tax</th><td><?php echo !empty($row['m_taxNumber']) ? $row['m_taxNumber'] : 'N/A'; ?></td></tr>
                 <tr><th>Jawatan</th><td><?php echo $row['m_position']; ?></td></tr>
                 <tr><th>Gred</th><td><?php echo $row['m_positionGrade']; ?></td></tr>
                 <tr><th>Alamat Pejabat</th><td><?php echo $row['m_officeAddress']; ?></td></tr>
@@ -99,6 +101,8 @@ print_r($heir);
             </table>
         </div>
 </div>
+
+<!-- Applicant Shares Details -->
 <div class="card mb-3 col-10 my-5 mx-auto">
     <div class="card-header text-white bg-primary d-flex justify-content-between align-items-center">
     Maklumat Saham Pemohon
@@ -115,6 +119,7 @@ print_r($heir);
     </div>
 </div>
 
+<!-- Applicant Heir Details -->
 <div class="card mb-3 col-10 my-5 mx-auto">
     <div class="card-header text-white bg-primary d-flex justify-content-between align-items-center">
         Maklumat Pewaris

@@ -17,7 +17,9 @@ $current_page = isset($_GET['page']) ? $_GET['page'] : 1;
 $start_from = ($current_page - 1) * $records_per_page;
 
 // Retrieve all registered Course
-$sql = "SELECT * FROM tb_loan 
+$sql = "SELECT *,
+        DATE_FORMAT(tb_loan.l_approvalDate, '%d-%m-%Y') AS formattedDate 
+        FROM tb_loan 
         LEFT JOIN tb_member ON tb_loan.l_memberNo = tb_member.m_memberNo 
         WHERE l_status = 3
         LIMIT $start_from, $records_per_page";
@@ -42,8 +44,12 @@ $total_pages = ceil($total_records / $records_per_page);
         <th scope="col" class='text-center'>No. Pinjaman</th>
         <th scope="col" class='text-center'>No. Anggota</th>
         <th scope="col">Nama Anggota</th>
-        <th scope="col" class='text-center'>Jumlah Yang Dipinjam</th>
-        <th scope="col" class='text-center'>Tarikh Lulus</th>
+        <th scope="col" class="text-center">Jenis Pinjaman</th>
+        <th scope="col" class="text-center">Jumlah Permohonan (RM)</th>
+        <th scope="col" class="text-center">Tempoh Pinjaman (Bulan)</th>
+        <th scope="col" class="text-center">Ansuran Bulanan (RM)</th>
+        <th scope="col" class="text-center">Tunggakan (RM)</th>
+        <th scope="col" class='text-center'>Tarikh Lulus Pinjaman</th>
         <th scope="col" class='text-center'>Butiran</th>
         </tr>
         </thead>
@@ -55,8 +61,12 @@ $total_pages = ceil($total_records / $records_per_page);
                 echo "<td class='text-center'>".$row['l_loanApplicationID']."</td>";
                 echo "<td class='text-center'>".$row['l_memberNo']."</td>";
                 echo "<td>".$row['m_name']."</td>";
+                echo "<td class='text-center'>".$row['l_loanType']."</td>";
                 echo "<td class='text-center'>".$row['l_appliedLoan']."</td>";
-                echo "<td class='text-center'>".$row['l_approvalDate']."</td>";
+                echo "<td class='text-center'>".$row['l_loanPeriod']."</td>";
+                echo "<td class='text-center'>".$row['l_monthlyInstalment']."</td>";
+                echo "<td class='text-center'>".$row['l_loanPayable']."</td>";
+                echo "<td class='text-center'>".$row['formattedDate']."</td>";
                 echo "<td class='text-center'>";
                 echo "<a href='loan_details.php?id=".$row['l_loanApplicationID']."' title='View Details'>";
                 echo "<i class='fa fa-ellipsis-h' aria-hidden='true'></i>";       
