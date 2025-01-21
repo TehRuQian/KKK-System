@@ -160,7 +160,6 @@ try {
         SUM(CASE WHEN l_status = 1 THEN 1 ELSE 0 END) as pending_count,
         SUM(CASE WHEN l_status = 2 THEN 1 ELSE 0 END) as rejected_count,
         SUM(CASE WHEN l_status = 3 THEN 1 ELSE 0 END) as approved_count,
-        SUM(CASE WHEN l_status = 4 THEN 1 ELSE 0 END) as completed_count,
         SUM(l_appliedLoan) as total_amount
         FROM tb_loan" . createWhereClause($bulan, $tahun, 'l_applicationDate');
 
@@ -172,7 +171,6 @@ try {
         array('Diluluskan', $loan_data['approved_count'] ?? 0),
         array('Sedang Diproses', $loan_data['pending_count'] ?? 0),
         array('Ditolak', $loan_data['rejected_count'] ?? 0),
-        array('Dijelaskan', $loan_data['completed_count'] ?? 0),
         array('JUMLAH PERMOHONAN', $loan_data['total_count'] ?? 0)
     );
     $pdf->CreateTable($header, $data, true);
@@ -230,9 +228,26 @@ try {
     );
     $pdf->CreateTable($header, $data, true);
     $pdf->Ln(10);
+
     
     $pdf->SetFont('Arial', 'B', 12);
-    $pdf->Cell(0, 10, '5. Maklumat Polisi', 0, 1);
+    $pdf->Cell(0, 10, '5. Prestasi Kewangan', 0, 1);
+    $pdf->SetFont('Arial', '', 11);
+
+    $net_profit = ($transaction_data['transaction_total'] ?? 0) - ($loan_data['total_amount'] ?? 0);
+
+    $header = array('Perkara', 'Jumlah');
+    $data = array(
+        array('Pendapatan', 'RM ' . number_format($transaction_data['transaction_total'] ?? 0, 2)),
+        array('Perbelanjaan', 'RM ' . number_format($loan_data['total_amount'] ?? 0, 2)),
+        array('KEUNTUNGAN BERSIH', 'RM ' . number_format($net_profit, 2))
+    );
+    $pdf->CreateTable($header, $data, true);
+    $pdf->Ln(10);
+
+    
+    $pdf->SetFont('Arial', 'B', 12);
+    $pdf->Cell(0, 10, '6. Maklumat Polisi', 0, 1);
     $pdf->SetFont('Arial', '', 11);
 
     $policies_sql = "SELECT * FROM tb_policies";
@@ -260,7 +275,7 @@ try {
 
     // 7. Kesimpulan
     $pdf->SetFont('Arial', 'B', 12);
-    $pdf->Cell(0, 10, '6. Kesimpulan', 0, 1);
+    $pdf->Cell(0, 10, '7. Kesimpulan', 0, 1);
     $pdf->SetFont('Arial', '', 11);
 
     
@@ -284,8 +299,17 @@ try {
     $conclusion .= "   - Jumlah nilai pinjaman yang diluluskan: RM " . number_format($loan_data['total_amount'], 2) . "\n\n";
 
     
+    $conclusion .= "3. Prestasi Kewangan:\n";
+    if ($net_profit > 0) {
+        $conclusion .= "   - Syarikat mencatatkan keuntungan bersih sebanyak RM " . number_format($net_profit, 2) . "\n";
+        $conclusion .= "   - Prestasi kewangan adalah positif dengan nisbah pendapatan kepada perbelanjaan yang sihat\n\n";
+    } else {
+        $conclusion .= "   - Syarikat mencatatkan kerugian bersih sebanyak RM " . number_format(abs($net_profit), 2) . "\n";
+        $conclusion .= "   - Perlu perhatian khusus terhadap pengurusan kewangan\n\n";
+    }
+
     
-    $conclusion .= "3. Cadangan:\n";
+    $conclusion .= "4. Cadangan:\n";
     if ($member_approval_rate < 70) {
         $conclusion .= "   - Meningkatkan proses kelulusan keahlian\n";
     }

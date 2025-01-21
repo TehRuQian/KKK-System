@@ -15,8 +15,15 @@ include '../db_connect.php';
 $memberNo = $_SESSION['funame'];
 
 // Check if the 'status' parameter is present in the URL
-if (isset($_GET['status']) && $_GET['status'] == 'success') {
-  echo '<script>alert("Maklumat anda telah berjaya disimpan!");</script>';
+  if (isset($_GET['status']) && $_GET['status'] == 'success') {
+   echo '<script>
+           Swal.fire({
+              title: "Berjaya!",
+               text: "Maklumat anda telah berjaya disimpan!",
+              icon: "success",
+               confirmButtonText: "OK"
+          });
+        </script>';
 }
 
 // Loan
@@ -286,7 +293,7 @@ error_log("Debug - Guarantor 2 Name: " . $namaPenjamin2);
 
                     <tr>
                     <td scope="row">Tempoh Pembiayaan</td>
-                    <td><?php echo $selected_tempohPembiayaan, " bulan"; ?></td>
+                    <td><?php echo $selected_tempohPembiayaan, " tahun"; ?></td>
                     </tr>
 
                     <tr>
@@ -588,11 +595,9 @@ error_log("Debug - Guarantor 2 Name: " . $namaPenjamin2);
     
     <link href="bootstrap.css" rel="stylesheet">
 
-    <hr class="my-4">
-      <p class="lead">
-      <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#confirmationModal">Hantar</button>
-      </p>
-    </hr>
+    <div style="text-align: center;">
+      <button type="submit" class="btn btn-primary">Simpan</button>
+    </div>
 
 <!-- Modal -->
 <div class="modal fade" id="confirmationModal" tabindex="-1" role="dialog" aria-labelledby="confirmationModalLabel" aria-hidden="true">

@@ -164,7 +164,7 @@ $memberApplicationID = $row['m_memberApplicationID'];
             </tr>
             <tr>
               <td scope="row">No. Tel / Fax</td>
-              <td><?= $row['m_faxNumber'] ?? '-'; ?></td>
+              <td><?php echo !empty($row['m_faxNumber']) ? $row['m_faxNumber'] : 'N/A'; ?></td>
             </tr>
             <tr>
               <td scope="row">No. Tel Bimbit</td>
@@ -172,7 +172,7 @@ $memberApplicationID = $row['m_memberApplicationID'];
             </tr>
             <tr>
               <td scope="row">No. Tel Rumah</td>
-              <td><?= $row['m_homeNumber'] ?? '-'; ?></td>
+              <td><?php echo !empty($row['m_homeNumber']) ? $row['m_homeNumber'] : 'N/A'; ?></td>
             </tr>
             <tr>
               <td scope="row">Gaji Bulanan</td>

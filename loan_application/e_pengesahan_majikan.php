@@ -9,15 +9,28 @@ include '../db_connect.php';
 
 // Check if the 'status' parameter is present in the URL
 if (isset($_GET['status']) && $_GET['status'] == 'success') {
-  echo '<script>alert("Maklumat anda telah berjaya disimpan!");</script>';
+  echo '<script>
+          Swal.fire({
+              title: "Berjaya!",
+              text: "Maklumat anda telah berjaya disimpan!",
+              icon: "success",
+              confirmButtonText: "OK"
+          });
+        </script>';
 }
 
 if (!isset($_SESSION['loanApplicationID'])) {
-      echo "<script>
-              alert('Sila simpan naklumat Butir-Butir Pembiayaan.');
-              window.location.href = 'a_pinjaman.php';
-          </script>";
-          exit();
+  echo "<script>
+  Swal.fire({
+    title: 'Peringatan',
+    text: 'Sila simpan naklumat Butir-Butir Pembiayaan.',
+    icon: 'warning',
+    confirmButtonText: 'OK'
+  }).then(() => {
+    window.location.href = 'a_pinjaman.php';
+  });
+  </script>";
+  exit();
 }
 
 $loanApplicationID = $_SESSION['loanApplicationID']; 
@@ -25,10 +38,16 @@ $loanApplicationID = $_SESSION['loanApplicationID'];
 // Guarantor data
 if (!isset($_SESSION['guarantorID1']) || !isset($_SESSION['guarantorID2'])) {
   echo "<script>
-          alert('Sila simpan maklumat Butir-Butir Penjamin.');
-          window.location.href = 'd_penjamin.php'; 
-        </script>";
-        exit();
+  Swal.fire({
+    title: 'Peringatan',
+    text: 'Sila simpan maklumat Butir-Butir Penjamin.',
+    icon: 'warning',
+    confirmButtonText: 'OK'
+  }).then(() => {
+    window.location.href = 'd_penjamin.php';
+  });
+  </script>";
+  exit();
 }
 
 
@@ -202,11 +221,10 @@ $gajiBersih = '';
           <p class="mt-2" style="font-size: 0.9rem; color: #6c757d;">*Fail yang dibenarkan adalah dalam format PDF sahaja. Sila pastikan saiz fail tidak melebihi 5MB.</p>
         </div>
     </hr>
-      <hr class="my-4">
-        <p class="lead">
-        <button type="submit" class="btn btn-primary">Simpan</button>
-        </p>
-      </hr>
+
+    <div style="text-align: center;">
+      <button type="submit" class="btn btn-primary">Simpan</button>
+    </div>
       
       </div>
     </div>

@@ -37,9 +37,9 @@ $memberNo = $_SESSION['funame'];
 
 // var_dump($_SESSION['funame']);
 
-
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     // Store form data in cookies
+    
     setcookie("jenis_pembiayaan", $_POST['jenis_pembiayaan'], time() + (86400 * 30), "/"); // expires in 30 days
     setcookie("amaunDipohon", $_POST['amaunDipohon'], time() + (86400 * 30), "/");
     setcookie("tempohPembiayaan", $_POST['tempohPembiayaan'], time() + (86400 * 30), "/");
@@ -49,7 +49,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     setcookie("gajiKasar", $_POST['gajiKasar'], time() + (86400 * 30), "/");
     setcookie("gajiBersih", $_POST['gajiBersih'], time() + (86400 * 30), "/");
     setcookie("fileSign", $_FILES['fileSign']['name'], time() + (86400 * 30), "/");
-}
+
+} 
+
+
 
 // Retrieve data from form
 $jenis_pembiayaan = $_POST['jenis_pembiayaan'];
@@ -138,6 +141,9 @@ if (mysqli_query($con, $sql)) {
     die('Error: Failed to submit the loan application. ' . mysqli_error($con));
 }
 
+
 // Close connection
 $con->close();
+
+
 ?>
