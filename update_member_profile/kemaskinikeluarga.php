@@ -43,11 +43,16 @@ function getHeirs($con, $memberApplicationID) {
     $sql = "SELECT tb_heir.*, tb_hrelation.hr_desc AS heirrelation
             FROM tb_heir 
             LEFT JOIN tb_hrelation ON tb_heir.h_relationWithMember = tb_hrelation.hr_rid
-            WHERE h_memberApplicationID = '$memberApplicationID' 
+            WHERE h_memberApplicationID ='$memberApplicationID' 
             ORDER BY h_heirID";
 
-    return mysqli_query($con, $sql);
+    $result = mysqli_query($con, $sql);
+    if (!$result) {
+        die("Query failed: ".mysqli_error($con));
+    }
+    return $result;
 }
+
 
 function addOrUpdateHeir($con, $memberApplicationID, $heirID, $heirName, $heirIC, $heirRelation) {
     $memberApplicationID = mysqli_real_escape_string($con, $memberApplicationID);
@@ -83,10 +88,40 @@ function addOrUpdateHeir($con, $memberApplicationID, $heirID, $heirName, $heirIC
     }
 }
 
+$result = callResult($con, $u_id);
+if (!$result) {
+    die("Query failed: ".mysqli_error($con));
+}
 
-function deleteHeir($con, $heirId) {
-    $heirId = mysqli_real_escape_string($con, $heirId);
+$row =mysqli_fetch_assoc($result);
+
+$memberApplicationID = $row['m_memberApplicationID'];
+
+$heir_result=getHeirs($con,$memberApplicationID);
+
+if (!$heir_result) {
+    die("Failed to retrieve heirs: " . mysqli_error($con));
+}
+
+$heirCount=mysqli_num_rows($heir_result);
+
+
+function deleteHeir($con, $heirId,$heirCount) {
+    $heirId = mysqli_real_escape_string($con,$heirId);
+
+    if ($heirCount<=3) {
+        echo "<script>
+            Swal.fire({
+                icon: 'error',
+                title: 'Tidak boleh memadam pewaris!',
+                text: 'Bilangan pewaris mestilah sekurang-kurangnya 3.',
+            });
+          </script>";
+        return false;
+    }
+
     $sql = "DELETE FROM tb_heir WHERE h_heirID = '$heirId'";
+    $heirCount--;
 
     if (mysqli_query($con, $sql)) { ?>
         <script>
@@ -113,7 +148,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     if (isset($_POST['delete_heir'])) {
         $heirId = $_POST['delete_heir'];
-        deleteHeir($con, $heirId);
+        deleteHeir($con, $heirId,$heirCount);
     }
 }
 
@@ -161,8 +196,10 @@ if (!$heir_result) {
                     <label class="form-label mt-4"><h5>Maklumat Pewaris <?= $count; ?></h5></label>
                     <button type="submit" class="btn btn-danger mt-4" onclick="confirmDelete(<?= $heir['h_heirID']; ?>)">
                         <i class="fa-solid fa-trash"></i> Padam
-                    </button>
+                    </button>  
+                    
                 </div>
+                
                 <input type="hidden" name="memberApplicationID" value="<?= $memberApplicationID ?>">
                 <input type="hidden" name="heirs[<?= $count ?>][id]" value="<?= $heir['h_heirID']; ?>">
                 <div>
@@ -221,12 +258,11 @@ if (!$heir_result) {
             });
         }
           
-
-        function confirmDelete(heirId) {
-            const confirmation = confirm("Adakah anda pasti ingin memadam pewaris ini?");
+    function confirmDelete(heirId) {
+        const confirmation = confirm("Adakah anda pasti ingin memadam pewaris ini?");
         if (confirmation) {
             const deleteField = document.createElement("input");
-            //deleteField.type = "hidden";
+            deleteField.type = "hidden";
             deleteField.name = "delete_heir";
             deleteField.value = heirId;
 
@@ -234,8 +270,7 @@ if (!$heir_result) {
             form.appendChild(deleteField);
             form.submit();
         }
-        }
-
+    }
 
         function removeHeir(button) {
             const heirDiv = button.closest('div').parentNode;
