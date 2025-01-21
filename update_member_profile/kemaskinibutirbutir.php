@@ -439,20 +439,31 @@ if(!empty($_POST)) {
 
 
 <script>
-  function confirmation(event){
+  function confirmation(event) {
     const fields = document.querySelectorAll("[required]");
-      for (let field of fields) {
-        if (field.value.trim() === "") {
-          alert("Sila isi semua medan yang diperlukan.");
-          event.preventDefault();
-          return false;
-        }
-        if(!field.checkValidity()){
-          alert(`Error: ${field.name || field.placeholder} is required or invalid.`);
-          event.preventDefault();
-          return false;
-        }
+
+    // Validate required fields
+    for (let field of fields) {
+      if (field.value.trim() === "") {
+        Swal.fire({
+          icon: 'error',
+          title: 'Medan diperlukan!',
+          text: 'Sila isi semua medan yang diperlukan.',
+        });
+        event.preventDefault();
+        return false;
       }
+      if (!field.checkValidity()) {
+        Swal.fire({
+          icon: 'error',
+          title: 'Ralat Input!',
+          text: `Medan "${field.name || field.placeholder}" adalah wajib atau tidak sah.`,
+        });
+        event.preventDefault();
+        return false;
+      }
+    }
+
     let msg="Adakah anda pasti ingin mengemaskini maklumat anda?";
     if(confirm(msg)==true){
       alert("Tahniah! Maklumat anda telah berjaya dikemaskini!");
@@ -465,6 +476,7 @@ if(!empty($_POST)) {
     }
   }
 </script>
+
 
 </body>
 </html>
