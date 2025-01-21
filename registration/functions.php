@@ -29,6 +29,15 @@ function getValue($key) {
     return ''; 
 }
 
+function getValueDecimal($key) {
+    if (isset($_SESSION[$key])) {
+        return number_format((float)$_SESSION[$key], 2, '.', '');
+    } elseif (isset($_POST[$key])) {
+        return number_format((float)$_POST[$key], 2, '.', '');
+    }
+    return '';
+}
+
 function isChecked($key, $value) {
     if (isset($_POST[$key]) && $_POST[$key] == $value){
         return 'checked';
