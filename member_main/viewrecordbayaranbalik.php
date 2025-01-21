@@ -24,7 +24,7 @@ $current_page=isset($_GET['page'])?(int)$_GET['page']:1;
 $offset=($current_page-1)*$records_per_page;
 
 $count_sql="SELECT COUNT(*) AS total FROM tb_transaction 
-            WHERE t_memberNo='$u_id' AND t_transactionType IN (1,2,3,4,5)";
+            WHERE t_memberNo='$u_id' AND t_transactionType IN (6,7,8,9,10,11,12)";
 $count_result=mysqli_query($con,$count_sql);
 $total_records=mysqli_fetch_assoc($count_result)['total'];
 
