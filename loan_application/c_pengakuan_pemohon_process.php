@@ -10,8 +10,14 @@ include '../db_connect.php';
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     echo "<script>
-            alert('Maklumat anda telah berjaya disimpan!.');
-            window.location.href = 'd_penjamin.php?status=success';
+            Swal.fire({
+                title: 'Berjaya!',
+                text: 'Maklumat anda telah berjaya disimpan!',
+                icon: 'success',
+                confirmButtonText: 'OK'
+            }).then(() => {
+                window.location.href = 'd_penjamin.php?status=success';
+            });
           </script>";
 
 } else {

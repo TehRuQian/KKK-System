@@ -155,11 +155,10 @@ if ($loanApplicationID !== null) {
           <p class="mt-2" style="font-size: 0.9rem; color: #6c757d;">*Fail yang dibenarkan adalah dalam format PNG, JPG, dan JPEG sahaja. Sila pastikan saiz fail tidak melebihi 5MB.</p>
         </div>
 
-      <hr class="my-4">
-        <p class="lead">
-        <button type="submit" class="btn btn-primary">Simpan</button>
-        </p>
-      </hr>
+        <div style="text-align: center;">
+            <button type="submit" class="btn btn-primary">Simpan</button>
+        </div>
+        
     </div>   
   </fieldset>
 </form>
