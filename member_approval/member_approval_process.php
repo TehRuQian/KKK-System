@@ -21,23 +21,35 @@ function generateTemporaryPassword($length = 8) {
 
 $temporaryPassword = generateTemporaryPassword();
 $hashedPassword = password_hash($temporaryPassword, PASSWORD_DEFAULT);
-$resetLink = "http://127.0.0.1/KKK-System/reset_password.php?token=$token";
+
+// Generate a secure token and set an expiry time
+$token = bin2hex(random_bytes(16)); // Generates a random 16-byte token
+$expiryTime = date("Y-m-d H:i:s", strtotime("+10 minutes", time())); // Expiry time set to 10 minutes from now
+
+// Store the token and expiry time in the database
+$sql = "UPDATE tb_user SET reset_token = ?, token_expiry = ? WHERE u_id = ?";
+$stmt = mysqli_prepare($con, $sql);
+mysqli_stmt_bind_param($stmt, 'ssi', $token, $expiryTime, $uid);
+mysqli_stmt_execute($stmt);
+
+// Generate the password reset link with the token as a query parameter
+$resetLink = "http://localhost/KKK-System/reset_password.php?token=$token";
 
 // Function to send an email for setting password
-function sendApprovalEmail($email, $name, $memberNo, $temporaryPassword) {
+function sendApprovalEmail($email, $name, $memberNo, $temporaryPassword, $resetLink) {
     $subject = "Tahniah! Keanggotaan Anda Telah Diluluskan";
-    $message = "Encik/Puan {$name},\n\n" .
-               "Tahniah! Applikasi anda sebagai anggota Koperasi Kakitangan KADA telah diterima!\n\n" .
-               "Berikut ialah butiran log masuk sementara anda:\n" .
-               "- Username/No. Anggota: {$memberNo}\n" .
-               "- Kata Laluan Sementara: {$temporaryPassword}\n\n" .
-               "Sila gunakan pautan berikut untuk log masuk dan menukar kata laluan anda dengan segera:\n" .
-               "<a href=$resetLink>$resetLink</a>\n\n" .
-               "Sekian, Terima Kasih.\n\n" .
+    $message = "Encik/Puan {$name},\n\n" . 
+               "Tahniah! Applikasi anda sebagai anggota Koperasi Kakitangan KADA telah diterima!\n\n" . 
+               "Berikut ialah butiran log masuk sementara anda:\n" . 
+               "- Username/No. Anggota: {$memberNo}\n" . 
+               "- Kata Laluan Sementara: {$temporaryPassword}\n\n" . 
+               "Sila gunakan pautan berikut untuk log masuk dan menukar kata laluan anda dengan segera:\n" . 
+               "$resetLink\n\n" . 
+               "Sekian, Terima Kasih.\n\n" . 
                "Tech-Hi-Five";
 
-    $headers = "From: no_reply@kada.com\r\n" .
-               "Reply-To: hello@gmail.com\r\n" .
+    $headers = "From: no_reply@kada.com\r\n" . 
+               "Reply-To: hello@gmail.com\r\n" . 
                "X-Mailer: PHP/" . phpversion();
 
     return mail($email, $subject, $message, $headers);
@@ -47,11 +59,12 @@ function sendApprovalEmail($email, $name, $memberNo, $temporaryPassword) {
 if ($mstatus == 3 && $mMemberNo) {
     // Approval
     $sqlMem = "UPDATE tb_member
-             SET m_adminID = '$uid', m_status = '$mstatus', m_approvalDate = '$currentDate', m_memberNo = '$mMemberNo'
-             WHERE m_memberApplicationID = $mApplicationID";
+               SET m_adminID = '$uid', m_status = '$mstatus', m_approvalDate = '$currentDate', m_memberNo = '$mMemberNo'
+               WHERE m_memberApplicationID = $mApplicationID";
 
     $sqlFin = "INSERT INTO tb_financial (f_memberNo, f_shareCapital, f_feeCapital, f_fixedSaving, f_memberFund, f_memberSaving, f_dateUpdated)
-             VALUES ('$mMemberNo', 0, 0, 0, 0, 0, '$currentDate')";
+               VALUES ('$mMemberNo', 0, 0, 0, 0, 0, '$currentDate')";
+
 
     $sqlUser = "INSERT INTO tb_user (u_id, u_pwd, u_type)
                 VALUES ('$mMemberNo', '$hashedPassword', 2)";
@@ -73,7 +86,7 @@ if ($mstatus == 3 && $mMemberNo) {
             }
 
             // Send the approval email
-            if (sendApprovalEmail($email, $name, $memberNo, $temporaryPassword)) {
+            if (sendApprovalEmail($email, $name, $memberNo, $temporaryPassword, $resetLink)) {
                 echo "<script>
                         alert('Kelulusan anggota berjaya diproses! E-mel telah dihantar kepada anggota.');
                         window.location.href = 'member_approval.php';
