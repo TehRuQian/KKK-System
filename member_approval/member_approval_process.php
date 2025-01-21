@@ -21,6 +21,7 @@ function generateTemporaryPassword($length = 8) {
 
 $temporaryPassword = generateTemporaryPassword();
 $hashedPassword = password_hash($temporaryPassword, PASSWORD_DEFAULT);
+$resetLink = "http://127.0.0.1/KKK-System/reset_password.php?token=$token";
 
 // Function to send an email for setting password
 function sendApprovalEmail($email, $name, $memberNo, $temporaryPassword) {
@@ -31,7 +32,7 @@ function sendApprovalEmail($email, $name, $memberNo, $temporaryPassword) {
                "- Username/No. Anggota: {$memberNo}\n" .
                "- Kata Laluan Sementara: {$temporaryPassword}\n\n" .
                "Sila gunakan pautan berikut untuk log masuk dan menukar kata laluan anda dengan segera:\n" .
-               "[Pautan ke Halaman Tukar Kata Laluan]\n\n" .
+               "<a href=$resetLink>$resetLink</a>\n\n" .
                "Sekian, Terima Kasih.\n\n" .
                "Tech-Hi-Five";
 
