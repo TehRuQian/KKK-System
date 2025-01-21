@@ -68,10 +68,10 @@ $total_pages = ceil($total_records / $records_per_page);
                 echo "<td class='text-center'>".$row['l_loanPeriod']."</td>";
                 echo "<td class='text-center'>".$row['l_monthlyInstalment']."</td>";
                 echo "<td class='text-center'>".$row['l_loanPayable']."</td>";
-                echo "<td class='text-center'>".$row['formattedDate']."</td>"; // Display formatted date
+                echo "<td class='text-center'>".$row['formattedDate']."</td>"; 
                 echo "<td class='text-center'>";
                 echo "<a href='loan_approval_detail.php?id=".$row['l_loanApplicationID']."' title='View Details'>";
-                echo "<i class='fa fa-ellipsis-h' aria-hidden='true'></i>"; // Icon for Butiran
+                echo "<i class='fa fa-ellipsis-h' aria-hidden='true'></i>";
                 echo "</a>";
                 echo "</td>";
                 echo "</tr>";
