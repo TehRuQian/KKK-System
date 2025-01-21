@@ -57,13 +57,24 @@ if ($result && $lastRow = mysqli_fetch_array($result)) {
     $lastMemberNo = $lastRow['m_memberNo'];
 }
 $suggestedMemberNo = $lastMemberNo + 1;
+
+// Fetch heir information
+$sqlHeirs = "SELECT * FROM tb_heir 
+LEFT JOIN tb_hrelation ON tb_heir.h_relationWithMember = tb_hrelation.hr_rid
+WHERE h_memberApplicationID = '{$row['m_memberApplicationID']}'";
+
+$resultHeirs = mysqli_query($con, $sqlHeirs);
+$heirs = mysqli_fetch_all($resultHeirs, MYSQLI_ASSOC);
+while ($heir = mysqli_fetch_assoc($resultHeirs)) {
+print_r($heir);
+}
 ?>
 
 <div class="container">
 <h2>Maklumat Pemohon</h2>
 
-<div class="card mb-3">
-      <div class="card-header text-white bg-primary d-flex justify-content-between align-items-center">
+<div class="card mb-3 col-10 my-5 mx-auto">
+    <div class="card-header text-white bg-primary d-flex justify-content-between align-items-center">
         Maklumat Peribadi Pemohon
       </div>
       <div class="card-body">
@@ -88,8 +99,8 @@ $suggestedMemberNo = $lastMemberNo + 1;
             </table>
         </div>
 </div>
-  <div class="card mb-3">
-      <div class="card-header text-white bg-primary d-flex justify-content-between align-items-center">
+<div class="card mb-3 col-10 my-5 mx-auto">
+    <div class="card-header text-white bg-primary d-flex justify-content-between align-items-center">
     Maklumat Saham Pemohon
       </div>
       <div class="card-body">
@@ -101,6 +112,36 @@ $suggestedMemberNo = $lastMemberNo + 1;
             <tr><th>Simpanan Tetap</th><td><?php echo $row['m_simpananTetap']; ?></td></tr>
             <tr><th>Fee Lain</th><td><?php echo $row['m_feeLain']; ?></td></tr>
     </table>
+    </div>
+</div>
+
+<div class="card mb-3 col-10 my-5 mx-auto">
+    <div class="card-header text-white bg-primary d-flex justify-content-between align-items-center">
+        Maklumat Pewaris
+    </div>
+    <div class="card-body">
+        <?php if (!empty($heirs)) { ?>
+        <table class="table table-hover">
+            <thead>
+                <tr>
+                    <th>Nama Pewaris</th>
+                    <th>No. Kad Pengenalan</th>
+                    <th>Hubungan</th>
+                </tr>
+            </thead>
+            <tbody>
+                <?php foreach ($heirs as $heir) { ?>
+                <tr>
+                    <td><?php echo $heir['h_name']; ?></td>
+                    <td><?php echo $heir['h_ic']; ?></td>
+                    <td><?php echo $heir['hr_desc']; ?></td>
+                </tr>
+                <?php } ?>
+            </tbody>
+        </table>
+        <?php } else { ?>
+        <p>Tiada maklumat pewaris.</p>
+        <?php } ?>
     </div>
 </div>
 
