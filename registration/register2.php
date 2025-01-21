@@ -86,22 +86,23 @@ if ($result && $row = mysqli_fetch_assoc($result)) {
           </div>
 
           <form method="post" autocomplete="on" id="main-form3">
-          <div class='mb-3'>
-                <label class='form-label'>Fee Masuk</label>
-                <div class='input-group'>
-                  <span class='input-group-text'>RM</span>
-                  <input type='number' class='form-control' name='ffee' placeholder='Nilai Minima: <?php echo (getValue('ffee')); ?>' 
-                  value="<?php echo (getValue('ffee')); ?>" 
-                  min='<?php echo $minValues['ffee']; ?>' required>
-                </div>
-              </div>
+  <div class='mb-3'>
+    <label class='form-label'>Fee Masuk</label>
+      <div class='input-group'>
+            <span class='input-group-text'>RM</span>
+            <input type='number' class='form-control' name='ffee' 
+            placeholder='Nilai Minima: <?php echo number_format((float)$minValues["ffee"], 2, ".", ""); ?>' 
+            value="<?php echo getValueDecimal('ffee'); ?>" 
+            min='<?php echo number_format((float)$minValues["ffee"], 2, ".", ""); ?>' required>
+      </div>
+  </div>
 
-          <div class='mb-3'>
+              <div class='mb-3'>
                 <label class='form-label'>Modal Syer</label>
                 <div class='input-group'>
                   <span class='input-group-text'>RM</span>
-                  <input type='number' class='form-control' name='fmodal' placeholder='0.00' 
-                  value='<?php echo $minValues['fmodal']; ?>' readonly="">
+                  <input type='number' step='0.01' class='form-control' name='fmodal' placeholder='0.00' 
+                value='<?php echo number_format((float)$minValues["fmodal"], 2, ".", ""); ?>' readonly="">
                 </div>
               </div>
               
@@ -116,19 +117,22 @@ if ($result && $row = mysqli_fetch_assoc($result)) {
             'fother' => 'Lain-lain'
           ];
 
-            foreach ($fields as $key => $label) {
-                $value = isset($_SESSION[$key]) ? $_SESSION[$key] : ''; // Use session data for the value
-                $minValue = isset($minValues[$key]) ? $minValues[$key] : 0; // Default min value is 0 if not found
-                echo "
-                <div class='mb-3'>
-                  <label class='form-label'>$label</label>
-                  <div class='input-group'>
-                    <span class='input-group-text'>RM</span>
-                    <input type='number' class='form-control' name='$key' placeholder='Nilai Minima: $minValue' value='$value' min='$minValue' required>
-                  </div>
-                </div>
-                ";
-            }
+          foreach ($fields as $key => $label) {
+            $value =  getValueDecimal($key);  // Use session data for the value
+            $minValue = isset($minValues[$key]) ? $minValues[$key] : 0; // Default min value is 0 if not found
+            echo "
+            <div class='mb-3'>
+              <label class='form-label'>$label</label>
+              <div class='input-group'>
+                <span class='input-group-text'>RM</span>
+                 <input type='number' step='0.01' class='form-control' name='$key' 
+                placeholder='Nilai Minima: " . number_format((float)$minValue, 2, '.', '') . "' 
+                value='" . $value . "' 
+                min='" . number_format((float)$minValue, 2, '.', '') . "' required>
+              </div>
+            </div>
+            ";
+        }
             ?>
             <div class="d-flex justify-content-center">
               <button type="button" class="btn btn-light ms-2 me-2" onclick="location.href='register1.php';">&lt; Kembali</button>

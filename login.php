@@ -119,7 +119,7 @@ include 'login_function.php';
                         <br>
                         <button type="submit" class="btn btn-primary custom-width center-button">Log Masuk</button>
                         <br><br>
-                        <h6 class="text-center"><b><a href="registration/register.php">Pemohonan Menjadi Anggota</a></b></h6>
+                        <h6 class="text-center"><b><a href="registration/register.php">Permohonan Menjadi Anggota</a></b></h6>
                         <h6 class="text-center"><b><a href="forgot_password.php">Lupa Kata Laluan</a></b></h6>
                         <br><br><br>
                     </fieldset>

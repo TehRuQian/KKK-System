@@ -110,7 +110,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['submit'])) {
                                             <label class="form-label mt-4">Nama</label>
                                             <input type="text" name="wname<?= $i ?>" class="form-control" placeholder="Seperti dalam IC"
                                                 value="<?= $_SESSION["wname$i"] ?? '' ?>"
-                                                required pattern="[A-Za-z\s]+" 
+                                                required pattern="[A-Za-z@/'\s]+"
                                                 title="Nama hanya boleh mengandungi huruf dan ruang.">
                                         </div>
                                         <div>
@@ -165,7 +165,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['submit'])) {
                 newPewaris.classList.add('form-section');
                 newPewaris.id = 'pewaris-' + currentCount;
                 newPewaris.innerHTML = `
-                    <h4>Pewaris ${currentCount}</h4>
+                    <h4 style="text-align: left;">Pewaris ${currentCount}</h4>
                     <fieldset>
                         <div>
                             <label class="form-label mt-4">Nama</label>

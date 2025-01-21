@@ -149,7 +149,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['submit'])) {
             <label class="form-label mt-4">Nama</label>
             <input type="text" name="funame" class="form-control" placeholder="Seperti dalam IC" 
             value="<?php echo (getValue('funame')); ?>" 
-            pattern="[A-Za-z\s]+" 
+            pattern="[A-Za-z@/'\s]+"
             title="Nama hanya boleh mengandungi huruf dan ruang." required>
         </div>
 
@@ -357,7 +357,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['submit'])) {
                 <input type="text" class="form-control" placeholder="Talian Rumah Tanpa '-'" name="fhomeno" 
                 value="<?php echo (getValue('fhomeno')); ?>" 
                 pattern="\d{9}" 
-                title="Masukkan nombor telefon rumah tanpa '-'." required>
+                title="Masukkan nombor telefon rumah tanpa '-'." >
             </div>
         </div>
 
@@ -365,12 +365,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['submit'])) {
         <div class="mb-3">
             <label class="form-label">Gaji Sebulan</label>
             <div class="input-group">
-                <span class="input-group-text">RM</span>
-                <input type="number" class="form-control" placeholder="0.00" name="fsalary" 
-                value="<?php echo (getValue('fsalary')); ?>" 
-                required>
-            </div>
-        </div>
+            <span class="input-group-text">RM</span>
+            <input type="number" step="0.01" class="form-control" placeholder="0.00" name="fsalary" 
+            value="<?php echo getValueDecimal('fsalary'); ?>" 
+            required>
+    </div>
+</div>
 
         <br>
         <div class="d-flex justify-content-center">
