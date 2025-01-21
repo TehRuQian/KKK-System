@@ -56,8 +56,10 @@ if (isset($_GET['id'])) {
     <?php if (!empty($loan)) { ?>
     
     <!-- Maklumat Pinjaman -->
-    <div class="card mb-3">
-        <div class="card-header text-white bg-primary">Maklumat Pinjaman</div>
+    <div class="card mb-3 col-10 my-5 mx-auto">
+        <div class="card-header text-white bg-primary d-flex justify-content-between align-items-center">
+            Maklumat Pinjaman
+        </div>
         <div class="card-body">
             <table class="table table-hover">
                 <tr>
@@ -85,8 +87,10 @@ if (isset($_GET['id'])) {
     </div>
 
     <!-- Maklumat Peribadi Peminjam -->
-    <div class="card mb-3">
-        <div class="card-header text-white bg-primary">Maklumat Peribadi Peminjam</div>
+    <div class="card mb-3 col-10 my-5 mx-auto">
+        <div class="card-header text-white bg-primary d-flex justify-content-between align-items-center">
+            Maklumat Peribadi Peminjam
+        </div>
         <div class="card-body">
             <table class="table table-hover">
                 <tr>
@@ -130,8 +134,10 @@ if (isset($_GET['id'])) {
     </div>
 
     <!-- Maklumat Penjamin 1 -->
-    <div class="card mb-3">
-        <div class="card-header text-white bg-primary">Maklumat Penjamin 1</div>
+    <div class="card mb-3 col-10 my-5 mx-auto">
+        <div class="card-header text-white bg-primary d-flex justify-content-between align-items-center">
+            Maklumat Penjamin 1
+        </div>
         <div class="card-body">
             <table class="table table-hover">
                 <tr>
@@ -155,8 +161,10 @@ if (isset($_GET['id'])) {
     </div>
 
     <!-- Maklumat Penjamin 2 -->
-    <div class="card mb-3">
-        <div class="card-header text-white bg-primary">Maklumat Penjamin 2</div>
+    <div class="card mb-3 col-10 my-5 mx-auto">
+        <div class="card-header text-white bg-primary justify-content-between align-items-center">
+            Maklumat Penjamin 2
+        </div>
         <div class="card-body">
             <table class="table table-hover">
                 <tr>

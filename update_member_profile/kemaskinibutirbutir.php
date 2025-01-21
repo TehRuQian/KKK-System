@@ -21,20 +21,14 @@ $sql = "SELECT tb_member.*,
                tb_urace.ur_desc AS race,
                tb_ureligion.ua_desc AS religion,
                tb_umaritalstatus.um_desc AS maritalstatus,
-               tb_lbank.lb_desc AS bankname,
-               tb_loan.l_bankAccountNo AS bankaccount,
                tb_homeState.st_desc AS homeState,
                tb_officeState.st_desc AS officeState,
-               tb_member.m_memberApplicationID,
-               l_bankName,
-               l_bankAccountNo
+               tb_member.m_memberApplicationID
         FROM tb_member
         LEFT JOIN tb_ugender ON tb_member.m_gender=tb_ugender.ug_gid
         LEFT JOIN tb_urace ON tb_member.m_race=tb_urace.ur_rid
         LEFT JOIN tb_ureligion ON tb_member.m_religion=tb_ureligion.ua_rid
         LEFT JOIN tb_umaritalstatus ON tb_member.m_maritalStatus=tb_umaritalstatus.um_mid
-        LEFT JOIN tb_loan ON tb_member.m_memberNo = tb_loan.l_memberNo
-        LEFT JOIN tb_lbank ON tb_loan.l_bankName=tb_lbank.lb_id
         LEFT JOIN tb_homeState ON tb_member.m_homeState=tb_homeState.st_id
         LEFT JOIN tb_officeState ON tb_member.m_officeState=tb_officeState.st_id
         WHERE tb_member.m_memberNo = '$u_id'";
@@ -69,17 +63,15 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $officepostcode = $_POST['officepostcode'];
     $officecity = $_POST['officecity'];
     $officestate = $_POST['officestate'];
+    $faxphonenum = $_POST['faxphonenum'];
     $phonenum = $_POST['phonenum'];
     $homephonenum = $_POST['homephonenum'];
     $monthlysalary = $_POST['monthlysalary'];
-    $bankname = $_POST['bankname'];
-    $accountnum = $_POST['accountnum'];
 
 
 if(!empty($_POST)) {
 
   $sql = "UPDATE tb_member
-          Left JOIN tb_loan ON tb_member.m_memberNo =tb_loan.l_memberNo
   SET 
     m_name = '$name', 
     m_religion = '$agama',
@@ -96,11 +88,10 @@ if(!empty($_POST)) {
     m_officePostcode = '$officepostcode',
     m_officeCity = '$officecity',
     m_officeState = '$officestate',
-    m_phoneNumber = '$phonenum',
+    m_faxNumber = '$faxphonenum',
     m_homeNumber = '$homephonenum',
-    m_monthlySalary = '$monthlysalary',
-    l_bankName = '$bankname',
-    l_bankAccountNo = '$accountnum'
+    m_phoneNumber = '$phonenum',
+    m_monthlySalary = '$monthlysalary'
     WHERE m_memberNo='$u_id'";
 
     if(!mysqli_query($con, $sql)) {
@@ -307,7 +298,7 @@ if(!empty($_POST)) {
         <option value="4" <?= $row['m_homeState'] == 4 ? 'selected' : ''; ?>>Melaka</option>
         <option value="5" <?= $row['m_homeState'] == 5 ? 'selected' : ''; ?>>Negeri Sembilan</option>
         <option value="6" <?= $row['m_homeState'] == 6 ? 'selected' : ''; ?>>Pahang</option>
-        <option value="7" <?= $row['m_homeState'] == 7 ? 'selected' : ''; ?>>Penang</option>
+        <option value="7" <?= $row['m_homeState'] == 7 ? 'selected' : ''; ?>>Pulau Pinang</option>
         <option value="8" <?= $row['m_homeState'] == 8 ? 'selected' : ''; ?>>Sabah</option>
         <option value="9" <?= $row['m_homeState'] == 9 ? 'selected' : ''; ?>>Sarawak</option>
         <option value="10" <?= $row['m_homeState'] == 10 ? 'selected' : ''; ?>>Selangor</option>
@@ -368,7 +359,7 @@ if(!empty($_POST)) {
         <option value="4" <?= $row['m_officeState'] == 4 ? 'selected' : ''; ?>>Melaka</option>
         <option value="5" <?= $row['m_officeState'] == 5 ? 'selected' : ''; ?>>Negeri Sembilan</option>
         <option value="6" <?= $row['m_officeState'] == 6 ? 'selected' : ''; ?>>Pahang</option>
-        <option value="7" <?= $row['m_officeState'] == 7 ? 'selected' : ''; ?>>Penang</option>
+        <option value="7" <?= $row['m_officeState'] == 7 ? 'selected' : ''; ?>>Pulau Pinang</option>
         <option value="8" <?= $row['m_homeState'] == 8 ? 'selected' : ''; ?>>Sabah</option>
         <option value="9" <?= $row['m_homeState'] == 9 ? 'selected' : ''; ?>>Sarawak</option>
         <option value="10" <?= $row['m_homeState'] == 10 ? 'selected' : ''; ?>>Selangor</option>
@@ -381,11 +372,11 @@ if(!empty($_POST)) {
       </select>
     </div>
 
-    <div class="row justify-content-center">
+<div class="row justify-content-center">
   <div class="col">
     <div>
-      <label class="form-label mt-4">No. Telefon Rumah</label>
-      <input type="text" class="form-control" name="homephonenum" value="<?= $row['m_homeNumber']; ?>" pattern="\d{9}">
+      <label class="form-label mt-4">No. Telefon / Fax</label>
+      <input type="text" class="form-control" name="faxphonenum" value="<?= $row['m_faxNumber']; ?>" pattern="\d{10}">
     </div>
   </div>
   <div class="col">
@@ -394,41 +385,16 @@ if(!empty($_POST)) {
       <input type="text" class="form-control" name="phonenum" value="<?= $row['m_phoneNumber']; ?>" pattern="\d{10,11}" required>
     </div>
   </div>
+  <div class="col">
+    <div>
+      <label class="form-label mt-4">No. Telefon Rumah</label>
+      <input type="text" class="form-control" name="homephonenum" value="<?= $row['m_homeNumber']; ?>" pattern="\d{9}">
+    </div>
+  </div>
 </div>
   <div>
       <label class="form-label mt-4">Gaji Bulanan (RM) <span class="required">*</span></label>
       <input type="text" class="form-control" name=" monthlysalary" value="<?= $row['m_monthlySalary']; ?>" required>
-    </div>
-  <div>
-      <label class="form-label mt-4">Nama Bank</label>
-      <select class="form-select"  name="bankname">
-        <option value="0" <?= $row['l_bankName'] == 0 ? 'selected' : ''; ?>>Tiada</option>
-        <option value="1" <?= $row['l_bankName'] == 1 ? 'selected' : ''; ?>>Affin Bank</option>
-        <option value="2" <?= $row['l_bankName'] == 2 ? 'selected' : ''; ?>>Agrobank</option>
-        <option value="3" <?= $row['l_bankName'] == 3 ? 'selected' : ''; ?>>Al Rajhi Bank Malaysia</option>
-        <option value="4" <?= $row['l_bankName'] == 4 ? 'selected' : ''; ?>>Alliance Bank</option>
-        <option value="5" <?= $row['l_bankName'] == 5 ? 'selected' : ''; ?>>AmBank</option>
-        <option value="6" <?= $row['l_bankName'] == 6 ? 'selected' : ''; ?>>Bank Islam</option>
-        <option value="7" <?= $row['l_bankName'] == 7 ? 'selected' : ''; ?>>Bank Muamalat</option>
-        <option value="8" <?= $row['l_bankName'] == 8 ? 'selected' : ''; ?>>Bank Rakyat</option>
-        <option value="9" <?= $row['l_bankName'] == 9 ? 'selected' : ''; ?>>BSN</option>
-        <option value="10" <?= $row['l_bankName'] == 10 ? 'selected' : ''; ?>>CIMB</option>
-        <option value="11" <?= $row['l_bankName'] == 11 ? 'selected' : ''; ?>>Citybank Malaysia</option>
-        <option value="12" <?= $row['l_bankName'] == 12 ? 'selected' : ''; ?>>Co-op Bank Pertama</option>
-        <option value="13" <?= $row['l_bankName'] == 13 ? 'selected' : ''; ?>>Hong Leong Bank</option>
-        <option value="14" <?= $row['l_bankName'] == 14 ? 'selected' : ''; ?>>HSBC Malaysia</option>
-        <option value="15" <?= $row['l_bankName'] == 15 ? 'selected' : ''; ?>>Maybank</option>
-        <option value="16" <?= $row['l_bankName'] == 16 ? 'selected' : ''; ?>>MBSB Bank</option>
-        <option value="17" <?= $row['l_bankName'] == 17 ? 'selected' : ''; ?>>OCBC Malaysia</option>
-        <option value="18" <?= $row['l_bankName'] == 18 ? 'selected' : ''; ?>>Public Bank</option>
-        <option value="19" <?= $row['l_bankName'] == 19 ? 'selected' : ''; ?>>RHB</option>
-        <option value="20" <?= $row['l_bankName'] == 20 ? 'selected' : ''; ?>>Standard Chartered Malaysia</option>
-        <option value="21" <?= $row['l_bankName'] == 21 ? 'selected' : ''; ?>>UOB Malaysia</option>
-      </select>
-    </div>
-    <div>
-      <label class="form-label mt-4">No. Akaun Bank</label>
-      <input type="text" class="form-control" name="accountnum" value="<?= $row['l_bankAccountNo'] ?? '-'; ?>">
     </div>
     <div class="d-flex justify-content-center">
       <button onclick="return confirmation(event);" class="btn btn-primary mt-4">Simpan</button>

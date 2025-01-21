@@ -29,7 +29,6 @@ if (isset($_GET['id']))
                      LEFT JOIN tb_hrelation ON tb_heir.h_relationWithMember = tb_hrelation.hr_rid
                      WHERE h_memberApplicationID = '{$member['m_memberApplicationID']}'";
 
-        
         $resultHeirs = mysqli_query($con, $sqlHeirs);
         $heirs = mysqli_fetch_all($resultHeirs, MYSQLI_ASSOC);
         while ($row = mysqli_fetch_assoc($resultHeirs)) {
@@ -44,8 +43,8 @@ if (isset($_GET['id']))
     <?php if (!empty($member)) { ?>
 
     <!-- Member Information -->
-    <div class="card mb-3">
-      <div class="card-header text-white bg-primary d-flex justify-content-between align-items-center">
+    <div class="card mb-3 col-10 my-5 mx-auto">
+        <div class="card-header text-white bg-primary d-flex justify-content-between align-items-center">
       Maklumat Peribadi Ahli
       </div>
       <div class="card-body">
@@ -132,8 +131,8 @@ if (isset($_GET['id']))
     </div>
 
     <!-- Member Shares Information -->
-    <div class="card mb-3">
-      <div class="card-header text-white bg-primary d-flex justify-content-between align-items-center">
+    <div class="card mb-3 col-10 my-5 mx-auto">
+        <div class="card-header text-white bg-primary d-flex justify-content-between align-items-center">
       Maklumat Saham Ahli
       </div>
       <div class="card-body">
@@ -167,8 +166,8 @@ if (isset($_GET['id']))
 </div>
 
 <!-- Heir Information -->
-<div class="card mb-3">
-    <div class="card-header text-white bg-primary d-flex justify-content-between align-items-center">
+<div class="card mb-3 col-10 my-5 mx-auto">
+        <div class="card-header text-white bg-primary d-flex justify-content-between align-items-center">
         Maklumat Pewaris
     </div>
     <div class="card-body">
