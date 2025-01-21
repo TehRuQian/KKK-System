@@ -108,6 +108,9 @@ if ($loan_status_result) {
                 $loan_approved = $loan_status_row['loan_status_count']; 
                 $total_approved_loans = $loan_status_row['total_approved_loans'];
                 break;
+            case 4:
+                $loan_completed = $loan_status_row['loan_status_count'];
+                break;
         }
     }
 }
@@ -148,7 +151,7 @@ if ($transactions_result && mysqli_num_rows($transactions_result) > 0) {
 
 //Polisi
 $policies_where = str_replace('m_applicationDate', 'p_dateUpdated', $where_clause);
-$policies_sql = "SELECT * FROM tb_policies $policies_where";
+$policies_sql = "SELECT * FROM tb_policies $policies_where ORDER BY p_dateUpdated DESC LIMIT 1";
 $policies_result = mysqli_query($con, $policies_sql);
 ?>
 
@@ -225,6 +228,7 @@ $policies_result = mysqli_query($con, $policies_sql);
                     <li>Diluluskan: <?= $loan_approved ?></li>
                     <li>Sedang Diproses: <?= $loan_pending ?></li>
                     <li>Ditolak: <?= $loan_rejected ?></li>
+                    <li>Dijelaskan: <?= $loan_completed ?? 0 ?></li>
                 </ul>
 
                 <p>Permohonan Pinjaman Mengikut Jenis:</p>
@@ -244,30 +248,21 @@ $policies_result = mysqli_query($con, $policies_sql);
 
                 <p><strong>5. Maklumat Polisi</strong></p>
                 <?php if ($policies_result && mysqli_num_rows($policies_result) > 0): ?>
-                    <?php while ($policy = mysqli_fetch_assoc($policies_result)): ?>
-                        <ul>
-                            <li>Yuran Pendaftaran Anggota: <?= htmlspecialchars($policy['p_memberRegFee']) ?></li>
-                            <li>Modal Syer Minimum: <?= htmlspecialchars($policy['p_minShareCapital']) ?></li>
-                            <li>Yuran Modal Minimum: <?= htmlspecialchars($policy['p_minFeeCapital']) ?></li>
-                            <li>Yuran Tetap Minimum: <?= htmlspecialchars($policy['p_minFixedSaving']) ?></li>
-                            <li>Simpanan Tetap Minimum: <?= htmlspecialchars($policy['p_minMemberFund']) ?></li>
-                            <li>Tabung Kebajikan Minimum: <?= htmlspecialchars($policy['p_minMemberSaving']) ?></li>
-                            <li>Jumlah Pembiayaan Maksimum: <?= htmlspecialchars($policy['p_maxFinancingAmt']) ?></li>
-                            <li>Kadar Keuntungan: <?= htmlspecialchars($policy['p_profitRate']) ?></li>
-                        </ul>
-                    <?php endwhile; ?>
+                    <?php $policy = mysqli_fetch_assoc($policies_result); ?>
+                    <ul>
+                        <li>Yuran Pendaftaran Anggota: <?= htmlspecialchars($policy['p_memberRegFee']) ?></li>
+                        <li>Modal Syer Minimum: <?= htmlspecialchars($policy['p_minShareCapital']) ?></li>
+                        <li>Yuran Modal Minimum: <?= htmlspecialchars($policy['p_minFeeCapital']) ?></li>
+                        <li>Yuran Tetap Minimum: <?= htmlspecialchars($policy['p_minFixedSaving']) ?></li>
+                        <li>Simpanan Tetap Minimum: <?= htmlspecialchars($policy['p_minMemberFund']) ?></li>
+                        <li>Tabung Kebajikan Minimum: <?= htmlspecialchars($policy['p_minMemberSaving']) ?></li>
+                        <li>Jumlah Pembiayaan Maksimum: <?= htmlspecialchars($policy['p_maxFinancingAmt']) ?></li>
+                        <li>Kadar Keuntungan: <?= htmlspecialchars($policy['p_profitRate']) ?></li>
+                    </ul>
                 <?php else: ?>
-                    <p>Tiada polisi dikemas kini untuk tempoh yang dipilih.</p>
+                    <p>Tiada polisi terkini tersedia.</p>
                 <?php endif; ?>
 
-                <?php
-                $net_profit = $transaction_total - $total_approved_loans;
-                ?>
-                <p><strong>6. Prestasi Kewangan</strong></p>
-                <p>Jumlah Pendapatan untuk Tempoh: RM <?= number_format($transaction_total, 2) ?></p>
-                <p>Jumlah Perbelanjaan untuk Tempoh: RM <?= number_format($total_approved_loans, 2) ?></p>
-                <p>Keuntungan Bersih untuk Tempoh: RM <?= number_format($net_profit, 2) ?></p>
-                </div>
               </div>
               <?php else: ?>
                 <p>Sila pilih bulan dan/atau tahun untuk melihat laporan.</p>

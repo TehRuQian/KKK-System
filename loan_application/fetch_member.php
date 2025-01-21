@@ -44,24 +44,30 @@ $response = [];
 
 if (isset($_POST['anggotaPenjamin1'])) {
     $anggotaPenjamin1 = $_POST['anggotaPenjamin1'];
-    $penjamin1_details = fetch_member_details($anggotaPenjamin1);
 
-    if ($penjamin1_details) {
-        $response['penjamin1'] = $penjamin1_details;
+    // 查询数据库以获取成员数据
+    $sql = "SELECT m_name, m_ic, m_pfNo FROM tb_member WHERE m_memberNo = '$anggotaPenjamin1'";
+    $result = mysqli_query($con, $sql);
+
+    if ($row = mysqli_fetch_assoc($result)) {
+        $response['penjamin1'] = $row; // 返回成员数据
     } else {
-        $response['penjamin1_error'] = 'Tiada ahli ditemui dengan No. Anggota ini untuk Penjamin 1. Sila masukkan semula.';
+        $response['penjamin1_error'] = 'No member found.'; // 没有找到成员
     }
 }
 
 
 if (isset($_POST['anggotaPenjamin2'])) {
     $anggotaPenjamin2 = $_POST['anggotaPenjamin2'];
-    $penjamin2_details = fetch_member_details($anggotaPenjamin2);
 
-    if ($penjamin2_details) {
-        $response['penjamin2'] = $penjamin2_details;
+    // 查询数据库以获取成员数据
+    $sql = "SELECT m_name, m_ic, m_pfNo FROM tb_member WHERE m_memberNo = '$anggotaPenjamin2'";
+    $result = mysqli_query($con, $sql);
+
+    if ($row = mysqli_fetch_assoc($result)) {
+        $response['penjamin2'] = $row; // 返回成员数据
     } else {
-        $response['penjamin2_error'] = 'Tiada ahli ditemui dengan No. Anggota ini untuk Penjamin 2. Sila masukkan semula.';
+        $response['penjamin2_error'] = 'No member found.'; // 没有找到成员
     }
 }
 

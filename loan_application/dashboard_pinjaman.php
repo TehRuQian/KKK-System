@@ -16,7 +16,14 @@ $memberNo = $_SESSION['funame'];
 
 // Check if the 'status' parameter is present in the URL
 if (isset($_GET['status']) && $_GET['status'] == 'success') {
-  echo '<script>alert("Maklumat anda telah berjaya disimpan!");</script>';
+  echo '<script>
+          Swal.fire({
+              title: "Berjaya!",
+              text: "Maklumat anda telah berjaya disimpan!",
+              icon: "success",
+              confirmButtonText: "OK"
+          });
+        </script>';
 }
 
 // Personal Data
@@ -42,7 +49,7 @@ $memberNo = isset($_SESSION['funame']) ? $_SESSION['funame'] : null;
                     <th>No.</th>
                     <th>Jenis Pinjaman</th>
                     <th>Jumlah Permohonan (RM)</th>
-                    <th>Tempoh Pinjaman (Bulan)</th>
+                    <th>Tempoh Pinjaman (Tahun)</th>
                     <th>Ansuran Bulanan (RM)</th>
                     <th>Tunggakan (RM)</th>
                     <th>Tarikh Permohonan</th>
@@ -90,12 +97,12 @@ $memberNo = isset($_SESSION['funame']) ? $_SESSION['funame'] : null;
                   echo "<tr>";
                   echo "<td>{$count}</td>";
                   echo "<td>{$selected_jenis_pembiayaan}</td>";
-                  echo "<td>{$selected_amaunDipohon}</td>";
-                  echo "<td>{$selected_tempohPembiayaan}</td>";
-                  echo "<td>{$selected_ansuranBulanan}</td>";
-                  echo "<td>{$selected_tunggakan}</td>";
-                  echo "<td>{$application_date}</td>";
-                  echo "<td>{$status_loan}</td>";
+                  echo "<td>" . number_format($selected_amaunDipohon, 2) . "</td>";
+                  echo "<td>{$selected_tempohPembiayaan}</td>"; 
+                  echo "<td>" . number_format($selected_ansuranBulanan, 2) . "</td>"; 
+                  echo "<td>" . number_format($selected_tunggakan, 2) . "</td>";
+                  echo "<td>{$application_date}</td>"; 
+                  echo "<td>{$status_loan}</td>"; 
                   echo "</tr>";
                   
                   $count++;
@@ -107,12 +114,7 @@ $memberNo = isset($_SESSION['funame']) ? $_SESSION['funame'] : null;
             </div>
     </div>
 
- 
-    <hr class="my-4">
-      <p class="lead">
       <a href="a_pinjaman.php" class="btn btn-primary">Mohon Pinjaman</a>
-      </p>
-    </hr>
 
   </fieldset>
 

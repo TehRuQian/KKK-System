@@ -1,3 +1,8 @@
+<head>   
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+</head>
+
 <?php
 include('../kkksession.php');
 if (!session_id()) {
@@ -8,15 +13,24 @@ include '../headermember.php';
 include '../db_connect.php';
 
 //Loan
+
+
+$loanApplicationID = $_SESSION['loanApplicationID']; // Retrieve from session
+$memberNo = $_SESSION['funame'];
+
 if (!isset($_SESSION['loanApplicationID'])) {
   echo "<script>
-  alert('Sila simpan naklumat Butir-Butir Pembiayaan.');
-  window.location.href = 'a_pinjaman.php';
+  Swal.fire({
+    title: 'Peringatan',
+    text: 'Sila simpan maklumat Butir-Butir Pembiayaan.',
+    icon: 'warning',
+    confirmButtonText: 'OK'
+  }).then(() => {
+    window.location.href = 'a_pinjaman.php';
+  });
   </script>";
   exit();
 }
-
-$loanApplicationID = $_SESSION['loanApplicationID']; // Retrieve from session
 
 ?>
 
@@ -162,7 +176,7 @@ $loanApplicationID = $_SESSION['loanApplicationID']; // Retrieve from session
         <div>
           <label class="form-label mt-4">No. Anggota</label>
           <div class="input-group mt-2">
-            <input type="text" name = "anggotaPenjamin1" class="form-control" id="anggotaPenjamin1" aria-label="anggotaPenjamin1" placeholder="1" required>
+            <input type="text" name = "anggotaPenjamin1" class="form-control" id="anggotaPenjamin1" aria-label="anggotaPenjamin1" required>
           </div>
         </div>
 
@@ -201,7 +215,7 @@ $loanApplicationID = $_SESSION['loanApplicationID']; // Retrieve from session
         <div>
           <label class="form-label mt-4">No. Anggota</label>
           <div class="input-group mt-2">
-            <input type="text" name="anggotaPenjamin2" class="form-control" id="anggotaPenjamin2" aria-label="anggotaPenjamin2" placeholder="2" required>
+            <input type="text" name="anggotaPenjamin2" class="form-control" id="anggotaPenjamin2" aria-label="anggotaPenjamin2" required>
           </div>
         </div>
 
@@ -215,7 +229,7 @@ $loanApplicationID = $_SESSION['loanApplicationID']; // Retrieve from session
         <div>
           <label class="form-label mt-4">No. Kad Pengenalan</label>
           <div class="input-group mt-2">
-            <input type="text" name="icPenjamin2" class="form-control" id="icPenjamin2" aria-label="icPenjamin2" placeholder="000000-00-0001" readonly>
+            <input type="text" name="icPenjamin2" class="form-control" id="icPenjamin2" aria-label="icPenjamin2" placeholder="000000-00-0000" readonly>
           </div>
         </div>
 
@@ -232,11 +246,10 @@ $loanApplicationID = $_SESSION['loanApplicationID']; // Retrieve from session
           <p class="mt-2" style="font-size: 0.9rem; color: #6c757d;">*Fail yang dibenarkan adalah dalam format PNG, JPG, dan JPEG sahaja. Sila pastikan saiz fail tidak melebihi 5MB.</p>
         </div>
 
-      <hr class="my-4">                                    
-        <p class="lead">
-        <button type="submit" class="btn btn-primary">Simpan</button>
-        </p>
-      </hr>
+        <div style="text-align: center;">
+            <br>
+            <button type="submit" class="btn btn-primary">Simpan</button>
+        </div>
     </div>   
   </fieldset>
 </form>                                 
@@ -263,6 +276,29 @@ $(document).ready(function() {
         var anggotaPenjamin1 = $(this).val().trim();
         console.log('Input member number:', anggotaPenjamin1);
         
+        if (anggotaPenjamin1 === '<?php echo $memberNo; ?>') {
+            Swal.fire({
+                title: 'Peringatan',
+                text: 'Penjamin 1 tidak boleh sama dengan anggota yang sedang log masuk.',
+                icon: 'warning',
+                confirmButtonText: 'OK'
+            });
+            $('#namaPenjamin1, #icPenjamin1, #pfPenjamin1').val('');
+            return;
+        }
+
+        var anggotaPenjamin2 = $('#anggotaPenjamin2').val().trim();
+        if (anggotaPenjamin1 === anggotaPenjamin2 && anggotaPenjamin2 !== '') {
+            Swal.fire({
+                title: 'Peringatan',
+                text: 'Penjamin 1 tidak boleh sama dengan Penjamin 2.',
+                icon: 'warning',
+                confirmButtonText: 'OK'
+            });
+            $('#namaPenjamin1, #icPenjamin1, #pfPenjamin1').val('');
+            return;
+        }
+
         if (anggotaPenjamin1 !== '') {
             
             $('#namaPenjamin1, #icPenjamin1, #pfPenjamin1')
@@ -278,9 +314,14 @@ $(document).ready(function() {
                     console.log('Server response:', response);
                     
                     if (response.status === 'success' && response.penjamin1) {
-                        $('#namaPenjamin1').val(response.penjamin1.m_name);
-                        $('#icPenjamin1').val(response.penjamin1.m_ic);
-                        $('#pfPenjamin1').val(response.penjamin1.m_pfNo);
+                        if (response.penjamin1.m_no === '<?php echo $memberNo; ?>') {
+                            alert('Penjamin 1 tidak boleh sama dengan anggota yang sedang log masuk.');
+                            $('#namaPenjamin1, #icPenjamin1, #pfPenjamin1').val('');
+                        } else {
+                            $('#namaPenjamin1').val(response.penjamin1.m_name);
+                            $('#icPenjamin1').val(response.penjamin1.m_ic);
+                            $('#pfPenjamin1').val(response.penjamin1.m_pfNo);
+                        }
                     } else {
                         $('#namaPenjamin1, #icPenjamin1, #pfPenjamin1').val('');
                         console.log('Debug info:', response.debug);
@@ -305,6 +346,29 @@ $(document).ready(function() {
     $('#anggotaPenjamin2').on('change', function() {
         var anggotaPenjamin2 = $(this).val().trim();
         
+        if (anggotaPenjamin2 === '<?php echo $memberNo; ?>') {
+            Swal.fire({
+                title: 'Peringatan',
+                text: 'Penjamin 2 tidak boleh sama dengan anggota yang sedang log masuk.',
+                icon: 'warning',
+                confirmButtonText: 'OK'
+            });
+            $('#namaPenjamin2, #icPenjamin2, #pfPenjamin2').val('');
+            return;
+        }
+
+        var anggotaPenjamin1 = $('#anggotaPenjamin1').val().trim();
+        if (anggotaPenjamin2 === anggotaPenjamin1 && anggotaPenjamin1 !== '') {
+            Swal.fire({
+                title: 'Peringatan',
+                text: 'Penjamin 2 tidak boleh sama dengan Penjamin 1.',
+                icon: 'warning',
+                confirmButtonText: 'OK'
+            });
+            $('#namaPenjamin2, #icPenjamin2, #pfPenjamin2').val('');
+            return;
+        }
+
         if (anggotaPenjamin2 !== '') {
             
             $('#namaPenjamin2, #icPenjamin2, #pfPenjamin2')
@@ -320,9 +384,14 @@ $(document).ready(function() {
                     console.log('Server response:', response);
                     
                     if (response.status === 'success' && response.penjamin2) {
-                        $('#namaPenjamin2').val(response.penjamin2.m_name);
-                        $('#icPenjamin2').val(response.penjamin2.m_ic);
-                        $('#pfPenjamin2').val(response.penjamin2.m_pfNo);
+                        if (response.penjamin2.m_no === '<?php echo $memberNo; ?>') {
+                            alert('Penjamin 2 tidak boleh sama dengan anggota yang sedang log masuk.');
+                            $('#namaPenjamin2, #icPenjamin2, #pfPenjamin2').val('');
+                        } else {
+                            $('#namaPenjamin2').val(response.penjamin2.m_name);
+                            $('#icPenjamin2').val(response.penjamin2.m_ic);
+                            $('#pfPenjamin2').val(response.penjamin2.m_pfNo);
+                        }
                     } else {
                         $('#namaPenjamin2, #icPenjamin2, #pfPenjamin2').val('');
                         alert(response.message || 'Tiada maklumat anggota dijumpai');
