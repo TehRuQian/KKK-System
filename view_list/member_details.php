@@ -29,7 +29,6 @@ if (isset($_GET['id']))
                      LEFT JOIN tb_hrelation ON tb_heir.h_relationWithMember = tb_hrelation.hr_rid
                      WHERE h_memberApplicationID = '{$member['m_memberApplicationID']}'";
 
-        
         $resultHeirs = mysqli_query($con, $sqlHeirs);
         $heirs = mysqli_fetch_all($resultHeirs, MYSQLI_ASSOC);
         while ($row = mysqli_fetch_assoc($resultHeirs)) {
