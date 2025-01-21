@@ -65,7 +65,7 @@ $selected_file = $basePath . trim($rowLoan['l_file']);
 <div class="container">
     <h2 class="mb-4">Maklumat Peminjam</h2>
 
-    <!-- Applicant Details -->
+    <!-- Loan Applicant Details -->
     <div class="card mb-3 col-10 my-5 mx-auto">
         <div class="card-header text-white bg-primary d-flex justify-content-between align-items-center">
             Maklumat Peribadi Pemohon

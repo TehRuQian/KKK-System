@@ -102,6 +102,10 @@ if (isset($_GET['id']))
                 <td><?php echo !empty($row['m_homeNumber']) ? $row['m_homeNumber'] : 'N/A'; ?></td>
             </tr>
             <tr>
+                <th>No. Fax</th>
+                <td><?php echo !empty($row['m_taxNumber']) ? $row['m_taxNumber'] : 'N/A'; ?></td>
+            </tr>
+            <tr>
                 <th>Jawatan</th>
                 <td><?php echo $member['m_position']; ?></td>
             </tr>
