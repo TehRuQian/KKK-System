@@ -60,6 +60,26 @@ else{
 
 $currentYear = date("Y");
 
+$months = [
+  'JAN'=>'01','FEB'=>'02','MAC'=>'03','APR'=>'04','MEI'=>'05','JUN'=>'06','JUL'=>'07','OGS'=>'08','SEP'=>'09','OCT'=>'10', 'NOV'=>'11','DEC'=>'12'
+];
+
+$member_applications=[];
+$loan_applications=[];
+
+foreach ($months as $month => $num) {
+  $start_date="$currentYear-$num-01";
+  $end_date=date("Y-m-t",strtotime($start_date));
+  
+  $query = "SELECT COUNT(*) AS count FROM tb_member WHERE m_approvalDate BETWEEN '$start_date' AND '$end_date' AND m_status='3'";
+  $result = mysqli_query($con, $query);
+  $member_applications[$month] = $result ? mysqli_fetch_assoc($result)['count'] : 0;
+
+  $query = "SELECT COUNT(*) AS count FROM tb_loan WHERE l_approvalDate BETWEEN '$start_date' AND '$end_date' AND l_status='3'";
+  $result = mysqli_query($con, $query);
+  $loan_applications[$month] = $result ? mysqli_fetch_assoc($result)['count'] : 0;
+}
+
 $sql_pending_member_applications="SELECT COUNT(*) AS pending_member_applications FROM tb_member WHERE m_status='1' AND m_applicationDate BETWEEN '$currentYear-01-01' AND '$currentYear-12-31'";
 $result_pending_member_applications=mysqli_query($con,$sql_pending_member_applications);
 if($result_pending_member_applications){
@@ -68,6 +88,7 @@ if($result_pending_member_applications){
 else{
   die("Query failed: ".mysqli_error($con));
 }
+
 
 $sql_rejected_member_applications="SELECT COUNT(*) AS rejected_member_applications FROM tb_member WHERE m_status='2' AND m_approvalDate BETWEEN '$currentYear-01-01' AND '$currentYear-12-31'";
 $result_rejected_member_applications=mysqli_query($con,$sql_rejected_member_applications);
@@ -114,7 +135,7 @@ else{
   die("Query failed: ".mysqli_error($con));
 }
 
-$sql_al_bai_loan_applications="SELECT COUNT(*) AS al_bai_loan_applications FROM tb_loan WHERE l_loanType='1' AND l_applicationDate BETWEEN '$currentYear-01-01' AND '$currentYear-12-31'";
+$sql_al_bai_loan_applications="SELECT COUNT(*) AS al_bai_loan_applications FROM tb_loan WHERE l_loanType='1' AND l_status='3' AND l_approvalDate BETWEEN '$currentYear-01-01' AND '$currentYear-12-31'";
 $result_al_bai_loan_applications=mysqli_query($con,$sql_al_bai_loan_applications);
 if($result_al_bai_loan_applications){
   $al_bai_loan_applications_count=mysqli_fetch_assoc($result_al_bai_loan_applications)['al_bai_loan_applications'];
@@ -123,7 +144,7 @@ else{
   die("Query failed: ".mysqli_error($con));
 }
 
-$sql_al_innah_loan_applications="SELECT COUNT(*) AS al_innah_loan_applications FROM tb_loan WHERE l_loanType='2' AND l_applicationDate BETWEEN '$currentYear-01-01' AND '$currentYear-12-31'";
+$sql_al_innah_loan_applications="SELECT COUNT(*) AS al_innah_loan_applications FROM tb_loan WHERE l_loanType='2' AND l_status='3' AND l_approvalDate BETWEEN '$currentYear-01-01' AND '$currentYear-12-31'";
 $result_al_innah_loan_applications=mysqli_query($con,$sql_al_innah_loan_applications);
 if($result_al_innah_loan_applications){
   $al_innah_loan_applications_count=mysqli_fetch_assoc($result_al_innah_loan_applications)['al_innah_loan_applications'];
@@ -132,7 +153,7 @@ else{
   die("Query failed: ".mysqli_error($con));
 }
 
-$sql_kenderaan_loan_applications="SELECT COUNT(*) AS kenderaan_loan_applications FROM tb_loan WHERE l_loanType='3' AND l_applicationDate BETWEEN '$currentYear-01-01' AND '$currentYear-12-31'";
+$sql_kenderaan_loan_applications="SELECT COUNT(*) AS kenderaan_loan_applications FROM tb_loan WHERE l_loanType='3' AND l_status='3' AND l_approvalDate BETWEEN '$currentYear-01-01' AND '$currentYear-12-31'";
 $result_kenderaan_loan_applications=mysqli_query($con,$sql_kenderaan_loan_applications);
 if($result_kenderaan_loan_applications){
   $kenderaan_loan_applications_count=mysqli_fetch_assoc($result_kenderaan_loan_applications)['kenderaan_loan_applications'];
@@ -141,7 +162,7 @@ else{
   die("Query failed: ".mysqli_error($con));
 }
 
-$sql_road_tax_loan_applications="SELECT COUNT(*) AS road_tax_loan_applications FROM tb_loan WHERE l_loanType='4' AND l_applicationDate BETWEEN '$currentYear-01-01' AND '$currentYear-12-31'";
+$sql_road_tax_loan_applications="SELECT COUNT(*) AS road_tax_loan_applications FROM tb_loan WHERE l_loanType='4' AND l_status='3' AND l_approvalDate BETWEEN '$currentYear-01-01' AND '$currentYear-12-31'";
 $result_road_tax_loan_applications=mysqli_query($con,$sql_road_tax_loan_applications);
 if($result_road_tax_loan_applications){
   $road_tax_loan_applications_count=mysqli_fetch_assoc($result_road_tax_loan_applications)['road_tax_loan_applications'];
@@ -150,7 +171,7 @@ else{
   die("Query failed: ".mysqli_error($con));
 }
 
-$sql_khas_loan_applications="SELECT COUNT(*) AS khas_loan_applications FROM tb_loan WHERE l_loanType='5' AND l_applicationDate BETWEEN '$currentYear-01-01' AND '$currentYear-12-31'";
+$sql_khas_loan_applications="SELECT COUNT(*) AS khas_loan_applications FROM tb_loan WHERE l_loanType='5' AND l_status='3' AND l_approvalDate BETWEEN '$currentYear-01-01' AND '$currentYear-12-31'";
 $result_khas_loan_applications=mysqli_query($con,$sql_khas_loan_applications);
 if($result_khas_loan_applications){
   $khas_loan_applications_count=mysqli_fetch_assoc($result_khas_loan_applications)['khas_loan_applications'];
@@ -159,7 +180,7 @@ else{
   die("Query failed: ".mysqli_error($con));
 }
 
-$sql_karnival_loan_applications="SELECT COUNT(*) AS karnival_loan_applications FROM tb_loan WHERE l_loanType='6' AND l_applicationDate BETWEEN '$currentYear-01-01' AND '$currentYear-12-31'";
+$sql_karnival_loan_applications="SELECT COUNT(*) AS karnival_loan_applications FROM tb_loan WHERE l_loanType='6' AND l_status='3' AND l_approvalDate BETWEEN '$currentYear-01-01' AND '$currentYear-12-31'";
 $result_karnival_loan_applications=mysqli_query($con,$sql_karnival_loan_applications);
 if($result_karnival_loan_applications){
   $karnival_loan_applications_count=mysqli_fetch_assoc($result_karnival_loan_applications)['karnival_loan_applications'];
@@ -168,7 +189,7 @@ else{
   die("Query failed: ".mysqli_error($con));
 }
 
-$sql_al_qadrul_loan_applications="SELECT COUNT(*) AS al_qadrul_loan_applications FROM tb_loan WHERE l_loanType='7' AND l_applicationDate BETWEEN '$currentYear-01-01' AND '$currentYear-12-31'";
+$sql_al_qadrul_loan_applications="SELECT COUNT(*) AS al_qadrul_loan_applications FROM tb_loan WHERE l_loanType='7' AND l_status='3' AND l_approvalDate BETWEEN '$currentYear-01-01' AND '$currentYear-12-31'";
 $result_al_qadrul_loan_applications=mysqli_query($con,$sql_al_qadrul_loan_applications);
 if($result_al_qadrul_loan_applications){
   $al_qadrul_loan_applications_count=mysqli_fetch_assoc($result_al_qadrul_loan_applications)['al_qadrul_loan_applications'];
@@ -177,29 +198,7 @@ else{
   die("Query failed: ".mysqli_error($con));
 }
 
-$months = [
-  'JAN'=>'01','FEB'=>'02','MAC'=>'03','APR'=>'04','MEI'=>'05','JUN'=>'06','JUL'=>'07','OGS'=>'08','SEP'=>'09','OCT'=>'10', 'NOV'=>'11','DEC'=>'12'
-];
-
-$member_applications=[];
-$loan_applications=[];
-
-foreach ($months as $month => $num) {
-  $start_date="$currentYear-$num-01";
-  $end_date=date("Y-m-t",strtotime($start_date));
-  
-  $query = "SELECT COUNT(*) AS count FROM tb_member WHERE m_applicationDate BETWEEN '$start_date' AND '$end_date'";
-  $result = mysqli_query($con, $query);
-  $member_applications[$month] = $result ? mysqli_fetch_assoc($result)['count'] : 0;
-
-  $query = "SELECT COUNT(*) AS count FROM tb_loan WHERE l_applicationDate BETWEEN '$start_date' AND '$end_date'";
-  $result = mysqli_query($con, $query);
-  $loan_applications[$month] = $result ? mysqli_fetch_assoc($result)['count'] : 0;
-}
-
-
 ?>
-
 
   <style>
     body {
@@ -305,7 +304,7 @@ foreach ($months as $month => $num) {
   <div class="card">
     <div class="card-body" style="background-color:white;">
       <div class="d-flex justify-content-between align-items-center">
-        <h1 class="card-title" data-toggle="tooltip" title="Jumlah permohonan menjadi anggota dan permohonan peminjam yang sedang diproses." style="font-size: 20px; ">Statistic Permohonan</h1>
+        <h1 class="card-title" data-toggle="tooltip" title="Jumlah permohonan menjadi anggota dan permohonan peminjam yang diluluskan dalam setiap bulan." style="font-size: 20px; ">Statistic Kelulusan Permohonan</h1>
         <!-- <button class="btn btn-outline-primary" type="button">Butiran</button> -->
       </div>
       <p class="card-text">Tahun <?php echo $currentYear; ?></p>
@@ -364,10 +363,10 @@ foreach ($months as $month => $num) {
         new Chart(donut, {
           type:'doughnut',
           data:{
-            labels:['Sedang Diproses','Ditolak','Dilulus'],
+            labels:['Sedang Diproses (Anggota)','Sedang Diproses (Pinjaman)','Ditolak (Anggota)','Ditolak (Pinjaman)','Dilulus(Anggota)','Dilulus(Pinjaman)'],
             datasets:[{
-              data: [<?=$pending_member_applications_count?>+<?=$pending_loan_applications_count?>, <?=$rejected_member_applications_count?>+<?=$rejected_loan_applications_count?>, <?=$approved_member_applications_count?>+<?=$approved_loan_applications_count?>],
-              backgroundColor:['#ff6b6b', '#48c774', '#63cdda']
+              data: [<?=$pending_member_applications_count?>,<?=$pending_loan_applications_count?>, <?=$rejected_member_applications_count?>,<?=$rejected_loan_applications_count?>, <?=$approved_member_applications_count?>,<?=$approved_loan_applications_count?>],
+              backgroundColor:['#ff6b6b','#F6C5C5','#48c774','#9ACEAC', '#63cdda','#BBE9ED']
             }]
           },
           options: {
@@ -391,7 +390,7 @@ foreach ($months as $month => $num) {
   <div class="card">
     <div class="card-body" style="background-color:white;">
       <div class="d-flex justify-content-between align-items-center">
-        <h1 class="card-title" data-toggle="tooltip" title="Jumlah permohonan peminjam ikut jenis peminjaman dimohon." style="font-size: 20px;">Tren Permohonan Pinjaman</h1>
+        <h1 class="card-title" data-toggle="tooltip" title="Jumlah permohonan peminjam yang dilulus ikut jenis peminjaman dimohon." style="font-size: 20px;">Tren Pinjaman Dilulus</h1>
         </div>
         <p class="card-text">Tahun <?php echo $currentYear; ?></p>
         <canvas id="pieChart" style="width:100%; max-width: 300px; height:300px;" ></canvas>
