@@ -63,6 +63,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $officepostcode = $_POST['officepostcode'];
     $officecity = $_POST['officecity'];
     $officestate = $_POST['officestate'];
+    $faxphonenum = $_POST['faxphonenum'];
     $phonenum = $_POST['phonenum'];
     $homephonenum = $_POST['homephonenum'];
     $monthlysalary = $_POST['monthlysalary'];
@@ -87,8 +88,9 @@ if(!empty($_POST)) {
     m_officePostcode = '$officepostcode',
     m_officeCity = '$officecity',
     m_officeState = '$officestate',
-    m_phoneNumber = '$phonenum',
+    m_faxNumber = '$faxphonenum',
     m_homeNumber = '$homephonenum',
+    m_phoneNumber = '$phonenum',
     m_monthlySalary = '$monthlysalary'
     WHERE m_memberNo='$u_id'";
 
@@ -370,17 +372,23 @@ if(!empty($_POST)) {
       </select>
     </div>
 
-    <div class="row justify-content-center">
+<div class="row justify-content-center">
   <div class="col">
     <div>
-      <label class="form-label mt-4">No. Telefon Rumah</label>
-      <input type="text" class="form-control" name="homephonenum" value="<?= $row['m_homeNumber']; ?>" pattern="\d{9}">
+      <label class="form-label mt-4">No. Telefon / Fax</label>
+      <input type="text" class="form-control" name="faxphonenum" value="<?= $row['m_faxNumber']; ?>" pattern="\d{10}">
     </div>
   </div>
   <div class="col">
     <div>
       <label class="form-label mt-4">No. Telefon Bimbit <span class="required">*</span></label>
       <input type="text" class="form-control" name="phonenum" value="<?= $row['m_phoneNumber']; ?>" pattern="\d{10,11}" required>
+    </div>
+  </div>
+  <div class="col">
+    <div>
+      <label class="form-label mt-4">No. Telefon Rumah</label>
+      <input type="text" class="form-control" name="homephonenum" value="<?= $row['m_homeNumber']; ?>" pattern="\d{9}">
     </div>
   </div>
 </div>
