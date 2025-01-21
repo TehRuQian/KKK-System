@@ -376,7 +376,7 @@ if(!empty($_POST)) {
   <div class="col">
     <div>
       <label class="form-label mt-4">No. Telefon / Fax</label>
-      <input type="text" class="form-control" name="faxphonenum" value="<?= $row['m_faxNumber']; ?>" pattern="\d{10}">
+      <input type="text" class="form-control" name="faxphonenum" value="<?= $row['m_faxNumber'] ?? '-'; ?>" pattern="\d{10}">
     </div>
   </div>
   <div class="col">
@@ -388,7 +388,7 @@ if(!empty($_POST)) {
   <div class="col">
     <div>
       <label class="form-label mt-4">No. Telefon Rumah</label>
-      <input type="text" class="form-control" name="homephonenum" value="<?= $row['m_homeNumber']; ?>" pattern="\d{9}">
+      <input type="text" class="form-control" name="homephonenum" value="<?= $row['m_homeNumber'] ?? '-'; ?>" pattern="\d{9}">
     </div>
   </div>
 </div>
