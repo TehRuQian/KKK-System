@@ -7,6 +7,13 @@ if (!session_id()) {
 include '../headermember.php';
 include '../db_connect.php';
 
+if (isset($_SESSION['loanApplicationID'])) {
+    $loanApplicationID = $_SESSION['loanApplicationID'];
+} elseif (isset($_GET['loan_id'])) {
+    $loanApplicationID = $_GET['loan_id'];
+} else {
+    die("Error: Loan application ID is missing. Please check if the loan ID is passed in the URL.");
+}
 if ($_SESSION['u_type'] != 2) {
     header('Location: ../login.php');
     exit();
@@ -17,7 +24,6 @@ if (!isset($_SESSION['loanApplicationID'])) {
     die('Error: Loan application ID is missing.');
 }
 
-$loanApplicationID = $_SESSION['loanApplicationID']; 
 
 $loanType = $_POST['loanType']; 
 $amaunDipohon = $_POST['amaunDipohon']; 
@@ -104,7 +110,7 @@ if (!empty($loanApplicationID)) {
     
     if (mysqli_query($con, $sql)) {
         echo "Update successful!<br>";
-        header('Location: semakan_butiran.php?status=success');
+        header('Location: semakan_butiran.php?status=success&loan_id=' . $loanApplicationID);
         exit();
     } else {
         echo "Error updating record: " . mysqli_error($con);

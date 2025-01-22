@@ -314,6 +314,8 @@ function calculateInstallment(){
   const amaunDipohon = parseFloat(document.getElementById('amaunDipohon').value) || 0;
   const tempohPembiayaan = parseFloat(document.getElementById('tempohPembiayaan').value) || 0;
 
+  console.log(`Amaun Dipohon: ${amaunDipohon}, Tempoh Pembiayaan: ${tempohPembiayaan}`);
+
   // Warning if amount exceeds
   if (amaunDipohon > maxFinancingAmt1) {
     alert(`Amaun Dipohon telah melebihi RM ${maxFinancingAmt1.toFixed(2)}! Sila masukkan amaun yang sah.`);

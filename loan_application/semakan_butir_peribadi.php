@@ -20,6 +20,15 @@ $memberNo = $_SESSION['funame'];
 
 //Extract from database
 $memberNo = isset($_SESSION['funame']) ? $_SESSION['funame'] : null;
+
+if (isset($_SESSION['loanApplicationID'])) {
+  $loanApplicationID = $_SESSION['loanApplicationID'];
+} elseif (isset($_GET['loan_id'])) {
+  $loanApplicationID = $_GET['loan_id'];
+} else {
+  die("Error: Loan application ID is missing. Please check if the loan ID is passed in the URL.");
+}
+
 // Member personal data
 $memberName = '';
 $memberIC = '';
@@ -84,7 +93,7 @@ if ($memberNo !== null) {
 
 ?>
 
-<form method = "post" action = "semakan_butir_peribadi_process.php">
+<form method = "post" action = "semakan_butir_peribadi_process.php?loan_id=<?php echo $loanApplicationID; ?>">
   <fieldset>
     <!--Personal details-->
     <div class="container">
