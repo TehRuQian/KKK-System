@@ -4,7 +4,11 @@ if(!session_id())
 {
   session_start();
 }
-
+if ($_SESSION['u_type'] != 2) {
+    header('Location: ../login.php');
+    exit();
+  }
+  
 // Logout logic: Clear cookies when logging out
 if (isset($_GET['action']) && $_GET['action'] == 'logout') {
     // Clear cookies by setting them with an expiration time in the past

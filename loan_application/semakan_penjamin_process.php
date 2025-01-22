@@ -43,6 +43,14 @@ if (!isset($_SESSION['guarantorID1']) || !isset($_SESSION['guarantorID2'])) {
     $guarantorID1 = $_SESSION['guarantorID1']; 
     $guarantorID2 = $_SESSION['guarantorID2']; 
 }
+if ($_SESSION['u_type'] != 2) {
+    header('Location: ../login.php');
+    exit();
+  }
+  
+$loanApplicationID = $_SESSION['loanApplicationID'];
+$guarantorID1 = $_SESSION['guarantorID1'];
+$guarantorID2 = $_SESSION['guarantorID2'];
 
 
 error_log("Debug - Processing guarantors for loan application: " . $loanApplicationID);

@@ -6,6 +6,10 @@ if (!session_id()) {
 
 include '../headermember.php';
 include '../db_connect.php';
+if ($_SESSION['u_type'] != 2) {
+  header('Location: ../login.php');
+  exit();
+}
 
 if (isset($_SESSION['loanApplicationID'])) {
   $loanApplicationID = $_SESSION['loanApplicationID'];

@@ -3,7 +3,11 @@ include('../kkksession.php');
 if (!session_id()) {
     session_start();
 }
-
+if ($_SESSION['u_type'] != 2) {
+    header('Location: ../login.php');
+    exit();
+  }
+  
 include '../db_connect.php';
 
 header('Content-Type: application/json');

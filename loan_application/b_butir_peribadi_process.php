@@ -8,7 +8,11 @@ if(isset($_SESSION['u_id']) != session_id()) {
     header('Location: ../login.php');
     exit(); 
   }
-
+  if ($_SESSION['u_type'] != 2) {
+    header('Location: ../login.php');
+    exit();
+  }
+  
 $memberNo = $_SESSION['funame'];
 
 // member personal data

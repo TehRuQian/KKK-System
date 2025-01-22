@@ -14,6 +14,15 @@ if (isset($_SESSION['loanApplicationID'])) {
 } else {
     die("Error: Loan application ID is missing. Please check if the loan ID is passed in the URL.");
 }
+if ($_SESSION['u_type'] != 2) {
+    header('Location: ../login.php');
+    exit();
+  }
+  
+// Loan
+if (!isset($_SESSION['loanApplicationID'])) {
+    die('Error: Loan application ID is missing.');
+}
 
 
 $loanType = $_POST['loanType']; 
