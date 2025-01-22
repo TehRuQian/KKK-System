@@ -49,7 +49,7 @@ function sendApprovalEmail($email, $name, $memberNo, $temporaryPassword, $resetL
             <li><strong>Kata Laluan Sementara:</strong> {$temporaryPassword}</li>
         </ul>
         <p>Sila gunakan pautan berikut untuk log masuk dan menukar kata laluan anda dengan segera:</p>
-        <p><a href='$resetLink'>$resetLink</a></p>
+        <p><a href='$resetLink'>Pautan Pertukaran Kata Laluan</a></p>
         <p>Sekian, Terima Kasih.</p>
         <p>Tech-Hi-Five</p>
     </body>
