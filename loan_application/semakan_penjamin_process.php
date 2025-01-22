@@ -7,7 +7,11 @@ if (!session_id()) {
 include '../headermember.php';
 include '../db_connect.php';
 
-
+if ($_SESSION['u_type'] != 2) {
+    header('Location: ../login.php');
+    exit();
+  }
+  
 $loanApplicationID = $_SESSION['loanApplicationID'];
 $guarantorID1 = $_SESSION['guarantorID1'];
 $guarantorID2 = $_SESSION['guarantorID2'];

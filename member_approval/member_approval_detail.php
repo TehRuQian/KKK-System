@@ -3,6 +3,10 @@ include('../kkksession.php');
 if (!session_id()) {
     session_start();
 }
+if ($_SESSION['u_type'] != 1) {
+    header('Location: ../login.php');
+    exit();
+}
 
 include '../header_admin.php';
 include '../db_connect.php';

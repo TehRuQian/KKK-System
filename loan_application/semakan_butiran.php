@@ -9,6 +9,10 @@ if(isset($_SESSION['u_id']) != session_id())
 {
   header('Location:../login.php'); 
 }
+if ($_SESSION['u_type'] != 2) {
+  header('Location: ../login.php');
+  exit();
+}
 
 include '../headermember.php';
 include '../db_connect.php';

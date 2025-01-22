@@ -7,7 +7,11 @@ if (!session_id()) {
 include '../headermember.php';
 include '../db_connect.php';
 
-
+if ($_SESSION['u_type'] != 2) {
+    header('Location: ../login.php');
+    exit();
+  }
+  
 // Loan
 if (!isset($_SESSION['loanApplicationID'])) {
     die('Error: Loan application ID is missing.');
