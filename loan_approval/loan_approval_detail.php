@@ -81,13 +81,13 @@ $selected_file = $basePath . trim($rowLoan['l_file']);
                 <tr><th>Nama Peminjam</th><td><?php echo $rowLoan['m_pfNo']; ?></td></tr>
                 <tr><th>Nama Anggota</th><td><?php echo $rowLoan['m_name']; ?></td></tr>
                 <tr><th>Jenis Pinjaman</th><td><?php echo $rowLoan['lt_desc']; ?></td></tr>
-                <tr><th>Jumlah Pinjaman</th><td><?php echo $rowLoan['l_appliedLoan']; ?></td></tr>
+                <tr><th>Jumlah Pinjaman (RM)</th><td><?php echo number_format($rowLoan['l_appliedLoan'], 2); ?></td></tr>
                 <tr><th>Tempoh Pinjaman</th><td><?php echo $rowLoan['l_loanPeriod']; ?></td></tr>
-                <tr><th>Ansuran Bulanan</th><td><?php echo $rowLoan['l_monthlyInstalment']; ?></td></tr>
+                <tr><th>Ansuran Bulanan (RM)</th><td><?php echo number_format($rowLoan['l_monthlyInstalment'], 2); ?></td></tr>
                 <tr><th>Akaun Bank</th><td><?php echo $rowLoan['l_bankAccountNo']; ?></td></tr>
                 <tr><th>Nama Bank</th><td><?php echo $rowLoan['lb_desc'] ?? 'N/A'; ?></td></tr>
-                <tr><th>Gaji Kasar</th><td><?php echo $rowLoan['l_monthlyGrossSalary']; ?></td></tr>
-                <tr><th>Gaji Bersih</th><td><?php echo $rowLoan['l_monthlyNetSalary']; ?></td></tr>
+                <tr><th>Gaji Kasar (RM)</th><td><?php echo number_format($rowLoan['l_monthlyGrossSalary'], 2); ?></td></tr>
+                <tr><th>Gaji Bersih (RM)</th><td><?php echo number_format($rowLoan['l_monthlyNetSalary'], 2); ?></td></tr>
                 <tr>
                     <th>Tandatangan</th>
                     <td>

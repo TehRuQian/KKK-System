@@ -76,16 +76,16 @@ if (isset($_GET['id'])) {
                     <td><?php echo $loan['lt_desc']; ?></td>
                 </tr>
                 <tr>
-                    <th>Jumlah Pinjaman</th>
-                    <td><?php echo $loan['l_appliedLoan']; ?></td>
+                    <th>Jumlah Pinjaman (RM)</th>
+                    <td><?php echo number_format($loan['l_appliedLoan'], 2); ?></td>
                 </tr>
                 <tr>
-                    <th>Tempoh Pinjaman</th>
+                    <th>Tempoh Pinjaman (Bulan)</th>
                     <td><?php echo $loan['l_loanPeriod']; ?></td>
                 </tr>
                 <tr>
-                    <th>Ansuran Bulanan</th>
-                    <td><?php echo $loan['l_monthlyInstalment']; ?></td>
+                    <th>Ansuran Bulanan (RM)</th>
+                    <td><?php echo number_format($loan['l_monthlyInstalment'], 2); ?></td>
                 </tr>
             </table>
         </div>
@@ -119,12 +119,12 @@ if (isset($_GET['id'])) {
                     <td><?php echo $loan['lb_desc']; ?></td>
                 </tr>
                 <tr>
-                    <th>Gaji Kasar</th>
-                    <td><?php echo $loan['l_monthlyGrossSalary']; ?></td>
+                    <th>Gaji Kasar (RM)</th>
+                    <td><?php echo number_format($loan['l_monthlyGrossSalary'], 2); ?></td>
                 </tr>
                 <tr>
-                    <th>Gaji Bersih</th>
-                    <td><?php echo $loan['l_monthlyNetSalary']; ?></td>
+                    <th>Gaji Bersih (RM)</th>
+                    <td><?php echo number_format($loan['l_monthlyNetSalary'], 2); ?></td>
                 </tr>
                 <tr>
                     <th>Tarikh Pohon</th>

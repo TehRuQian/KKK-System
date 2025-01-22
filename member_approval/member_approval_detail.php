@@ -26,6 +26,9 @@ $sql = "SELECT * FROM tb_member
         LEFT JOIN tb_ureligion ON tb_member.m_religion = tb_ureligion.ua_rid
         LEFT JOIN tb_urace ON tb_member.m_race = tb_urace.ur_rid
         LEFT JOIN tb_umaritalstatus ON tb_member.m_maritalStatus = tb_umaritalstatus.um_mid
+        LEFT JOIN tb_homeState ON tb_member.m_homeState = tb_homeState.st_id
+        LEFT JOIN tb_officeState ON tb_member.m_officeState = tb_officeState.st_id
+
         WHERE tb_member.m_memberApplicationID = '$mApplicationID'";
 
 // Execute the SQL statement on DB
@@ -92,16 +95,16 @@ print_r($heir);
                 <tr><th>Agama</th><td><?php echo $row['ua_desc']; ?></td></tr>
                 <tr><th>Bangsa</th><td><?php echo $row['ur_desc']; ?></td></tr>
                 <tr><th>Status Perkahwinan</th><td><?php echo $row['um_desc']; ?></td></tr>
-                <tr><th>Alamat Rumah</th><td><?php echo $row['m_homeAddress']; ?></td></tr>
+                <tr><th>Alamat Rumah</th><td><?php echo $row['m_homeAddress'] . ', ' . $row['m_homePostcode'] . ' ' . $row['m_homeCity'] . ', ' . $row['st_desc']; ?></td></tr>
                 <tr><th>No. Telefon</th><td><?php echo $row['m_phoneNumber']; ?></td></tr>
                 <tr><th>Email</th><td><?php echo $row['m_email']; ?></td></tr>
                 <tr><th>No. Telefon Rumah</th><td><?php echo !empty($row['m_homeNumber']) ? $row['m_homeNumber'] : 'N/A'; ?></td></tr>
                 <tr><th>No. Tax</th><td><?php echo !empty($row['m_taxNumber']) ? $row['m_taxNumber'] : 'N/A'; ?></td></tr>
                 <tr><th>Jawatan</th><td><?php echo $row['m_position']; ?></td></tr>
                 <tr><th>Gred</th><td><?php echo $row['m_positionGrade']; ?></td></tr>
-                <tr><th>Alamat Pejabat</th><td><?php echo $row['m_officeAddress']; ?></td></tr>
-                <tr><th>Gaji Bulanan</th><td><?php echo $row['m_monthlySalary']; ?></td></tr>
-                <tr><th>Tarikh Pohon:</th><td><?php echo date('d-m-Y H:i:s', strtotime($row['m_applicationDate'])); ?></td></tr>
+                <tr><th>Alamat Pejabat</th><td><?php echo $row['m_officeAddress'] . ', ' . $row['m_officePostcode'] . ' ' . $row['m_officeCity'] . ', ' . $row['st_desc']; ?></td></tr>
+                <tr><th>Gaji Bulanan (RM)</th><td><?php echo number_format($row['m_monthlySalary'], 2); ?></td></tr>
+                <tr><th>Tarikh Pohon</th><td><?php echo date('d-m-Y H:i:s', strtotime($row['m_applicationDate'])); ?></td></tr>
             </table>
         </div>
 </div>
@@ -113,12 +116,12 @@ print_r($heir);
       </div>
       <div class="card-body">
         <table class="table table-hover">
-            <th>Fee Masuk</th><td><?php echo $row['m_feeMasuk']; ?></td></tr>
-            <tr><th>Modal Yuran</th><td><?php echo $row['m_modalYuran']; ?></td></tr>
-            <tr><th>Deposit</th><td><?php echo $row['m_deposit']; ?></td></tr>
-            <tr><th>alAbrar</th><td><?php echo $row['m_alAbrar']; ?></td></tr>
-            <tr><th>Simpanan Tetap</th><td><?php echo $row['m_simpananTetap']; ?></td></tr>
-            <tr><th>Fee Lain</th><td><?php echo $row['m_feeLain']; ?></td></tr>
+            <th>Fee Masuk (RM)</th><td><?php echo number_format($row['m_feeMasuk'], 2); ?></td></tr>
+            <tr><th>Modal Yuran (RM)</th><td><?php echo number_format($row['m_modalYuran'], 2); ?></td></tr>
+            <tr><th>Deposit (RM)</th><td><?php echo number_format($row['m_deposit'], 2); ?></td></tr>
+            <tr><th>alAbrar (RM)</th><td><?php echo number_format($row['m_alAbrar'], 2); ?></td></tr>
+            <tr><th>Simpanan Tetap (RM)</th><td><?php echo number_format($row['m_simpananTetap'], 2); ?></td></tr>
+            <tr><th>Fee Lain (RM)</th><td><?php echo number_format($row['m_feeLain'], 2); ?></td></tr>
     </table>
     </div>
 </div>
