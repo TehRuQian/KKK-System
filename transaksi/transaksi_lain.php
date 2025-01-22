@@ -4,6 +4,11 @@
       session_start();
   }
 
+  if ($_SESSION['u_type'] != 1) {
+    header('Location: ../login.php');
+    exit();
+  }
+  
   include '../header_admin.php';
   include '../db_connect.php';
   $admin_id = $_SESSION['u_id'];
@@ -120,10 +125,10 @@
                   <tr>
                       <th>ID</th>
                       <th>Pinjaman</th>
-                      <th>Tangukkan Semasa</th>
+                      <th>Tunggakan Semasa</th>
                       <th>Ansuran Bulanan</th>
                       <th>Bayaran</th>
-                      <th>Tangukkan Baharu</th>
+                      <th>Tunggakan Baharu</th>
                   </tr>";
           while($row = mysqli_fetch_assoc($result_loan)){
               $newLoanPayable = $row['l_loanPayable'];

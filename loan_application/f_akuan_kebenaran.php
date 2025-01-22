@@ -3,22 +3,39 @@ include('../kkksession.php');
 if (!session_id()) {
     session_start();
 }
+if ($_SESSION['u_type'] != 2) {
+  header('Location: ../login.php');
+  exit();
+}
 
 include '../headermember.php';
 include '../db_connect.php';
 
 // Check if the 'status' parameter is present in the URL
 if (isset($_GET['status']) && $_GET['status'] == 'success') {
-  echo '<script>alert("Maklumat anda telah berjaya disimpan!");</script>';
+  echo '<script>
+          Swal.fire({
+              title: "Berjaya!",
+              text: "Maklumat anda telah berjaya disimpan!",
+              icon: "success",
+              confirmButtonText: "OK"
+          });
+        </script>';
 }
 
 // Guarantor data 
 if (!isset($_SESSION['guarantorID1']) || !isset($_SESSION['guarantorID2'])) {
   echo "<script>
-          alert('Sila simpan maklumat Butir-Butir Penjamin.');
-          window.location.href = 'd_penjamin.php'; 
-        </script>";
-        exit();
+  Swal.fire({
+    title: 'Peringatan',
+    text: 'Sila simpan maklumat Butir-Butir Penjamin.',
+    icon: 'warning',
+    confirmButtonText: 'OK'
+  }).then(() => {
+    window.location.href = 'd_penjamin.php';
+  });
+  </script>";
+  exit();
 }
 
 $guarantorID1 = $_SESSION['guarantorID1'];
@@ -151,7 +168,7 @@ $guarantorID2 = $_SESSION['guarantorID2'];
 
 <div class="col-10 main-content">
 
-<form method = "post" action = "f_akuan_kebenaran_process.php">
+<form id="akuanKebenaranForm" method = "post" action = "f_akuan_kebenaran_process.php">
   <fieldset>
     <!-- Akuan Kebenaran -->
     <div class="container">
@@ -171,19 +188,15 @@ $guarantorID2 = $_SESSION['guarantorID2'];
             Setuju
         </label>
     </hr>
-      <hr class="my-4">
-        <p class="lead">
-        <!--button type="simpan" class="btn btn-primary" fdprocessedid="m3vqi">Simpan</button-->
-        <button type="submit" class="btn btn-primary">Simpan</button>
-        </p>
-      </hr>
+    <div style="text-align: center;">
+      <br>
+      <button type="submit" class="btn btn-primary">Simpan</button>
+    </div>
 
     </div>   
   </fieldset>
 </form>
 </div>
-
-
 
 </body>
 </html>

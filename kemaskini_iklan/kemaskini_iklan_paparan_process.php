@@ -5,6 +5,10 @@ include('../kkksession.php');
   if (!session_id()) {
       session_start();
   }
+  if ($_SESSION['u_type'] != 1) {
+    header('Location: ../login.php');
+    exit();
+  }  
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['action']) && $_POST['action'] == 'delete' && isset($_POST['bannerID'])) {
     $bannerID = $_POST['bannerID'];

@@ -4,6 +4,10 @@ if(!session_id())
 {
   session_start();
 }
+if ($_SESSION['u_type'] != 2) {
+  header('Location: ../login.php');
+  exit();
+}
 
 if(isset($_SESSION['u_id']) != session_id())
 {
@@ -118,11 +122,14 @@ if ($memberNo !== null) {
         while($row=mysqli_fetch_array($result))
         {
           $isChecked = ($row['ug_gid'] == $memberGender) ? 'checked' : '';
+          echo '<div class="form-check form-check-inline">';
           echo '<input type="radio" id="ugender' . $row['ug_gid'] . '" name="ugender" value="' . $row['ug_gid'] . '" '. $isChecked . '>';
           echo '<label for="ugender' . $row['ug_gid'] . '">' . $row['ug_desc'] . '</label><br>';
+          echo '</div>';
         }
       ?>
 
+      <br>
       <label class="form-label mt-4">Agama</label>
       <br>
       <?php
@@ -130,18 +137,15 @@ if ($memberNo !== null) {
         $result=mysqli_query($con,$sql);
 
         while ($row = mysqli_fetch_array($result)) {
-          if ($row['ua_desc'] === 'Lain-lain') { 
-              echo '<input type="radio" id="ureligion' . $row['ua_rid'] . '" name="ureligion" value="' . $row['ua_rid'] . '">';
-              echo '<label for="ureligion' . $row['ua_rid'] . '">' . $row['ua_desc'] . ':</label>';
-              echo '<input type="text" name="ureligion_other" class="form-control d-inline-block" style="width: 300px; margin-left: 10px;" placeholder="Nyatakan"><br>';
-          } else {
               $isChecked = ($row['ua_rid'] == $memberReligion) ? 'checked' : '';
+              echo '<div class="form-check form-check-inline">';
               echo '<input type="radio" id="ureligion' . $row['ua_rid'] . '" name="ureligion" value="' . $row['ua_rid'] . '" '. $isChecked. '>';
               echo '<label for="ureligion' . $row['ua_rid'] . '">' . $row['ua_desc'] . '</label><br>';
-          }
+              echo '</div>';
         }
       ?>
 
+      <br>
       <label class="form-label mt-4">Bangsa</label>
       <br>
       <?php
@@ -149,18 +153,16 @@ if ($memberNo !== null) {
         $result=mysqli_query($con,$sql);
 
         while ($row = mysqli_fetch_array($result)) {
-          if ($row['ur_desc'] === 'Lain-lain') { 
-              echo '<input type="radio" id="urace' . $row['ur_rid'] . '" name="urace" value="' . $row['ur_rid'] . '">';
-              echo '<label for="urace' . $row['ur_rid'] . '">' . $row['ur_desc'] . ':</label>';
-              echo '<input type="text" name="urace_other" class="form-control d-inline-block" style="width: 300px; margin-left: 10px;" placeholder="Nyatakan"><br>';
-          } else {
             $isChecked = ($row['ur_rid'] == $memberRace) ? 'checked' : '';
-              echo '<input type="radio" id="urace' . $row['ur_rid'] . '" name="urace" value="' . $row['ur_rid'] . '" '. $isChecked. '>';
-              echo '<label for="urace' . $row['ur_rid'] . '">' . $row['ur_desc'] . '</label><br>';
-          }
+            echo '<div class="form-check form-check-inline">';
+            echo '<input type="radio" id="urace' . $row['ur_rid'] . '" name="urace" value="' . $row['ur_rid'] . '" '. $isChecked. '>';
+            echo '<label for="urace' . $row['ur_rid'] . '">' . $row['ur_desc'] . '</label><br>';
+            echo '</div>';
+          
         }
       ?>
 
+      <br>
       <label class="form-label mt-4">Taraf Perkahwinan</label>
       <br>
       <?php
@@ -170,9 +172,10 @@ if ($memberNo !== null) {
           while ($row = mysqli_fetch_array($result)) {
 
             $isChecked = ($row['um_mid'] == $memberMaritalStatus) ? 'checked' : '';
+            echo '<div class="form-check form-check-inline">';
             echo '<input type="radio" id="umaritalStatus' . $row['um_mid'] . '" name="umaritalStatus" value="' . $row['um_mid'] . '" '. $isChecked. '>';
             echo '<label for="umaritalStatus' . $row['um_mid'] . '">' . $row['um_desc'] . '</label><br>';
-            
+            echo '</div>';
           }
       }
     ?>
@@ -303,11 +306,11 @@ if ($memberNo !== null) {
         
 
     </hr>
-      <hr class="my-4">
-        <p class="lead">
-        <button type="submit" class="btn btn-primary">Simpan</button>
-        </p>
-      </hr>
+    <div style="text-align: center;">
+      <br>
+      <button type="submit" class="btn btn-primary">Simpan</button>
+    </div>
+
     </div>   
   </fieldset>
 </form>
@@ -316,13 +319,6 @@ if ($memberNo !== null) {
 </html>
 
 <script>
-function showSuccessNotification() {
-  alert("Maklumat anda telah berjaya disimpan!");
-}
-
-if (window.location.search.includes('status=success')) {
-    showSuccessNotification();
-  }
 
 </script>
 <?php include '../footer.php'; ?>

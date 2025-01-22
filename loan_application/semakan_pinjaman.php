@@ -1,8 +1,23 @@
+<head>
+    <style>
+    
+      .required {
+        color: red;
+        font-weight: bold;
+      }
+          
+    </style>
+</head>
+
 <?php
 include('../kkksession.php');
 if(!session_id())
 {
   session_start();
+}
+if ($_SESSION['u_type'] != 2) {
+  header('Location: ../login.php');
+  exit();
 }
 
 if(isset($_SESSION['u_id']) != session_id())
@@ -33,7 +48,7 @@ $sql = "
       <br>
       <div class="jumbotron">
         <h2>Butir-Butir Pembiayaan</h2>
-        <label class="form-label mt-4">Jenis Pembiayaan</label>
+        <label class="form-label mt-4">Jenis Pembiayaan<span class="required">*</span></label>
         <br>
         <select class="form-select" name="loanType" class="form-select">
         <?php
@@ -55,7 +70,7 @@ $sql = "
         <input type="hidden" name="tunggakan" id="tunggakan" value="0.00">
 
         <div>
-          <label class="form-label mt-4">Amaun Dipohon*</label>
+          <label class="form-label mt-4">Amaun Dipohon<span class="required">*</span></label>
           <div class="input-group mt-2">
             <span class="input-group-text">RM</span>
             <input type="text" name="amaunDipohon" class="form-control" id="amaunDipohon" aria-label="amaunDipohon" placeholder="0.00" value="<?php echo isset($_COOKIE['amaunDipohon']) ? $_COOKIE['amaunDipohon'] : ''; ?>" required>
@@ -64,7 +79,7 @@ $sql = "
         </div>
 
         <div>
-          <label class="form-label mt-4">Tempoh Pembiayaan*</label>
+          <label class="form-label mt-4">Tempoh Pembiayaan<span class="required">*</span></label>
           <div class="input-group mt-2">
             <input type="text" name="tempohPembiayaan" class="form-control" id="tempohPembiayaan" aria-label="tempohPembiayaan" placeholder="0" value="<?php echo isset($_COOKIE['tempohPembiayaan']) ? $_COOKIE['tempohPembiayaan'] : ''; ?>" required>  
             <span class="input-group-text">tahun</span>
@@ -74,7 +89,7 @@ $sql = "
           </div>
 
         <div>
-          <label class="form-label mt-4">Ansuran Bulanan*</label>
+          <label class="form-label mt-4">Ansuran Bulanan<span class="required">*</span></label>
           <div class="input-group mt-2">
             <span class="input-group-text">RM</span> 
             <input type="text" name="ansuranBulanan" class="form-control" id="ansuranBulanan" aria-label="ansuranBulanan" placeholder="0.00" value="<?php echo isset($_COOKIE['ansuranBulanan']) ? $_COOKIE['ansuranBulanan'] : ''; ?>" required>          
@@ -83,7 +98,7 @@ $sql = "
           <p class="mt-2" style="font-size: 0.9rem; color: #6c757d;">*Sila rujuk jadual pembayaran balik pembiayaan skim </p>
 
         <div>
-          <label class="form-label mt-4">Nama Bank/Cawangan</label>
+          <label class="form-label mt-4">Nama Bank/Cawangan<span class="required">*</span></label>
 
           <?php
             $sql = "SELECT * FROM tb_lbank";
@@ -99,14 +114,14 @@ $sql = "
         </div>
 
         <div>
-          <label class="form-label mt-4">Bank Account</label>
+          <label class="form-label mt-4">Bank Account<span class="required">*</span></label>
           <div class="input-group mt-2">
           <input type="text" name="bankAcc" class="form-control" id="bankAcc" aria-label="bankAcc" placeholder="000000000" value="<?php echo isset($_COOKIE['bankAcc']) ? $_COOKIE['bankAcc'] : ''; ?>" required>          
         </div>  
         </div>
 
         <div>
-          <label class="form-label mt-4">Gaji Kasar Bulanan</label>
+          <label class="form-label mt-4">Gaji Kasar Bulanan<span class="required">*</span></label>
           <div class="input-group mt-2">
             <span class="input-group-text">RM</span> 
             <input type="text" name="gajiKasar" class="form-control" id="gajiKasar" aria-label="gajiKasar" placeholder="0.00" value="<?php echo isset($_COOKIE['gajiKasar']) ? $_COOKIE['gajiKasar'] : ''; ?>" required>          
@@ -114,7 +129,7 @@ $sql = "
         </div>
 
         <div>
-          <label class="form-label mt-4">Gaji Bersih Bulanan</label>
+          <label class="form-label mt-4">Gaji Bersih Bulanan<span class="required">*</span></label>
           <div class="input-group mt-2">
             <span class="input-group-text">RM</span> 
             <input type="text" name="gajiBersih" class="form-control" id="gajiBersih" aria-label="gajiBersih" placeholder="0.00" value="<?php echo isset($_COOKIE['gajiBersih']) ? $_COOKIE['gajiBersih'] : ''; ?>" required>
@@ -122,17 +137,14 @@ $sql = "
         </div>
 
         <div>
-          <label for="fileSign" class="form-label mt-4">Tandatangan</label>
+          <label for="fileSign" class="form-label mt-4">Tandatangan<span class="required">*</span></label>
           <input class="form-control" type="file" id="fileSign" name="fileSign" accept=".png, .jpg, .jpeg" required>
           <p class="mt-2" style="font-size: 0.9rem; color: #6c757d;">*Fail yang dibenarkan adalah dalam format PNG, JPG dan JPEG sahaja. Sila pastikan saiz fail tidak melebihi 5MB.</p>
         </div>
 
-    
-      <hr class="my-4">
-        <p class="lead">
-        <button type="submit" class="btn btn-primary">Simpan</button>
-        </p>
-      </hr>
+        <div style="text-align: center;">
+            <button type="submit" class="btn btn-primary">Simpan</button>
+        </div>
 
 </div>
     </div>   

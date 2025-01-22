@@ -36,6 +36,7 @@ if ($_POST){
                 // Successful login - Set session and redirect
                 $_SESSION['u_id'] = $user['u_id'];  // Set the session variable for the user
                 $_SESSION['funame'] = $user['u_id'];  // Store username in session
+                $_SESSION['u_type'] = $user['u_type'];
 
                 // Redirect based on user type
                 if ($user['u_type'] == 1) { // Admin type

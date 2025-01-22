@@ -1,8 +1,17 @@
+<head>   
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+</head>
+
 <?php
 include('../kkksession.php');
 if(!session_id())
 {
   session_start();
+}
+if ($_SESSION['u_type'] != 2) {
+  header('Location: ../login.php');
+  exit();
 }
 
 if(isset($_SESSION['u_id']) != session_id())
@@ -17,7 +26,14 @@ $memberNo = $_SESSION['funame'];
 
 // Check if the 'status' parameter is present in the URL
 if (isset($_GET['status']) && $_GET['status'] == 'success') {
-  echo '<script>alert("Maklumat anda telah berjaya disimpan!");</script>';
+  echo '<script>
+          Swal.fire({
+              title: "Berjaya!",
+              text: "Maklumat anda telah berjaya disimpan!",
+              icon: "success",
+              confirmButtonText: "OK"
+          });
+        </script>';
 }
 
 //Extract from database
@@ -201,11 +217,11 @@ if ($memberNo !== null) {
         Setuju
     </label>
     </hr>
-      <hr class="my-4">
-        <p class="lead">
-        <button type="submit" class="btn btn-primary">Simpan</button>
-        </p>
-      </hr>
+    
+    <div style="text-align: center;">
+      <br>
+      <button type="submit" class="btn btn-primary">Simpan</button>
+    </div>
 
     </div>   
   </fieldset>

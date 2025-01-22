@@ -1,8 +1,16 @@
+<head>   
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+</head>
 <?php
 include('../kkksession.php');
 if(!session_id())
 {
   session_start();
+}
+if ($_SESSION['u_type'] != 2) {
+  header('Location: ../login.php');
+  exit();
 }
 
 if(isset($_SESSION['u_id']) != session_id())
@@ -15,7 +23,6 @@ include '../db_connect.php';
 $memberNo = $_SESSION['funame'];
 
 // var_dump($_SESSION['funame']);
-
 
 $sql = "
     SELECT * FROM tb_policies
@@ -31,10 +38,18 @@ $sql = "
     $shareCapital = htmlspecialchars($row['f_shareCapital']); 
   }
 
-if ($shareCapital < $policy['p_minShareCapitalForLoan']) {
+  if ($shareCapital < $policy['p_minShareCapitalForLoan']) {
     echo "<script>
-            alert('Maaf, anda tidak layak untuk memohon pinjaman kerana Modal Syer anda (RM" . number_format($shareCapital, 2) . ") kurang daripada jumlah minimum yang diperlukan (RM" . number_format($policy['p_minShareCapitalForLoan'], 2) . ").');
-            window.location.href = 'dashboard_pinjaman.php';
+            Swal.fire({
+                title: 'Maaf!',
+                text: 'Anda tidak layak untuk memohon pinjaman kerana Modal Syer anda (RM" . number_format($shareCapital, 2) . ") kurang daripada jumlah minimum yang diperlukan (RM" . number_format($policy['p_minShareCapitalForLoan'], 2) . ").',
+                icon: 'error',
+                confirmButtonText: 'OK'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    window.location.href = 'dashboard_pinjaman.php';
+                }
+            });
         </script>";
         exit();
 }
@@ -120,7 +135,7 @@ if ($shareCapital < $policy['p_minShareCapitalForLoan']) {
         width: calc(100% - 16.666667%) !important; 
         margin-left: 16.666667% !important; 
         padding: 0 20px !important;
-    }
+      }
 
         
         footer .container,
@@ -130,6 +145,11 @@ if ($shareCapital < $policy['p_minShareCapitalForLoan']) {
             margin: 0 !important;
             padding: 0 !important;
         }
+
+      .required {
+        color: red;
+        font-weight: bold;
+      }
           
     </style>
 </head>
@@ -171,7 +191,7 @@ if ($shareCapital < $policy['p_minShareCapitalForLoan']) {
       <br>
       <div class="jumbotron">
         <h2>Butir-Butir Pembiayaan</h2>
-        <label class="form-label mt-4">Jenis Pembiayaan</label>
+        <label class="form-label mt-4">Jenis Pembiayaan <span class="required">*</span> </label>
         <br>
         <select class="form-select" name="jenis_pembiayaan" class="form-select">
         <?php
@@ -193,7 +213,7 @@ if ($shareCapital < $policy['p_minShareCapitalForLoan']) {
         <input type="hidden" name="tunggakan" id="tunggakan" value="0.00">
 
         <div>
-          <label class="form-label mt-4">Amaun Dipohon*</label>
+          <label class="form-label mt-4">Amaun Dipohon <span class="required">*</span></label>
           <div class="input-group mt-2">
             <span class="input-group-text">RM</span>
             <input type="text" name="amaunDipohon" class="form-control" id="amaunDipohon" aria-label="amaunDipohon" placeholder="0.00" value="<?php echo isset($_COOKIE['amaunDipohon']) ? $_COOKIE['amaunDipohon'] : ''; ?>" required>
@@ -202,7 +222,7 @@ if ($shareCapital < $policy['p_minShareCapitalForLoan']) {
         </div>
 
         <div>
-          <label class="form-label mt-4">Tempoh Pembiayaan*</label>
+          <label class="form-label mt-4">Tempoh Pembiayaan <span class="required">*</span></label>
           <div class="input-group mt-2">
             <input type="text" name="tempohPembiayaan" class="form-control" id="tempohPembiayaan" aria-label="tempohPembiayaan" placeholder="0" value="<?php echo isset($_COOKIE['tempohPembiayaan']) ? $_COOKIE['tempohPembiayaan'] : ''; ?>" required>  
             <span class="input-group-text">tahun</span>
@@ -212,15 +232,16 @@ if ($shareCapital < $policy['p_minShareCapitalForLoan']) {
           </div>
 
         <div>
-          <label class="form-label mt-4">Ansuran Bulanan*</label>
+          <label class="form-label mt-4">Ansuran Bulanan <span class="required">*</span></label>
           <div class="input-group mt-2">
             <span class="input-group-text">RM</span> 
-            <input type="text" name="ansuranBulanan" class="form-control" id="ansuranBulanan" aria-label="ansuranBulanan" placeholder="0.00" value="<?php echo isset($_COOKIE['ansuranBulanan']) ? $_COOKIE['ansuranBulanan'] : ''; ?>" required>          </div>  
+            <input type="text" name="ansuranBulanan" class="form-control" id="ansuranBulanan" aria-label="ansuranBulanan" placeholder="0.00" value="<?php echo isset($_COOKIE['ansuranBulanan']) ? $_COOKIE['ansuranBulanan'] : ''; ?>" required>         
+          </div>  
         </div>
           <p class="mt-2" style="font-size: 0.9rem; color: #6c757d;">*Sila rujuk jadual pembayaran balik pembiayaan skim </p>
 
         <div>
-          <label class="form-label mt-4">Nama Bank/Cawangan</label>
+          <label class="form-label mt-4">Nama Bank/Cawangan <span class="required">*</span></label>
 
           <?php
             $sql = "SELECT * FROM tb_lbank";
@@ -236,20 +257,20 @@ if ($shareCapital < $policy['p_minShareCapitalForLoan']) {
         </div>
 
         <div>
-          <label class="form-label mt-4">Bank Account</label>
+          <label class="form-label mt-4">Bank Account <span class="required">*</span></label>
           <div class="input-group mt-2">
           <input type="text" name="bankAcc" class="form-control" id="bankAcc" aria-label="bankAcc" placeholder="000000000" value="<?php echo isset($_COOKIE['bankAcc']) ? $_COOKIE['bankAcc'] : ''; ?>" required>          </div>  
         </div>
 
         <div>
-          <label class="form-label mt-4">Gaji Kasar Bulanan</label>
+          <label class="form-label mt-4">Gaji Kasar Bulanan <span class="required">*</span></label>
           <div class="input-group mt-2">
             <span class="input-group-text">RM</span> 
             <input type="text" name="gajiKasar" class="form-control" id="gajiKasar" aria-label="gajiKasar" placeholder="0.00" value="<?php echo isset($_COOKIE['gajiKasar']) ? $_COOKIE['gajiKasar'] : ''; ?>" required>          </div>  
         </div>
 
         <div>
-          <label class="form-label mt-4">Gaji Bersih Bulanan</label>
+          <label class="form-label mt-4">Gaji Bersih Bulanan <span class="required">*</span></label>
           <div class="input-group mt-2">
             <span class="input-group-text">RM</span> 
             <input type="text" name="gajiBersih" class="form-control" id="gajiBersih" aria-label="gajiBersih" placeholder="0.00" value="<?php echo isset($_COOKIE['gajiBersih']) ? $_COOKIE['gajiBersih'] : ''; ?>" required>
@@ -257,17 +278,14 @@ if ($shareCapital < $policy['p_minShareCapitalForLoan']) {
         </div>
 
         <div>
-          <label for="fileSign" class="form-label mt-4">Tandatangan</label>
+          <label for="fileSign" class="form-label mt-4">Tandatangan <span class="required">*</span> </label>
           <input class="form-control" type="file" id="fileSign" name="fileSign" accept=".png, .jpg, .jpeg" required>
           <p class="mt-2" style="font-size: 0.9rem; color: #6c757d;">*Fail yang dibenarkan adalah dalam format PNG, JPG dan JPEG sahaja. Sila pastikan saiz fail tidak melebihi 5MB.</p>
         </div>
-
-    
-      <hr class="my-4">
-        <p class="lead">
-        <button type="submit" class="btn btn-primary">Simpan</button>
-        </p>
-      </hr>
+          
+        <div style="text-align: center;">
+            <button type="submit" class="btn btn-primary">Simpan</button>
+        </div>
 
 </div>
     </div>   
@@ -282,15 +300,25 @@ if ($shareCapital < $policy['p_minShareCapitalForLoan']) {
 const maxFinancingAmt1 = <?php echo floatval($policy['p_maxFinancingAmt']); ?>;
 const maxInstallmentPeriod1 = <?php echo floatval($policy['p_maxInstallmentPeriod']); ?>;
 
-
+function showError(message) {
+        Swal.fire({
+            title: 'Ralat!',
+            text: message,
+            icon: 'error',
+            confirmButtonText: 'OK'
+        });
+}
+      
 function calculateInstallment(){
   const profitRate = parseFloat(document.getElementById('kadarKeuntungan').value) || 0;
   const amaunDipohon = parseFloat(document.getElementById('amaunDipohon').value) || 0;
   const tempohPembiayaan = parseFloat(document.getElementById('tempohPembiayaan').value) || 0;
 
-  // Warning if amount exceeds RM 40,000
+  // Warning if amount exceeds
   if (amaunDipohon > maxFinancingAmt1) {
     alert(`Amaun Dipohon telah melebihi RM ${maxFinancingAmt1.toFixed(2)}! Sila masukkan amaun yang sah.`);
+    // const message = 'Amaun Dipohon telah melebihi maksimum: RM' + <?php echo number_format($policy['p_maxFinancingAmt'], 2); ?>;
+    // showError(message);
     document.getElementById('amaunDipohon').value = ''; 
     document.getElementById('ansuranBulanan').value = '0.00';
     document.getElementById('tunggakan').value = '0.00';
@@ -299,6 +327,8 @@ function calculateInstallment(){
 
   if (tempohPembiayaan > maxInstallmentPeriod1) {
     alert(`Tempoh Pembiayaan telah melebihi ${maxInstallmentPeriod1} tahun! Sila masukkan tempoh yang sah.`);
+    // const message = 'Tempoh Pembiayaan telah melebihi ' + maxInstallmentPeriod1 + ' tahun! Sila masukkan tempoh yang sah.';
+    // showError(message);
     document.getElementById('tempohPembiayaan').value = ''; 
     document.getElementById('ansuranBulanan').value = '0.00';
     document.getElementById('tunggakan').value = '0.00';
@@ -388,12 +418,17 @@ window.addEventListener('DOMContentLoaded', restoreFormDataFromCookies);
 
 // Function to show success alert
 function showSuccessNotification() {
-  alert("Maklumat anda telah berjaya disimpan!");
+    Swal.fire({
+        title: 'Berjaya!',
+        text: 'Maklumat anda telah berjaya disimpan!',
+        icon: 'success',
+        confirmButtonText: 'OK'
+    });
 }
 
 if (window.location.search.includes('status=success')) {
     showSuccessNotification();
-  }
+}
 
 
 </script>
