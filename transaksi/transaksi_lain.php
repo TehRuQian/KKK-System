@@ -120,10 +120,10 @@
                   <tr>
                       <th>ID</th>
                       <th>Pinjaman</th>
-                      <th>Tangukkan Semasa</th>
+                      <th>Tunggakan Semasa</th>
                       <th>Ansuran Bulanan</th>
                       <th>Bayaran</th>
-                      <th>Tangukkan Baharu</th>
+                      <th>Tunggakan Baharu</th>
                   </tr>";
           while($row = mysqli_fetch_assoc($result_loan)){
               $newLoanPayable = $row['l_loanPayable'];

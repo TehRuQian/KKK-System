@@ -151,9 +151,9 @@
                                 <tr>
                                     <th>ID</th>
                                     <th>Pinjaman</th>
-                                    <th>Tangukkan Semasa</th>
+                                    <th>Tunggakan Semasa</th>
                                     <th>Bayaran</th>
-                                    <th>Tangukkan Baharu</th>
+                                    <th>Tunggakan Baharu</th>
                                 </tr>";
                         while($row = mysqli_fetch_assoc($result_loan)){
                             $difference = $row['l_monthlyInstalment'];

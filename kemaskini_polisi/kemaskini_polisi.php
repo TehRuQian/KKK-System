@@ -92,7 +92,7 @@
             </tr>
           </tbody>
         </table>
-        <p class="text-center">Jadual Pembayaran Balik Pembiayaan Skim Al-Bai / Al-Innah</p>
+        <p class="text-center">Jadual Pembayaran Balik Pembiayaan</p>
         <table class="table table-hover" style="margin: 0 auto; text-align: center;">
           <tr>
             <td scope="col">Kadar Keuntungan</td>

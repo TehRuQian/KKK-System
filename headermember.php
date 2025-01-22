@@ -45,7 +45,7 @@
           <a class="nav-link active ms-2" href="../loan_application/dashboard_pinjaman.php">Pinjaman</a>
         </li>
         <li>
-          <button onclick="window.location.href='../login.php';" class="btn btn-dark">Log Keluar</button>
+          <button onclick="window.location.href='../logout.php';" class="btn btn-dark">Log Keluar</button>
         </li>
       </ul>
     </div>
