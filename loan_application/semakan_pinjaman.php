@@ -25,8 +25,22 @@ include '../headermember.php';
 include '../db_connect.php';
 $memberNo = $_SESSION['funame'];
 
-// var_dump($_SESSION['funame']);
+if (isset($_SESSION['loanApplicationID'])) {
+  $loanApplicationID = $_SESSION['loanApplicationID'];
+} elseif (isset($_GET['loan_id'])) {
+  $loanApplicationID = $_GET['loan_id'];
+} else {
+  die("Error: Loan application ID is missing.");
+}
 
+// 新增：根据 loanApplicationID 或 loan_id 从数据库中检索数据
+$sql = "
+    SELECT * FROM tb_loan WHERE l_loanApplicationID = '$loanApplicationID';";
+$result = mysqli_query($con, $sql);
+if (!$result || mysqli_num_rows($result) == 0) {
+    die("Error: No loan application found.");
+}
+$loanApplicationData = mysqli_fetch_assoc($result);
 
 $sql = "
     SELECT * FROM tb_policies
@@ -38,7 +52,7 @@ $sql = "
 ?>
 
 <div class="">
-<form method = "post" action = "semakan_pinjaman_process.php" enctype="multipart/form-data">
+<form method = "post" action = "semakan_pinjaman_process.php?loan_id=<?php echo $loanApplicationID; ?>" enctype="multipart/form-data">
   <fieldset>
     <div class="container">
       <br>
@@ -69,7 +83,7 @@ $sql = "
           <label class="form-label mt-4">Amaun Dipohon<span class="required">*</span></label>
           <div class="input-group mt-2">
             <span class="input-group-text">RM</span>
-            <input type="text" name="amaunDipohon" class="form-control" id="amaunDipohon" aria-label="amaunDipohon" placeholder="0.00" value="<?php echo isset($_COOKIE['amaunDipohon']) ? $_COOKIE['amaunDipohon'] : ''; ?>" required>
+            <input type="text" name="amaunDipohon" class="form-control" id="amaunDipohon" aria-label="amaunDipohon" placeholder="0.00" value="<?php echo $loanApplicationData['l_appliedLoan']; ?>" required>
           </div>
           <small id="amaunError" class="text-danger" style="display: none;">Amaun Dipohon telah melebihi maksimum: RM<?php echo number_format($policy['p_maxFinancingAmt'], 2); ?></small>
         </div>
@@ -77,50 +91,47 @@ $sql = "
         <div>
           <label class="form-label mt-4">Tempoh Pembiayaan<span class="required">*</span></label>
           <div class="input-group mt-2">
-            <input type="text" name="tempohPembiayaan" class="form-control" id="tempohPembiayaan" aria-label="tempohPembiayaan" placeholder="0" value="<?php echo isset($_COOKIE['tempohPembiayaan']) ? $_COOKIE['tempohPembiayaan'] : ''; ?>" required>  
+            <input type="text" name="tempohPembiayaan" class="form-control" id="tempohPembiayaan" aria-label="tempohPembiayaan" placeholder="0" value="<?php echo $loanApplicationData['l_loanPeriod']; ?>" required>  
             <span class="input-group-text">tahun</span>
-
           </div>
-            <small id="tempohError" class="text-danger" style="display: none;">Tempoh Pembiayaan telah melebihi maksimum: <?php echo number_format($policy['p_maxInstallmentPeriod'], 2); ?>tahun</small>
-          </div>
+          <small id="tempohError" class="text-danger" style="display: none;">Tempoh Pembiayaan telah melebihi maksimum: <?php echo number_format($policy['p_maxInstallmentPeriod'], 2); ?>tahun</small>
+        </div>
 
         <div>
           <label class="form-label mt-4">Ansuran Bulanan<span class="required">*</span></label>
           <div class="input-group mt-2">
             <span class="input-group-text">RM</span> 
-            <input type="text" name="ansuranBulanan" class="form-control" id="ansuranBulanan" aria-label="ansuranBulanan" placeholder="0.00" value="<?php echo isset($_COOKIE['ansuranBulanan']) ? $_COOKIE['ansuranBulanan'] : ''; ?>" required>          
+            <input type="text" name="ansuranBulanan" class="form-control" id="ansuranBulanan" aria-label="ansuranBulanan" placeholder="0.00" value="<?php echo $loanApplicationData['l_monthlyInstalment']; ?>" required>          
           </div>  
         </div>
-          <p class="mt-2" style="font-size: 0.9rem; color: #6c757d;">*Sila rujuk jadual pembayaran balik pembiayaan skim </p>
+        <p class="mt-2" style="font-size: 0.9rem; color: #6c757d;">*Sila rujuk jadual pembayaran balik pembiayaan skim </p>
 
         <div>
           <label class="form-label mt-4">Nama Bank/Cawangan<span class="required">*</span></label>
-
           <?php
             $sql = "SELECT * FROM tb_lbank";
             $result = mysqli_query($con, $sql);
-
             echo '<select class="form-select" name="namaBank" id="namaBank">';
             while ($row = mysqli_fetch_array($result)) {
-                $selected = isset($_COOKIE['namaBank']) && $_COOKIE['namaBank'] == $row['lb_id'] ? 'selected' : '';
+                $selected = $loanApplicationData['namaBank'] == $row['lb_id'] ? 'selected' : '';
                 echo '<option value="' . $row['lb_id'] . '" ' . $selected . '>' . $row['lb_desc'] . '</option>';
             }
             echo '</select>';
-            ?>
+          ?>
         </div>
 
         <div>
           <label class="form-label mt-4">Bank Account<span class="required">*</span></label>
           <div class="input-group mt-2">
-          <input type="text" name="bankAcc" class="form-control" id="bankAcc" aria-label="bankAcc" placeholder="000000000" value="<?php echo isset($_COOKIE['bankAcc']) ? $_COOKIE['bankAcc'] : ''; ?>" required>          
-        </div>  
+          <input type="text" name="bankAcc" class="form-control" id="bankAcc" aria-label="bankAcc" placeholder="000000000" value="<?php echo $loanApplicationData['l_bankAccountNo']; ?>" required>          
+          </div>  
         </div>
 
         <div>
           <label class="form-label mt-4">Gaji Kasar Bulanan<span class="required">*</span></label>
           <div class="input-group mt-2">
             <span class="input-group-text">RM</span> 
-            <input type="text" name="gajiKasar" class="form-control" id="gajiKasar" aria-label="gajiKasar" placeholder="0.00" value="<?php echo isset($_COOKIE['gajiKasar']) ? $_COOKIE['gajiKasar'] : ''; ?>" required>          
+            <input type="text" name="gajiKasar" class="form-control" id="gajiKasar" aria-label="gajiKasar" placeholder="0.00" value="<?php echo $loanApplicationData['l_monthlyGrossSalary']; ?>" required>          
           </div>  
         </div>
 
@@ -128,7 +139,7 @@ $sql = "
           <label class="form-label mt-4">Gaji Bersih Bulanan<span class="required">*</span></label>
           <div class="input-group mt-2">
             <span class="input-group-text">RM</span> 
-            <input type="text" name="gajiBersih" class="form-control" id="gajiBersih" aria-label="gajiBersih" placeholder="0.00" value="<?php echo isset($_COOKIE['gajiBersih']) ? $_COOKIE['gajiBersih'] : ''; ?>" required>
+            <input type="text" name="gajiBersih" class="form-control" id="gajiBersih" aria-label="gajiBersih" placeholder="0.00" value="<?php echo $loanApplicationData['l_monthlyNetSalary']; ?>" required>
           </div>  
         </div>
 

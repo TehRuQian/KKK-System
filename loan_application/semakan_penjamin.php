@@ -7,19 +7,42 @@ if (!session_id()) {
 include '../headermember.php';
 include '../db_connect.php';
 
-//Loan
-if (!isset($_SESSION['loanApplicationID'])) {
-    die('Error: Loan application ID is missing.');
+if (isset($_SESSION['loanApplicationID'])) {
+  $loanApplicationID = $_SESSION['loanApplicationID'];
+} elseif (isset($_GET['loan_id'])) {
+  $loanApplicationID = $_GET['loan_id'];
+} else {
+  die("Error: Loan application ID is missing. Please check if the loan ID is passed in the URL.");
 }
 
-$loanApplicationID = $_SESSION['loanApplicationID']; // Retrieve from session
 
+// Guarantor
 if (!isset($_SESSION['guarantorID1']) || !isset($_SESSION['guarantorID2'])) {
-  die('Error: Guarantor ID1 or Guarantor ID2 is missing.');
-}
+  if (!isset($_SESSION['guarantorID1'])) {
+      $anggotaPenjamin1 = ''; 
+      $signaturePenjamin1 = '';
+      $namaPenjamin1 = '';
+      $icPenjamin1 = '';
+      $pfPenjamin1 = '';
+      $guarantorID1 = null; 
+  } else {
+      $guarantorID1 = $_SESSION['guarantorID1']; 
+  }
 
-$guarantorID1 = $_SESSION['guarantorID1'];
-$guarantorID2 = $_SESSION['guarantorID2'];
+  if (!isset($_SESSION['guarantorID2'])) {
+      $anggotaPenjamin2 = '';
+      $signaturePenjamin2 = '';
+      $namaPenjamin2 = '';
+      $icPenjamin2 = '';
+      $pfPenjamin2 = '';
+      $guarantorID2 = null; 
+  } else {
+      $guarantorID2 = $_SESSION['guarantorID2']; 
+  }
+} else {
+  $guarantorID1 = $_SESSION['guarantorID1']; 
+  $guarantorID2 = $_SESSION['guarantorID2']; 
+}
 
 // Guarantor data
 $memberNo1 = '';
@@ -70,7 +93,7 @@ if ($loanApplicationID !== null) {
   }
 ?>
 
-<form method = "post" action = "semakan_penjamin_process.php"  enctype="multipart/form-data">
+<form method = "post" action = "semakan_penjamin_process.php?loan_id=<?php echo $loanApplicationID; ?>"  enctype="multipart/form-data">
   <fieldset>
     <div class="container">
       <br>
@@ -85,7 +108,7 @@ if ($loanApplicationID !== null) {
         <div>
           <label class="form-label mt-4">No. Anggota</label>
           <div class="input-group mt-2">
-            <input type="text" name = "anggotaPenjamin1" class="form-control" id="anggotaPenjamin1" aria-label="anggotaPenjamin1" placeholder="1" value = "<?php echo $memberNo1; ?>"required>
+            <input type="text" name = "anggotaPenjamin1" class="form-control" id="anggotaPenjamin1" aria-label="anggotaPenjamin1" value = "<?php echo $memberNo1; ?>"required>
           </div>
         </div>
 
@@ -124,7 +147,7 @@ if ($loanApplicationID !== null) {
         <div>
           <label class="form-label mt-4">No. Anggota</label>
           <div class="input-group mt-2">
-            <input type="text" name="anggotaPenjamin2" class="form-control" id="anggotaPenjamin2" aria-label="anggotaPenjamin2" placeholder="2"  value = "<?php echo $memberNo2; ?>" required>
+            <input type="text" name="anggotaPenjamin2" class="form-control" id="anggotaPenjamin2" aria-label="anggotaPenjamin2" value = "<?php echo $memberNo2; ?>" required>
           </div>
         </div>
 

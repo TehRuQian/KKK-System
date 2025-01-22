@@ -36,32 +36,53 @@ if (isset($_SESSION['loanApplicationID'])) {
   die("Error: Loan application ID is missing.");
 }
 
-// Guarantor
-if (!isset($_SESSION['guarantorID1']) || !isset($_SESSION['guarantorID2'])) {
-    if (!isset($_SESSION['guarantorID1'])) {
-        $anggotaPenjamin1 = 'N/A'; 
-        $signaturePenjamin1 = '';
-        $namaPenjamin1 = '';
-        $icPenjamin1 = '';
-        $pfPenjamin1 = '';
-        $guarantorID1 = null; 
-    } else {
-        $guarantorID1 = $_SESSION['guarantorID1']; 
+// Fetch guarantor data from the database
+if (isset($loanApplicationID)) {
+    $sql = "SELECT g_guarantorID, g_memberNo, g_signature, m.m_name, m.m_ic, m.m_pfNo 
+            FROM tb_guarantor g 
+            LEFT JOIN tb_member m ON g.g_memberNo = m.m_memberNo 
+            WHERE g.g_loanApplicationID = ?";
+    
+    $stmt = mysqli_prepare($con, $sql);
+    mysqli_stmt_bind_param($stmt, "s", $loanApplicationID);
+    mysqli_stmt_execute($stmt);
+    $result = mysqli_stmt_get_result($stmt);
+
+    // Initialize guarantor variables
+    $guarantorID1 = null;
+    $guarantorID2 = null;
+    $anggotaPenjamin1 = 'N/A';
+    $signaturePenjamin1 = '';
+    $namaPenjamin1 = '';
+    $icPenjamin1 = '';
+    $pfPenjamin1 = '';
+    
+    $anggotaPenjamin2 = 'N/A';
+    $signaturePenjamin2 = '';
+    $namaPenjamin2 = '';
+    $icPenjamin2 = '';
+    $pfPenjamin2 = '';
+
+    // Fetch the first two guarantors
+    if ($row = mysqli_fetch_assoc($result)) {
+        $guarantorID1 = $row['g_guarantorID'];
+        $anggotaPenjamin1 = $row['g_memberNo'];
+        $signaturePenjamin1 = $row['g_signature'];
+        $namaPenjamin1 = $row['m_name'];
+        $icPenjamin1 = $row['m_ic'];
+        $pfPenjamin1 = $row['m_pfNo'];
+    }
+    
+    if ($row = mysqli_fetch_assoc($result)) {
+        $guarantorID2 = $row['g_guarantorID'];
+        $anggotaPenjamin2 = $row['g_memberNo'];
+        $signaturePenjamin2 = $row['g_signature'];
+        $namaPenjamin2 = $row['m_name'];
+        $icPenjamin2 = $row['m_ic'];
+        $pfPenjamin2 = $row['m_pfNo'];
     }
 
-    if (!isset($_SESSION['guarantorID2'])) {
-        $anggotaPenjamin2 = 'N/A';
-        $signaturePenjamin2 = '';
-        $namaPenjamin2 = '';
-        $icPenjamin2 = '';
-        $pfPenjamin2 = '';
-        $guarantorID2 = null; 
-    } else {
-        $guarantorID2 = $_SESSION['guarantorID2']; 
-    }
-} else {
-    $guarantorID1 = $_SESSION['guarantorID1']; 
-    $guarantorID2 = $_SESSION['guarantorID2']; 
+    mysqli_stmt_close($stmt);
 }
 
 // Loan details
@@ -76,12 +97,16 @@ $selected_bankAcc = '';
 $selected_gajiKasar = '';
 $selected_gajiBersih = '';
 $selected_signature = '';
-
+$selected_pengesahanMajikan = '';
 // Fetch data
-$sql = "SELECT l_loanType, l_appliedLoan, l_loanPeriod, l_monthlyInstalment, l_bankAccountNo, l_bankName, l_monthlyGrossSalary, l_monthlyNetSalary, l_signature FROM tb_loan WHERE l_loanApplicationID = $loanApplicationID";
-$result = mysqli_query($con, $sql);
+$sql = "SELECT l_loanType, l_appliedLoan, l_loanPeriod, l_monthlyInstalment, l_bankAccountNo, l_bankName, l_monthlyGrossSalary, l_monthlyNetSalary, l_signature, l_file
+FROM tb_loan WHERE l_loanApplicationID = ?";
+$stmt = $con->prepare($sql);
+$stmt->bind_param("i", $loanApplicationID);
+$stmt->execute();
+$result = $stmt->get_result();
 
-if ($row = mysqli_fetch_assoc($result)) {
+if ($row = $result->fetch_assoc()) {
   $selected_jenis_pembiayaan_ID = htmlspecialchars($row['l_loanType']);  
   $selected_amaunDipohon = htmlspecialchars($row['l_appliedLoan']);  
   $selected_tempohPembiayaan = htmlspecialchars($row['l_loanPeriod']);  
@@ -91,6 +116,7 @@ if ($row = mysqli_fetch_assoc($result)) {
   $selected_gajiKasar = htmlspecialchars($row['l_monthlyGrossSalary']); 
   $selected_gajiBersih = htmlspecialchars($row['l_monthlyNetSalary']);
   $selected_signature = htmlspecialchars($row['l_signature']);  
+  $selected_pengesahanMajikan = htmlspecialchars($row['l_file']);
 }
 
 // Fetch the description if an ID is selected
@@ -307,7 +333,7 @@ error_log("Debug - Guarantor 2 Name: " . $namaPenjamin2);
           <div class="card mb-3">
             <div class="card-header text-white bg-primary d-flex justify-content-between align-items-center">
                 Butir-butir Pembiayaan
-                <button type="button" class="btn btn-info"  onclick="window.location.href='semakan_pinjaman.php'">
+                <button type="button" class="btn btn-info"  onclick="window.location.href='semakan_pinjaman.php?loan_id=<?php echo $loanApplicationID; ?>'">
                     Kemaskini
                 </button>
             </div>
@@ -382,7 +408,7 @@ error_log("Debug - Guarantor 2 Name: " . $namaPenjamin2);
         <div class="card mb-3">
             <div class="card-header text-white bg-primary d-flex justify-content-between align-items-center">
                 Butir-butir Peribadi Pemohon
-                <button type="button" class="btn btn-info"  onclick="window.location.href='semakan_butir_peribadi.php'">
+                <button type="button" class="btn btn-info"  onclick="window.location.href='semakan_butir_peribadi.php?loan_id=<?php echo $loanApplicationID; ?>'">
                     Kemaskini
                 </button>
             </div>
@@ -510,7 +536,7 @@ error_log("Debug - Guarantor 2 Name: " . $namaPenjamin2);
     <div class="card mb-3">
             <div class="card-header text-white bg-primary d-flex justify-content-between align-items-center">
                 Butir-butir Penjamin
-                <button type="button" class="btn btn-info"  onclick="window.location.href='semakan_penjamin.php'">
+                <button type="button" class="btn btn-info"  onclick="window.location.href='semakan_penjamin.php?loan_id=<?php echo $loanApplicationID; ?>'">
                     Kemaskini
                 </button>
             </div>
@@ -602,7 +628,7 @@ error_log("Debug - Guarantor 2 Name: " . $namaPenjamin2);
     <div class="card mb-3">
               <div class="card-header text-white bg-primary d-flex justify-content-between align-items-center">
                   Pengesahan Majikan
-                  <button type="button" class="btn btn-info"  onclick="window.location.href='semakan_pinjaman.php'">
+                  <button type="button" class="btn btn-info"  onclick="window.location.href='semakan_pengesahan_majikan.php?loan_id=<?php echo $loanApplicationID; ?>'">
                       Kemaskini
                   </button>
               </div>
@@ -621,6 +647,22 @@ error_log("Debug - Guarantor 2 Name: " . $namaPenjamin2);
                     <td><?php echo "RM ", $selected_gajiBersih; ?></td>
                     </tr>
 
+                    <tr>
+                    <td scope="row">Pengesahan Majikan</td>
+                    <td>
+                        <?php
+                        $file_path = $_SERVER['DOCUMENT_ROOT'] . '/KKK-System/loan_application/uploads/' . basename($selected_pengesahanMajikan);
+                        $pdf_url = 'http://' . $_SERVER['HTTP_HOST'] . '/KKK-System/loan_application/uploads/' . basename($selected_pengesahanMajikan);
+
+                        if (file_exists($file_path)) : ?>
+                            <a href="<?php echo $pdf_url; ?>" class="btn btn-primary" target="_blank">
+                                <i class="fas fa-external-link"></i> Lihat
+                            </a>
+                        <?php else : ?>
+                            <span>Tiada dokumen PDF.</span>
+                        <?php endif; ?>
+                    </td>
+                  </tr>
                 </tbody>
                 </table>
             

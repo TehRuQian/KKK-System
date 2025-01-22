@@ -8,9 +8,41 @@ include '../headermember.php';
 include '../db_connect.php';
 
 
-$loanApplicationID = $_SESSION['loanApplicationID'];
-$guarantorID1 = $_SESSION['guarantorID1'];
-$guarantorID2 = $_SESSION['guarantorID2'];
+if (isset($_SESSION['loanApplicationID'])) {
+    $loanApplicationID = $_SESSION['loanApplicationID'];
+} elseif (isset($_GET['loan_id'])) {
+    $loanApplicationID = $_GET['loan_id'];
+} else {
+    die("Error: Loan application ID is missing. Please check if the loan ID is passed in the URL.");
+}
+
+// Guarantor
+if (!isset($_SESSION['guarantorID1']) || !isset($_SESSION['guarantorID2'])) {
+    if (!isset($_SESSION['guarantorID1'])) {
+        $anggotaPenjamin1 = ''; 
+        $signaturePenjamin1 = '';
+        $namaPenjamin1 = '';
+        $icPenjamin1 = '';
+        $pfPenjamin1 = '';
+        $guarantorID1 = null; 
+    } else {
+        $guarantorID1 = $_SESSION['guarantorID1']; 
+    }
+
+    if (!isset($_SESSION['guarantorID2'])) {
+        $anggotaPenjamin2 = '';
+        $signaturePenjamin2 = '';
+        $namaPenjamin2 = '';
+        $icPenjamin2 = '';
+        $pfPenjamin2 = '';
+        $guarantorID2 = null; 
+    } else {
+        $guarantorID2 = $_SESSION['guarantorID2']; 
+    }
+} else {
+    $guarantorID1 = $_SESSION['guarantorID1']; 
+    $guarantorID2 = $_SESSION['guarantorID2']; 
+}
 
 
 error_log("Debug - Processing guarantors for loan application: " . $loanApplicationID);
@@ -18,10 +50,6 @@ error_log("Debug - Guarantor 1 ID: " . $guarantorID1);
 error_log("Debug - Guarantor 2 ID: " . $guarantorID2);
 
 
-if (!isset($loanApplicationID) || !isset($guarantorID1) || !isset($guarantorID2)) {
-    error_log("Error: Missing session data");
-    die('Error: Required session data is missing.');
-}
 
 
 $memberNo1 = isset($_POST['anggotaPenjamin1']) ? $_POST['anggotaPenjamin1'] : '';
@@ -53,7 +81,6 @@ try {
     }
     mysqli_stmt_close($stmt2);
 
-    
     $uploadFileDir = './uploads/';
     if (!is_dir($uploadFileDir)) {
         if (!mkdir($uploadFileDir, 0777, true)) {
@@ -98,6 +125,7 @@ try {
         $update_stmt1 = mysqli_prepare($con, "UPDATE tb_guarantor SET g_memberNo = ?, g_signature = ? WHERE g_guarantorID = ?");
         mysqli_stmt_bind_param($update_stmt1, "sss", $memberNo1, $fileSignPenjamin1, $guarantorID1);
         if (!mysqli_stmt_execute($update_stmt1)) {
+            error_log("Failed to execute update for guarantor 1: " . mysqli_stmt_error($update_stmt1));
             throw new Exception("Failed to update guarantor 1: " . mysqli_stmt_error($update_stmt1));
         }
         mysqli_stmt_close($update_stmt1);
@@ -108,6 +136,7 @@ try {
         $update_stmt2 = mysqli_prepare($con, "UPDATE tb_guarantor SET g_memberNo = ?, g_signature = ? WHERE g_guarantorID = ?");
         mysqli_stmt_bind_param($update_stmt2, "sss", $memberNo2, $fileSignPenjamin2, $guarantorID2);
         if (!mysqli_stmt_execute($update_stmt2)) {
+            error_log("Failed to execute update for guarantor 2: " . mysqli_stmt_error($update_stmt2));
             throw new Exception("Failed to update guarantor 2: " . mysqli_stmt_error($update_stmt2));
         }
         mysqli_stmt_close($update_stmt2);
@@ -120,7 +149,7 @@ try {
     $_SESSION['success_message'] = "successful";
     
    
-    header('Location: semakan_butiran.php?status=success');
+    header('Location: semakan_butiran.php?status=success&loan_id=' . $loanApplicationID);
     exit();
 
 } catch (Exception $e) {
