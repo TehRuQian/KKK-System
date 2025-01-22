@@ -15,9 +15,18 @@ include '../db_connect.php';
 $lApplicationID = $_GET['id'];
 
 if ($lApplicationID === 0) {
-    echo "<script>alert('ID aplikasi tidak sah.'); window.location.href = 'loan_approval.php';</script>";
+    echo "<script>
+            Swal.fire({
+                icon: 'error',
+                title: 'Ralat',
+                text: 'ID aplikasi tidak sah.'
+            }).then(() => {
+                window.location.href = 'loan_approval.php';
+            });
+          </script>";
     exit;
 }
+
 
 // Retrieve loan details
 $sqlLoan = "SELECT l.*, m.m_name, m.m_pfNo, lt.lt_desc, b.lb_id, b.lb_desc
@@ -173,7 +182,7 @@ $selected_file = $basePath . trim($rowLoan['l_file']);
 </div>
 
 
-<form method="POST" action="loan_approval_process.php" onsubmit="return validateForm()"> 
+<form method="POST" action="loan_approval_process.php" onsubmit="return validateForm(event)"> 
     <input type="hidden" name="lApplicationID" value="<?php echo $lApplicationID; ?>">
     <fieldset>
         <div class="container" style="display: flex; justify-content: center; align-items: center; flex-direction: column;">
@@ -207,40 +216,71 @@ $selected_file = $basePath . trim($rowLoan['l_file']);
     </fieldset>
 </form>
 <br>
+
 <script>
 function setStatus(event, status, statusDesc) {
-    event.preventDefault();  // Prevent the page from scrolling up when changing different status
+    if (event) {
+        event.preventDefault(); // Prevent the page from scrolling up when changing status
+    }
 
     // Set the hidden input to the selected status
     document.getElementById('lstatus').value = status;
 
-    // Change the button text and colour
+    // Change the button text and color
     const statusButton = document.getElementById('statusDropdown');
     statusButton.textContent = statusDesc;
 
     if (status == 1) {
         statusButton.classList.remove('btn-warning', 'btn-danger', 'btn-success');
-        statusButton.classList.add('btn-secondary');  // Sedang Diproses
+        statusButton.classList.add('btn-secondary');
     } else if (status == 2) {
         statusButton.classList.remove('btn-secondary', 'btn-success', 'btn-warning');
-        statusButton.classList.add('btn-danger');  // Ditolak
+        statusButton.classList.add('btn-danger');
     } else if (status == 3) {
         statusButton.classList.remove('btn-secondary', 'btn-danger', 'btn-warning');
-        statusButton.classList.add('btn-success');  // Diluluskan
+        statusButton.classList.add('btn-success'); 
     }
 }
 
-function validateForm() {
+function validateForm(event) {
     const status = document.getElementById('lstatus').value;
 
     if (status == 2) {
-        return confirm("Adakah anda pasti untuk menolak permohonan ini?");
+        event.preventDefault();
+        Swal.fire({
+            icon: 'warning',
+            title: 'Tolak Permohonan',
+            text: 'Adakah anda pasti untuk menolak permohonan ini?',
+            showCancelButton: true,
+            confirmButtonText: 'Ya, Tolak',
+            cancelButtonText: 'Batal'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                document.forms[0].submit(); 
+            }
+        });
+        return false;
     } else if (status == 3) {
-        return confirm("Adakah anda pasti mahu meluluskan permohonan ini?");
+        event.preventDefault();
+        Swal.fire({
+            icon: 'success',
+            title: 'Lulus Permohonan',
+            text: 'Adakah anda pasti mahu meluluskan permohonan ini?',
+            showCancelButton: true,
+            confirmButtonText: 'Ya, Luluskan',
+            cancelButtonText: 'Batal'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                document.forms[0].submit(); 
+            }
+        });
+        return false;
     }
-    return true; 
+
+    return true;
 }
 
-setStatus(null, 1, "Sedang Diproses");  // Default status
+setStatus(null, 1, "Sedang Diproses");
 </script>
+
 

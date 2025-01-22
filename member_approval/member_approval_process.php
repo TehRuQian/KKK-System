@@ -60,14 +60,13 @@ function sendApprovalEmail($email, $name, $memberNo, $temporaryPassword, $resetL
     </html>";
 
     $headers = "MIME-Version: 1.0\r\n" . 
-               "Content-Type: text/html; charset=UTF-8\r\n" .
+               "Content-Type: text/html; charset=UTF-8\r\n" . 
                "From: no_reply@kada.com\r\n" . 
                "Reply-To: hello@gmail.com\r\n" . 
                "X-Mailer: PHP/" . phpversion();
 
     return mail($email, $subject, $message, $headers);
 }
-
 
 // Approval & Rejection
 if ($mstatus == 3 && $mMemberNo) {
@@ -78,7 +77,6 @@ if ($mstatus == 3 && $mMemberNo) {
 
     $sqlFin = "INSERT INTO tb_financial (f_memberNo, f_shareCapital, f_feeCapital, f_fixedSaving, f_memberFund, f_memberSaving, f_dateUpdated)
                VALUES ('$mMemberNo', 0, 0, 0, 0, 0, '$currentDate')";
-
 
     $sqlUser = "INSERT INTO tb_user (u_id, u_pwd, u_type)
                 VALUES ('$mMemberNo', '$hashedPassword', 2)";
@@ -102,21 +100,39 @@ if ($mstatus == 3 && $mMemberNo) {
             // Send the approval email
             if (sendApprovalEmail($email, $name, $memberNo, $temporaryPassword, $resetLink)) {
                 echo "<script>
-                        alert('Kelulusan anggota berjaya diproses! E-mel telah dihantar kepada anggota.');
-                        window.location.href = 'member_approval.php';
+                        Swal.fire({
+                            icon: 'success',
+                            title: 'Kelulusan Anggota',
+                            text: 'Kelulusan anggota berjaya diproses! E-mel telah dihantar kepada anggota.',
+                            confirmButtonText: 'OK'
+                        }).then(() => {
+                            window.location.href = 'member_approval.php';
+                        });
                       </script>";
             } else {
                 error_log("Failed to send email to $email");
                 echo "<script>
-                        alert('Kelulusan anggota berjaya diproses, tetapi gagal menghantar e-mel.');
-                        window.location.href = 'member_approval.php';
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'Gagal Menghantar E-mel',
+                            text: 'Kelulusan anggota berjaya diproses, tetapi gagal menghantar e-mel.',
+                            confirmButtonText: 'OK'
+                        }).then(() => {
+                            window.location.href = 'member_approval.php';
+                        });
                       </script>";
             }
         }
     } else {
         echo "<script>
-                alert('Ralat memproses kelulusan anggota: " . mysqli_error($con) . "');
-                window.history.back();
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Ralat Memproses',
+                    text: 'Ralat memproses kelulusan anggota: " . mysqli_error($con) . "',
+                    confirmButtonText: 'OK'
+                }).then(() => {
+                    window.history.back();
+                });
               </script>";
     }
 } elseif ($mstatus == 2) {
@@ -127,19 +143,37 @@ if ($mstatus == 3 && $mMemberNo) {
 
     if (mysqli_query($con, $sqlReject)) {
         echo "<script>
-                alert('Applikasi anggota telah berjaya ditolak.');
-                window.location.href = 'member_approval.php';
+                Swal.fire({
+                    icon: 'success',
+                    title: 'Applikasi Ditolak',
+                    text: 'Applikasi anggota telah berjaya ditolak.',
+                    confirmButtonText: 'OK'
+                }).then(() => {
+                    window.location.href = 'member_approval.php';
+                });
               </script>";
     } else {
         echo "<script>
-                alert('Ralat menolak applikasi anggota: " . mysqli_error($con) . "');
-                window.history.back();
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Ralat Menolak Applikasi',
+                    text: 'Ralat menolak applikasi anggota: " . mysqli_error($con) . "',
+                    confirmButtonText: 'OK'
+                }).then(() => {
+                    window.history.back();
+                });
               </script>";
     }
 } else {
     echo "<script>
-            alert('Tindakan tidak sah.');
-            window.history.back();
+            Swal.fire({
+                icon: 'error',
+                title: 'Tindakan Tidak Sah',
+                text: 'Tindakan tidak sah.',
+                confirmButtonText: 'OK'
+            }).then(() => {
+                window.history.back();
+            });
           </script>";
 }
 

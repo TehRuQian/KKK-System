@@ -157,7 +157,7 @@ print_r($heir);
     </div>
 </div>
 
-<form method="POST" action="member_approval_process.php" onsubmit="return validateForm()">
+<form method="POST" action="member_approval_process.php" onsubmit="return validateForm(event)">
     <input type="hidden" name="mApplicationID" value="<?php echo $mApplicationID; ?>">
     <fieldset>
     <div class="container" style="display: flex; justify-content: center; align-items: center; flex-direction: column;">
@@ -203,7 +203,7 @@ print_r($heir);
 <script>
 function setStatus(event, status, statusDesc) {
     event.preventDefault();  // Prevent the page from scrolling up
-    console.log('Selected status:', status); // Debugging line
+    console.log('Selected status:', status); 
 
     // Set the hidden input to the selected status
     document.getElementById('mstatus').value = status;
@@ -212,7 +212,6 @@ function setStatus(event, status, statusDesc) {
     const statusButton = document.getElementById('statusDropdown');
     statusButton.textContent = statusDesc;
 
-    // Add or remove classes based on status
     if (status == 1) {
         statusButton.classList.remove('btn-warning', 'btn-danger', 'btn-success');
         statusButton.classList.add('btn-secondary');
@@ -224,10 +223,8 @@ function setStatus(event, status, statusDesc) {
         statusButton.classList.add('btn-success');
     }
 
-    // Toggle the visibility of the member number input field based on the selected status
     toggleMemberNoInput(status);
 }
-
 
 function toggleMemberNoInput(status) {
     const memberNoContainer = document.getElementById('memberNoContainer');
@@ -241,28 +238,61 @@ function toggleMemberNoInput(status) {
     }
 }
 
-function validateForm() {
+function validateForm(event) {
     const status = document.getElementById('mstatus').value;
     const memberNo = document.getElementById('mMemberNo').value;
 
     if (status == 3 && memberNo) {
         if (existingMemberNumbers.includes(memberNo)) {
-            alert("No. Anggota sudah wujud! Sila masukkan No. yang berbeza.");
+            Swal.fire({
+                icon: 'error',
+                title: 'No. Anggota sudah wujud!',
+                text: 'Sila masukkan No. yang berbeza.',
+            });
             return false; 
         }
     }
-    return confirmSubmission();
+
+    event.preventDefault();
+    return confirmSubmission(event);
 }
 
-function confirmSubmission() {
+function confirmSubmission(event) {
     const status = document.getElementById('mstatus').value;
 
     if (status == 2) {
-        return confirm("Adakah anda pasti untuk menolak permohonan ini?");
+        // Reject confirmation
+        Swal.fire({
+            title: 'Adakah anda pasti?',
+            text: "Anda pasti untuk menolak permohonan ini?",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonText: 'Ya, Tolak!',
+            cancelButtonText: 'Batal',
+            reverseButtons: true
+        }).then((result) => {
+            if (result.isConfirmed) {
+                document.querySelector('form').submit();
+            }
+        });
     } else if (status == 3) {
-        return confirm("Adakah anda pasti mahu meluluskan permohonan ini?");
+        // Approve confirmation
+        Swal.fire({
+            title: 'Adakah anda pasti?',
+            text: "Anda pasti untuk meluluskan permohonan ini?",
+            icon: 'success',
+            showCancelButton: true,
+            confirmButtonText: 'Ya, Luluskan!',
+            cancelButtonText: 'Batal',
+            reverseButtons: true
+        }).then((result) => {
+            if (result.isConfirmed) {
+                document.querySelector('form').submit();
+            }
+        });
+    } else {
+        document.querySelector('form').submit();
     }
-    return true; 
 }
 
 setStatus(null, 1, "Sedang Diproses");
