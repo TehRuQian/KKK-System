@@ -45,14 +45,13 @@ $response = [];
 if (isset($_POST['anggotaPenjamin1'])) {
     $anggotaPenjamin1 = $_POST['anggotaPenjamin1'];
 
-    // 查询数据库以获取成员数据
     $sql = "SELECT m_name, m_ic, m_pfNo FROM tb_member WHERE m_memberNo = '$anggotaPenjamin1'";
     $result = mysqli_query($con, $sql);
 
     if ($row = mysqli_fetch_assoc($result)) {
-        $response['penjamin1'] = $row; // 返回成员数据
+        $response['penjamin1'] = $row; 
     } else {
-        $response['penjamin1_error'] = 'No member found.'; // 没有找到成员
+        $response['penjamin1_error'] = 'No member found.'; 
     }
 }
 
@@ -60,14 +59,14 @@ if (isset($_POST['anggotaPenjamin1'])) {
 if (isset($_POST['anggotaPenjamin2'])) {
     $anggotaPenjamin2 = $_POST['anggotaPenjamin2'];
 
-    // 查询数据库以获取成员数据
+    
     $sql = "SELECT m_name, m_ic, m_pfNo FROM tb_member WHERE m_memberNo = '$anggotaPenjamin2'";
     $result = mysqli_query($con, $sql);
 
     if ($row = mysqli_fetch_assoc($result)) {
-        $response['penjamin2'] = $row; // 返回成员数据
+        $response['penjamin2'] = $row; 
     } else {
-        $response['penjamin2_error'] = 'No member found.'; // 没有找到成员
+        $response['penjamin2_error'] = 'No member found.'; 
     }
 }
 
