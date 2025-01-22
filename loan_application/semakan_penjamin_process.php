@@ -48,20 +48,19 @@ if ($_SESSION['u_type'] != 2) {
     exit();
   }
   
-$loanApplicationID = $_SESSION['loanApplicationID'];
-$guarantorID1 = $_SESSION['guarantorID1'];
-$guarantorID2 = $_SESSION['guarantorID2'];
-
-
-error_log("Debug - Processing guarantors for loan application: " . $loanApplicationID);
-error_log("Debug - Guarantor 1 ID: " . $guarantorID1);
-error_log("Debug - Guarantor 2 ID: " . $guarantorID2);
-
 
 
 
 $memberNo1 = isset($_POST['anggotaPenjamin1']) ? $_POST['anggotaPenjamin1'] : '';
 $memberNo2 = isset($_POST['anggotaPenjamin2']) ? $_POST['anggotaPenjamin2'] : '';
+$namaPenjamin2 = isset($_POST['namaPenjamin2']) ? $_POST['namaPenjamin2'] : '';
+
+if (empty($memberNo2) || empty($namaPenjamin2)) {
+    error_log("Guarantor 2 data is missing.");
+} else {
+    error_log("Guarantor 2 Member No: $memberNo2");
+    error_log("Guarantor 2 Name: $namaPenjamin2");
+}
 
 try {
     
@@ -130,22 +129,28 @@ try {
 
     
     if (!empty($memberNo1)) {
+        error_log("Updating guarantor 1 with ID: $guarantorID1, Member No: $memberNo1, Signature: $fileSignPenjamin1");
         $update_stmt1 = mysqli_prepare($con, "UPDATE tb_guarantor SET g_memberNo = ?, g_signature = ? WHERE g_guarantorID = ?");
         mysqli_stmt_bind_param($update_stmt1, "sss", $memberNo1, $fileSignPenjamin1, $guarantorID1);
         if (!mysqli_stmt_execute($update_stmt1)) {
             error_log("Failed to execute update for guarantor 1: " . mysqli_stmt_error($update_stmt1));
             throw new Exception("Failed to update guarantor 1: " . mysqli_stmt_error($update_stmt1));
+        } else {
+            error_log("Successfully updated guarantor 1 with ID: " . $guarantorID1);
         }
         mysqli_stmt_close($update_stmt1);
     }
 
     
     if (!empty($memberNo2)) {
+        error_log("Updating guarantor 2 with ID: $guarantorID2, Member No: $memberNo2, Signature: $fileSignPenjamin2");
         $update_stmt2 = mysqli_prepare($con, "UPDATE tb_guarantor SET g_memberNo = ?, g_signature = ? WHERE g_guarantorID = ?");
         mysqli_stmt_bind_param($update_stmt2, "sss", $memberNo2, $fileSignPenjamin2, $guarantorID2);
         if (!mysqli_stmt_execute($update_stmt2)) {
             error_log("Failed to execute update for guarantor 2: " . mysqli_stmt_error($update_stmt2));
             throw new Exception("Failed to update guarantor 2: " . mysqli_stmt_error($update_stmt2));
+        } else {
+            error_log("Successfully updated guarantor 2 with ID: " . $guarantorID2);
         }
         mysqli_stmt_close($update_stmt2);
     }

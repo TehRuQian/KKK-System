@@ -658,7 +658,7 @@ error_log("Debug - Guarantor 2 Name: " . $namaPenjamin2);
                         $file_path = $_SERVER['DOCUMENT_ROOT'] . '/KKK-System/loan_application/uploads/' . basename($selected_pengesahanMajikan);
                         $pdf_url = 'http://' . $_SERVER['HTTP_HOST'] . '/KKK-System/loan_application/uploads/' . basename($selected_pengesahanMajikan);
 
-                        if (file_exists($file_path)) : ?>
+                        if (!empty($selected_pengesahanMajikan) && file_exists($file_path)) : ?>
                             <a href="<?php echo $pdf_url; ?>" class="btn btn-primary" target="_blank">
                                 <i class="fas fa-external-link"></i> Lihat
                             </a>
