@@ -127,7 +127,7 @@ if (isset($_FILES['fileSign']) && $_FILES['fileSign']['error'] === UPLOAD_ERR_OK
 
 // SQL Insert Operation
 $sql = "INSERT INTO tb_loan (l_memberNo, l_loanType, l_appliedLoan, l_loanPeriod, l_monthlyInstalment, l_loanPayable, l_bankAccountNo, l_bankName, l_monthlyGrossSalary, l_monthlyNetSalary, l_signature, l_status, l_applicationDate) 
-        VALUES ('$memberNo', '$jenis_pembiayaan', '$amaunDipohon', '$tempohPembiayaan', '$ansuranBulanan', '$tunggakan', '$bankAcc', '$namaBank', '$gajiKasar', '$gajiBersih', '$fileSign', 1, CURRENT_TIMESTAMP())";
+        VALUES ('$memberNo', '$jenis_pembiayaan', '$amaunDipohon', '$tempohPembiayaan', '$ansuranBulanan', '$tunggakan', '$bankAcc', '$namaBank', '$gajiKasar', '$gajiBersih', '$fileSign', 0, CURRENT_TIMESTAMP())";
 
 if (mysqli_query($con, $sql)) {
     // Store the loanApplicationID in the session for the next page
