@@ -35,7 +35,7 @@ include 'login_function.php';
             width: 430px;
             margin: auto;
             position: absolute;
-            top: 50%;
+            top: 53%;
             left: 50%;
             transform: translate(-50%, -30%);
             background: rgba(255, 255, 255, 0.8);
@@ -55,7 +55,14 @@ include 'login_function.php';
         }
 
         h1 {
-        font-family: 'Inter';font-size: 50px;
+        font-family: 'Inter';font-size: 38px;
+        font-style: italic; 
+        font-weight: bold; 
+        color: white;
+        }
+
+        h2 {
+        font-family: 'Inter';font-size: 43px;
         font-style: italic; 
         font-weight: bold; 
         color: white;
@@ -94,8 +101,8 @@ include 'login_function.php';
     <div class="top-half">
         <br>
         <img src="img/kkk_logo.png" style="width:10%">
-        <br>
-        <h1 class="text-center">Sistem KKK Digital Bersepadu</h1>
+        <h2 class="text-center">Sistem Digital Bersepadu</h2>
+        <h1 class="text-center">Koperasi Kakitangan KADA Kelantan Berhad </h1>
     </div>
     <div class="bottom-half">
         <div class="login-container">
