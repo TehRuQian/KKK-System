@@ -7,10 +7,11 @@
 - If you want to modify columns, please reimport and modify then only export
 
 # Changes Log
+24/01/25 1.41am [Chua Jia Lin]
+- Done full feedback function
+  
 23/01/25 10.49pm [Goe Jie Ying]
 - change tarik diri to berhenti
-
-23/01/25 9.42pm [Chua Jia Lin]
 
 23/01/25 10.32pm [Chua Jia Lin]
 - Done member_side feedback function
