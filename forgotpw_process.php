@@ -38,7 +38,7 @@ if ($_POST) {
 
         //  send email
         $subject = "Reset Kata Laluan Anda";
-        $message = "Klik pautan ini untuk menetapkan semula kata laluan anda: <a href=$resetLink>$resetLink</a>";
+        $message = "Klik pautan ini untuk menetapkan semula kata laluan anda: $resetLink";
 
         if (send_email($email, $subject, $message)) {
             echo '<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>';
@@ -64,7 +64,7 @@ if ($_POST) {
         echo "<script>
             Swal.fire({
                 icon: 'error',
-                title: 'Emel tidak didaftar',
+                title: 'Pengguna ID atau Emel salah',
             });
         </script>";
     }
