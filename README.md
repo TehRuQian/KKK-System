@@ -1,16 +1,18 @@
+<div id="header" align="center">
+<img src="https://media.giphy.com/media/KiZ6kV683kPaU/giphy.gif" width="300"/>
+</div>
+
 # Database
 - Use the new database for experimenting
 - If you want to modify columns, please reimport and modify then only export
 
 # Changes Log
-<<<<<<< HEAD
 23/01/25 10.49pm [Goe Jie Ying]
 - change tarik diri to berhenti
 
 23/01/25 9.42pm [Chua Jia Lin]
-=======
+
 23/01/25 10.32pm [Chua Jia Lin]
->>>>>>> 3476f6cf06c7ef47b10b9adb87c1df567854d25c
 - Done member_side feedback function
 - change card content to middle of the card title in view record and track_feedback file
 
