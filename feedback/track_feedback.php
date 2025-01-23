@@ -69,6 +69,16 @@ if (!$result) {
   body {
     background-color: #f9f9f9;
   }
+
+  table thead th {
+    text-align: center;
+    background-color: #f1f1f1;
+  }
+
+  table tbody td {
+    text-align: center;
+  }
+  
 </style>
 
 <div class="my-3"></div>
