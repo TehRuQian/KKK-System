@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jan 23, 2025 at 01:53 PM
+-- Generation Time: Jan 23, 2025 at 02:00 PM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -131,9 +131,8 @@ CREATE TABLE `tb_ftype` (
 --
 
 INSERT INTO `tb_ftype` (`fb_id`, `fb_desc`) VALUES
-(1, 'Diterima'),
-(2, 'Sedang Diproses'),
-(3, 'Selesai');
+(1, 'Cadangan'),
+(2, 'Masalah');
 
 -- --------------------------------------------------------
 
@@ -611,7 +610,11 @@ INSERT INTO `tb_status` (`s_sid`, `s_desc`) VALUES
 (1, 'Sedang Diproses'),
 (2, 'Ditolak'),
 (3, 'Dilulus'),
-(4, 'Dijelaskan');
+(4, 'Dijelaskan'),
+(5, 'Berhenti'),
+(6, 'Pencen'),
+(7, 'Diterima'),
+(8, 'Selesai');
 
 -- --------------------------------------------------------
 

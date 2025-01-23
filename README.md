@@ -1,3 +1,6 @@
+23/01/25 9.01pm [Lam Yoke Yu]
+- New Database
+
 23/01/25 8.30pm [Lam Yoke Yu]
 - Delete old databases
 - Transaction history feature 
