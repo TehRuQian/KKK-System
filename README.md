@@ -3,9 +3,10 @@
 - If you want to modify columns, please reimport and modify then only export
 
 # Changes Log
-23/01/25 9.42pm [Chua Jia Lin]
+23/01/25 10.32pm [Chua Jia Lin]
 - Done member_side feedback function
-  
+- change card content to middle of the card title in view record and track_feedback file
+
 23/01/25 9.09pm [Lam Yoke Yu]
 - New Database
 
