@@ -56,84 +56,84 @@ if (isset($_GET['id']))
       <div class="card-body">
         <table class="table table-hover">
             <tr>
-                <th>No. Aplikasi Anggota</th>
+                <td>No. Aplikasi Anggota</td>
                 <td><?php echo $member['m_memberApplicationID']; ?></td>
             </tr>
             <tr>
-                <th>No. Anggota</th>
+                <td>No. Anggota</td>
                 <td><?php echo $member['m_memberNo']; ?></td>
             </tr>
             <tr>
-                <th>No. PF</th>
+                <td>No. PF</td>
                 <td><?php echo $member['m_pfNo']; ?></td>
             </tr>
             <tr>
-                <th>Nama Anggota</th>
+                <td>Nama Anggota</td>
                 <td><?php echo $member['m_name']; ?></td>
             </tr>
             <tr>
-                <th>No. Kad Pengenalan</th>
+                <td>No. Kad Pengenalan</td>
                 <td><?php echo $member['m_ic']; ?></td>
             </tr>
             <tr>
-                <th>Jantina</th>
+                <td>Jantina</td>
                 <td><?php echo $member['ug_desc']; ?></td>
             </tr>
             <tr>
-                <th>Agama</th>
+                <td>Agama</td>
                 <td><?php echo $member['ua_desc']; ?></td>
             </tr>
             <tr>
-                <th>Bangsa</th>
+                <td>Bangsa</td>
                 <td><?php echo $member['ur_desc']; ?></td>
             </tr>
             <tr>
-                <th>Status Perkahwinan</th>
+                <td>Status Perkahwinan</td>
                 <td><?php echo $member['um_desc']; ?></td>
             </tr>
             <tr>
-                <th>Alamat Rumah</th>
+                <td>Alamat Rumah</td>
                 <td><?php echo $member['m_homeAddress'] . ', ' . $member['m_homePostcode'] . ' ' . $member['m_homeCity'] . ', ' . $member['st_desc']; ?></td>
             </tr>
             <tr>
-                <th>No. Telefon</th>
+                <td>No. Telefon</td>
                 <td><?php echo $member['m_phoneNumber']; ?></td>
             </tr>
             <tr>
-                <th>Email</th>
-                <td><?php echo $member['m_email']; ?></td>
-            </tr>
-            <tr>
-                <th>No. Telefon Rumah</th>
+                <td>No. Telefon Rumah</td>
                 <td><?php echo !empty($member['m_homeNumber']) ? $member['m_homeNumber'] : 'N/A'; ?></td>
             </tr>
             <tr>
-                <th>No. Fax</th>
+                <td>No. Fax</td>
                 <td><?php echo !empty($member['m_taxNumber']) ? $member['m_taxNumber'] : 'N/A'; ?></td>
             </tr>
             <tr>
-                <th>Jawatan</th>
+                <td>Email</td>
+                <td><?php echo $member['m_email']; ?></td>
+            </tr>
+            <tr>
+                <td>Jawatan</td>
                 <td><?php echo $member['m_position']; ?></td>
             </tr>
             <tr>
-                <th>Gred</th>
+                <td>Gred</td>
                 <td><?php echo $member['m_positionGrade']; ?></td>
             </tr>
             <tr>
-                <th>Alamat Pejabat</th>
+                <td>Alamat Pejabat</td>
                 <td><?php echo $member['m_officeAddress'] . ', ' . $member['m_officePostcode'] . ' ' . $member['m_officeCity'] . ', ' . $member['st_desc']; ?></td>
             </tr>
             <tr>
-                <th>Gaji Bulanan (RM)</th>
+                <td>Gaji Bulanan (RM)</td>
                 <td><?php echo number_format($member['m_monthlySalary'], 2); ?></td>
             </tr>
             <tr>
             <tr>
-                <th>Tarikh Pohon:</th>
+                <td>Tarikh Pohon:</td>
                 <td><?php echo $member['m_applicationDate']; ?></td>
             </tr>
             <tr>
-                <th>Tarikh Lulus</th>
+                <td>Tarikh Lulus</td>
                 <td><?php echo $member['m_approvalDate']; ?></td>
             </tr>
         </table>
@@ -147,27 +147,27 @@ if (isset($_GET['id']))
       </div>
       <div class="card-body">
         <table class="table table-hover">
-          <th>Fee Masuk (RM)</th>
+          <td>Fee Masuk (RM)</td>
             <td><?php echo number_format($member['m_feeMasuk'], 2); ?></td>
         </tr>
         <tr>
-            <th>Modal Yuran (RM)</th>
+            <td>Modal Yuran (RM)</td>
             <td><?php echo number_format($member['m_modalYuran'], 2); ?></td>
         </tr>
         <tr>
-            <th>Deposit (RM)</th>
+            <td>Deposit (RM)</td>
             <td><?php echo number_format($member['m_deposit'], 2); ?></td>
         </tr>
         <tr>
-            <th>alAbrar (RM)</th>
+            <td>alAbrar (RM)</td>
             <td><?php echo number_format($member['m_alAbrar'], 2); ?></td>
         </tr>
         <tr>
-            <th>Simpanan Tetap (RM)</th>
+            <td>Simpanan Tetap (RM)</td>
             <td><?php echo number_format($member['m_simpananTetap'], 2); ?></td>
         </tr>
         <tr>
-            <th>Fee Lain (RM)</th>
+            <td>Fee Lain (RM)</td>
             <td><?php echo number_format($member['m_feeLain'], 2); ?></td>
         </tr>
         </table>
