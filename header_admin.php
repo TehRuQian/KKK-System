@@ -47,6 +47,7 @@
               <div class="dropdown-menu">
                 <a class="dropdown-item" href="../transaksi/potongan_gaji.php">Potongan Gaji</a>
                 <a class="dropdown-item" href="../transaksi/transaksi_lain.php">Lain-lain</a>
+                <a class="dropdown-item" href="../transaksi/sejarah_transaksi.php">Sejarah Transaksi</a>
               </div>
             </li>
             <li class="nav-item"><a class="nav-link" href="../kemaskini_polisi/kemaskini_polisi.php">Kemaskini Polisi</a></li>

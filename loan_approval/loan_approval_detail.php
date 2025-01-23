@@ -15,9 +15,18 @@ include '../db_connect.php';
 $lApplicationID = $_GET['id'];
 
 if ($lApplicationID === 0) {
-    echo "<script>alert('ID aplikasi tidak sah.'); window.location.href = 'loan_approval.php';</script>";
+    echo "<script>
+            Swal.fire({
+                icon: 'error',
+                title: 'Ralat',
+                text: 'ID aplikasi tidak sah.'
+            }).then(() => {
+                window.location.href = 'loan_approval.php';
+            });
+          </script>";
     exit;
 }
+
 
 // Retrieve loan details
 $sqlLoan = "SELECT l.*, m.m_name, m.m_pfNo, lt.lt_desc, b.lb_id, b.lb_desc
@@ -76,20 +85,20 @@ $selected_file = $basePath . trim($rowLoan['l_file']);
         </div>
         <div class="card-body">
             <table class="table table-hover">
-                <tr><th>No. Aplikasi Pinjaman</th><td><?php echo $rowLoan['l_loanApplicationID']; ?></td></tr>
-                <tr><th>No. Anggota</th><td><?php echo $rowLoan['l_memberNo']; ?></td></tr>
-                <tr><th>Nama Peminjam</th><td><?php echo $rowLoan['m_pfNo']; ?></td></tr>
-                <tr><th>Nama Anggota</th><td><?php echo $rowLoan['m_name']; ?></td></tr>
-                <tr><th>Jenis Pinjaman</th><td><?php echo $rowLoan['lt_desc']; ?></td></tr>
-                <tr><th>Jumlah Pinjaman (RM)</th><td><?php echo number_format($rowLoan['l_appliedLoan'], 2); ?></td></tr>
-                <tr><th>Tempoh Pinjaman</th><td><?php echo $rowLoan['l_loanPeriod']; ?></td></tr>
-                <tr><th>Ansuran Bulanan (RM)</th><td><?php echo number_format($rowLoan['l_monthlyInstalment'], 2); ?></td></tr>
-                <tr><th>Akaun Bank</th><td><?php echo $rowLoan['l_bankAccountNo']; ?></td></tr>
-                <tr><th>Nama Bank</th><td><?php echo $rowLoan['lb_desc'] ?? 'N/A'; ?></td></tr>
-                <tr><th>Gaji Kasar (RM)</th><td><?php echo number_format($rowLoan['l_monthlyGrossSalary'], 2); ?></td></tr>
-                <tr><th>Gaji Bersih (RM)</th><td><?php echo number_format($rowLoan['l_monthlyNetSalary'], 2); ?></td></tr>
+                <tr><td>No. Aplikasi Pinjaman</td><td><?php echo $rowLoan['l_loanApplicationID']; ?></td></tr>
+                <tr><td>No. Anggota</td><td><?php echo $rowLoan['l_memberNo']; ?></td></tr>
+                <tr><td>Nama Peminjam</td><td><?php echo $rowLoan['m_pfNo']; ?></td></tr>
+                <tr><td>Nama Anggota</td><td><?php echo $rowLoan['m_name']; ?></td></tr>
+                <tr><td>Jenis Pinjaman</td><td><?php echo $rowLoan['lt_desc']; ?></td></tr>
+                <tr><td>Jumlah Pinjaman (RM)</td><td><?php echo number_format($rowLoan['l_appliedLoan'], 2); ?></td></tr>
+                <tr><td>Tempoh Pinjaman</td><td><?php echo $rowLoan['l_loanPeriod']; ?></td></tr>
+                <tr><td>Ansuran Bulanan (RM)</td><td><?php echo number_format($rowLoan['l_monthlyInstalment'], 2); ?></td></tr>
+                <tr><td>Akaun Bank</td><td><?php echo $rowLoan['l_bankAccountNo']; ?></td></tr>
+                <tr><td>Nama Bank</td><td><?php echo $rowLoan['lb_desc'] ?? 'N/A'; ?></td></tr>
+                <tr><td>Gaji Kasar (RM)</td><td><?php echo number_format($rowLoan['l_monthlyGrossSalary'], 2); ?></td></tr>
+                <tr><td>Gaji Bersih (RM)</td><td><?php echo number_format($rowLoan['l_monthlyNetSalary'], 2); ?></td></tr>
                 <tr>
-                    <th>Tandatangan</th>
+                    <td>Tandatangan</td>
                     <td>
                         <?php
                         $signature_url = '../loan_application/uploads/' . basename($selected_signature);
@@ -101,7 +110,7 @@ $selected_file = $basePath . trim($rowLoan['l_file']);
                     </td>
                 </tr>
                 <tr>
-                    <th>Pengesahan Majikan</th>
+                    <td>Pengesahan Majikan</td>
                     <td>
                         <?php
                         $file_path = $_SERVER['DOCUMENT_ROOT'] . '/KKK-System/loan_application/uploads/' . basename($selected_file);
@@ -116,7 +125,7 @@ $selected_file = $basePath . trim($rowLoan['l_file']);
                         <?php endif; ?>
                     </td>
                 </tr>
-                <tr><th>Tarikh Pohon</th><td><?php echo $rowLoan['l_applicationDate']; ?></td></tr>
+                <tr><td>Tarikh Pohon</td><td><?php echo $rowLoan['l_applicationDate']; ?></td></tr>
             </table>
         </div>
     </div>
@@ -128,12 +137,12 @@ $selected_file = $basePath . trim($rowLoan['l_file']);
         </div>
         <div class="card-body">
             <table class="table table-hover">
-                <tr><th>No. Anggota</th><td><?php echo $guarantor1['m_memberNo'] ?? 'N/A'; ?></td></tr>
-                <tr><th>Nama Penjamin</th><td><?php echo $guarantor1['m_name'] ?? 'N/A'; ?></td></tr>
-                <tr><th>No. Kad Pengenalan</th><td><?php echo $guarantor1['m_ic'] ?? 'N/A'; ?></td></tr>
-                <tr><th>No. PF</th><td><?php echo $guarantor1['m_pfNo'] ?? 'N/A'; ?></td></tr>
+                <tr><td>No. Anggota</td><td><?php echo $guarantor1['m_memberNo'] ?? 'N/A'; ?></td></tr>
+                <tr><td>Nama Penjamin</td><td><?php echo $guarantor1['m_name'] ?? 'N/A'; ?></td></tr>
+                <tr><td>No. Kad Pengenalan</td><td><?php echo $guarantor1['m_ic'] ?? 'N/A'; ?></td></tr>
+                <tr><td>No. PF</td><td><?php echo $guarantor1['m_pfNo'] ?? 'N/A'; ?></td></tr>
                 <tr>
-                    <th>Tandatangan Penjamin 1</th>
+                    <td>Tandatangan Penjamin 1</td>
                     <td>
                         <?php if (!empty($guarantor1Signature)) : ?>
                             <img src="../loan_application/uploads/<?php echo basename($guarantor1Signature); ?>" alt="Signature" style="max-width: 200px; height: auto;">
@@ -153,12 +162,12 @@ $selected_file = $basePath . trim($rowLoan['l_file']);
         </div>
         <div class="card-body">
             <table class="table table-hover">
-                <tr><th>No. Anggota</th><td><?php echo $guarantor2['m_memberNo'] ?? 'N/A'; ?></td></tr>
-                <tr><th>Nama Penjamin</th><td><?php echo $guarantor2['m_name'] ?? 'N/A'; ?></td></tr>
-                <tr><th>No. Kad Pengenalan</th><td><?php echo $guarantor2['m_ic'] ?? 'N/A'; ?></td></tr>
-                <tr><th>No. PF</th><td><?php echo $guarantor2['m_pfNo'] ?? 'N/A'; ?></td></tr>
+                <tr><td>No. Anggota</td><td><?php echo $guarantor2['m_memberNo'] ?? 'N/A'; ?></td></tr>
+                <tr><td>Nama Penjamin</td><td><?php echo $guarantor2['m_name'] ?? 'N/A'; ?></td></tr>
+                <tr><td>No. Kad Pengenalan</td><td><?php echo $guarantor2['m_ic'] ?? 'N/A'; ?></td></tr>
+                <tr><td>No. PF</td><td><?php echo $guarantor2['m_pfNo'] ?? 'N/A'; ?></td></tr>
                 <tr>
-                    <th>Tandatangan Penjamin 2</th>
+                    <td>Tandatangan Penjamin 2</td>
                     <td>
                         <?php if (!empty($guarantor2Signature)) : ?>
                             <img src="../loan_application/uploads/<?php echo basename($guarantor2Signature); ?>" alt="Signature" style="max-width: 200px; height: auto;">
@@ -173,11 +182,11 @@ $selected_file = $basePath . trim($rowLoan['l_file']);
 </div>
 
 
-<form method="POST" action="loan_approval_process.php" onsubmit="return validateForm()"> 
+<form method="POST" action="loan_approval_process.php" onsubmit="return validateForm(event)"> 
     <input type="hidden" name="lApplicationID" value="<?php echo $lApplicationID; ?>">
     <fieldset>
         <div class="container" style="display: flex; justify-content: center; align-items: center; flex-direction: column;">
-            <label class="form-label mt-4" style="justify-content: center">Status Anggota</label>
+            <label class="form-label mt-4" style="justify-content: center">Status Pinjaman</label>
             <div class="dropdown">
                 <button class="btn btn-secondary dropdown-toggle" type="button" id="statusDropdown" data-bs-toggle="dropdown" aria-expanded="false">
                     Pilih Status
@@ -207,40 +216,71 @@ $selected_file = $basePath . trim($rowLoan['l_file']);
     </fieldset>
 </form>
 <br>
+
 <script>
 function setStatus(event, status, statusDesc) {
-    event.preventDefault();  // Prevent the page from scrolling up when changing different status
+    if (event) {
+        event.preventDefault(); // Prevent the page from scrolling up when changing status
+    }
 
     // Set the hidden input to the selected status
     document.getElementById('lstatus').value = status;
 
-    // Change the button text and colour
+    // Change the button text and color
     const statusButton = document.getElementById('statusDropdown');
     statusButton.textContent = statusDesc;
 
     if (status == 1) {
         statusButton.classList.remove('btn-warning', 'btn-danger', 'btn-success');
-        statusButton.classList.add('btn-secondary');  // Sedang Diproses
+        statusButton.classList.add('btn-secondary');
     } else if (status == 2) {
         statusButton.classList.remove('btn-secondary', 'btn-success', 'btn-warning');
-        statusButton.classList.add('btn-danger');  // Ditolak
+        statusButton.classList.add('btn-danger');
     } else if (status == 3) {
         statusButton.classList.remove('btn-secondary', 'btn-danger', 'btn-warning');
-        statusButton.classList.add('btn-success');  // Diluluskan
+        statusButton.classList.add('btn-success'); 
     }
 }
 
-function validateForm() {
+function validateForm(event) {
     const status = document.getElementById('lstatus').value;
 
     if (status == 2) {
-        return confirm("Adakah anda pasti untuk menolak permohonan ini?");
+        event.preventDefault();
+        Swal.fire({
+            icon: 'warning',
+            title: 'Tolak Permohonan',
+            text: 'Adakah anda pasti untuk menolak permohonan ini?',
+            showCancelButton: true,
+            confirmButtonText: 'Ya, Tolak',
+            cancelButtonText: 'Batal'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                document.forms[0].submit(); 
+            }
+        });
+        return false;
     } else if (status == 3) {
-        return confirm("Adakah anda pasti mahu meluluskan permohonan ini?");
+        event.preventDefault();
+        Swal.fire({
+            icon: 'success',
+            title: 'Lulus Permohonan',
+            text: 'Adakah anda pasti mahu meluluskan permohonan ini?',
+            showCancelButton: true,
+            confirmButtonText: 'Ya, Luluskan',
+            cancelButtonText: 'Batal'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                document.forms[0].submit(); 
+            }
+        });
+        return false;
     }
-    return true; 
+
+    return true;
 }
 
-setStatus(null, 1, "Sedang Diproses");  // Default status
+setStatus(null, 1, "Sedang Diproses");
 </script>
+
 

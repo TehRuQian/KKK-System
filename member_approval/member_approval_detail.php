@@ -87,24 +87,24 @@ print_r($heir);
       </div>
       <div class="card-body">
             <table class="table table-hover">
-                <tr><th>No. Aplikasi Anggota</th><td><?php echo $row['m_memberApplicationID']; ?></td></tr>
-                <tr><th>No. PF</th><td><?php echo $row['m_pfNo']; ?></td></tr>
-                <tr><th>Nama Anggota</th><td><?php echo $row['m_name']; ?></td></tr>
-                <tr><th>No. Kad Pengenalan</th><td><?php echo $row['m_ic']; ?></td></tr>
-                <tr><th>Jantina</th><td><?php echo $row['ug_desc']; ?></td></tr>
-                <tr><th>Agama</th><td><?php echo $row['ua_desc']; ?></td></tr>
-                <tr><th>Bangsa</th><td><?php echo $row['ur_desc']; ?></td></tr>
-                <tr><th>Status Perkahwinan</th><td><?php echo $row['um_desc']; ?></td></tr>
-                <tr><th>Alamat Rumah</th><td><?php echo $row['m_homeAddress'] . ', ' . $row['m_homePostcode'] . ' ' . $row['m_homeCity'] . ', ' . $row['st_desc']; ?></td></tr>
-                <tr><th>No. Telefon</th><td><?php echo $row['m_phoneNumber']; ?></td></tr>
-                <tr><th>Email</th><td><?php echo $row['m_email']; ?></td></tr>
-                <tr><th>No. Telefon Rumah</th><td><?php echo !empty($row['m_homeNumber']) ? $row['m_homeNumber'] : 'N/A'; ?></td></tr>
-                <tr><th>No. Tax</th><td><?php echo !empty($row['m_taxNumber']) ? $row['m_taxNumber'] : 'N/A'; ?></td></tr>
-                <tr><th>Jawatan</th><td><?php echo $row['m_position']; ?></td></tr>
-                <tr><th>Gred</th><td><?php echo $row['m_positionGrade']; ?></td></tr>
-                <tr><th>Alamat Pejabat</th><td><?php echo $row['m_officeAddress'] . ', ' . $row['m_officePostcode'] . ' ' . $row['m_officeCity'] . ', ' . $row['st_desc']; ?></td></tr>
-                <tr><th>Gaji Bulanan (RM)</th><td><?php echo number_format($row['m_monthlySalary'], 2); ?></td></tr>
-                <tr><th>Tarikh Pohon</th><td><?php echo date('d-m-Y H:i:s', strtotime($row['m_applicationDate'])); ?></td></tr>
+                <tr><td>No. Aplikasi Anggota</td><td><?php echo $row['m_memberApplicationID']; ?></td></tr>
+                <tr><td>No. PF</td><td><?php echo $row['m_pfNo']; ?></td></tr>
+                <tr><td>Nama Anggota</td><td><?php echo $row['m_name']; ?></td></tr>
+                <tr><td>No. Kad Pengenalan</td><td><?php echo $row['m_ic']; ?></td></tr>
+                <tr><td>Jantina</td><td><?php echo $row['ug_desc']; ?></td></tr>
+                <tr><td>Agama</td><td><?php echo $row['ua_desc']; ?></td></tr>
+                <tr><td>Bangsa</td><td><?php echo $row['ur_desc']; ?></td></tr>
+                <tr><td>Status Perkahwinan</td><td><?php echo $row['um_desc']; ?></td></tr>
+                <tr><td>Alamat Rumah</td><td><?php echo $row['m_homeAddress'] . ', ' . $row['m_homePostcode'] . ' ' . $row['m_homeCity'] . ', ' . $row['st_desc']; ?></td></tr>
+                <tr><td>No. Telefon</td><td><?php echo $row['m_phoneNumber']; ?></td></tr>
+                <tr><td>No. Telefon Rumah</td><td><?php echo !empty($row['m_homeNumber']) ? $row['m_homeNumber'] : 'N/A'; ?></td></tr>
+                <tr><td>No. Tax</td><td><?php echo !empty($row['m_taxNumber']) ? $row['m_taxNumber'] : 'N/A'; ?></td></tr>
+                <tr><td>Email</td><td><?php echo $row['m_email']; ?></td></tr>
+                <tr><td>Jawatan</td><td><?php echo $row['m_position']; ?></td></tr>
+                <tr><td>Gred</td><td><?php echo $row['m_positionGrade']; ?></td></tr>
+                <tr><td>Alamat Pejabat</td><td><?php echo $row['m_officeAddress'] . ', ' . $row['m_officePostcode'] . ' ' . $row['m_officeCity'] . ', ' . $row['st_desc']; ?></td></tr>
+                <tr><td>Gaji Bulanan (RM)</td><td><?php echo number_format($row['m_monthlySalary'], 2); ?></td></tr>
+                <tr><td>Tarikh Pohon</td><td><?php echo date('d-m-Y H:i:s', strtotime($row['m_applicationDate'])); ?></td></tr>
             </table>
         </div>
 </div>
@@ -116,12 +116,12 @@ print_r($heir);
       </div>
       <div class="card-body">
         <table class="table table-hover">
-            <th>Fee Masuk (RM)</th><td><?php echo number_format($row['m_feeMasuk'], 2); ?></td></tr>
-            <tr><th>Modal Yuran (RM)</th><td><?php echo number_format($row['m_modalYuran'], 2); ?></td></tr>
-            <tr><th>Deposit (RM)</th><td><?php echo number_format($row['m_deposit'], 2); ?></td></tr>
-            <tr><th>alAbrar (RM)</th><td><?php echo number_format($row['m_alAbrar'], 2); ?></td></tr>
-            <tr><th>Simpanan Tetap (RM)</th><td><?php echo number_format($row['m_simpananTetap'], 2); ?></td></tr>
-            <tr><th>Fee Lain (RM)</th><td><?php echo number_format($row['m_feeLain'], 2); ?></td></tr>
+            <td>Fee Masuk (RM)</td><td><?php echo number_format($row['m_feeMasuk'], 2); ?></td></tr>
+            <tr><td>Modal Yuran (RM)</td><td><?php echo number_format($row['m_modalYuran'], 2); ?></td></tr>
+            <tr><td>Deposit (RM)</td><td><?php echo number_format($row['m_deposit'], 2); ?></td></tr>
+            <tr><td>alAbrar (RM)</td><td><?php echo number_format($row['m_alAbrar'], 2); ?></td></tr>
+            <tr><td>Simpanan Tetap (RM)</td><td><?php echo number_format($row['m_simpananTetap'], 2); ?></td></tr>
+            <tr><td>Fee Lain (RM)</td><td><?php echo number_format($row['m_feeLain'], 2); ?></td></tr>
     </table>
     </div>
 </div>
@@ -157,7 +157,7 @@ print_r($heir);
     </div>
 </div>
 
-<form method="POST" action="member_approval_process.php" onsubmit="return validateForm()">
+<form method="POST" action="member_approval_process.php" onsubmit="return validateForm(event)">
     <input type="hidden" name="mApplicationID" value="<?php echo $mApplicationID; ?>">
     <fieldset>
     <div class="container" style="display: flex; justify-content: center; align-items: center; flex-direction: column;">
@@ -203,7 +203,7 @@ print_r($heir);
 <script>
 function setStatus(event, status, statusDesc) {
     event.preventDefault();  // Prevent the page from scrolling up
-    console.log('Selected status:', status); // Debugging line
+    console.log('Selected status:', status); 
 
     // Set the hidden input to the selected status
     document.getElementById('mstatus').value = status;
@@ -212,7 +212,6 @@ function setStatus(event, status, statusDesc) {
     const statusButton = document.getElementById('statusDropdown');
     statusButton.textContent = statusDesc;
 
-    // Add or remove classes based on status
     if (status == 1) {
         statusButton.classList.remove('btn-warning', 'btn-danger', 'btn-success');
         statusButton.classList.add('btn-secondary');
@@ -224,10 +223,8 @@ function setStatus(event, status, statusDesc) {
         statusButton.classList.add('btn-success');
     }
 
-    // Toggle the visibility of the member number input field based on the selected status
     toggleMemberNoInput(status);
 }
-
 
 function toggleMemberNoInput(status) {
     const memberNoContainer = document.getElementById('memberNoContainer');
@@ -241,28 +238,61 @@ function toggleMemberNoInput(status) {
     }
 }
 
-function validateForm() {
+function validateForm(event) {
     const status = document.getElementById('mstatus').value;
     const memberNo = document.getElementById('mMemberNo').value;
 
     if (status == 3 && memberNo) {
         if (existingMemberNumbers.includes(memberNo)) {
-            alert("No. Anggota sudah wujud! Sila masukkan No. yang berbeza.");
+            Swal.fire({
+                icon: 'error',
+                title: 'No. Anggota sudah wujud!',
+                text: 'Sila masukkan No. yang berbeza.',
+            });
             return false; 
         }
     }
-    return confirmSubmission();
+
+    event.preventDefault();
+    return confirmSubmission(event);
 }
 
-function confirmSubmission() {
+function confirmSubmission(event) {
     const status = document.getElementById('mstatus').value;
 
     if (status == 2) {
-        return confirm("Adakah anda pasti untuk menolak permohonan ini?");
+        // Reject confirmation
+        Swal.fire({
+            title: 'Adakah anda pasti?',
+            text: "Anda pasti untuk menolak permohonan ini?",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonText: 'Ya, Tolak!',
+            cancelButtonText: 'Batal',
+            reverseButtons: true
+        }).then((result) => {
+            if (result.isConfirmed) {
+                document.querySelector('form').submit();
+            }
+        });
     } else if (status == 3) {
-        return confirm("Adakah anda pasti mahu meluluskan permohonan ini?");
+        // Approve confirmation
+        Swal.fire({
+            title: 'Adakah anda pasti?',
+            text: "Anda pasti untuk meluluskan permohonan ini?",
+            icon: 'success',
+            showCancelButton: true,
+            confirmButtonText: 'Ya, Luluskan!',
+            cancelButtonText: 'Batal',
+            reverseButtons: true
+        }).then((result) => {
+            if (result.isConfirmed) {
+                document.querySelector('form').submit();
+            }
+        });
+    } else {
+        document.querySelector('form').submit();
     }
-    return true; 
 }
 
 setStatus(null, 1, "Sedang Diproses");

@@ -26,11 +26,8 @@ $currentDate = date('Y-m-d H:i:s');
 $uid = $_SESSION['u_id'];
 
 // Modify SQL query to format m_applicationDate to date-month-year format
-$sql = "SELECT 
-            tb_member.m_memberApplicationID,
-            tb_member.m_pfNo,
-            tb_member.m_name,
-            DATE_FORMAT(tb_member.m_applicationDate, '%d-%m-%Y') AS formattedDate
+$sql = "SELECT *,
+        DATE_FORMAT(tb_member.m_applicationDate, '%d-%m-%Y') AS formattedDate
         FROM tb_member 
         WHERE m_status = 1";
 
@@ -55,6 +52,8 @@ $total_pages = ceil($total_records / $records_per_page);
         <th scope="col">No. Aplikasi</th>
         <th scope="col">No. PF</th>
         <th scope="col">Nama Anggota</th>
+        <th scope="col">No. Telefon</th>
+        <th scope="col">Email</th>
         <th scope="col" class='text-center'>Tarikh Pohon</th>
         <th scope="col" class='text-center'>Butiran</th>
         </tr>
@@ -66,6 +65,8 @@ $total_pages = ceil($total_records / $records_per_page);
                 echo "<td>".$row['m_memberApplicationID'] . "</td>";
                 echo "<td>".$row['m_pfNo'] . "</td>";
                 echo "<td>".$row['m_name'] . "</td>";
+                echo "<td>".$row['m_phoneNumber'] . "</td>";
+                echo "<td>".$row['m_email'] . "</td>";
                 echo "<td class='text-center'>".$row['formattedDate'] . "</td>";
                 echo "<td class='text-center'>";
                 echo "<a href='member_approval_detail.php?id=".$row['m_memberApplicationID']."' title='View Details'>";

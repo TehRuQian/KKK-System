@@ -78,7 +78,7 @@
     </table>
 
     <h5>Maklumat Saham Ahli</h5>
-    <form method="POST" action="transaksi_lain_process.php">
+    <form method="POST" action="transaksi_lain_process.php" enctype="multipart/form-data">
         <input type="hidden" name="memberNo" value="<?php echo ($financial['f_memberNo']) ?>">
         <table class="table table-hover">
         <tr>
@@ -150,6 +150,10 @@
         <div>
           <label class="form-label mt-4">Ulasan</label>
             <input type="text" class="form-control" name="f_desc" required>
+        </div>
+        <div>
+          <label for="formFile" class="form-label mt-4">Bukti Transaksi</label>
+          <input class="form-control" type="file" id="transactionProof" name="transactionProof" accept="application/pdf, image/*" required>
         </div>
         <br>
         <div class="d-flex justify-content-center">

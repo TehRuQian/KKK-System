@@ -3,7 +3,7 @@
 $servername = "localhost";
 $username = "root";
 $password = "";
-$dbname = "db_kkk";
+$dbname = "db_kkk1 21.01 11.11pm (DEMO VERSION)";
 
 
 // Connect DB

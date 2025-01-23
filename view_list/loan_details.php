@@ -68,23 +68,23 @@ if (isset($_GET['id'])) {
         <div class="card-body">
             <table class="table table-hover">
                 <tr>
-                    <th>No. Aplikasi Pinjaman</th>
+                    <td>No. Aplikasi Pinjaman</td>
                     <td><?php echo $loan['l_loanApplicationID']; ?></td>
                 </tr>
                 <tr>
-                    <th>Jenis Pinjaman</th>
+                    <td>Jenis Pinjaman</td>
                     <td><?php echo $loan['lt_desc']; ?></td>
                 </tr>
                 <tr>
-                    <th>Jumlah Pinjaman (RM)</th>
+                    <td>Jumlah Pinjaman (RM)</td>
                     <td><?php echo number_format($loan['l_appliedLoan'], 2); ?></td>
                 </tr>
                 <tr>
-                    <th>Tempoh Pinjaman (Bulan)</th>
+                    <td>Tempoh Pinjaman (Bulan)</td>
                     <td><?php echo $loan['l_loanPeriod']; ?></td>
                 </tr>
                 <tr>
-                    <th>Ansuran Bulanan (RM)</th>
+                    <td>Ansuran Bulanan (RM)</td>
                     <td><?php echo number_format($loan['l_monthlyInstalment'], 2); ?></td>
                 </tr>
             </table>
@@ -99,39 +99,39 @@ if (isset($_GET['id'])) {
         <div class="card-body">
             <table class="table table-hover">
                 <tr>
-                    <th>No. Anggota</th>
+                    <td>No. Anggota</td>
                     <td><?php echo $loan['l_memberNo']; ?></td>
                 </tr>
                 <tr>
-                    <th>No. PF</th>
+                    <td>No. PF</td>
                     <td><?php echo $loan['m_pfNo']; ?></td>
                 </tr>
                 <tr>
-                    <th>Nama Anggota</th>
+                    <td>Nama Anggota</td>
                     <td><?php echo $loan['m_name']; ?></td>
                 </tr>
                 <tr>
-                    <th>Akaun Bank</th>
+                    <td>Akaun Bank</td>
                     <td><?php echo $loan['l_bankAccountNo']; ?></td>
                 </tr>
                 <tr>
-                    <th>Nama Bank</th>
+                    <td>Nama Bank</td>
                     <td><?php echo $loan['lb_desc']; ?></td>
                 </tr>
                 <tr>
-                    <th>Gaji Kasar (RM)</th>
+                    <td>Gaji Kasar (RM)</td>
                     <td><?php echo number_format($loan['l_monthlyGrossSalary'], 2); ?></td>
                 </tr>
                 <tr>
-                    <th>Gaji Bersih (RM)</th>
+                    <td>Gaji Bersih (RM)</td>
                     <td><?php echo number_format($loan['l_monthlyNetSalary'], 2); ?></td>
                 </tr>
                 <tr>
-                    <th>Tarikh Pohon</th>
+                    <td>Tarikh Pohon</td>
                     <td><?php echo $loan['l_applicationDate']; ?></td>
                 </tr>
                 <tr>
-                    <th>Tarikh Lulus</th>
+                    <td>Tarikh Lulus</td>
                     <td><?php echo $loan['l_approvalDate']; ?></td>
                 </tr>
             </table>
@@ -146,19 +146,19 @@ if (isset($_GET['id'])) {
         <div class="card-body">
             <table class="table table-hover">
                 <tr>
-                    <th>No. Anggota</th>
+                    <td>No. Anggota</td>
                     <td><?php echo $guarantor1['m_memberNo'] ?? 'N/A'; ?></td>
                 </tr>
                 <tr>
-                    <th>Nama Penjamin</th>
+                    <td>Nama Penjamin</td>
                     <td><?php echo $guarantor1['m_name'] ?? 'N/A'; ?></td>
                 </tr>
                 <tr>
-                    <th>No. Kad Pengenalan</th>
+                    <td>No. Kad Pengenalan</td>
                     <td><?php echo $guarantor1['m_ic'] ?? 'N/A'; ?></td>
                 </tr>
                 <tr>
-                    <th>No. PF</th>
+                    <td>No. PF</td>
                     <td><?php echo $guarantor1['m_pfNo'] ?? 'N/A'; ?></td>
                 </tr>
             </table>
@@ -173,19 +173,19 @@ if (isset($_GET['id'])) {
         <div class="card-body">
             <table class="table table-hover">
                 <tr>
-                    <th>No. Anggota</th>
+                    <td>No. Anggota</td>
                     <td><?php echo $guarantor2['m_memberNo'] ?? 'N/A'; ?></td>
                 </tr>
                 <tr>
-                    <th>Nama Penjamin</th>
+                    <td>Nama Penjamin</td>
                     <td><?php echo $guarantor2['m_name'] ?? 'N/A'; ?></td>
                 </tr>
                 <tr>
-                    <th>No. Kad Pengenalan</th>
+                    <td>No. Kad Pengenalan</td>
                     <td><?php echo $guarantor2['m_ic'] ?? 'N/A'; ?></td>
                 </tr>
                 <tr>
-                    <th>No. PF</th>
+                    <td>No. PF</td>
                     <td><?php echo $guarantor2['m_pfNo'] ?? 'N/A'; ?></td>
                 </tr>
             </table>
