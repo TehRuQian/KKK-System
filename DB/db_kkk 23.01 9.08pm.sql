@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jan 23, 2025 at 02:00 PM
+-- Generation Time: Jan 23, 2025 at 02:07 PM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -511,6 +511,7 @@ INSERT INTO `tb_officestate` (`st_id`, `st_desc`) VALUES
 CREATE TABLE `tb_policies` (
   `p_policyID` int(10) NOT NULL,
   `p_memberRegFee` double NOT NULL COMMENT 'Fee Masuk',
+  `p_returningMemberRegFee` double NOT NULL,
   `p_minShareCapital` double NOT NULL COMMENT 'Modah Syer Minimum',
   `p_minFeeCapital` double NOT NULL COMMENT 'Modal Yuran Minimum',
   `p_minFixedSaving` double NOT NULL COMMENT 'Wang deposit Anggota Minimum',
@@ -543,9 +544,9 @@ CREATE TABLE `tb_policies` (
 -- Dumping data for table `tb_policies`
 --
 
-INSERT INTO `tb_policies` (`p_policyID`, `p_memberRegFee`, `p_minShareCapital`, `p_minFeeCapital`, `p_minFixedSaving`, `p_minMemberFund`, `p_minMemberSaving`, `p_minOtherFees`, `p_minShareCapitalForLoan`, `p_maxInstallmentPeriod`, `p_maxAlBai`, `p_rateAlBai`, `p_maxAlInnah`, `p_rateAlInnah`, `p_maxBPulihKenderaan`, `p_rateBPulihKenderaan`, `p_maxCukaiJalanInsurans`, `p_rateCukaiJalanInsurans`, `p_maxKhas`, `p_rateKhas`, `p_maxKarnivalMusim`, `p_rateKarnivalMusim`, `p_maxAlQadrulHassan`, `p_rateAlQadrulHassan`, `p_salaryDeductionForSaving`, `p_salaryDeductionForMemberFund`, `p_dateUpdated`, `p_adminID`) VALUES
-(1, 35, 300, 0, 0, 5, 50, 0, 300, 6, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 50, 5, '2023-05-10 16:00:00', 12345678),
-(2, 35, 300, 0, 0, 5, 50, 0, 300, 6, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 50, 5, '2024-11-25 13:36:17', 12345678);
+INSERT INTO `tb_policies` (`p_policyID`, `p_memberRegFee`, `p_returningMemberRegFee`, `p_minShareCapital`, `p_minFeeCapital`, `p_minFixedSaving`, `p_minMemberFund`, `p_minMemberSaving`, `p_minOtherFees`, `p_minShareCapitalForLoan`, `p_maxInstallmentPeriod`, `p_maxAlBai`, `p_rateAlBai`, `p_maxAlInnah`, `p_rateAlInnah`, `p_maxBPulihKenderaan`, `p_rateBPulihKenderaan`, `p_maxCukaiJalanInsurans`, `p_rateCukaiJalanInsurans`, `p_maxKhas`, `p_rateKhas`, `p_maxKarnivalMusim`, `p_rateKarnivalMusim`, `p_maxAlQadrulHassan`, `p_rateAlQadrulHassan`, `p_salaryDeductionForSaving`, `p_salaryDeductionForMemberFund`, `p_dateUpdated`, `p_adminID`) VALUES
+(1, 35, 0, 300, 0, 0, 5, 50, 0, 300, 6, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 50, 5, '2023-05-10 16:00:00', 12345678),
+(2, 50, 100, 300, 35, 0, 5, 0, 0, 300, 6, 20000, 4.2, 20000, 4.2, 4500, 4.2, 4500, 4.2, 10000, 4.2, 10000, 4.2, 20000, 4.2, 50, 5, '2025-01-23 13:07:35', 12345678);
 
 -- --------------------------------------------------------
 
