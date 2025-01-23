@@ -1,3 +1,8 @@
+# Database
+- Use the new database for experimenting
+- If you want to modify columns, please reimport and modify then only export
+
+# Changes Log
 23/01/25 9.09pm [Lam Yoke Yu]
 - New Database
 
