@@ -20,7 +20,7 @@ $current_page = isset($_GET['page']) ? $_GET['page'] : 1;
 $start_from = ($current_page - 1) * $records_per_page;
 
 // Correct SQL query with DATE_FORMAT for m_approvalDate
-$sql = "SELECT m_memberNo, m_pfNo, m_name, 
+$sql = "SELECT *,
         DATE_FORMAT(m_approvalDate, '%d-%m-%Y') AS formattedDate 
         FROM tb_member 
         WHERE m_status = 3
@@ -47,6 +47,8 @@ $total_pages = ceil($total_records / $records_per_page);
         <th scope="col" class='text-center'>No. Anggota</th>
         <th scope="col" class='text-center'>No. PF</th>
         <th scope="col">Nama Anggota</th>
+        <th scope="col">No. Telefon</th>
+        <th scope="col">Email</th>
         <th scope="col" class='text-center'>Tarikh Masuk</th>
         <th scope="col" class='text-center'>Butiran</th>
         </tr>
@@ -58,6 +60,8 @@ $total_pages = ceil($total_records / $records_per_page);
                 echo "<td class='text-center'>".$row['m_memberNo']."</td>";        
                 echo "<td class='text-center'>".$row['m_pfNo']."</td>";           
                 echo "<td>".$row['m_name']."</td>";
+                echo "<td>".$row['m_phoneNumber'] . "</td>";
+                echo "<td>".$row['m_email'] . "</td>";
                 echo "<td class='text-center'>".$row['formattedDate']."</td>"; 
                 echo "<td class='text-center'>";                                
                 echo "<a href='member_details.php?id=".$row['m_memberNo']."' title='View Details'>";

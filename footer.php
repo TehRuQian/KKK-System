@@ -33,7 +33,7 @@
             </a>
           </li>
           <li class="list-inline-item">
-            <a href="https://www.instagram.com/kadaofficial" class="text-white" target="_blank">
+            <a href="https://www.instagram.com/kadakemubu/" class="text-white" target="_blank">
               <i class="fa-brands fa-instagram fs-4"></i>
             </a>
           </li>
