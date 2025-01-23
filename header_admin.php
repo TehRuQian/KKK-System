@@ -31,7 +31,7 @@
     </nav>
 
     <!-- Second Row Nav Bar -->
-    <nav class="navbar navbar-expand-lg" data-bs-theme="light" style="background-color:#82C8FF; position: sticky; top: 0; z-index: 1030; "">
+    <nav class="navbar navbar-expand-lg" data-bs-theme="light" style="background-color:#82C8FF; position: sticky; top: 0; z-index: 1030; ">
       <div class="container-fluid">
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarColor02" aria-controls="navbarColor02" aria-expanded="false" aria-label="Toggle navigation">
           <span class="navbar-toggler-icon"></span>
@@ -43,6 +43,7 @@
             <li class="nav-item"><a class="nav-link" href="../berhenti/approval_berhenti.php">Permohonan Berhenti Menjadi Anggota</a></li>
             <li class="nav-item"><a class="nav-link" href="../view_list/view_member_list.php">Senarai Anggota</a></li>
             <li class="nav-item"><a class="nav-link" href="../view_list/view_loan_list.php">Senarai Peminjam</a></li>
+            <li class="nav-item"><a class="nav-link" href="../feedback/view_feedback_admin.php">Senarai Maklum Balas</a></li>
             <li class="nav-item dropdown">
               <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">Transaksi</a>
               <div class="dropdown-menu">

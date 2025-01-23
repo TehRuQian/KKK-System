@@ -139,7 +139,7 @@ if (!$result) {
           <td><?= date('d-m-Y H:i:s', strtotime($row['fb_submitDate'])); ?></td>
           <td><?= $row['status']; ?></td>
           <td>
-            <a href="butiran_feedback.php?feedbackID=<?= $row['fb_feedbackID']; ?>"><i class='fa fa-ellipsis-h' aria-hidden='true'></i>
+            <a href="butiran_feedback_member.php?feedbackID=<?= $row['fb_feedbackID']; ?>"><i class='fa fa-ellipsis-h' aria-hidden='true'></i>
             </a>
           </td>
         </tr>

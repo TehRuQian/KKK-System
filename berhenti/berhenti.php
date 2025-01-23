@@ -4,7 +4,7 @@ if (!session_id()) {
     session_start();
 }
 
-if ($_SESSION['u_type'] != 2) {
+if ($_SESSION['u_type']!= 2) {
     header('Location: ../login.php');
     exit();
 }
@@ -18,8 +18,8 @@ include '../db_connect.php';
 $u_id = $_SESSION['funame'];
 
 function callResult($con, $u_id) {
-    $sql = "SELECT m_memberNo, m_name FROM tb_member WHERE m_memberNo = '$u_id'";
-    $result = mysqli_query($con, $sql);
+    $sql="SELECT m_memberNo, m_name FROM tb_member WHERE m_memberNo='$u_id'";
+    $result=mysqli_query($con, $sql);
     if (!$result) {
         die("Query failed: " . mysqli_error($con));
     }
@@ -33,10 +33,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $td_submitDate = date('Y-m-d H:i:s');
     $td_status = 1;
 
-    $sql = "INSERT INTO tb_tarikdiri (td_memberNo, td_alasan, td_submitDate, td_status) 
-            VALUES ('$u_id', '$td_alasan', '$td_submitDate', '$td_status')";
+    $sql = "INSERT INTO tb_tarikdiri (td_memberNo, td_alasan,td_submitDate, td_status) 
+            VALUES ('$u_id','$td_alasan','$td_submitDate','$td_status')";
 
-    if (!mysqli_query($con, $sql)) {
+    if (!mysqli_query($con,$sql)) {
         die("Error: " . mysqli_error($con));
     } 
     else{
@@ -86,45 +86,51 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     </form>
 
     <script>
-        function confirmation(event) {
-            const fields=document.querySelectorAll("[required]");
-
-            for (let field of fields) {
-                if (field.value.trim() === "") {
-                    Swal.fire({
-                        icon: 'error',
-                        title: 'Medan diperlukan!',
-                        text: 'Sila isi semua medan yang diperlukan.',
-                    });
-                    event.preventDefault();
-                    return false;
-                }
+    function confirmation(event) {
+        const fields = document.querySelectorAll("[required]");
+        for (let field of fields) {
+            if (field.value.trim() === "") {
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Medan diperlukan!',
+                    text: 'Sila isi semua medan yang diperlukan.',
+                });
+                event.preventDefault();
+                return false;
             }
-
-            event.preventDefault();
-            Swal.fire({
-                title: 'Adakah anda pasti?',
-                text: 'Permohonan Berhenti Menjadi Anggota anda akan dihantar!',
-                icon: 'question',
-                showCancelButton: true,
-                confirmButtonText: 'Ya, hantar',
-                cancelButtonText: 'Batal'
-            }).then((result)=>{
-                if (result.isConfirmed){
-                    document.querySelector('form').submit();
-                    Swal.fire({
-                        icon: 'success',
-                        title: 'Perhohonan Berhenti Menjadi Anggota telah berjaya dihantar!',
-                        showConfirmButton: true
-                    }).then(() => {
-                        window.location.href="../member_main/member.php";
-                    });
-                } else {
-                    window.location.href="../member_main/member.php";
-                }
-            });
         }
-    </script>
+
+        event.preventDefault();
+
+        Swal.fire({
+            title: 'Adakah anda pasti?',
+            text: 'Permohonan Berhenti Menjadi Anggota anda akan dihantar!',
+            icon: 'question',
+            showCancelButton: true,
+            confirmButtonText: 'Ya, hantar',
+            cancelButtonText: 'Batal'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                Swal.fire({
+                    icon: 'success',
+                    title: 'Permohonan Berhenti Menjadi Anggota telah berjaya dihantar!',
+                    showConfirmButton: true
+                }).then(() => {
+                    document.querySelector('form').submit();
+                });
+            } else {
+                Swal.fire({
+                    icon: 'info',
+                    title: 'Permohonan Berhenti Menjadi Anggota tidak dihantar!',
+                    text: 'Anda telah membatalkan permohonan.',
+                }).then(() => {
+                    window.location.href='../member_main/member.php';
+                });
+            }
+        });
+    }
+</script>
+
 </body>
 </html>
 
