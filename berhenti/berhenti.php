@@ -38,22 +38,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     if (!mysqli_query($con, $sql)) {
         die("Error: " . mysqli_error($con));
-    } else {
-        echo "<script>
-            Swal.fire({
-                icon: 'success',
-                title: 'Permohonan Tarik Diri anda berjaya dihantar!',
-                showConfirmButton: true
-            }).then(() => {
-                window.location.href = '../member_main/member.php';
-            });
-        </script>";
+    } 
+    else{
+      header('Location:../member_main/member.php');
     }
 }
 ?>
 
-<!DOCTYPE html>
-<html lang="en">
 <head>
     <style>
         body {
@@ -96,6 +87,20 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     <script>
         function confirmation(event) {
+            const fields=document.querySelectorAll("[required]");
+
+            for (let field of fields) {
+                if (field.value.trim() === "") {
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Medan diperlukan!',
+                        text: 'Sila isi semua medan yang diperlukan.',
+                    });
+                    event.preventDefault();
+                    return false;
+                }
+            }
+
             event.preventDefault();
             Swal.fire({
                 title: 'Adakah anda pasti?',
@@ -104,11 +109,17 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 showCancelButton: true,
                 confirmButtonText: 'Ya, hantar',
                 cancelButtonText: 'Batal'
-            }).then((result) => {
-                if (result.isConfirmed) {
+            }).then((result)=>{
+                if (result.isConfirmed){
                     document.querySelector('form').submit();
-                }
-                else{
+                    Swal.fire({
+                        icon: 'success',
+                        title: 'Perhohonan Berhenti Menjadi Anggota telah berjaya dihantar!',
+                        showConfirmButton: true
+                    }).then(() => {
+                        window.location.href="../member_main/member.php";
+                    });
+                } else {
                     window.location.href="../member_main/member.php";
                 }
             });

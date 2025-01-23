@@ -48,7 +48,7 @@
           <a class="nav-link active ms-2" href="../feedback/track_feedback.php">Maklum Balas</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link active ms-2" href="../tarik_diri/submit_tarik_diri.php">Tarik Diri</a>
+          <a class="nav-link active ms-2" href="../berhenti/berhenti.php">Berhenti Menjadi Anggota</a>
         </li>
         <li>
           <button onclick="window.location.href='../logout.php';" class="btn btn-dark">Log Keluar</button>

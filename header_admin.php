@@ -40,6 +40,7 @@
           <ul class="navbar-nav me-auto">
             <li class="nav-item"><a class="nav-link" href="../member_approval/member_approval.php">Permohonan Anggota</a></li>
             <li class="nav-item"><a class="nav-link" href="../loan_approval/loan_approval.php">Permohonan Pinjaman</a></li>
+            <li class="nav-item"><a class="nav-link" href="../berhenti/approval_berhenti.php">Permohonan Berhenti Menjadi Anggota</a></li>
             <li class="nav-item"><a class="nav-link" href="../view_list/view_member_list.php">Senarai Anggota</a></li>
             <li class="nav-item"><a class="nav-link" href="../view_list/view_loan_list.php">Senarai Peminjam</a></li>
             <li class="nav-item dropdown">
