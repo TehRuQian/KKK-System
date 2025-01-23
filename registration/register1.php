@@ -170,7 +170,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['submit'])) {
                         <div>
                             <label class="form-label mt-4">Nama</label>
                             <input type="text" name="wname${currentCount}" class="form-control" placeholder="Seperti dalam IC"
-                                pattern="[A-Za-z\s]+" title="Nama hanya boleh mengandungi huruf dan ruang.">
+                                pattern="[A-Za-z@/'\s]+" title="Nama hanya boleh mengandungi huruf dan ruang.">
                         </div>
                         <div>
                             <label class="form-label mt-4">Nombor KP</label>
