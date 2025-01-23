@@ -5,7 +5,9 @@
       <div class="col-md-4">
         <h5 class="text-uppercase">Alamat</h5>
         <ul class="list-unstyled">
-          <li><i class="fas fa-map-marker-alt me-2"></i>Peti Surat 127, </li>    
+          <li><i class="fas fa-map-marker-alt me-2">
+          </i>D/A Lembaga Kemajuan Pertanian Kemubu</li>
+          <li>Peti Surat 127, </li>    
           <li>Bandar Kota Bharu</li>
           <li>15710 Kota Bharu</li>
           <li>Kelantan</li>
@@ -16,11 +18,11 @@
       <div class="col-md-4 text-center">
         <h5 class="text-uppercase">Hubungi Kami</h5>
         <ul class="list-unstyled">
-          <li><i class="fas fa-phone-alt me-2"></i>Telefon: 09-1234567</li>
-          <li><i class="fas fa-envelope me-2"></i>Email: info@kada.gov.my</li>
+          <li><i class="fas fa-phone-alt me-2"></i>Telefon: 09-7447088</li>
+          <li><i class="fas fa-envelope me-2"></i>Email: koperasi_kada@yahoo.com</li>
         </ul>
         <!-- Social Media Section -->
-        <h5 class="text-uppercase mt-4 text-center">Ikuti Kami</h5>
+        <h5 class="text-uppercase mt-4 text-center">Ikuti KADA</h5>
         <ul class="list-inline">
           <li class="list-inline-item">
             <a href="https://www.facebook.com/kadakemubu/?ref=embed_page" class="text-white" target="_blank">
@@ -53,7 +55,7 @@
     </div>
     <hr class="border-light">
     <div class="text-center">
-      <small>Hak Cipta © 2025 KADA. Semua Hak Terpelihara.</small>
+      <small>Hak Cipta © 2025 KKK. Semua Hak Terpelihara.</small>
     </div>
   </div>
 </footer>
