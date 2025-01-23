@@ -3,6 +3,9 @@
 - If you want to modify columns, please reimport and modify then only export
 
 # Changes Log
+23/01/25 9.42pm [Chua Jia Lin]
+- Done member_side feedback function
+  
 23/01/25 9.09pm [Lam Yoke Yu]
 - New Database
 
