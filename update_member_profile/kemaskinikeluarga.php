@@ -4,6 +4,11 @@ if (!session_id()) {
     session_start();
 }
 
+if ($_SESSION['u_type'] != 2) {
+    header('Location: ../login.php');
+    exit();
+  }
+  
 if (isset($_SESSION['u_id']) != session_id()) {
     header('Location:../login.php'); 
 }
@@ -224,36 +229,19 @@ if (!$heir_result) {
             <div class="d-flex justify-content-center">
                 <button type="button" class="btn btn-success mt-4" id="add_heir">Tambah Pewaris</button>
             </div>
-            
             <div class="d-flex justify-content-center">
-                <button onclick="confirmation(event)" class="btn btn-primary mt-4">Simpan</button>
+            <button onclick="confirmation(event)" class="btn btn-primary mt-4">Simpan</button>
             </div>
         </fieldset>
     </form>
 
     <div class="d-flex justify-content-center">
-        <button onclick="confirmationKembali()" class="btn btn-primary mt-4">Kembali</button>
+        <a href="profilmember.php"><button  class="btn btn-primary mt-4">Kembali</button></a>
     </div><br>
     
 
-    <script>
-        function confirmationKembali(){
-            Swal.fire({
-                title: 'Adakah anda pasti ingin kembali ke Profil?',
-                text: 'Perubahan anda yang belum disimpan tidak akan disimpan.',
-                icon: 'warning',
-                showCancelButton: true,
-                confirmButtonText: 'Ya',
-                cancelButtonText: 'Tidak'
-            }).then((result) => {
-                if (result.isConfirmed) {
-                    Swal.fire('Maklumat tidak disimpan!', '', 'info').then(() => {
-                        window.location.href = "profilmember.php";
-                    });
-                }
-            });
-        }
-          
+<script>
+
     function confirmDelete(heirId) {
         const confirmation = confirm("Adakah anda pasti ingin memadam pewaris ini?");
         if (confirmation) {
@@ -343,7 +331,7 @@ if (!$heir_result) {
                 window.location.href = "profilmember.php";
             }
         }
-    </script>
+</script>
 </body>
 </html>
 

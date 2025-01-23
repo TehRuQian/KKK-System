@@ -5,6 +5,11 @@ if(!session_id())
   session_start();
 }
 
+if ($_SESSION['u_type'] != 2) {
+  header('Location: ../login.php');
+  exit();
+}
+
 if(isset($_SESSION['u_id']) != session_id())
 {
   header('Location:../login.php'); 
@@ -164,7 +169,7 @@ $memberApplicationID = $row['m_memberApplicationID'];
             </tr>
             <tr>
               <td scope="row">No. Tel / Fax</td>
-              <td><?= $row['m_faxNumber'] ?? '-'; ?></td>
+              <td><?php echo !empty($row['m_faxNumber']) ? $row['m_faxNumber'] : 'N/A'; ?></td>
             </tr>
             <tr>
               <td scope="row">No. Tel Bimbit</td>
@@ -172,7 +177,7 @@ $memberApplicationID = $row['m_memberApplicationID'];
             </tr>
             <tr>
               <td scope="row">No. Tel Rumah</td>
-              <td><?= $row['m_homeNumber'] ?? '-'; ?></td>
+              <td><?php echo !empty($row['m_homeNumber']) ? $row['m_homeNumber'] : 'N/A'; ?></td>
             </tr>
             <tr>
               <td scope="row">Gaji Bulanan</td>

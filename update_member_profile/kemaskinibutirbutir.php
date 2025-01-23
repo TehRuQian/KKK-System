@@ -5,6 +5,11 @@ if(!session_id())
   session_start();
 }
 
+if ($_SESSION['u_type'] != 2) {
+  header('Location: ../login.php');
+  exit();
+}
+
 if(isset($_SESSION['u_id']) != session_id())
 {
   header('Location:../login.php'); 
@@ -376,7 +381,7 @@ if(!empty($_POST)) {
   <div class="col">
     <div>
       <label class="form-label mt-4">No. Telefon / Fax</label>
-      <input type="text" class="form-control" name="faxphonenum" value="<?= $row['m_faxNumber']; ?>" pattern="\d{10}">
+      <input type="text" class="form-control" name="faxphonenum" value="<?php echo !empty($row['m_faxNumber']) ? $row['m_faxNumber'] : 'N/A'; ?>">
     </div>
   </div>
   <div class="col">
@@ -388,7 +393,7 @@ if(!empty($_POST)) {
   <div class="col">
     <div>
       <label class="form-label mt-4">No. Telefon Rumah</label>
-      <input type="text" class="form-control" name="homephonenum" value="<?= $row['m_homeNumber']; ?>" pattern="\d{9}">
+      <input type="text" class="form-control" name="homephonenum" value="<?php echo !empty($row['m_homeNumber']) ? $row['m_homeNumber'] : 'N/A'; ?>">
     </div>
   </div>
 </div>

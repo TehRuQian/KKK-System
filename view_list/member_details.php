@@ -5,7 +5,11 @@ if(!session_id())
 {
   session_start();
 }
-
+if ($_SESSION['u_type'] != 1) {
+    header('Location: ../login.php');
+    exit();
+  }
+  
 include '../header_admin.php';
 include '../db_connect.php';
 
@@ -18,6 +22,8 @@ if (isset($_GET['id']))
         LEFT JOIN tb_ureligion ON tb_member.m_religion = tb_ureligion.ua_rid
         LEFT JOIN tb_urace ON tb_member.m_race = tb_urace.ur_rid
         LEFT JOIN tb_umaritalstatus ON tb_member.m_maritalStatus = tb_umaritalstatus.um_mid
+        LEFT JOIN tb_homeState ON tb_member.m_homeState = tb_homeState.st_id
+        LEFT JOIN tb_officeState ON tb_member.m_officeState = tb_officeState.st_id
 
         WHERE m_memberNo = '$member_id'";
 
@@ -87,7 +93,7 @@ if (isset($_GET['id']))
             </tr>
             <tr>
                 <th>Alamat Rumah</th>
-                <td><?php echo $member['m_homeAddress']; ?></td>
+                <td><?php echo $member['m_homeAddress'] . ', ' . $member['m_homePostcode'] . ' ' . $member['m_homeCity'] . ', ' . $member['st_desc']; ?></td>
             </tr>
             <tr>
                 <th>No. Telefon</th>
@@ -99,7 +105,11 @@ if (isset($_GET['id']))
             </tr>
             <tr>
                 <th>No. Telefon Rumah</th>
-                <td><?php echo !empty($row['m_homeNumber']) ? $row['m_homeNumber'] : 'N/A'; ?></td>
+                <td><?php echo !empty($member['m_homeNumber']) ? $member['m_homeNumber'] : 'N/A'; ?></td>
+            </tr>
+            <tr>
+                <th>No. Fax</th>
+                <td><?php echo !empty($member['m_taxNumber']) ? $member['m_taxNumber'] : 'N/A'; ?></td>
             </tr>
             <tr>
                 <th>Jawatan</th>
@@ -111,11 +121,11 @@ if (isset($_GET['id']))
             </tr>
             <tr>
                 <th>Alamat Pejabat</th>
-                <td><?php echo $member['m_officeAddress']; ?></td>
+                <td><?php echo $member['m_officeAddress'] . ', ' . $member['m_officePostcode'] . ' ' . $member['m_officeCity'] . ', ' . $member['st_desc']; ?></td>
             </tr>
             <tr>
-                <th>Gaji Bulanan</th>
-                <td><?php echo $member['m_monthlySalary']; ?></td>
+                <th>Gaji Bulanan (RM)</th>
+                <td><?php echo number_format($member['m_monthlySalary'], 2); ?></td>
             </tr>
             <tr>
             <tr>
@@ -123,7 +133,7 @@ if (isset($_GET['id']))
                 <td><?php echo $member['m_applicationDate']; ?></td>
             </tr>
             <tr>
-                <th>Tarikh Lulus:</th>
+                <th>Tarikh Lulus</th>
                 <td><?php echo $member['m_approvalDate']; ?></td>
             </tr>
         </table>
@@ -137,28 +147,28 @@ if (isset($_GET['id']))
       </div>
       <div class="card-body">
         <table class="table table-hover">
-          <th>Fee Masuk</th>
-            <td><?php echo $member['m_feeMasuk']; ?></td>
+          <th>Fee Masuk (RM)</th>
+            <td><?php echo number_format($member['m_feeMasuk'], 2); ?></td>
         </tr>
         <tr>
-            <th>Modal Yuran</th>
-            <td><?php echo $member['m_modalYuran']; ?></td>
+            <th>Modal Yuran (RM)</th>
+            <td><?php echo number_format($member['m_modalYuran'], 2); ?></td>
         </tr>
         <tr>
-            <th>Deposit</th>
-            <td><?php echo $member['m_deposit']; ?></td>
+            <th>Deposit (RM)</th>
+            <td><?php echo number_format($member['m_deposit'], 2); ?></td>
         </tr>
         <tr>
-            <th>alAbrar</th>
-            <td><?php echo $member['m_alAbrar']; ?></td>
+            <th>alAbrar (RM)</th>
+            <td><?php echo number_format($member['m_alAbrar'], 2); ?></td>
         </tr>
         <tr>
-            <th>Simpanan Tetap</th>
-            <td><?php echo $member['m_simpananTetap']; ?></td>
+            <th>Simpanan Tetap (RM)</th>
+            <td><?php echo number_format($member['m_simpananTetap'], 2); ?></td>
         </tr>
         <tr>
-            <th>Fee Lain</th>
-            <td><?php echo $member['m_feeLain']; ?></td>
+            <th>Fee Lain (RM)</th>
+            <td><?php echo number_format($member['m_feeLain'], 2); ?></td>
         </tr>
         </table>
       </div>

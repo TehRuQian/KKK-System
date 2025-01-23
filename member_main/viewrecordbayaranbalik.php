@@ -5,6 +5,10 @@ if(!session_id())
 {
   session_start();
 }
+if ($_SESSION['u_type'] != 2) {
+  header('Location: ../login.php');
+  exit();
+}
 
 include '../headermember.php';
 include '../db_connect.php';
@@ -17,6 +21,19 @@ if(isset($_SESSION['u_id']) != session_id())
 
 $u_id = $_SESSION['funame'];
 
+$filter_month = $_GET['filter_month'] ?? '';
+$filter_year = $_GET['filter_year'] ?? '';
+
+$where_clauses = ["tb_transaction.t_memberNo = '$u_id'", "tb_transaction.t_transactionType IN (6,7,8,9,10,11,12)"];
+if (!empty($filter_month)) {
+    $where_clauses[] = "tb_transaction.t_month = '$filter_month'";
+}
+if (!empty($filter_year)) {
+    $where_clauses[] = "tb_transaction.t_year = '$filter_year'";
+}
+
+$where_sql = implode(' AND ', $where_clauses);
+
 $records_per_page=10;
 
 $current_page=isset($_GET['page'])?(int)$_GET['page']:1;
@@ -24,9 +41,10 @@ $current_page=isset($_GET['page'])?(int)$_GET['page']:1;
 $offset=($current_page-1)*$records_per_page;
 
 $count_sql="SELECT COUNT(*) AS total FROM tb_transaction 
-            WHERE t_memberNo='$u_id' AND t_transactionType IN (6,7,8,9,10,11,12)";
+            WHERE $where_sql";
 $count_result=mysqli_query($con,$count_sql);
 $total_records=mysqli_fetch_assoc($count_result)['total'];
+
 
 $total_pages=ceil($total_records/$records_per_page);
 
@@ -37,8 +55,8 @@ $sql = "SELECT tb_transaction.*,
         FROM tb_transaction
         LEFT JOIN tb_ttype ON tb_transaction.t_transactionType=tb_ttype.tt_id
         LEFT JOIN tb_rmonth ON tb_transaction.t_month=tb_rmonth.rm_id
-        WHERE tb_transaction.t_memberNo = '$u_id' AND tb_transaction.t_transactionType IN (6,7,8,9,10,11,12) 
-        ORDER BY tb_transaction.t_transactionDate DESC 
+        WHERE $where_sql
+        ORDER BY tb_transaction.t_transactionDate DESC
         LIMIT $records_per_page OFFSET $offset";
 
 $result = mysqli_query($con, $sql);
@@ -61,7 +79,32 @@ if (!$result) {
 
     <h2 style="text-align:center;">Rekod Bayaran Balik</h2>
     
-
+    <br>
+<form method="GET" action="" class="mb-3 d-flex justify-content-center">
+    <select name="filter_month" class="form-select me-2" style="width: 200px;">
+        <option value="">Pilih Bulan</option>
+        <?php
+        $month_query = "SELECT * FROM tb_rmonth";
+        $month_result = mysqli_query($con, $month_query);
+        while ($month = mysqli_fetch_assoc($month_result)) {
+            $selected = (isset($_GET['filter_month']) && $_GET['filter_month'] == $month['rm_id']) ? 'selected' : '';
+            echo "<option value='{$month['rm_id']}' $selected>{$month['rm_desc']}</option>";
+        }
+        ?>
+    </select>
+    <select name="filter_year" class="form-select me-2" style="width: 200px;">
+        <option value="">Pilih Tahun</option>
+        <?php
+        $year_query = "SELECT DISTINCT t_year FROM tb_transaction ORDER BY t_year DESC";
+        $year_result = mysqli_query($con, $year_query);
+        while ($year = mysqli_fetch_assoc($year_result)) {
+            $selected = (isset($_GET['filter_year']) && $_GET['filter_year'] == $year['t_year']) ? 'selected' : '';
+            echo "<option value='{$year['t_year']}' $selected>{$year['t_year']}</option>";
+        }
+        ?>
+    </select>
+    <button type="submit" class="btn btn-primary">Tapis</button>
+</form>
 
     <div class="card mb-3 col-10 my-5 mx-auto">
       <div class="card-header text-white bg-primary d-flex justify-content-between align-items-center">
@@ -125,6 +168,6 @@ if (!$result) {
         <?php endif;?>
       </ul>
     </nav>
-
+<br><br><br>
 
 <?php include '../footer.php'; ?>

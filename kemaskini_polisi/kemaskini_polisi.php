@@ -3,7 +3,11 @@
   if (!session_id()) {
       session_start();
   }
-
+  if ($_SESSION['u_type'] != 1) {
+    header('Location: ../login.php');
+    exit();
+  }
+  
   include '../header_admin.php';
   include '../db_connect.php';
   $admin_id = $_SESSION['u_id'];
@@ -92,7 +96,7 @@
             </tr>
           </tbody>
         </table>
-        <p class="text-center">Jadual Pembayaran Balik Pembiayaan Skim Al-Bai / Al-Innah</p>
+        <p class="text-center">Jadual Pembayaran Balik Pembiayaan</p>
         <table class="table table-hover" style="margin: 0 auto; text-align: center;">
           <tr>
             <td scope="col">Kadar Keuntungan</td>

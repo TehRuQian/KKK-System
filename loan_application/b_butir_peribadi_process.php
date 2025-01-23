@@ -8,7 +8,11 @@ if(isset($_SESSION['u_id']) != session_id()) {
     header('Location: ../login.php');
     exit(); 
   }
-
+  if ($_SESSION['u_type'] != 2) {
+    header('Location: ../login.php');
+    exit();
+  }
+  
 $memberNo = $_SESSION['funame'];
 
 // member personal data
@@ -67,6 +71,7 @@ if (!empty($selectedGender) && !empty($memberNo)) {
     
     if (mysqli_query($con, $sql)) {
         // Redirect to pengakuan_pemohon page
+        
         header('Location: c_pengakuan_pemohon.php?status=success');
         exit();
     } else {
@@ -76,6 +81,12 @@ if (!empty($selectedGender) && !empty($memberNo)) {
     echo "Error: Missing member number.";
 }
 
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
+
+    exit();
+} else {
+    die('Error: Failed to submit the loan application. ' . mysqli_error($con));
+}
 //close SQL
 mysqli_close($con);
 ?>

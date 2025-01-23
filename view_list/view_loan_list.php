@@ -5,7 +5,11 @@ if(!session_id())
 {
   session_start();
 }
-
+if ($_SESSION['u_type'] != 1) {
+    header('Location: ../login.php');
+    exit();
+  }
+  
 include '../header_admin.php';
 include '../db_connect.php';
 
@@ -62,11 +66,11 @@ $total_pages = ceil($total_records / $records_per_page);
                 echo "<td class='text-center'>".$row['l_memberNo']."</td>";
                 echo "<td>".$row['m_name']."</td>";
                 echo "<td class='text-center'>".$row['l_loanType']."</td>";
-                echo "<td class='text-center'>".$row['l_appliedLoan']."</td>";
+                echo "<td class='text-center'>" . number_format($row['l_appliedLoan'], 2)."</td>";
                 echo "<td class='text-center'>".$row['l_loanPeriod']."</td>";
-                echo "<td class='text-center'>".$row['l_monthlyInstalment']."</td>";
-                echo "<td class='text-center'>".$row['l_loanPayable']."</td>";
-                echo "<td class='text-center'>".$row['formattedDate']."</td>";
+                echo "<td class='text-center'>". number_format($row['l_monthlyInstalment'], 2)."</td>";
+                echo "<td class='text-center'>". number_format($row['l_loanPayable'], 2)."</td>";
+                echo "<td class='text-center'>".$row['formattedDate']."</td>"; 
                 echo "<td class='text-center'>";
                 echo "<a href='loan_details.php?id=".$row['l_loanApplicationID']."' title='View Details'>";
                 echo "<i class='fa fa-ellipsis-h' aria-hidden='true'></i>";       

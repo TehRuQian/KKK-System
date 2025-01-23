@@ -4,7 +4,11 @@ if(!session_id())
 {
   session_start();
 }
-
+if ($_SESSION['u_type'] != 2) {
+    header('Location: ../login.php');
+    exit();
+  }
+  
 if(isset($_SESSION['u_id']) != session_id())
 {
   header('Location:../login.php'); 
@@ -13,6 +17,14 @@ if(isset($_SESSION['u_id']) != session_id())
 include '../headermember.php';
 include '../db_connect.php';
 $memberNo = $_SESSION['funame'];
+
+if (isset($_SESSION['loanApplicationID'])) {
+    $loanApplicationID = $_SESSION['loanApplicationID'];
+} elseif (isset($_GET['loan_id'])) {
+    $loanApplicationID = $_GET['loan_id'];
+} else {
+    die("Error: Loan application ID is missing. Please check if the loan ID is passed in the URL.");
+}
 
 // member personal data
 $nama = $_POST['nama']; 
@@ -70,7 +82,7 @@ if (!empty($selectedGender) && !empty($memberNo)) {
     
     if (mysqli_query($con, $sql)) {
   
-        header('Location: semakan_butiran.php?status=success');
+        header('Location: semakan_butiran.php?status=success&loan_id=' . $loanApplicationID);
         exit();
     } else {
         echo "Error updating record: " . mysqli_error($con);

@@ -4,7 +4,11 @@ if(!session_id())
 {
   session_start();
 }
-
+if ($_SESSION['u_type'] != 2) {
+    header('Location: ../login.php');
+    exit();
+  }
+  
 // Logout logic: Clear cookies when logging out
 if (isset($_GET['action']) && $_GET['action'] == 'logout') {
     // Clear cookies by setting them with an expiration time in the past
@@ -37,9 +41,9 @@ $memberNo = $_SESSION['funame'];
 
 // var_dump($_SESSION['funame']);
 
-
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     // Store form data in cookies
+    
     setcookie("jenis_pembiayaan", $_POST['jenis_pembiayaan'], time() + (86400 * 30), "/"); // expires in 30 days
     setcookie("amaunDipohon", $_POST['amaunDipohon'], time() + (86400 * 30), "/");
     setcookie("tempohPembiayaan", $_POST['tempohPembiayaan'], time() + (86400 * 30), "/");
@@ -49,7 +53,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     setcookie("gajiKasar", $_POST['gajiKasar'], time() + (86400 * 30), "/");
     setcookie("gajiBersih", $_POST['gajiBersih'], time() + (86400 * 30), "/");
     setcookie("fileSign", $_FILES['fileSign']['name'], time() + (86400 * 30), "/");
-}
+
+} 
+
+
 
 // Retrieve data from form
 $jenis_pembiayaan = $_POST['jenis_pembiayaan'];
@@ -124,7 +131,7 @@ if (isset($_FILES['fileSign']) && $_FILES['fileSign']['error'] === UPLOAD_ERR_OK
 
 // SQL Insert Operation
 $sql = "INSERT INTO tb_loan (l_memberNo, l_loanType, l_appliedLoan, l_loanPeriod, l_monthlyInstalment, l_loanPayable, l_bankAccountNo, l_bankName, l_monthlyGrossSalary, l_monthlyNetSalary, l_signature, l_status, l_applicationDate) 
-        VALUES ('$memberNo', '$jenis_pembiayaan', '$amaunDipohon', '$tempohPembiayaan', '$ansuranBulanan', '$tunggakan', '$bankAcc', '$namaBank', '$gajiKasar', '$gajiBersih', '$fileSign', 1, CURRENT_TIMESTAMP())";
+        VALUES ('$memberNo', '$jenis_pembiayaan', '$amaunDipohon', '$tempohPembiayaan', '$ansuranBulanan', '$tunggakan', '$bankAcc', '$namaBank', '$gajiKasar', '$gajiBersih', '$fileSign', 0, CURRENT_TIMESTAMP())";
 
 if (mysqli_query($con, $sql)) {
     // Store the loanApplicationID in the session for the next page
@@ -138,6 +145,9 @@ if (mysqli_query($con, $sql)) {
     die('Error: Failed to submit the loan application. ' . mysqli_error($con));
 }
 
+
 // Close connection
 $con->close();
+
+
 ?>

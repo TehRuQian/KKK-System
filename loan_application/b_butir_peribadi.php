@@ -1,8 +1,17 @@
+<head>   
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+</head>
+
 <?php
 include('../kkksession.php');
 if(!session_id())
 {
   session_start();
+}
+if ($_SESSION['u_type'] != 2) {
+  header('Location: ../login.php');
+  exit();
 }
 
 if(isset($_SESSION['u_id']) != session_id())
@@ -15,7 +24,14 @@ include '../db_connect.php';
 $memberNo = $_SESSION['funame'];
 
 if (isset($_GET['status']) && $_GET['status'] == 'success') {
-  echo '<script>alert("Maklumat anda telah berjaya disimpan!");</script>';
+  echo '<script>
+          Swal.fire({
+              title: "Berjaya!",
+              text: "Maklumat anda telah berjaya disimpan!",
+              icon: "success",
+              confirmButtonText: "OK"
+          });
+        </script>';
 }
 
 //Extract from database
@@ -241,6 +257,7 @@ if ($memberNo !== null) {
       
       <label class="form-label mt-4">Jantina</label>
       <br>
+      
       <?php
         $sql="SELECT * FROM tb_ugender";
         $result=mysqli_query($con,$sql);
@@ -248,11 +265,15 @@ if ($memberNo !== null) {
         while($row=mysqli_fetch_array($result))
         {
           $isChecked = ($row['ug_gid'] == $memberGender) ? 'checked' : '';
+          echo '<div class="form-check form-check-inline">';
           echo '<input type="radio" id="ugender' . $row['ug_gid'] . '" name="ugender" value="' . $row['ug_gid'] . '" '. $isChecked . '>';
           echo '<label for="ugender' . $row['ug_gid'] . '">' . $row['ug_desc'] . '</label><br>';
+          echo '</div>';
         }
       ?>
-      
+
+
+      <br>
       <label class="form-label mt-4">Agama</label>
       <br>
       <?php
@@ -260,13 +281,15 @@ if ($memberNo !== null) {
         $result=mysqli_query($con,$sql);
 
         while ($row = mysqli_fetch_array($result)) {
-  
               $isChecked = ($row['ua_rid'] == $memberReligion) ? 'checked' : '';
+              echo '<div class="form-check form-check-inline">';
               echo '<input type="radio" id="ureligion' . $row['ua_rid'] . '" name="ureligion" value="' . $row['ua_rid'] . '" '. $isChecked. '>';
               echo '<label for="ureligion' . $row['ua_rid'] . '">' . $row['ua_desc'] . '</label><br>';
+              echo '</div>';
         }
       ?>
 
+      <br>
       <label class="form-label mt-4">Bangsa</label>
       <br>
       <?php
@@ -276,11 +299,14 @@ if ($memberNo !== null) {
         while ($row = mysqli_fetch_array($result)) {
 
             $isChecked = ($row['ur_rid'] == $memberRace) ? 'checked' : '';
+              echo '<div class="form-check form-check-inline">';
               echo '<input type="radio" id="urace' . $row['ur_rid'] . '" name="urace" value="' . $row['ur_rid'] . '" '. $isChecked. '>';
               echo '<label for="urace' . $row['ur_rid'] . '">' . $row['ur_desc'] . '</label><br>';
+              echo '</div>';
         }
       ?>
 
+      <br>
       <label class="form-label mt-4">Taraf Perkahwinan</label>
       <br>
       <?php
@@ -290,9 +316,10 @@ if ($memberNo !== null) {
           while ($row = mysqli_fetch_array($result)) {
 
             $isChecked = ($row['um_mid'] == $memberMaritalStatus) ? 'checked' : '';
+            echo '<div class="form-check form-check-inline">';
             echo '<input type="radio" id="umaritalStatus' . $row['um_mid'] . '" name="umaritalStatus" value="' . $row['um_mid'] . '" '. $isChecked. '>';
             echo '<label for="umaritalStatus' . $row['um_mid'] . '">' . $row['um_desc'] . '</label><br>';
-            
+            echo '</div>';
           }
       }
     ?>
@@ -423,11 +450,13 @@ if ($memberNo !== null) {
         
 
     </hr>
-      <hr class="my-4">
-        <p class="lead">
-        <button type="submit" class="btn btn-primary">Simpan</button>
-        </p>
-      </hr>
+
+ 
+    <div style="text-align: center;">
+      <br>
+            <button type="submit" class="btn btn-primary">Simpan</button>
+    </div>
+
 
     </div>   
   </fieldset>
