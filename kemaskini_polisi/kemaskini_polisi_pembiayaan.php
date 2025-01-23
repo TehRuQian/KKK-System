@@ -37,15 +37,6 @@
       </div>
     </div>
 
-    <!-- Kadar Keuntungan -->
-    <div>
-      <label class="form-label mt-4">Kadar Keuntungan</label>
-      <div class="input-group mb-3">
-        <input type="text" class="form-control" name="f_profitRate" value="<?php echo htmlspecialchars($policy['p_profitRate']); ?>" id="f_profitRate">
-        <span class="input-group-text">%</span>
-      </div>
-    </div>
-
     <!-- Tempoh Ansuran Maksima -->
     <div>
       <label class="form-label mt-4">Tempoh Ansuran Maksima</label>
@@ -55,12 +46,75 @@
       </div>
     </div>
 
+    <!-- Kadar Keuntungan -->
+    <div>
+      <label class="form-label mt-4">Kadar Keuntungan</label>
+      <div class="input-group mb-3">
+        <input type="text" class="form-control" name="f_profitRate" value="<?php echo htmlspecialchars($policy['p_profitRate']); ?>" id="f_profitRate">
+        <span class="input-group-text">%</span>
+      </div>
+    </div>
+
     <!-- Jumlah Pembiayaan Maksima -->
     <div>
-      <label class="form-label mt-4">Jumlah Pembiayaan Maksima</label>
+      <label class="form-label mt-4">Pembiayaan Maksima Al-Bai</label>
       <div class="input-group mb-3">
         <span class="input-group-text">RM</span>
-        <input type="text" class="form-control" name="f_maxFinancingAmt" value="<?php echo htmlspecialchars($policy['p_maxFinancingAmt']); ?>" id="f_maxFinancingAmt">
+        <input type="text" class="form-control" name="f_maxAlBai" value="<?php echo htmlspecialchars($policy['p_maxAlBai']); ?>" id="f_maxAlBai">
+        <span class="input-group-text">.00</span>
+      </div>
+    </div>
+
+    <div>
+      <label class="form-label mt-4">Pembiayaan Maksima Al-Innah</label>
+      <div class="input-group mb-3">
+        <span class="input-group-text">RM</span>
+        <input type="text" class="form-control" name="f_maxAlInnah" value="<?php echo htmlspecialchars($policy['p_maxAlInnah']); ?>" id="f_maxAlInnah">
+        <span class="input-group-text">.00</span>
+      </div>
+    </div>
+
+    <div>
+      <label class="form-label mt-4">Pembiayaan Maksima Baik Pulih Kenderaan</label>
+      <div class="input-group mb-3">
+        <span class="input-group-text">RM</span>
+        <input type="text" class="form-control" name="f_maxBPulihKenderaan" value="<?php echo htmlspecialchars($policy['p_maxBPulihKenderaan']); ?>" id="f_maxBPulihKenderaan">
+        <span class="input-group-text">.00</span>
+      </div>
+    </div>
+
+    <div>
+      <label class="form-label mt-4">Pembiayaan Maksima Cukai Jalan dan Insurans</label>
+      <div class="input-group mb-3">
+        <span class="input-group-text">RM</span>
+        <input type="text" class="form-control" name="f_maxCukaiJalanInsurans" value="<?php echo htmlspecialchars($policy['p_maxCukaiJalanInsurans']); ?>" id="f_maxCukaiJalanInsurans">
+        <span class="input-group-text">.00</span>
+      </div>
+    </div>
+
+    <div>
+      <label class="form-label mt-4">Pembiayaan Maksima Skim Khas</label>
+      <div class="input-group mb-3">
+        <span class="input-group-text">RM</span>
+        <input type="text" class="form-control" name="f_maxKhas" value="<?php echo htmlspecialchars($policy['p_maxKhas']); ?>" id="f_maxKhas">
+        <span class="input-group-text">.00</span>
+      </div>
+    </div>
+
+    <div>
+      <label class="form-label mt-4">Pembiayaan Maksima Karnival Musim Istimewa</label>
+      <div class="input-group mb-3">
+        <span class="input-group-text">RM</span>
+        <input type="text" class="form-control" name="f_maxKarnivalMusim" value="<?php echo htmlspecialchars($policy['p_maxKarnivalMusim']); ?>" id="f_maxKarnivalMusim">
+        <span class="input-group-text">.00</span>
+      </div>
+    </div>
+
+    <div>
+      <label class="form-label mt-4">Pembiayaan Maksima Al-Qadrul Hassan</label>
+      <div class="input-group mb-3">
+        <span class="input-group-text">RM</span>
+        <input type="text" class="form-control" name="f_maxAlQadrulHassan" value="<?php echo htmlspecialchars($policy['p_maxAlQadrulHassan']); ?>" id="f_maxAlQadrulHassan">
         <span class="input-group-text">.00</span>
       </div>
     </div>
@@ -99,7 +153,24 @@
     // Get values from form
     let profitRate = parseFloat(document.getElementById('f_profitRate').value) || <?php echo $policy['p_profitRate']; ?>;
     let maxInstallmentPeriod = parseInt(document.getElementById('f_maxInstallmentPeriod').value) || <?php echo $policy['p_maxInstallmentPeriod']; ?>;
-    let maxFinancingAmt = parseFloat(document.getElementById('f_maxFinancingAmt').value) || <?php echo $policy['p_maxFinancingAmt']; ?>;
+    
+    let maxAlBai = parseFloat(document.getElementById('f_maxAlBai').value) || <?php echo $policy['p_maxAlBai']; ?>;
+    let maxAlInnah = parseFloat(document.getElementById('f_maxAlInnah').value) || <?php echo $policy['p_maxAlInnah']; ?>;
+    let maxBPulihKenderaan = parseFloat(document.getElementById('f_maxBPulihKenderaan').value) || <?php echo $policy['p_maxBPulihKenderaan']; ?>;
+    let maxCukaiJalanInsurans = parseFloat(document.getElementById('f_maxCukaiJalanInsurans').value) || <?php echo $policy['p_maxCukaiJalanInsurans']; ?>;
+    let maxKhas = parseFloat(document.getElementById('f_maxKhas').value) || <?php echo $policy['p_maxKhas']; ?>;
+    let maxKarnivalMusim = parseFloat(document.getElementById('f_maxKarnivalMusim').value) || <?php echo $policy['p_maxKarnivalMusim']; ?>;
+    let maxAlQadrulHassan = parseFloat(document.getElementById('f_maxAlQadrulHassan').value) || <?php echo $policy['p_maxAlQadrulHassan']; ?>;
+
+    let maxFinancingAmt = Math.max(
+      maxAlBai,
+      maxAlInnah,
+      maxBPulihKenderaan,
+      maxCukaiJalanInsurans,
+      maxKhas,
+      maxKarnivalMusim,
+      maxAlQadrulHassan
+    )
 
     // Update the Profit Rate
     document.getElementById('profitRateTable').innerText = profitRate.toFixed(2) + ' %';
@@ -139,7 +210,14 @@
   // Add event listeners to update the table whenever the input values change
   document.getElementById('f_profitRate').addEventListener('input', updateTable);
   document.getElementById('f_maxInstallmentPeriod').addEventListener('input', updateTable);
-  document.getElementById('f_maxFinancingAmt').addEventListener('input', updateTable);
+  
+  document.getElementById('f_maxAlBai').addEventListener('input', updateTable);
+  document.getElementById('f_maxAlInnah').addEventListener('input', updateTable);
+  document.getElementById('f_maxBPulihKenderaan').addEventListener('input', updateTable);
+  document.getElementById('f_maxCukaiJalanInsurans').addEventListener('input', updateTable);
+  document.getElementById('f_maxKhas').addEventListener('input', updateTable);
+  document.getElementById('f_maxKarnivalMusim').addEventListener('input', updateTable);
+  document.getElementById('f_maxAlQadrulHassan').addEventListener('input', updateTable);
 
   // Initial table update
   updateTable();

@@ -93,7 +93,7 @@
           <tr>
             <!-- Checkbox for batch selection -->
             <th scope="col">
-              <input type="checkbox" id="select_all" onclick="toggleSelectAll()"> Select All
+              <input class="form-check-input" type="checkbox" id="select_all" onclick="toggleSelectAll()"> Select All
             </th>
             <th scope="col">No Ahli</th>
             <th scope="col">Nama</th>
@@ -120,7 +120,7 @@
             while($row = mysqli_fetch_array($result_financial)){
               $memberNo = $row['f_memberNo'];
                 echo "<tr onclick='toggleCheckbox(this)' data-member-id='" . $memberNo . "'>";
-                    echo "<td><input type='checkbox' name='selected_members[]' value='" . $memberNo . "'></td>";
+                    echo "<td><input class='form-check-input' type='checkbox' name='selected_members[]' value='" . $memberNo . "'></td>";
                     echo "<td>" . $memberNo . "</td>";
                     echo "<td>" . htmlspecialchars($row['m_name']) . "</td>";
                     echo "<td>" . number_format($row['f_shareCapital'], 2) . "</td>";
