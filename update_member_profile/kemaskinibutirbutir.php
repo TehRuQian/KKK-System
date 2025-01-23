@@ -413,7 +413,6 @@ if(!empty($_POST)) {
   function confirmation(event) {
     const fields = document.querySelectorAll("[required]");
 
-    // Validate required fields
     for (let field of fields) {
       if (field.value.trim() === "") {
         Swal.fire({
