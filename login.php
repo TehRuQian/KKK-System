@@ -93,7 +93,7 @@ include 'login_function.php';
 <body>
     <div class="top-half">
         <br>
-        <img src="img/kkk_logo_cropped.png" style="width:10%">
+        <img src="img/kkk_logo.png" style="width:10%">
         <br>
         <h1 class="text-center">Sistem KKK Digital Bersepadu</h1>
     </div>
