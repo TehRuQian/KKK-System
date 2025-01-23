@@ -126,7 +126,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     document.querySelector('form').submit();
                     Swal.fire({
                         icon: 'success',
-                        title: 'Maklum balas berjaya dihantar!',
+                        title: 'Maklum balas telah berjaya dihantar!',
                         showConfirmButton: true
                     }).then(() => {
                         window.location.href="track_feedback.php";
