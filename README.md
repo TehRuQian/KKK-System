@@ -1,3 +1,7 @@
+<div id="header" align="center">
+<img src="https://media.giphy.com/media/KiZ6kV683kPaU/giphy.gif" width="300"/>
+</div>
+
 # Database
 - Use the new database for experimenting
 - If you want to modify columns, please reimport and modify then only export
