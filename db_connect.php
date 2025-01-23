@@ -3,7 +3,7 @@
 $servername = "localhost";
 $username = "root";
 $password = "";
-$dbname = "db_kkk1 21.01 11.11pm (DEMO VERSION)";
+$dbname = "db_kkk";
 
 
 // Connect DB
@@ -13,7 +13,4 @@ $con = mysqli_connect($servername, $username, $password, $dbname);
 if ($con->connect_error) {
     die("Connection failed: " . $con->connect_error);
   }
-
-
-
 ?>

@@ -1,3 +1,7 @@
+23/01/25 8.30pm [Lam Yoke Yu]
+- Delete old databases
+- Transaction history feature 
+
 23/01/25 7.32pm [Goe Jie Ying]
 change footer information
 
