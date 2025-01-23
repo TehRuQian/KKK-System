@@ -3,6 +3,9 @@
 - If you want to modify columns, please reimport and modify then only export
 
 # Changes Log
+23/01/25 10.49pm [Goe Jie Ying]
+- change tarik diri to berhenti
+
 23/01/25 9.42pm [Chua Jia Lin]
 - Done member_side feedback function
   
@@ -14,7 +17,7 @@
 - Transaction history feature 
 
 23/01/25 7.32pm [Goe Jie Ying]
-change footer information
+- change footer information
 
 23/01/25 6.35pm [Chua Jia Lin]
 - add interface for feedback & tarik diri for member

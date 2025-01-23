@@ -70,7 +70,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     </style>
 </head>
 <body>
-    <h2 style="text-align: center;">Borang Tarik Diri</h2>
+    <h2 style="text-align: center;">Permohonan Berhenti Menjadi Anggota</h2>
     <form class="form-container" method="post" action="">
         <fieldset>
             <div>
@@ -84,7 +84,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             </div>
 
             <div>
-                <label class="form-label mt-4">Alasan Tarik Diri<span class="required">*</span></label>
+                <label class="form-label mt-4">Sebab Berhenti Menjadi Anggota<span class="required">*</span></label>
                 <textarea class="form-control" name="td_alasan" rows="5" required></textarea>
             </div>
 
@@ -99,7 +99,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             event.preventDefault();
             Swal.fire({
                 title: 'Adakah anda pasti?',
-                text: 'Borang Tarik Diri anda akan dihantar!',
+                text: 'Permohonan Berhenti Menjadi Anggota anda akan dihantar!',
                 icon: 'question',
                 showCancelButton: true,
                 confirmButtonText: 'Ya, hantar',
