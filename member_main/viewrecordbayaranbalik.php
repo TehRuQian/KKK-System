@@ -19,20 +19,20 @@ if(isset($_SESSION['u_id']) != session_id())
   header('Location:login.php'); 
 }
 
-$u_id = $_SESSION['funame'];
+$u_id=$_SESSION['funame'];
 
-$filter_month = $_GET['filter_month'] ?? '';
-$filter_year = $_GET['filter_year'] ?? '';
+$filter_month=$_GET['filter_month'] ?? '';
+$filter_year=$_GET['filter_year'] ?? '';
 
-$where_clauses = ["tb_transaction.t_memberNo = '$u_id'", "tb_transaction.t_transactionType IN (6,7,8,9,10,11,12)"];
+$where_clauses=["tb_transaction.t_memberNo = '$u_id'","tb_transaction.t_transactionType IN (6,7,8,9,10,11,12)"];
 if (!empty($filter_month)) {
-    $where_clauses[] = "tb_transaction.t_month = '$filter_month'";
+    $where_clauses[]="tb_transaction.t_month = '$filter_month'";
 }
 if (!empty($filter_year)) {
-    $where_clauses[] = "tb_transaction.t_year = '$filter_year'";
+    $where_clauses[]="tb_transaction.t_year = '$filter_year'";
 }
 
-$where_sql = implode(' AND ', $where_clauses);
+$where_sql=implode(' AND ', $where_clauses);
 
 $records_per_page=10;
 
