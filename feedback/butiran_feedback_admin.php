@@ -10,18 +10,18 @@ if ($_SESSION['u_type']!=1) {
   exit();
 }
 
-if(isset($_SESSION['u_id'])!= session_id())
+if(isset($_SESSION['u_id'])!=session_id())
 {
   header('Location:../login.php'); 
 }
 
 include '../headermember.php';
 include '../db_connect.php';
-$u_id = $_SESSION['funame'];
+$u_id=$_SESSION['funame'];
 
-$feedbackID = $_GET['feedbackID'] ?? '';
+$feedbackID=$_GET['feedbackID'] ?? '';
 
-if (empty($feedbackID)) {
+if (empty($feedbackID)){
     die("No feedback ID provided.");
 }
 
@@ -35,22 +35,25 @@ $sql = "SELECT tb_feedback.*,
         LEFT JOIN tb_member ON tb_feedback.fb_memberNo=tb_member.m_memberNo
         WHERE tb_feedback.fb_feedbackID='$feedbackID'";
 
-$result = mysqli_query($con, $sql);
+$result = mysqli_query($con,$sql);
 $row = mysqli_fetch_assoc($result); 
 
-if (!$result) {
+if (!$result){
     die("Query failed: " . mysqli_error($con));
 }
 
-if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    $new_status = $_POST['fb_status'];
-    $new_comment = $_POST['fb_comment'];
+date_default_timezone_set('Asia/Kuala_Lumpur');
+
+if ($_SERVER['REQUEST_METHOD'] === 'POST'){
+    $new_status=$_POST['fb_status'];
+    $new_comment=$_POST['fb_comment'];
+    $edit_date=date('Y-m-d H:i:s');
 
     $update_sql = "UPDATE tb_feedback 
-                   SET fb_status='$new_status', fb_comment='$new_comment', fb_adminID='$u_id' 
+                   SET fb_status='$new_status', fb_comment='$new_comment', fb_editStatusDate='$edit_date', fb_adminID='$u_id' 
                    WHERE fb_feedbackID='$feedbackID'";
 
-    if (!mysqli_query($con, $update_sql)) {
+    if (!mysqli_query($con,$update_sql)){
         die("Error: " . mysqli_error($con));
     } 
     else{
@@ -125,6 +128,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 <tr>
                     <td scope="row">Komen Pentadbir</td>
                     <td><?= !empty($row['fb_comment']) ? $row['fb_comment'] : 'N/A'; ?></td>
+                </tr>
+                <tr>
+                    <td scope="row">Tarikh Disemak</td>
+                    <td><?= !empty($row['fb_editStatusDate']) ? $row['fb_editStatusDate'] : 'N/A'; ?></td>
                 </tr>
             </tbody>
         </table>

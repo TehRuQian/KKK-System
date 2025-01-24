@@ -66,16 +66,16 @@ if (!$result) {
 ?>
 
 <style>
-  body {
+  body{
     background-color: #f9f9f9;
   }
 
-  table thead th {
+  table thead th{
     text-align: center;
     background-color: #f1f1f1;
   }
 
-  table tbody td {
+  table tbody td{
     text-align: center;
   }
   
