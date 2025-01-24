@@ -1168,7 +1168,7 @@ ALTER TABLE `tb_reportretrievallog`
 -- AUTO_INCREMENT for table `tb_tarikdiri`
 --
 ALTER TABLE `tb_tarikdiri`
-  MODIFY `td_tarikdiriID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `td_tarikdiriID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=1;
 
 --
 -- AUTO_INCREMENT for table `tb_transaction`

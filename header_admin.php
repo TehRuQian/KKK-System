@@ -44,7 +44,7 @@
           <div class="dropdown-menu">
             <a class="dropdown-item <?php echo (basename($_SERVER['PHP_SELF']) == 'member_approval.php') ? 'active' : ''; ?>" href="../member_approval/member_approval.php">Permohonan Anggota</a>
             <a class="dropdown-item <?php echo (basename($_SERVER['PHP_SELF']) == 'loan_approval.php') ? 'active' : ''; ?>" href="../loan_approval/loan_approval.php">Permohonan Pinjaman</a>
-            <a class="dropdown-item <?php echo (basename($_SERVER['PHP_SELF']) == 'approval_berhenti.php') ? 'active' : ''; ?>" href="../berhenti/approval_berhenti.php">Permohonan Berhenti Menjadi Anggota</a>
+            <a class="dropdown-item <?php echo (basename($_SERVER['PHP_SELF']) == 'berhenti_approval.php') ? 'active' : ''; ?>" href="../berhenti_approval/berhenti_approval.php">Permohonan Berhenti Menjadi Anggota</a>
           </div>
         </li>
         
