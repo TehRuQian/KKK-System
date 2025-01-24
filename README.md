@@ -7,6 +7,9 @@
 - If you want to modify columns, please reimport and modify then only export
 
 # Changes Log
+24/01/25 5.42pm [Chua Jia Lin]
+- Sweet alert
+
 24/01/25 1.13pm [Chua Jia Lin]
 - Edit interfaces for feedback
 - add column fb_editStatusDate in tb_feedback (db_kkk (11).sql)
