@@ -7,6 +7,10 @@
 - If you want to modify columns, please reimport and modify then only export
 
 # Changes Log
+24/01/24 10.29pm [Lam Yoke Yu]
+- Update kemaskini_polisi
+- Want to do a checkbox for condition if same interest rate then merge rows but failed
+
 24/01/25 6.50pm [Goe Jie Ying]
 Added active in header_admin, the old version still with me, if tak suka the new boleh tukar balik
 p/s: dunno why the item on nav bar cannot be highlighted, just the things in dropdown list can

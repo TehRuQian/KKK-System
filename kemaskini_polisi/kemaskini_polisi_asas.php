@@ -36,6 +36,15 @@
         </div>
     </div>
 
+    <div>
+      <label class="form-label mt-4">Fee Masuk Anggota yang Pernah Menjadi Anggota</label>
+        <div class="input-group mb-3">
+          <span class="input-group-text">RM</span>
+          <input type="text" class="form-control" name="f_returningMemberRegFee" value="<?php echo htmlspecialchars($policy['p_returningMemberRegFee']); ?>">
+          <span class="input-group-text">.00</span>
+        </div>
+    </div>
+
     <!-- Modah Syer Minimum -->
     <div>
       <label class="form-label mt-4">Modah Syer Minimum</label>
