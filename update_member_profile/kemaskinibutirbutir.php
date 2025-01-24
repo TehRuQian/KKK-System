@@ -434,17 +434,34 @@ if(!empty($_POST)) {
       }
     }
 
-    let msg="Adakah anda pasti ingin mengemaskini maklumat anda?";
-    if(confirm(msg)==true){
-      alert("Tahniah! Maklumat anda telah berjaya dikemaskini!");
-    }
-    
-    else{
-      event.preventDefault();
-      alert("Maklumat anda tidak dikemaskini.");
-      window.location.href="profilmember.php";
-    }
-  }
+    event.preventDefault();
+
+            Swal.fire({
+                title: 'Adakah anda pasti?',
+                text: 'Butir-butir anda akan dikemaskini!',
+                icon: 'question',
+                showCancelButton: true,
+                confirmButtonText: 'Ya, hantar',
+                cancelButtonText: 'Batal'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    Swal.fire({
+                        icon: 'success',
+                        title: 'Butir-butir anda telah berjaya dikemaskii!',
+                        showConfirmButton: true
+                    }).then(() => {
+                        document.querySelector('form').submit();
+                    });
+                } else {
+                    Swal.fire({
+                        icon: 'info',
+                        title: 'Butir-butir anda tidak dikemaskii!',
+                    }).then(() => {
+                        window.location.href='profilmember.php';
+                    });
+                }
+            });
+        }
 </script>
 
 
