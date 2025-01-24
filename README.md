@@ -7,6 +7,11 @@
 - If you want to modify columns, please reimport and modify then only export
 
 # Changes Log
+24/01/24 11.07pm [Tan Yi Ya]
+- Archives are useless for now. Trying to create livechat module that connects admin and member
+- created customer support interface. try it at http://127.0.0.1/KKK-System/chatbot/
+- will update database once completed livechat module
+
 24/01/24 10.29pm [Lam Yoke Yu]
 - Update kemaskini_polisi
 - Want to do a checkbox for condition if same interest rate then merge rows but failed
