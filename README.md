@@ -11,6 +11,8 @@
 - Archives are useless for now. Trying to create livechat module that connects admin and member
 - created customer support interface. try it at http://127.0.0.1/KKK-System/chatbot/
 - will update database once completed livechat module
+- ![image](https://github.com/user-attachments/assets/fc7f4ad7-f0e3-4004-8bbb-afee65a9838a)
+
 
 24/01/24 10.29pm [Lam Yoke Yu]
 - Update kemaskini_polisi
