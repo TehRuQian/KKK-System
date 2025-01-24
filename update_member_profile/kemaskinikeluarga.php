@@ -41,52 +41,48 @@ function callResult($con, $u_id) {
 
 function getHeirs($con, $memberApplicationID) {
     $memberApplicationID = mysqli_real_escape_string($con, $memberApplicationID);
-    $sql = "SELECT tb_heir.*, tb_hrelation.hr_desc AS heirrelation
+    $sql = "SELECT tb_heir.*,tb_hrelation.hr_desc AS heirrelation
             FROM tb_heir 
-            LEFT JOIN tb_hrelation ON tb_heir.h_relationWithMember = tb_hrelation.hr_rid
-            WHERE h_memberApplicationID ='$memberApplicationID' 
+            LEFT JOIN tb_hrelation ON tb_heir.h_relationWithMember=tb_hrelation.hr_rid
+            WHERE h_memberApplicationID='$memberApplicationID' 
             ORDER BY h_heirID";
 
-    $result = mysqli_query($con, $sql);
-    if (!$result) {
+    $result=mysqli_query($con,$sql);
+    if (!$result){
         die("Query failed: ".mysqli_error($con));
     }
     return $result;
 }
 
 
-function addOrUpdateHeir($con, $memberApplicationID, $heirID, $heirName, $heirIC, $heirRelation) {
-    $memberApplicationID = mysqli_real_escape_string($con, $memberApplicationID);
-    $heirName = mysqli_real_escape_string($con, $heirName);
-    $heirIC = mysqli_real_escape_string($con, $heirIC);
-    $heirRelation = mysqli_real_escape_string($con, $heirRelation);
+function addOrUpdateHeir($con, $memberApplicationID, $heirID,$heirName,$heirIC,$heirRelation) {
+    $memberApplicationID=mysqli_real_escape_string($con, $memberApplicationID);
+    $heirName=mysqli_real_escape_string($con,$heirName);
+    $heirIC=mysqli_real_escape_string($con,$heirIC);
+    $heirRelation=mysqli_real_escape_string($con, $heirRelation);
 
-    if (!empty($heirID)) {
-        $sql = "UPDATE tb_heir SET h_name = '$heirName', h_ic = '$heirIC', h_relationWithMember = '$heirRelation'
-                WHERE h_heirID = '$heirID'";
+    if (!empty($heirID)){
+        $sql = "UPDATE tb_heir SET h_name='$heirName',h_ic='$heirIC',h_relationWithMember='$heirRelation'
+                WHERE h_heirID='$heirID'";
     } 
 
-    else {
-        $check_sql = "SELECT * FROM tb_heir WHERE h_memberApplicationID = '$memberApplicationID' AND h_ic = '$heirIC'";
+    else{
+        $check_sql = "SELECT * FROM tb_heir WHERE h_memberApplicationID='$memberApplicationID' AND h_ic = '$heirIC'";
         $check_result = mysqli_query($con, $check_sql);
         
-        if (mysqli_num_rows($check_result) == 0) {
+        if (mysqli_num_rows($check_result) == 0){
             $sql = "INSERT INTO tb_heir (h_memberApplicationID, h_name, h_ic, h_relationWithMember) 
                     VALUES ('$memberApplicationID', '$heirName', '$heirIC', '$heirRelation')";
         } 
         
-        else {
+        else{
             return;
         }
     }
 
-    if (!mysqli_query($con, $sql)) {
-        //echo "Success!"
+    if (!mysqli_query($con, $sql)){
+        die("Query failed: " . mysqli_error($con));
     } 
-    
-    else {
-        //echo "Error: " . $sql . "<br>" . mysqli_error($con);
-    }
 }
 
 $result = callResult($con, $u_id);
@@ -120,19 +116,21 @@ function deleteHeir($con, $heirId,$heirCount) {
           </script>";
         return false;
     }
+    else{
+        echo "<script>
+            Swal.fire({
+                icon: 'success',
+                title: 'Pewaris telah dipadam!',
+            });
+          </script>";
+    }
 
     $sql = "DELETE FROM tb_heir WHERE h_heirID = '$heirId'";
     $heirCount--;
 
-    if (mysqli_query($con, $sql)) { ?>
-        <script>
-            alert("Pewaris berjaya dipadam!");
-        </script>
-    <?php } 
-    
-    else {
-        echo "Error: " . $sql . "<br>" . mysqli_error($con);
-    }
+    if (!mysqli_query($con, $sql)) {
+        die("Failed to retrieve heirs: " . mysqli_error($con));
+    } 
 }
 
 
@@ -241,7 +239,6 @@ if (!$heir_result) {
     
 
 <script>
-
     function confirmDelete(heirId) {
         const confirmation = confirm("Adakah anda pasti ingin memadam pewaris ini?");
         if (confirmation) {
@@ -255,7 +252,7 @@ if (!$heir_result) {
             form.submit();
         }
     }
-
+        
         function removeHeir(button) {
             const heirDiv = button.closest('div').parentNode;
             heirDiv.remove();
@@ -321,17 +318,36 @@ if (!$heir_result) {
                     return false;
                 }
             }
-            let msg = "Adakah anda pasti ingin mengemaskini maklumat anda?";
-            if (confirm(msg) == true) {
-                alert("Tahniah! Maklumat anda telah berjaya dikemaskini!");
-                window.location.href = "profilmember.php";
-            } else {
-                event.preventDefault();
-                alert("Maklumat anda tidak dikemaskini.");
-                window.location.href = "profilmember.php";
-            }
+            event.preventDefault();
+
+            Swal.fire({
+                title: 'Adakah anda pasti?',
+                text: 'Maklumat pewaris dan keluarga akan dikemaskini!',
+                icon: 'question',
+                showCancelButton: true,
+                confirmButtonText: 'Ya, hantar',
+                cancelButtonText: 'Batal'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    Swal.fire({
+                        icon: 'success',
+                        title: 'Maklumat pewaris dan keluarga telah berjaya dikemaskini!',
+                        showConfirmButton: true
+                    }).then(() => {
+                        document.querySelector('form').submit();
+                    });
+                } else {
+                    Swal.fire({
+                        icon: 'info',
+                        title: 'Maklumat pewaris dan keluarga tidak dikemaskini!',
+                    }).then(() => {
+                        window.location.href='profilmember.php';
+                    });
+                }
+            });
         }
-</script>
+</script> 
+
 </body>
 </html>
 
