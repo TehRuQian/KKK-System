@@ -18,12 +18,13 @@
   $start_from = ($current_page - 1) * $records_per_page;
 
   $sql = "
-    SELECT tb_tarikdiri.*, tb_member.m_name 
-    FROM tb_tarikdiri
-    INNER JOIN tb_member
-    ON tb_tarikdiri.td_memberNo = tb_member.m_memberNo
-    LIMIT $start_from, $records_per_page;";
+  SELECT tb_tarikdiri.*, tb_member.m_name, tb_member.m_memberNo
+  FROM tb_tarikdiri
+  INNER JOIN tb_member
+  ON tb_tarikdiri.td_memberNo = tb_member.m_memberNo
+  LIMIT $start_from, $records_per_page;";
   $result_tarikdiri = mysqli_query($con, $sql);
+
 
   $total_sql = "SELECT COUNT(*) FROM tb_tarikdiri;";
   $total_result = mysqli_query($con, $total_sql);
@@ -69,7 +70,7 @@
                 echo "<td>" . htmlspecialchars($row['m_name']) . "</td>";
                 echo "<td><button type='button' class='btn btn-link alasan-btn' data-alasan='" . htmlspecialchars($row['td_alasan']) . "'>Lihat Alasan</button></td>";
                 echo "<td>" . date('d-m-Y', strtotime($row['td_submitDate'])) . "</td>";
-                echo "<td><a href='butiran_berhenti.php?berhentiID=" . $row['td_tarikdiriID'] . "'><i class='fa fa-ellipsis-h' aria-hidden='true'></i></a></td>";
+                echo "<td><a href='berhenti_approval_detail.php?berhentiID=" . $row['td_tarikdiriID'] . "&memberNo=" . $row['m_memberNo'] . "'><i class='fa fa-ellipsis-h' aria-hidden='true'></i></a></td>";
               echo "</tr>";
             }
           ?>
