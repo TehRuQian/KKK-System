@@ -7,9 +7,10 @@
 - If you want to modify columns, please reimport and modify then only export
 
 # Changes Log
-25/01/25 1.39am [Goe Jie Ying]
+25/01/25 2.39am [Goe Jie Ying]
 - Update Berhenti_approval_detail and process, berhenti_approval interface haven't finalise yet
 - Update Database (db_kkk (12).sql), specifically in tb_tarikdiri (a new column added)
+- Added search bar (works) and editing mode (for AA, not function well) in member list
 
 24/01/24 11.07pm [Tan Yi Ya]
 - Archives are useless for now. Trying to create livechat module that connects admin and member
