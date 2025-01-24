@@ -25,6 +25,7 @@
   $policy = mysqli_fetch_assoc($result);
 
   $d_memberRegFee = $policy['p_memberRegFee'];
+  $d_returningMemberRegFee = $policy['p_returningMemberRegFee'];
   $d_minShareCapital = $policy['p_minShareCapital'];
   $d_minFeeCapital = $policy['p_minFeeCapital'];
   $d_minFixedSaving = $policy['p_minFixedSaving'];
@@ -33,9 +34,22 @@
   $d_minOtherFees = $policy['p_minOtherFees'];
 
   $d_minShareCapitalForLoan = $policy['p_minShareCapitalForLoan'];
-  $d_profitRate = $policy['p_profitRate'];
   $d_maxInstallmentPeriod = $policy['p_maxInstallmentPeriod'];
-  $d_maxFinancingAmt = $policy['p_maxFinancingAmt'];
+
+  $d_maxAlBai = $policy['p_maxAlBai'];
+  $d_maxAlInnah = $policy['p_maxAlInnah'];
+  $d_maxBPulihKenderaan = $policy['p_maxBPulihKenderaan'];
+  $d_maxCukaiJalanInsurans = $policy['p_maxCukaiJalanInsurans'];
+  $d_maxKhas = $policy['p_maxKhas'];
+  $d_maxKarnivalMusim = $policy['p_maxKarnivalMusim'];
+  $d_maxAlQadrulHassan = $policy['p_maxAlQadrulHassan'];
+  $d_rateAlBai = $policy['p_rateAlBai'];
+  $d_rateAlInnah = $policy['p_rateAlInnah'];
+  $d_rateBPulihKenderaan = $policy['p_rateBPulihKenderaan'];
+  $d_rateCukaiJalanInsurans = $policy['p_rateCukaiJalanInsurans'];
+  $d_rateKhas = $policy['p_rateKhas'];
+  $d_rateKarnivalMusim = $policy['p_rateKarnivalMusim'];
+  $d_rateAlQadrulHassan = $policy['p_rateAlQadrulHassan'];
 
   // SQL Insert Operation
   // Admin ID needs to be changed later
