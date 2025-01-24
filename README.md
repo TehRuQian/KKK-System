@@ -8,6 +8,10 @@
 
 # Changes Log
 24/01/25 1.41am [Chua Jia Lin]
+- Edit interfaces for feedback
+- add column fb_editStatusDate in tb_feedback (db_kkk (11).sql)
+  
+24/01/25 1.41am [Chua Jia Lin]
 - Done full feedback function
   
 23/01/25 10.49pm [Goe Jie Ying]
