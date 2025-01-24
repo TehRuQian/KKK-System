@@ -52,20 +52,20 @@
   $d_salaryDeductionForMemberFund = $policy['p_salaryDeductionForMemberFund'];
 
   $sql = "
-      INSERT INTO tb_policies (
-        p_memberRegFee, p_returningMemberRegFee, 
-        p_minShareCapital, p_minFeeCapital, p_minFixedSaving, p_minMemberFund, p_minMemberSaving, p_minOtherFees,
-        p_minShareCapitalForLoan, p_maxInstallmentPeriod, 
-        p_maxAlBai, p_maxAlInnah, p_maxBPulihKenderaan, p_maxCukaiJalanInsurans, p_maxKhas, p_maxKarnivalMusim, p_maxAlQadrulHassan, 
-        p_rateAlBai, p_rateAlInnah, p_rateBPulihKenderaan, p_rateCukaiJalanInsurans, p_rateKhas, p_rateKarnivalMusim, p_rateAlQadrulHassan, 
-        p_salaryDeductionForSaving, p_salaryDeductionForMemberFund, p_adminID)
-      VALUES (
-        '$d_memberRegFee', '$d_returningMemberRegFee', 
-        '$d_minShareCapital', '$d_minFeeCapital', '$d_minFixedSaving', '$d_minMemberFund', '$d_minMemberSaving', '$d_minOtherFees',
-        '$d_minShareCapitalForLoan', '$d_maxInstallmentPeriod', 
-        '$d_maxAlBai', '$d_maxAlInnah', '$d_maxBPulihKenderaan', '$d_maxCukaiJalanInsurans', '$d_maxKhas', '$d_maxKarnivalMusim', '$d_maxAlQadrulHassan', 
-        '$d_rateAlBai', '$d_rateAlInnah', '$d_rateBPulihKenderaan', '$d_rateCukaiJalanInsurans', '$d_rateKhas', '$d_rateKarnivalMusim', '$d_rateAlQadrulHassan', 
-        '$f_salaryDeductionForSaving', '$f_salaryDeductionForMemberFund', '$admin_id');";
+  INSERT INTO tb_policies (
+    p_memberRegFee, p_returningMemberRegFee, 
+    p_minShareCapital, p_minFeeCapital, p_minFixedSaving, p_minMemberFund, p_minMemberSaving, p_minOtherFees,
+    p_minShareCapitalForLoan, p_maxInstallmentPeriod, 
+    p_maxAlBai, p_maxAlInnah, p_maxBPulihKenderaan, p_maxCukaiJalanInsurans, p_maxKhas, p_maxKarnivalMusim, p_maxAlQadrulHassan, 
+    p_rateAlBai, p_rateAlInnah, p_rateBPulihKenderaan, p_rateCukaiJalanInsurans, p_rateKhas, p_rateKarnivalMusim, p_rateAlQadrulHassan, 
+    p_salaryDeductionForSaving, p_salaryDeductionForMemberFund, p_adminID)
+  VALUES (
+    '$f_memberRegFee', '$f_returningMemberRegFee',
+    '$f_minShareCapital', '$f_minFeeCapital', '$f_minFixedSaving', '$f_minMemberFund', '$f_minMemberSaving', '$f_minOtherFees',
+    '$d_minShareCapitalForLoan', '$d_maxInstallmentPeriod', 
+    '$d_maxAlBai', '$d_maxAlInnah', '$d_maxBPulihKenderaan', '$d_maxCukaiJalanInsurans', '$d_maxKhas', '$d_maxKarnivalMusim', '$d_maxAlQadrulHassan', 
+    '$d_rateAlBai', '$d_rateAlInnah', '$d_rateBPulihKenderaan', '$d_rateCukaiJalanInsurans', '$d_rateKhas', '$d_rateKarnivalMusim', '$d_rateAlQadrulHassan', 
+    '$d_salaryDeductionForSaving', '$d_salaryDeductionForMemberFund', '$admin_id');";
 
   if (mysqli_query($con, $sql)) {
     echo "

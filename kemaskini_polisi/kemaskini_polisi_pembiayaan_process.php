@@ -13,7 +13,7 @@
   include '../db_connect.php';
   $admin_id = $_SESSION['u_id'];
 
-  var_dump($_POST);
+  // var_dump($_POST);
   
   $f_minShareCapitalForLoan = $_POST['f_minShareCapitalForLoan'];
   $f_maxInstallmentPeriod = $_POST['f_maxInstallmentPeriod'];
