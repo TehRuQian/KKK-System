@@ -20,6 +20,7 @@
   $memberSavingChange = $_POST['memberSavingChange'];
   $memberFundChange = $_POST['memberFundChange'];
   $desc = $_POST['f_desc'];
+  $resitNo = $_POST['f_resitNo'];
   $file = $_FILES['transactionProof'];
 
   $target_dir = "bukti_transaksi/";
@@ -88,8 +89,8 @@
 
       foreach ($transactionTypes as $type => $changeAmount) {
         if ($changeAmount != 0) {
-          $sql = "INSERT INTO tb_transaction (t_transactionType, t_method, t_transactionAmt, t_month, t_year, t_desc, t_proof, t_memberNo, t_adminID)
-                  VALUES ('$type', 'Transaksi Tambahan', '$changeAmount', '$currentMonth', '$currentYear', '$desc', '$proofPath', '$memberNo', '$admin_id')";
+          $sql = "INSERT INTO tb_transaction (t_transactionType, t_method, t_transactionAmt, t_month, t_year, t_desc, t_resitNo, t_proof, t_memberNo, t_adminID)
+                  VALUES ('$type', 'Transaksi Tambahan', '$changeAmount', '$currentMonth', '$currentYear', '$desc', '$resitNo', '$proofPath', '$memberNo', '$admin_id')";
           mysqli_query($con, $sql);
         }
       }
@@ -124,8 +125,8 @@
               $desc .= ": Bayaran Balik " . $loanID;
 
               // Log transaction table
-              $sql = "INSERT INTO tb_transaction (t_transactionType, t_method, t_transactionAmt, t_month, t_year, t_desc, t_proof, t_memberNo, t_adminID)
-                      VALUES ('$ttype', 'Transaksi Tambahan', '$paymentAmount', '$currentMonth', '$currentYear', '$desc', '$proofPath', '$memberNo', '$admin_id')";
+              $sql = "INSERT INTO tb_transaction (t_transactionType, t_method, t_transactionAmt, t_month, t_year, t_desc, t_resitNo, t_proof, t_memberNo, t_adminID)
+                      VALUES ('$ttype', 'Transaksi Tambahan', '$paymentAmount', '$currentMonth', '$currentYear', '$desc', '$resitNo', '$proofPath', '$memberNo', '$admin_id')";
               mysqli_query($con, $sql);
             }
           }

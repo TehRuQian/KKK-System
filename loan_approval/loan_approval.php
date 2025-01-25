@@ -55,7 +55,7 @@ $total_pages = ceil($total_records / $records_per_page);
         <th scope="col" class="text-center">Jumlah Permohonan (RM)</th>
         <th scope="col" class="text-center">Tempoh Pinjaman (Bulan)</th>
         <th scope="col" class="text-center">Ansuran Bulanan (RM)</th>
-        <th scope="col" class="text-center">Tunggakan (RM)</th>
+        <!-- <th scope="col" class="text-center">Tunggakan (RM)</th> -->
         <th scope="col" class="text-center">Tarikh Pohon</th>
         <th scope="col" class="text-center">Butiran</th>
         </tr>
@@ -71,7 +71,7 @@ $total_pages = ceil($total_records / $records_per_page);
                 echo "<td class='text-center'>" . number_format($row['l_appliedLoan'], 2)."</td>";
                 echo "<td class='text-center'>".$row['l_loanPeriod']."</td>";
                 echo "<td class='text-center'>". number_format($row['l_monthlyInstalment'], 2)."</td>";
-                echo "<td class='text-center'>". number_format($row['l_loanPayable'], 2)."</td>";
+                // echo "<td class='text-center'>". number_format($row['l_loanPayable'], 2)."</td>";
                 echo "<td class='text-center'>".$row['formattedDate']."</td>"; 
                 echo "<td class='text-center'>";
                 echo "<a href='loan_approval_detail.php?id=".$row['l_loanApplicationID']."' title='View Details'>";

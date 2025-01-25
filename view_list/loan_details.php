@@ -87,6 +87,10 @@ if (isset($_GET['id'])) {
                     <td>Ansuran Bulanan (RM)</td>
                     <td><?php echo number_format($loan['l_monthlyInstalment'], 2); ?></td>
                 </tr>
+                <tr>
+                    <td>Tunggakan (RM)</td>
+                    <td><?php echo number_format($loan['l_loanPayable'], 2); ?></td>
+                </tr>
             </table>
         </div>
     </div>

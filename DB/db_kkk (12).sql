@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jan 24, 2025 at 06:10 AM
+-- Generation Time: Jan 24, 2025 at 06:57 PM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -87,8 +87,8 @@ CREATE TABLE `tb_feedback` (
 --
 
 INSERT INTO `tb_feedback` (`fb_feedbackID`, `fb_content`, `fb_submitDate`, `fb_comment`, `fb_memberNo`, `fb_status`, `fb_type`, `fb_adminID`, `fb_editStatusDate`) VALUES
-(1, 'a', '2025-01-24 12:37:30', NULL, 1001, 7, 1, NULL, NULL),
-(2, 'b', '2025-01-24 12:37:38', '', 1001, 1, 2, 12345678, '2025-01-24 12:40:45');
+(1, 'Saya mencadangkan untuk membina sebuah sistem digital.', '2025-01-24 12:37:30', NULL, 1001, 7, 1, NULL, NULL),
+(2, 'Warna biru bukan warna kegemaran saya.', '2025-01-24 12:37:38', '', 1001, 1, 2, 12345678, '2025-01-24 12:40:45');
 
 -- --------------------------------------------------------
 
@@ -639,8 +639,17 @@ CREATE TABLE `tb_tarikdiri` (
   `td_submitDate` datetime DEFAULT NULL,
   `td_status` int(11) NOT NULL,
   `td_approvalDate` datetime DEFAULT NULL,
+  `td_ulasan` varchar(255) DEFAULT NULL,
   `td_adminID` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `tb_tarikdiri`
+--
+
+INSERT INTO `tb_tarikdiri` (`td_tarikdiriID`, `td_memberNo`, `td_alasan`, `td_submitDate`, `td_status`, `td_approvalDate`, `td_ulasan`, `td_adminID`) VALUES
+(1, 1009, 'Kami sekeluarga berpindah ke negeri lain. Saya akan meletakkan jawatan dari KADA.', '2025-01-24 18:52:09', 1, NULL, NULL, NULL),
+(2, 1007, 'Tiada alasan spesifik.', '2025-01-24 18:53:18', 1, NULL, NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -1168,7 +1177,7 @@ ALTER TABLE `tb_reportretrievallog`
 -- AUTO_INCREMENT for table `tb_tarikdiri`
 --
 ALTER TABLE `tb_tarikdiri`
-  MODIFY `td_tarikdiriID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=1;
+  MODIFY `td_tarikdiriID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT for table `tb_transaction`

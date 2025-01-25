@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jan 24, 2025 at 06:10 AM
+-- Generation Time: Jan 25, 2025 at 08:16 AM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -87,8 +87,8 @@ CREATE TABLE `tb_feedback` (
 --
 
 INSERT INTO `tb_feedback` (`fb_feedbackID`, `fb_content`, `fb_submitDate`, `fb_comment`, `fb_memberNo`, `fb_status`, `fb_type`, `fb_adminID`, `fb_editStatusDate`) VALUES
-(1, 'a', '2025-01-24 12:37:30', NULL, 1001, 7, 1, NULL, NULL),
-(2, 'b', '2025-01-24 12:37:38', '', 1001, 1, 2, 12345678, '2025-01-24 12:40:45');
+(1, 'Saya mencadangkan untuk membina sebuah sistem digital.', '2025-01-24 12:37:30', NULL, 1001, 7, 1, NULL, NULL),
+(2, 'Warna biru bukan warna kegemaran saya.', '2025-01-24 12:37:38', '', 1001, 1, 2, 12345678, '2025-01-24 12:40:45');
 
 -- --------------------------------------------------------
 
@@ -639,8 +639,17 @@ CREATE TABLE `tb_tarikdiri` (
   `td_submitDate` datetime DEFAULT NULL,
   `td_status` int(11) NOT NULL,
   `td_approvalDate` datetime DEFAULT NULL,
+  `td_ulasan` varchar(255) DEFAULT NULL,
   `td_adminID` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `tb_tarikdiri`
+--
+
+INSERT INTO `tb_tarikdiri` (`td_tarikdiriID`, `td_memberNo`, `td_alasan`, `td_submitDate`, `td_status`, `td_approvalDate`, `td_ulasan`, `td_adminID`) VALUES
+(1, 1009, 'Kami sekeluarga berpindah ke negeri lain. Saya akan meletakkan jawatan dari KADA.', '2025-01-24 18:52:09', 1, NULL, NULL, NULL),
+(2, 1007, 'Tiada alasan spesifik.', '2025-01-24 18:53:18', 1, NULL, NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -656,6 +665,8 @@ CREATE TABLE `tb_transaction` (
   `t_month` int(11) NOT NULL,
   `t_year` int(11) NOT NULL,
   `t_desc` varchar(255) NOT NULL,
+  `t_resitNo` varchar(255) NOT NULL,
+  `t_proof` varchar(255) NOT NULL,
   `t_transactionDate` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
   `t_memberNo` int(11) NOT NULL,
   `t_adminID` int(11) NOT NULL
@@ -665,84 +676,84 @@ CREATE TABLE `tb_transaction` (
 -- Dumping data for table `tb_transaction`
 --
 
-INSERT INTO `tb_transaction` (`t_transactionID`, `t_transactionType`, `t_method`, `t_transactionAmt`, `t_month`, `t_year`, `t_desc`, `t_transactionDate`, `t_memberNo`, `t_adminID`) VALUES
-(1, 1, 'Potongan Gaji', 50, 9, 2024, 'Potongan Gaji', '2024-10-04 14:33:50', 1000, 12345679),
-(2, 4, 'Potongan Gaji', 5, 9, 2024, 'Potongan Gaji', '2024-10-04 14:33:54', 1000, 12345679),
-(3, 1, 'Potongan Gaji', 50, 9, 2024, 'Potongan Gaji', '2024-10-04 14:33:58', 1001, 12345679),
-(4, 4, 'Potongan Gaji', 5, 9, 2024, 'Potongan Gaji', '2024-10-04 14:34:11', 1001, 12345679),
-(5, 1, 'Potongan Gaji', 50, 9, 2024, 'Potongan Gaji', '2024-10-04 14:34:16', 1003, 12345679),
-(6, 4, 'Potongan Gaji', 5, 9, 2024, 'Potongan Gaji', '2024-10-04 14:34:21', 1003, 12345679),
-(7, 3, 'Transaksi Tambahan', 50, 10, 2024, 'Bayaran Simpanan Tetap', '2024-10-11 14:34:33', 1000, 12345679),
-(8, 3, 'Transaksi Tambahan', 50, 10, 2024, 'Bayaran Simpanan Tetap', '2024-10-11 14:34:38', 1001, 12345679),
-(9, 1, 'Transaksi Tambahan', 250, 10, 2024, 'Pembelian Saham dan Bayaran Simpanan Anggota', '2024-10-11 12:36:22', 1003, 12345679),
-(10, 4, 'Transaksi Tambahan', 50, 10, 2024, 'Pembelian Saham dan Bayaran Simpanan Anggota', '2024-10-11 12:36:28', 1003, 12345679),
-(11, 1, 'Potongan Gaji', 50, 10, 2024, 'Potongan Gaji', '2024-11-08 12:38:14', 1000, 12345678),
-(12, 4, 'Potongan Gaji', 5, 10, 2024, 'Potongan Gaji', '2024-11-08 12:38:14', 1000, 12345678),
-(13, 1, 'Potongan Gaji', 50, 10, 2024, 'Potongan Gaji', '2024-11-08 12:38:14', 1001, 12345678),
-(14, 4, 'Potongan Gaji', 5, 10, 2024, 'Potongan Gaji', '2024-11-08 12:38:14', 1001, 12345678),
-(15, 3, 'Potongan Gaji', 50, 10, 2024, 'Potongan Gaji', '2024-11-08 12:38:14', 1003, 12345678),
-(16, 4, 'Potongan Gaji', 5, 10, 2024, 'Potongan Gaji', '2024-11-08 12:38:14', 1003, 12345678),
-(17, 8, 'Potongan Gaji', 91.67, 10, 2024, 'Potongan Gaji Bayaran Balik 4', '2024-11-08 12:38:14', 1003, 12345678),
-(18, 1, 'Potongan Gaji', 50, 10, 2024, 'Potongan Gaji', '2024-11-08 12:38:14', 1004, 12345678),
-(19, 4, 'Potongan Gaji', 5, 10, 2024, 'Potongan Gaji', '2024-11-08 12:38:14', 1004, 12345678),
-(20, 1, 'Potongan Gaji', 50, 10, 2024, 'Potongan Gaji', '2024-11-08 12:38:14', 1005, 12345678),
-(21, 4, 'Potongan Gaji', 5, 10, 2024, 'Potongan Gaji', '2024-11-08 12:38:14', 1005, 12345678),
-(22, 1, 'Potongan Gaji', 50, 10, 2024, 'Potongan Gaji', '2024-11-08 12:38:14', 1006, 12345678),
-(23, 4, 'Potongan Gaji', 5, 10, 2024, 'Potongan Gaji', '2024-11-08 12:38:14', 1006, 12345678),
-(24, 1, 'Potongan Gaji', 50, 10, 2024, 'Potongan Gaji', '2024-11-08 12:38:14', 1007, 12345678),
-(25, 4, 'Potongan Gaji', 5, 10, 2024, 'Potongan Gaji', '2024-11-08 12:38:14', 1007, 12345678),
-(26, 1, 'Potongan Gaji', 50, 11, 2024, 'Potongan Gaji', '2024-12-06 13:23:37', 1000, 12345678),
-(27, 4, 'Potongan Gaji', 5, 11, 2024, 'Potongan Gaji', '2024-12-06 13:23:37', 1000, 12345678),
-(28, 1, 'Potongan Gaji', 50, 11, 2024, 'Potongan Gaji', '2024-12-06 13:23:37', 1001, 12345678),
-(29, 4, 'Potongan Gaji', 5, 11, 2024, 'Potongan Gaji', '2024-12-06 13:23:37', 1001, 12345678),
-(30, 3, 'Potongan Gaji', 50, 11, 2024, 'Potongan Gaji', '2024-12-06 13:23:37', 1003, 12345678),
-(31, 4, 'Potongan Gaji', 5, 11, 2024, 'Potongan Gaji', '2024-12-06 13:23:37', 1003, 12345678),
-(32, 8, 'Potongan Gaji', 91.67, 11, 2024, 'Potongan Gaji Bayaran Balik 4', '2024-12-06 13:23:37', 1003, 12345678),
-(33, 1, 'Potongan Gaji', 50, 11, 2024, 'Potongan Gaji', '2024-12-06 13:23:37', 1004, 12345678),
-(34, 4, 'Potongan Gaji', 5, 11, 2024, 'Potongan Gaji', '2025-01-21 14:43:54', 1004, 12345678),
-(35, 1, 'Potongan Gaji', 50, 11, 2024, 'Potongan Gaji', '2024-12-06 13:23:37', 1005, 12345678),
-(36, 4, 'Potongan Gaji', 5, 11, 2024, 'Potongan Gaji', '2024-12-06 13:23:37', 1005, 12345678),
-(37, 1, 'Potongan Gaji', 50, 11, 2024, 'Potongan Gaji', '2024-12-06 13:23:37', 1006, 12345678),
-(38, 4, 'Potongan Gaji', 5, 11, 2024, 'Potongan Gaji', '2024-12-06 13:23:37', 1006, 12345678),
-(39, 1, 'Potongan Gaji', 50, 11, 2024, 'Potongan Gaji', '2024-12-06 13:23:37', 1007, 12345678),
-(40, 4, 'Potongan Gaji', 5, 11, 2024, 'Potongan Gaji', '2024-12-06 13:23:37', 1007, 12345678),
-(41, 1, 'Potongan Gaji', 50, 11, 2024, 'Potongan Gaji', '2024-12-06 13:23:37', 1008, 12345678),
-(42, 4, 'Potongan Gaji', 5, 11, 2024, 'Potongan Gaji', '2024-12-06 13:23:37', 1008, 12345678),
-(43, 1, 'Potongan Gaji', 50, 11, 2024, 'Potongan Gaji', '2024-12-06 13:23:37', 1009, 12345678),
-(44, 4, 'Potongan Gaji', 5, 11, 2024, 'Potongan Gaji', '2024-12-06 13:23:37', 1009, 12345678),
-(45, 1, 'Potongan Gaji', 50, 11, 2024, 'Potongan Gaji', '2024-12-06 13:23:37', 1010, 12345678),
-(46, 4, 'Potongan Gaji', 5, 11, 2024, 'Potongan Gaji', '2024-12-06 13:23:37', 1010, 12345678),
-(47, 1, 'Transaksi Tambahan', 500, 12, 2024, 'Pembelian Saham', '2024-12-10 14:27:07', 1008, 12345678),
-(48, 1, 'Transaksi Tambahan', 200, 12, 2024, 'Pembelian Saham', '2024-12-10 14:27:13', 1007, 12345678),
-(49, 1, 'Potongan Gaji', 50, 12, 2024, 'Potongan Gaji', '2025-01-03 14:52:08', 1000, 12345679),
-(50, 4, 'Potongan Gaji', 5, 12, 2024, 'Potongan Gaji', '2025-01-03 14:52:08', 1000, 12345679),
-(51, 1, 'Potongan Gaji', 50, 12, 2024, 'Potongan Gaji', '2025-01-03 14:52:08', 1001, 12345679),
-(52, 4, 'Potongan Gaji', 5, 12, 2024, 'Potongan Gaji', '2025-01-03 14:52:08', 1001, 12345679),
-(53, 3, 'Potongan Gaji', 50, 12, 2024, 'Potongan Gaji', '2025-01-03 14:52:08', 1003, 12345679),
-(54, 4, 'Potongan Gaji', 5, 12, 2024, 'Potongan Gaji', '2025-01-03 14:52:08', 1003, 12345679),
-(55, 8, 'Potongan Gaji', 91.67, 12, 2024, 'Potongan Gaji Bayaran Balik 4', '2025-01-03 14:52:08', 1003, 12345679),
-(56, 8, 'Potongan Gaji', 243.33, 12, 2024, 'Potongan Gaji Bayaran Balik 5', '2025-01-03 14:52:08', 1003, 12345679),
-(57, 1, 'Potongan Gaji', 50, 12, 2024, 'Potongan Gaji', '2025-01-03 14:52:08', 1004, 12345679),
-(58, 4, 'Potongan Gaji', 5, 12, 2024, 'Potongan Gaji', '2025-01-03 14:52:08', 1004, 12345679),
-(59, 1, 'Potongan Gaji', 50, 12, 2024, 'Potongan Gaji', '2025-01-03 14:52:08', 1005, 12345679),
-(60, 4, 'Potongan Gaji', 5, 12, 2024, 'Potongan Gaji', '2025-01-03 14:52:08', 1005, 12345679),
-(61, 1, 'Potongan Gaji', 50, 12, 2024, 'Potongan Gaji', '2025-01-03 14:52:08', 1006, 12345679),
-(62, 4, 'Potongan Gaji', 5, 12, 2024, 'Potongan Gaji', '2025-01-03 14:52:08', 1006, 12345679),
-(63, 3, 'Potongan Gaji', 50, 12, 2024, 'Potongan Gaji', '2025-01-03 14:52:08', 1007, 12345679),
-(64, 4, 'Potongan Gaji', 5, 12, 2024, 'Potongan Gaji', '2025-01-03 14:52:08', 1007, 12345679),
-(65, 10, 'Potongan Gaji', 201.67, 12, 2024, 'Potongan Gaji Bayaran Balik 6', '2025-01-03 14:52:08', 1007, 12345679),
-(66, 3, 'Potongan Gaji', 50, 12, 2024, 'Potongan Gaji', '2025-01-03 14:52:08', 1008, 12345679),
-(67, 4, 'Potongan Gaji', 5, 12, 2024, 'Potongan Gaji', '2025-01-03 14:52:08', 1008, 12345679),
-(68, 9, 'Potongan Gaji', 31.28, 12, 2024, 'Potongan Gaji Bayaran Balik 8', '2025-01-03 14:52:08', 1008, 12345679),
-(69, 1, 'Potongan Gaji', 50, 12, 2024, 'Potongan Gaji', '2025-01-03 14:52:08', 1009, 12345679),
-(70, 4, 'Potongan Gaji', 5, 12, 2024, 'Potongan Gaji', '2025-01-03 14:52:08', 1009, 12345679),
-(71, 1, 'Potongan Gaji', 50, 12, 2024, 'Potongan Gaji', '2025-01-03 14:52:08', 1010, 12345679),
-(72, 4, 'Potongan Gaji', 5, 12, 2024, 'Potongan Gaji', '2025-01-03 14:52:08', 1010, 12345679),
-(73, 1, 'Potongan Gaji', 50, 12, 2024, 'Potongan Gaji', '2025-01-03 14:52:08', 1011, 12345679),
-(74, 4, 'Potongan Gaji', 5, 12, 2024, 'Potongan Gaji', '2025-01-03 14:52:08', 1011, 12345679),
-(75, 1, 'Potongan Gaji', 50, 12, 2024, 'Potongan Gaji', '2025-01-03 14:52:08', 1012, 12345679),
-(76, 4, 'Potongan Gaji', 5, 12, 2024, 'Potongan Gaji', '2025-01-03 14:52:08', 1012, 12345679),
-(77, 1, 'Transaksi Tambahan', 200, 1, 2025, 'Pembelian Saham', '2025-01-21 14:54:58', 1000, 12345679);
+INSERT INTO `tb_transaction` (`t_transactionID`, `t_transactionType`, `t_method`, `t_transactionAmt`, `t_month`, `t_year`, `t_desc`, `t_resitNo`, `t_proof`, `t_transactionDate`, `t_memberNo`, `t_adminID`) VALUES
+(1, 1, 'Potongan Gaji', 50, 9, 2024, 'Potongan Gaji', '', '', '2024-10-04 14:33:50', 1000, 12345679),
+(2, 4, 'Potongan Gaji', 5, 9, 2024, 'Potongan Gaji', '', '', '2024-10-04 14:33:54', 1000, 12345679),
+(3, 1, 'Potongan Gaji', 50, 9, 2024, 'Potongan Gaji', '', '', '2024-10-04 14:33:58', 1001, 12345679),
+(4, 4, 'Potongan Gaji', 5, 9, 2024, 'Potongan Gaji', '', '', '2024-10-04 14:34:11', 1001, 12345679),
+(5, 1, 'Potongan Gaji', 50, 9, 2024, 'Potongan Gaji', '', '', '2024-10-04 14:34:16', 1003, 12345679),
+(6, 4, 'Potongan Gaji', 5, 9, 2024, 'Potongan Gaji', '', '', '2024-10-04 14:34:21', 1003, 12345679),
+(7, 3, 'Transaksi Tambahan', 50, 10, 2024, 'Bayaran Simpanan Tetap', '', '', '2024-10-11 14:34:33', 1000, 12345679),
+(8, 3, 'Transaksi Tambahan', 50, 10, 2024, 'Bayaran Simpanan Tetap', '', '', '2024-10-11 14:34:38', 1001, 12345679),
+(9, 1, 'Transaksi Tambahan', 250, 10, 2024, 'Pembelian Saham dan Bayaran Simpanan Anggota', '', '', '2024-10-11 12:36:22', 1003, 12345679),
+(10, 4, 'Transaksi Tambahan', 50, 10, 2024, 'Pembelian Saham dan Bayaran Simpanan Anggota', '', '', '2024-10-11 12:36:28', 1003, 12345679),
+(11, 1, 'Potongan Gaji', 50, 10, 2024, 'Potongan Gaji', '', '', '2024-11-08 12:38:14', 1000, 12345678),
+(12, 4, 'Potongan Gaji', 5, 10, 2024, 'Potongan Gaji', '', '', '2024-11-08 12:38:14', 1000, 12345678),
+(13, 1, 'Potongan Gaji', 50, 10, 2024, 'Potongan Gaji', '', '', '2024-11-08 12:38:14', 1001, 12345678),
+(14, 4, 'Potongan Gaji', 5, 10, 2024, 'Potongan Gaji', '', '', '2024-11-08 12:38:14', 1001, 12345678),
+(15, 3, 'Potongan Gaji', 50, 10, 2024, 'Potongan Gaji', '', '', '2024-11-08 12:38:14', 1003, 12345678),
+(16, 4, 'Potongan Gaji', 5, 10, 2024, 'Potongan Gaji', '', '', '2024-11-08 12:38:14', 1003, 12345678),
+(17, 8, 'Potongan Gaji', 91.67, 10, 2024, 'Potongan Gaji Bayaran Balik 4', '', '', '2024-11-08 12:38:14', 1003, 12345678),
+(18, 1, 'Potongan Gaji', 50, 10, 2024, 'Potongan Gaji', '', '', '2024-11-08 12:38:14', 1004, 12345678),
+(19, 4, 'Potongan Gaji', 5, 10, 2024, 'Potongan Gaji', '', '', '2024-11-08 12:38:14', 1004, 12345678),
+(20, 1, 'Potongan Gaji', 50, 10, 2024, 'Potongan Gaji', '', '', '2024-11-08 12:38:14', 1005, 12345678),
+(21, 4, 'Potongan Gaji', 5, 10, 2024, 'Potongan Gaji', '', '', '2024-11-08 12:38:14', 1005, 12345678),
+(22, 1, 'Potongan Gaji', 50, 10, 2024, 'Potongan Gaji', '', '', '2024-11-08 12:38:14', 1006, 12345678),
+(23, 4, 'Potongan Gaji', 5, 10, 2024, 'Potongan Gaji', '', '', '2024-11-08 12:38:14', 1006, 12345678),
+(24, 1, 'Potongan Gaji', 50, 10, 2024, 'Potongan Gaji', '', '', '2024-11-08 12:38:14', 1007, 12345678),
+(25, 4, 'Potongan Gaji', 5, 10, 2024, 'Potongan Gaji', '', '', '2024-11-08 12:38:14', 1007, 12345678),
+(26, 1, 'Potongan Gaji', 50, 11, 2024, 'Potongan Gaji', '', '', '2024-12-06 13:23:37', 1000, 12345678),
+(27, 4, 'Potongan Gaji', 5, 11, 2024, 'Potongan Gaji', '', '', '2024-12-06 13:23:37', 1000, 12345678),
+(28, 1, 'Potongan Gaji', 50, 11, 2024, 'Potongan Gaji', '', '', '2024-12-06 13:23:37', 1001, 12345678),
+(29, 4, 'Potongan Gaji', 5, 11, 2024, 'Potongan Gaji', '', '', '2024-12-06 13:23:37', 1001, 12345678),
+(30, 3, 'Potongan Gaji', 50, 11, 2024, 'Potongan Gaji', '', '', '2024-12-06 13:23:37', 1003, 12345678),
+(31, 4, 'Potongan Gaji', 5, 11, 2024, 'Potongan Gaji', '', '', '2024-12-06 13:23:37', 1003, 12345678),
+(32, 8, 'Potongan Gaji', 91.67, 11, 2024, 'Potongan Gaji Bayaran Balik 4', '', '', '2024-12-06 13:23:37', 1003, 12345678),
+(33, 1, 'Potongan Gaji', 50, 11, 2024, 'Potongan Gaji', '', '', '2024-12-06 13:23:37', 1004, 12345678),
+(34, 4, 'Potongan Gaji', 5, 11, 2024, 'Potongan Gaji', '', '', '2025-01-21 14:43:54', 1004, 12345678),
+(35, 1, 'Potongan Gaji', 50, 11, 2024, 'Potongan Gaji', '', '', '2024-12-06 13:23:37', 1005, 12345678),
+(36, 4, 'Potongan Gaji', 5, 11, 2024, 'Potongan Gaji', '', '', '2024-12-06 13:23:37', 1005, 12345678),
+(37, 1, 'Potongan Gaji', 50, 11, 2024, 'Potongan Gaji', '', '', '2024-12-06 13:23:37', 1006, 12345678),
+(38, 4, 'Potongan Gaji', 5, 11, 2024, 'Potongan Gaji', '', '', '2024-12-06 13:23:37', 1006, 12345678),
+(39, 1, 'Potongan Gaji', 50, 11, 2024, 'Potongan Gaji', '', '', '2024-12-06 13:23:37', 1007, 12345678),
+(40, 4, 'Potongan Gaji', 5, 11, 2024, 'Potongan Gaji', '', '', '2024-12-06 13:23:37', 1007, 12345678),
+(41, 1, 'Potongan Gaji', 50, 11, 2024, 'Potongan Gaji', '', '', '2024-12-06 13:23:37', 1008, 12345678),
+(42, 4, 'Potongan Gaji', 5, 11, 2024, 'Potongan Gaji', '', '', '2024-12-06 13:23:37', 1008, 12345678),
+(43, 1, 'Potongan Gaji', 50, 11, 2024, 'Potongan Gaji', '', '', '2024-12-06 13:23:37', 1009, 12345678),
+(44, 4, 'Potongan Gaji', 5, 11, 2024, 'Potongan Gaji', '', '', '2024-12-06 13:23:37', 1009, 12345678),
+(45, 1, 'Potongan Gaji', 50, 11, 2024, 'Potongan Gaji', '', '', '2024-12-06 13:23:37', 1010, 12345678),
+(46, 4, 'Potongan Gaji', 5, 11, 2024, 'Potongan Gaji', '', '', '2024-12-06 13:23:37', 1010, 12345678),
+(47, 1, 'Transaksi Tambahan', 500, 12, 2024, 'Pembelian Saham', '', '', '2024-12-10 14:27:07', 1008, 12345678),
+(48, 1, 'Transaksi Tambahan', 200, 12, 2024, 'Pembelian Saham', '', '', '2024-12-10 14:27:13', 1007, 12345678),
+(49, 1, 'Potongan Gaji', 50, 12, 2024, 'Potongan Gaji', '', '', '2025-01-03 14:52:08', 1000, 12345679),
+(50, 4, 'Potongan Gaji', 5, 12, 2024, 'Potongan Gaji', '', '', '2025-01-03 14:52:08', 1000, 12345679),
+(51, 1, 'Potongan Gaji', 50, 12, 2024, 'Potongan Gaji', '', '', '2025-01-03 14:52:08', 1001, 12345679),
+(52, 4, 'Potongan Gaji', 5, 12, 2024, 'Potongan Gaji', '', '', '2025-01-03 14:52:08', 1001, 12345679),
+(53, 3, 'Potongan Gaji', 50, 12, 2024, 'Potongan Gaji', '', '', '2025-01-03 14:52:08', 1003, 12345679),
+(54, 4, 'Potongan Gaji', 5, 12, 2024, 'Potongan Gaji', '', '', '2025-01-03 14:52:08', 1003, 12345679),
+(55, 8, 'Potongan Gaji', 91.67, 12, 2024, 'Potongan Gaji Bayaran Balik 4', '', '', '2025-01-03 14:52:08', 1003, 12345679),
+(56, 8, 'Potongan Gaji', 243.33, 12, 2024, 'Potongan Gaji Bayaran Balik 5', '', '', '2025-01-03 14:52:08', 1003, 12345679),
+(57, 1, 'Potongan Gaji', 50, 12, 2024, 'Potongan Gaji', '', '', '2025-01-03 14:52:08', 1004, 12345679),
+(58, 4, 'Potongan Gaji', 5, 12, 2024, 'Potongan Gaji', '', '', '2025-01-03 14:52:08', 1004, 12345679),
+(59, 1, 'Potongan Gaji', 50, 12, 2024, 'Potongan Gaji', '', '', '2025-01-03 14:52:08', 1005, 12345679),
+(60, 4, 'Potongan Gaji', 5, 12, 2024, 'Potongan Gaji', '', '', '2025-01-03 14:52:08', 1005, 12345679),
+(61, 1, 'Potongan Gaji', 50, 12, 2024, 'Potongan Gaji', '', '', '2025-01-03 14:52:08', 1006, 12345679),
+(62, 4, 'Potongan Gaji', 5, 12, 2024, 'Potongan Gaji', '', '', '2025-01-03 14:52:08', 1006, 12345679),
+(63, 3, 'Potongan Gaji', 50, 12, 2024, 'Potongan Gaji', '', '', '2025-01-03 14:52:08', 1007, 12345679),
+(64, 4, 'Potongan Gaji', 5, 12, 2024, 'Potongan Gaji', '', '', '2025-01-03 14:52:08', 1007, 12345679),
+(65, 10, 'Potongan Gaji', 201.67, 12, 2024, 'Potongan Gaji Bayaran Balik 6', '', '', '2025-01-03 14:52:08', 1007, 12345679),
+(66, 3, 'Potongan Gaji', 50, 12, 2024, 'Potongan Gaji', '', '', '2025-01-03 14:52:08', 1008, 12345679),
+(67, 4, 'Potongan Gaji', 5, 12, 2024, 'Potongan Gaji', '', '', '2025-01-03 14:52:08', 1008, 12345679),
+(68, 9, 'Potongan Gaji', 31.28, 12, 2024, 'Potongan Gaji Bayaran Balik 8', '', '', '2025-01-03 14:52:08', 1008, 12345679),
+(69, 1, 'Potongan Gaji', 50, 12, 2024, 'Potongan Gaji', '', '', '2025-01-03 14:52:08', 1009, 12345679),
+(70, 4, 'Potongan Gaji', 5, 12, 2024, 'Potongan Gaji', '', '', '2025-01-03 14:52:08', 1009, 12345679),
+(71, 1, 'Potongan Gaji', 50, 12, 2024, 'Potongan Gaji', '', '', '2025-01-03 14:52:08', 1010, 12345679),
+(72, 4, 'Potongan Gaji', 5, 12, 2024, 'Potongan Gaji', '', '', '2025-01-03 14:52:08', 1010, 12345679),
+(73, 1, 'Potongan Gaji', 50, 12, 2024, 'Potongan Gaji', '', '', '2025-01-03 14:52:08', 1011, 12345679),
+(74, 4, 'Potongan Gaji', 5, 12, 2024, 'Potongan Gaji', '', '', '2025-01-03 14:52:08', 1011, 12345679),
+(75, 1, 'Potongan Gaji', 50, 12, 2024, 'Potongan Gaji', '', '', '2025-01-03 14:52:08', 1012, 12345679),
+(76, 4, 'Potongan Gaji', 5, 12, 2024, 'Potongan Gaji', '', '', '2025-01-03 14:52:08', 1012, 12345679),
+(77, 1, 'Transaksi Tambahan', 200, 1, 2025, 'Pembelian Saham', '', '', '2025-01-21 14:54:58', 1000, 12345679);
 
 -- --------------------------------------------------------
 
@@ -1168,7 +1179,7 @@ ALTER TABLE `tb_reportretrievallog`
 -- AUTO_INCREMENT for table `tb_tarikdiri`
 --
 ALTER TABLE `tb_tarikdiri`
-  MODIFY `td_tarikdiriID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=1;
+  MODIFY `td_tarikdiriID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT for table `tb_transaction`
