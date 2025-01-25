@@ -7,6 +7,10 @@
 - If you want to modify columns, please reimport and modify then only export
 
 # Changes Log
+26/01/25 3.19am [Tan Yi Ya]
+- added functionality to register as a returning member
+- auto fill informations by past data and feemasuk of rm100
+
 25/01/25 11.08pm [Lam Yoke Yu]
 - Add Policy History
 - Update header admin
