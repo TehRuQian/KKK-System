@@ -7,6 +7,10 @@
 - If you want to modify columns, please reimport and modify then only export
 
 # Changes Log
+25/01/25 3.25pm [Lam Yoke Yu]
+- Added filters to potongan_gaji
+- Added fields for receipt number and upload proof in transaksi_lain
+
 25/01/25 3.17pm [Lam Yoke Yu]
 - Update Database (db_kkk 25.01 3.16pm)
 - Added columns in tb_transaction for receipt number and proof
