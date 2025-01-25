@@ -38,6 +38,9 @@ if ($bulan && $tahun) {
 
 //member data
 $member_count = 0;
+$member_active = 0;
+$member_stop = 0;
+$member_retire = 0;
 $member_approved = $member_pending = $member_rejected = 0;
 
 //loan data
@@ -59,14 +62,6 @@ if ($bulan && $tahun) {
     $where_clause = "WHERE YEAR(m_applicationDate) = '$tahun'";
 }
 
-//member data
-$member_sql = "SELECT COUNT(*) AS member_count FROM tb_member $where_clause";
-$member_result = mysqli_query($con, $member_sql);
-if ($member_result) {
-    $member_data = mysqli_fetch_assoc($member_result);
-    $member_count = $member_data['member_count'];
-}
-
 //member_status
 $status_sql = "SELECT m_status, COUNT(*) AS status_count FROM tb_member 
                $where_clause 
@@ -80,6 +75,23 @@ if ($status_result) {
             case 2: $member_rejected = $status_row['status_count']; break;
             case 3: $member_approved = $status_row['status_count']; break;
         }
+        $new_member_status = $member_approved + $member_pending + $member_rejected;
+    }
+}
+
+$status_member_sql = "SELECT m_status, COUNT(*) AS status_count FROM tb_member 
+               $where_clause 
+               GROUP BY m_status";
+$status_member_result = mysqli_query($con, $status_member_sql);
+
+if ($status_member_result) {
+    while ($status_row = mysqli_fetch_assoc($status_member_result)) {
+        switch ($status_row['m_status']) {
+            case 3: $member_active = $status_row['status_count']; break;
+            case 5: $member_stop = $status_row['status_count']; break;
+            case 6: $member_retire = $status_row['status_count']; break;
+        }
+        $member_status = $member_active + $member_stop + $member_retire;
     }
 }
 
@@ -213,7 +225,7 @@ $policies_result = mysqli_query($con, $policies_sql);
                    termasuk metrik utama seperti permohonan ahli, permohonan pinjaman, rekod transaksi dan kesihatan kewangan keseluruhan.</p>
 
                 <p><strong>2. Gambaran Keseluruhan Permohonan Ahli</strong></p>
-                <p>Jumlah Permohonan Ahli Baru: <?= $member_count ?></p>
+                <p>Jumlah Permohonan Ahli Baru: <?= $new_member_status ?></p>
                 <p>Permohonan Mengikut Status:</p>
                 <ul>
                     <li>Diluluskan: <?= $member_approved ?></li>
@@ -221,7 +233,17 @@ $policies_result = mysqli_query($con, $policies_sql);
                     <li>Ditolak: <?= $member_rejected ?></li>
                 </ul>
 
-                <p><strong>3. Gambaran Keseluruhan Permohonan Pinjaman</strong></p>
+                <p><strong>3. Gambaran Keseluruhan Status Ahli</strong></p>
+                <p>Jumlah Status Ahli: <?= $member_status ?></p>
+                <p>Status:</p>
+                <ul>
+                    <li>Aktif: <?= $member_active ?></li>
+                    <li>Berhenti: <?= $member_stop ?></li>
+                    <li>Pencen: <?= $member_retire ?></li>
+                </ul>
+
+
+                <p><strong>4. Gambaran Keseluruhan Permohonan Pinjaman</strong></p>
                 <p>Jumlah Permohonan Pinjaman Baru: <?= $loan_count ?></p>
                 <p>Permohonan Mengikut Status:</p>
                 <ul>
@@ -242,11 +264,11 @@ $policies_result = mysqli_query($con, $policies_sql);
                     <li>Al-Qadrul Hassan: <?= $alQadrul ?></li>
                 </ul>
 
-                <p><strong>4. Prestasi Transaksi</strong></p>
+                <p><strong>5. Prestasi Transaksi</strong></p>
                 <p>Jumlah Transaksi: <?= $transaction_count ?></p>
                 <p>Jumlah Amaun Transaksi: RM <?= number_format($transaction_total, 2) ?></p>
 
-                <p><strong>5. Maklumat Polisi</strong></p>
+                <p><strong>6. Maklumat Polisi</strong></p>
                 <?php if ($policies_result && mysqli_num_rows($policies_result) > 0): ?>
                     <?php $policy = mysqli_fetch_assoc($policies_result); ?>
                     <ul>

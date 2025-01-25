@@ -996,7 +996,7 @@ function Output($dest='', $name='', $isUTF8=false)
 	if($dest=='')
 		$dest = 'I';
 	if($name=='')
-		$name = 'doc.pdf';
+		$name = 'Laporan Kewangan.pdf';
 	switch(strtoupper($dest))
 	{
 		case 'I':

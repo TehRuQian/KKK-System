@@ -7,6 +7,13 @@
 - If you want to modify columns, please reimport and modify then only export
 
 # Changes Log
+25/01/25 3.45pm [Teh Ru Qian]
+- Update generate_pdf.php (add status ahli)
+- Update dashboardLaporan.php (add status ahli)
+- Update a_pinjaman.php (done follow all maxloan and rate)
+- Changed laporan name
+- Still have bug for edit pinjaman (draft)
+
 25/01/25 2.39am [Goe Jie Ying]
 - Update Berhenti_approval_detail and process, berhenti_approval interface haven't finalise yet
 - Update Database (db_kkk (12).sql), specifically in tb_tarikdiri (a new column added)

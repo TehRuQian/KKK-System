@@ -145,14 +145,46 @@ try {
         array('Diluluskan', $member_data['approved_count'] ?? 0),
         array('Sedang Diproses', $member_data['pending_count'] ?? 0),
         array('Ditolak', $member_data['rejected_count'] ?? 0),
-        array('JUMLAH PERMOHONAN', $member_data['total_count'] ?? 0)
+        array('JUMLAH PERMOHONAN', 
+            ($member_data['approved_count'] ?? 0) + 
+            ($member_data['pending_count'] ?? 0) + 
+            ($member_data['rejected_count'] ?? 0))
+    );
+    $pdf->CreateTable($header, $data, true);
+    $pdf->Ln(10);
+
+    $pdf->SetFont('Arial', 'B', 12);
+    $pdf->Cell(0, 10, '3. Gambaran Keseluruhan Status Ahli', 0, 1);
+    $pdf->SetFont('Arial', '', 11);
+
+    $member_sql = "SELECT 
+        COUNT(*) as total_count,
+        SUM(CASE WHEN m_status = 3 THEN 1 ELSE 0 END) as active_count,
+        SUM(CASE WHEN m_status = 5 THEN 1 ELSE 0 END) as stop_count,
+        SUM(CASE WHEN m_status = 6 THEN 1 ELSE 0 END) as retire_count
+        FROM tb_member" . createWhereClause($bulan, $tahun, 'm_applicationDate');
+
+        error_log("Member SQL: " . $member_sql);
+
+    $member_result = mysqli_query($con, $member_sql);
+    $member_data = mysqli_fetch_assoc($member_result);
+
+    $header = array('Status', 'Jumlah');
+    $data = array(
+        array('Aktif', $member_data['active_count'] ?? 0),
+        array('Berhenti', $member_data['stop_count'] ?? 0),
+        array('Pencen', $member_data['retire_count'] ?? 0),
+        array('JUMLAH STATUS', 
+            ($member_data['active_count'] ?? 0) + 
+            ($member_data['stop_count'] ?? 0) + 
+            ($member_data['retire_count'] ?? 0))
     );
     $pdf->CreateTable($header, $data, true);
     $pdf->Ln(10);
 
     
     $pdf->SetFont('Arial', 'B', 12);
-    $pdf->Cell(0, 10, '3. Gambaran Keseluruhan Permohonan Pinjaman', 0, 1);
+    $pdf->Cell(0, 10, '4. Gambaran Keseluruhan Permohonan Pinjaman', 0, 1);
     $pdf->SetFont('Arial', '', 11);
 
     $loan_sql = "SELECT 
@@ -212,7 +244,7 @@ try {
 
     
     $pdf->SetFont('Arial', 'B', 12);
-    $pdf->Cell(0, 10, '4. Prestasi Transaksi', 0, 1);
+    $pdf->Cell(0, 10, '5. Prestasi Transaksi', 0, 1);
     $pdf->SetFont('Arial', '', 11);
 
     $transaction_sql = "SELECT 
@@ -232,7 +264,7 @@ try {
     $pdf->Ln(10);
     
     $pdf->SetFont('Arial', 'B', 12);
-    $pdf->Cell(0, 10, '5. Maklumat Polisi', 0, 1);
+    $pdf->Cell(0, 10, '6. Maklumat Polisi', 0, 1);
     $pdf->SetFont('Arial', '', 11);
 
     $policies_sql = "SELECT * FROM tb_policies";
@@ -260,7 +292,7 @@ try {
 
     // 7. Kesimpulan
     $pdf->SetFont('Arial', 'B', 12);
-    $pdf->Cell(0, 10, '6. Kesimpulan', 0, 1);
+    $pdf->Cell(0, 10, '7. Kesimpulan', 0, 1);
     $pdf->SetFont('Arial', '', 11);
 
     
