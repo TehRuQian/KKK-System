@@ -14,6 +14,7 @@ if ($result->num_rows > 0) {
 }
 ?>
 
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -42,6 +43,7 @@ if ($result->num_rows > 0) {
 
                 <div class="chat-messages" id="chat-messages" style="height: 200px;"></div>
                 <div class="chat-input">
+                    <input type="hidden" id="incoming_id" value="1"> <!-- Assuming admin ID is 1 -->
                     <input type="text" id="user-input" placeholder="Masukkan soalan anda...">
                     <button id="send-btn">Hantar</button>
                 </div>
