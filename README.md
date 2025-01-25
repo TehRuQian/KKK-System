@@ -7,6 +7,10 @@
 - If you want to modify columns, please reimport and modify then only export
 
 # Changes Log
+25/01/25 11.08pm [Lam Yoke Yu]
+- Add Policy History
+- Update header admin
+
 25/01/25 4.04pm [Chua Jia Lin]
 - Update berhenti
 
