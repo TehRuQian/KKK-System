@@ -7,6 +7,10 @@
 - If you want to modify columns, please reimport and modify then only export
 
 # Changes Log
+25/01/25 3.17pm [Lam Yoke Yu]
+- Update Database (db_kkk 25.01 3.16pm)
+- Added columns in tb_transaction for receipt number and proof
+
 25/01/25 2.39am [Goe Jie Ying]
 - Update Berhenti_approval_detail and process, berhenti_approval interface haven't finalise yet
 - Update Database (db_kkk (12).sql), specifically in tb_tarikdiri (a new column added)
