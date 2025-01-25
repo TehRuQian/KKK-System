@@ -1,8 +1,12 @@
+<!DOCTYPE html>
+<html>
 <head>   
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css">
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 </head>
 <?php
+ob_start(); 
+
 include('../kkksession.php');
 if(!session_id())
 {
@@ -18,11 +22,11 @@ if(isset($_SESSION['u_id']) != session_id())
   header('Location:../login.php'); 
 }
 
+
 include '../headermember.php';
 include '../db_connect.php';
 $memberNo = $_SESSION['funame'];
 
-// var_dump($_SESSION['funame']);
 
 $sql = "
     SELECT * FROM tb_policies
@@ -154,6 +158,7 @@ $sql = "
     </style>
 </head>
 
+<body>
 <div class="container-fluid">
   <div class="row">
     <div class="col-2 sidebar">
@@ -207,8 +212,21 @@ $sql = "
         </select>
 
         <!-- Hidden input to store profit rate -->
-        <input type="hidden" id="kadarKeuntungan" value="<?php echo $policy['p_profitRate']; ?>">
-        <input type="hidden" id="maxFinancingAmt" value="<?php echo $policy['p_maxFinancingAmt']; ?>">
+        <input type="hidden" id="rateAlBai" value="<?php echo $policy['p_rateAlBai']; ?>">
+        <input type="hidden" id="rateAlInnah" value="<?php echo $policy['p_rateAlInnah']; ?>">
+        <input type="hidden" id="rateBPulihKenderaan" value="<?php echo $policy['p_rateBPulihKenderaan']; ?>">
+        <input type="hidden" id="rateCukaiJalanInsurans" value="<?php echo $policy['p_rateCukaiJalanInsurans']; ?>">
+        <input type="hidden" id="rateKhas" value="<?php echo $policy['p_rateKhas']; ?>">
+        <input type="hidden" id="rateKarnivalMusim" value="<?php echo $policy['p_rateKarnivalMusim']; ?>">
+        <input type="hidden" id="rateAlQadrulHassan" value="<?php echo $policy['p_rateAlQadrulHassan']; ?>">
+
+        <input type="hidden" id="maxAlBai" value="<?php echo $policy['p_maxAlBai']; ?>" data-jenis="1">
+        <input type="hidden" id="maxAlInnah" value="<?php echo $policy['p_maxAlInnah']; ?>" data-jenis="2">
+        <input type="hidden" id="maxBPulihKenderaan" value="<?php echo $policy['p_maxBPulihKenderaan']; ?>" data-jenis="3">
+        <input type="hidden" id="maxCukaiJalanInsurans" value="<?php echo $policy['p_maxCukaiJalanInsurans']; ?>" data-jenis="4">
+        <input type="hidden" id="maxKhas" value="<?php echo $policy['p_maxKhas']; ?>" data-jenis="5">
+        <input type="hidden" id="maxKarnivalMusim" value="<?php echo $policy['p_maxKarnivalMusim']; ?>" data-jenis="6">
+        <input type="hidden" id="maxAlQadrulHassan" value="<?php echo $policy['p_maxAlQadrulHassan']; ?>" data-jenis="7">
         <input type="hidden" id="maxInstallmentPeriod" value="<?php echo $policy['p_maxInstallmentPeriod']; ?>">
         <input type="hidden" name="tunggakan" id="tunggakan" value="0.00">
 
@@ -263,7 +281,7 @@ $sql = "
         </div>
 
         <div>
-          <label class="form-label mt-4">Gaji Kasar Bulanan <span class="required">*</span></label>
+          <label class="form-label mt-4" for="gajiKasar">Gaji Kasar Bulanan <span class="required">*</span></label>
           <div class="input-group mt-2">
             <span class="input-group-text">RM</span> 
             <input type="text" name="gajiKasar" class="form-control" id="gajiKasar" aria-label="gajiKasar" placeholder="0.00" value="<?php echo isset($_COOKIE['gajiKasar']) ? $_COOKIE['gajiKasar'] : ''; ?>" required>          </div>  
@@ -297,62 +315,90 @@ $sql = "
 </html>
 
 <script>
-const maxFinancingAmt1 = <?php echo floatval($policy['p_maxFinancingAmt']); ?>;
+
 const maxInstallmentPeriod1 = <?php echo floatval($policy['p_maxInstallmentPeriod']); ?>;
 
 function showError(message) {
         Swal.fire({
-            title: 'Ralat!',
+            title: 'Maaf!',
             text: message,
             icon: 'error',
             confirmButtonText: 'OK'
         });
 }
       
-function calculateInstallment(){
-  const profitRate = parseFloat(document.getElementById('kadarKeuntungan').value) || 0;
-  const amaunDipohon = parseFloat(document.getElementById('amaunDipohon').value) || 0;
-  const tempohPembiayaan = parseFloat(document.getElementById('tempohPembiayaan').value) || 0;
+function calculateInstallment() {
+    const amaunDipohon = parseFloat(document.getElementById('amaunDipohon').value) || 0;
+    const tempohPembiayaan = parseFloat(document.getElementById('tempohPembiayaan').value) || 0;
 
-  console.log(`Amaun Dipohon: ${amaunDipohon}, Tempoh Pembiayaan: ${tempohPembiayaan}`);
+    const jenisPembiayaan = parseInt(document.querySelector('select[name="jenis_pembiayaan"]').value);
+    
+    let profitRate = 0; 
+    let maxFinancingAmt = 0; 
 
-  // Warning if amount exceeds
-  if (amaunDipohon > maxFinancingAmt1) {
-    alert(`Amaun Dipohon telah melebihi RM ${maxFinancingAmt1.toFixed(2)}! Sila masukkan amaun yang sah.`);
-    // const message = 'Amaun Dipohon telah melebihi maksimum: RM' + <?php echo number_format($policy['p_maxFinancingAmt'], 2); ?>;
-    // showError(message);
-    document.getElementById('amaunDipohon').value = ''; 
-    document.getElementById('ansuranBulanan').value = '0.00';
-    document.getElementById('tunggakan').value = '0.00';
-    return; 
-  }
-
-  if (tempohPembiayaan > maxInstallmentPeriod1) {
-    alert(`Tempoh Pembiayaan telah melebihi ${maxInstallmentPeriod1} tahun! Sila masukkan tempoh yang sah.`);
-    // const message = 'Tempoh Pembiayaan telah melebihi ' + maxInstallmentPeriod1 + ' tahun! Sila masukkan tempoh yang sah.';
-    // showError(message);
-    document.getElementById('tempohPembiayaan').value = ''; 
-    document.getElementById('ansuranBulanan').value = '0.00';
-    document.getElementById('tunggakan').value = '0.00';
-    return; 
-  }
-
-  if(amaunDipohon > 0 && tempohPembiayaan > 0){
-    const totalPayable = amaunDipohon * (1+(profitRate*tempohPembiayaan)/100);
-    const installment = totalPayable/ (tempohPembiayaan*12);
-
-    // Update the installment field
-    document.getElementById('ansuranBulanan').value = installment.toFixed(2);
-    document.getElementById('tunggakan').value = totalPayable.toFixed(2);
-    } else {
-      document.getElementById('ansuranBulanan').value = '0.00';
-      document.getElementById('tunggakan').value = '0.00';
+    switch (jenisPembiayaan) {
+        case 1:
+            profitRate = <?php echo json_encode(floatval($policy['p_rateAlBai'])); ?>;
+            maxFinancingAmt = <?php echo json_encode(floatval($policy['p_maxAlBai'])); ?>;
+            break;
+        case 2:
+            profitRate = <?php echo json_encode(floatval($policy['p_rateAlInnah'])); ?>;
+            maxFinancingAmt = <?php echo json_encode(floatval($policy['p_maxAlInnah'])); ?>;
+            break;
+        case 3:
+            profitRate = <?php echo json_encode(floatval($policy['p_rateBPulihKenderaan'])); ?>;
+            maxFinancingAmt = <?php echo json_encode(floatval($policy['p_maxBPulihKenderaan'])); ?>;
+            break;
+        case 4:
+            profitRate = <?php echo json_encode(floatval($policy['p_rateCukaiJalanInsurans'])); ?>;
+            maxFinancingAmt = <?php echo json_encode(floatval($policy['p_maxCukaiJalanInsurans'])); ?>;
+            break;
+        case 5:
+            profitRate = <?php echo json_encode(floatval($policy['p_rateKhas'])); ?>;
+            maxFinancingAmt = <?php echo json_encode(floatval($policy['p_maxKhas'])); ?>;
+            break;
+        case 6:
+            profitRate = <?php echo json_encode(floatval($policy['p_rateKarnivalMusim'])); ?>;
+            maxFinancingAmt = <?php echo json_encode(floatval($policy['p_maxKarnivalMusim'])); ?>;
+            break;
+        case 7:
+            profitRate = <?php echo json_encode(floatval($policy['p_rateAlQadrulHassan'])); ?>;
+            maxFinancingAmt = <?php echo json_encode(floatval($policy['p_maxAlQadrulHassan'])); ?>;
+            break;
+        default:
+            profitRate = 0;
+            maxFinancingAmt = 0;
+            break;
     }
-  }
 
-      // Attach event listeners to inputs
-      document.getElementById('amaunDipohon').addEventListener('input', calculateInstallment);
-      document.getElementById('tempohPembiayaan').addEventListener('input', calculateInstallment);
+    if (amaunDipohon > maxFinancingAmt) {
+        alert(`Amaun Dipohon telah melebihi RM ${maxFinancingAmt.toFixed(2)}! Sila masukkan amaun yang sah.`);
+        document.getElementById('amaunDipohon').value = '';
+        document.getElementById('ansuranBulanan').value = '0.00';
+        return;
+    }
+
+    if (tempohPembiayaan > maxInstallmentPeriod1) {
+        alert(`Tempoh Pembiayaan telah melebihi ${maxInstallmentPeriod1} tahun! Sila masukkan tempoh yang sah.`);
+        document.getElementById('tempohPembiayaan').value = '';
+        document.getElementById('ansuranBulanan').value = '0.00';
+        return;
+    }
+
+    if (amaunDipohon > 0 && tempohPembiayaan > 0) {
+        const totalPayable = amaunDipohon * (1 + (profitRate * tempohPembiayaan) / 100);
+        const installment = totalPayable / (tempohPembiayaan * 12);
+
+        document.getElementById('ansuranBulanan').value = installment.toFixed(2);
+        document.getElementById('tunggakan').value = totalPayable.toFixed(2);
+    } else {
+        document.getElementById('ansuranBulanan').value = '0.00';
+        document.getElementById('tunggakan').value = '0.00';
+    }
+}
+
+document.getElementById('amaunDipohon').addEventListener('input', calculateInstallment);
+document.getElementById('tempohPembiayaan').addEventListener('input', calculateInstallment);
 
 // Function to set a cookie
 function setCookie(name, value, days) {
@@ -436,3 +482,8 @@ if (window.location.search.includes('status=success')) {
 </script>
 
 <?php include '../footer.php'; ?>
+
+<?php
+$content = ob_get_clean(); 
+echo $content; 
+?>

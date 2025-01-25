@@ -152,6 +152,10 @@
             <input type="text" class="form-control" name="f_desc" required>
         </div>
         <div>
+          <label class="form-label mt-4">No. Resit</label>
+            <input type="text" class="form-control" name="f_resitNo" required>
+        </div>
+        <div>
           <label for="formFile" class="form-label mt-4">Bukti Transaksi</label>
           <input class="form-control" type="file" id="transactionProof" name="transactionProof" accept="application/pdf, image/*" required>
         </div>

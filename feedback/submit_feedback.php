@@ -30,6 +30,8 @@ function callResult($con, $u_id) {
 
 $row = callResult($con, $u_id);
 
+date_default_timezone_set('Asia/Kuala_Lumpur');
+
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $fb_type=$_POST['fb_type'];
     $fb_content=$_POST['fb_content'];
@@ -93,6 +95,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             </div>
 
             <div class="d-flex justify-content-center">
+                <a href="../member_main/member.php">
+                    <button type="button" class="btn btn-primary mt-4 me-3">Kembali</button>
+                </a>
                 <button onclick="return confirmation(event);" class="btn btn-primary mt-4">Hantar</button>
             </div>
         </fieldset>
@@ -100,8 +105,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     <script>
         function confirmation(event) {
-            const fields=document.querySelectorAll("[required]");
-
+            const fields = document.querySelectorAll("[required]");
             for (let field of fields) {
                 if (field.value.trim() === "") {
                     Swal.fire({
@@ -113,7 +117,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     return false;
                 }
             }
+
             event.preventDefault();
+
             Swal.fire({
                 title: 'Adakah anda pasti?',
                 text: 'Maklum balas akan dihantar!',
@@ -121,18 +127,23 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 showCancelButton: true,
                 confirmButtonText: 'Ya, hantar',
                 cancelButtonText: 'Batal'
-            }).then((result)=>{
-                if (result.isConfirmed){
-                    document.querySelector('form').submit();
+            }).then((result) => {
+                if (result.isConfirmed) {
                     Swal.fire({
                         icon: 'success',
                         title: 'Maklum balas telah berjaya dihantar!',
                         showConfirmButton: true
                     }).then(() => {
-                        window.location.href="track_feedback.php";
+                        document.querySelector('form').submit();
                     });
                 } else {
-                    window.location.href="track_feedback.php";
+                    Swal.fire({
+                        icon: 'info',
+                        title: 'Maklum balas tidak dihantar!',
+                        text: 'Anda telah membatalkan maklum balas.',
+                    }).then(() => {
+                        window.location.href='track_feedback.php';
+                    });
                 }
             });
         }

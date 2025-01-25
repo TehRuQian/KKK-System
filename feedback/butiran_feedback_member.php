@@ -35,18 +35,18 @@ $sql = "SELECT tb_feedback.*,
         LEFT JOIN tb_member ON tb_feedback.fb_memberNo=tb_member.m_memberNo
         WHERE tb_feedback.fb_feedbackID='$feedbackID'";
 
-$result=mysqli_query($con, $sql);
+$result=mysqli_query($con,$sql);
 
-$row = mysqli_fetch_assoc($result); 
+$row=mysqli_fetch_assoc($result); 
 
-if (!$result) {
+if (!$result){
     die("Query failed: " . mysqli_error($con));
 }
 
 ?>
 
   <style>
-    body {
+    body{
       background-color: #f9f9f9;
     }
 
@@ -56,7 +56,6 @@ if (!$result) {
       width:100%;
       background-color: White;
       z-index:1;
-    
     }
 
   </style>
@@ -115,13 +114,10 @@ if (!$result) {
               <td scope="row">Komen Pentadbir</td>
               <td><?php echo !empty($row['fb_comment']) ? $row['fb_comment'] : 'N/A'; ?></td>
             </tr>
-          </tbody>
-        </table>
-      </div>
-    </div>
-
-      
-
+            <tr>
+              <td scope="row">Tarikh Disemak</td>
+              <td><?= !empty($row['fb_editStatusDate']) ? $row['fb_editStatusDate'] : 'N/A'; ?></td>
+            </tr>
           </tbody>
         </table>
       </div>

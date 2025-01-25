@@ -13,20 +13,42 @@
   include '../db_connect.php';
   $admin_id = $_SESSION['u_id'];
 
-  $records_per_page = 10;  
+  $records_per_page = 10;
   $current_page = isset($_GET['page']) ? $_GET['page'] : 1;
   $start_from = ($current_page - 1) * $records_per_page;
 
-  // Retrieve financial list of all members
-  $sql = "
-    SELECT tb_financial.*, tb_member.m_name
-    FROM tb_financial
-    INNER JOIN tb_member
-    ON tb_financial.f_memberNo=tb_member.m_memberNo
-    LIMIT $start_from, $records_per_page;";
-  $result_financial = mysqli_query($con, $sql);
+  $filter_month = $_GET['filter_month'] ?? '';
+  $filter_year = $_GET['filter_year'] ?? '';
+  $filter_member = $_GET['filter_member'] ?? '';
 
-  $total_sql = "SELECT COUNT(*) FROM tb_financial;";
+  $where_sql = "WHERE 1=1";
+
+  $filter_date = $filter_year . '-' . $filter_month . '-26';
+
+    if (!empty($filter_month)  &&  !empty($filter_year)) {
+      $where_sql = "LEFT JOIN tb_transaction ON tb_financial.f_memberNo = tb_transaction.t_memberNo
+        AND tb_transaction.t_month = '$filter_month'
+        AND tb_transaction.t_year = '$filter_year'
+        AND tb_transaction.t_method = 'Potongan Gaji'
+        WHERE DATE(tb_member.m_approvalDate) < '$filter_date'
+        AND tb_transaction.t_memberNo IS NULL";
+    }
+    if (!empty($filter_member)){
+        $where_sql = "WHERE tb_financial.f_memberNo = '$filter_member'";
+    }
+
+  // Retrieve financial list of all members
+  $sql_financial = "SELECT DISTINCT tb_financial.*, tb_member.m_name
+    FROM tb_financial
+    INNER JOIN tb_member ON tb_financial.f_memberNo=tb_member.m_memberNo
+    $where_sql
+    LIMIT $start_from, $records_per_page";
+
+  $result_financial = mysqli_query($con, $sql_financial);
+
+  $total_sql = "SELECT COUNT(DISTINCT tb_financial.f_memberNo) FROM tb_financial 
+    INNER JOIN tb_member ON tb_financial.f_memberNo=tb_member.m_memberNo
+    $where_sql";
   $total_result = mysqli_query($con, $total_sql);
   $total_row = mysqli_fetch_row($total_result);
   $total_records = $total_row[0];
@@ -54,39 +76,62 @@
 <div class="container">
     <h2>Transaksi</h2>
 
-    <!-- Form for batch processing -->
-    <form id="transaksiForm" method="POST">
-    <div class="d-flex justify-content-center align-items-center mb-3">
-        <!-- Drop down for month -->
-        <div class="mb-3">
-          <select class="form-select" id="f_month" name="f_month">
-            <?php
-              $sql = "SELECT * FROM tb_rmonth;";
-              $months = mysqli_query($con, $sql);
-              $currentMonth = date('n');
-
-              while ($row = mysqli_fetch_array($months)) {
-                $selected = ($currentMonth == $row['rm_id']) ? 'selected' : '';
-                echo "<option value='" . $row['rm_id'] . "'>" . $row['rm_desc'] . "</option>";
+  
+    <div class="row justify-content-center">
+  `    <!-- Filters -->
+      <div class="col-md-4">
+        <p class="mb-3 d-flex justify-content-center"class="mb-3 d-flex justify-content-center">
+          Anggota yang belum dipotong gaji untuk</p>
+        <form method="GET" action="" class="mb-3 d-flex justify-content-center">
+          <select name="filter_month" class="form-select me-2" style="width: 200px;">
+              <option value="">Pilih Bulan</option>
+              <?php
+              $month_query = "SELECT * FROM tb_rmonth";
+              $month_result = mysqli_query($con, $month_query);
+              while ($month = mysqli_fetch_assoc($month_result)) {
+                  $selected = (isset($_GET['filter_month']) && $_GET['filter_month'] == $month['rm_id']) ? 'selected' : '';
+                  echo "<option value='{$month['rm_id']}' $selected>{$month['rm_desc']}</option>";
               }
-            ?>
+              ?>
           </select>
-        </div>
-        <!-- Dropdown for years -->
-        <div class="mb-3">
-          <?php
-            $currentYear = date('Y');
-            $previousYear = $currentYear - 1;
-            $nextYear = $currentYear + 1;
-          ?>
-          <select class="form-select" id="f_year" name="f_year">
-              <option value="<?php echo $previousYear; ?>"><?php echo $previousYear; ?></option>
-              <option value="<?php echo $currentYear; ?>" selected><?php echo $currentYear; ?></option>
-              <option value="<?php echo $nextYear; ?>"><?php echo $nextYear; ?></option>
+          <select name="filter_year" class="form-select me-2" style="width: 200px;">
+              <option value="">Pilih Tahun</option>
+              <?php
+              $currentYear = date('Y');
+              $previousYear = $currentYear - 1;
+              $nextYear = $currentYear + 1;
+
+              function isSelected($year, $selectedYear) {
+                return $year == $selectedYear ? 'selected' : '';
+              }
+              ?>
+              <option value="<?php echo $previousYear; ?>" <?php echo isSelected($previousYear, $_GET['filter_year'] ?? ''); ?>>
+                  <?php echo $previousYear; ?>
+              </option>
+              <option value="<?php echo $currentYear; ?>" <?php echo isSelected($currentYear, $_GET['filter_year'] ?? ''); ?>>
+                  <?php echo $currentYear; ?>
+              </option>
+              <option value="<?php echo $nextYear; ?>" <?php echo isSelected($nextYear, $_GET['filter_year'] ?? ''); ?>>
+                  <?php echo $nextYear; ?>
+              </option>
           </select>
-        </div>
+          <button type="submit" class="btn btn-primary">Tapis</button>
+        </form>
       </div>
 
+      <!-- Find -->
+      <div class="col-md-4">
+        <p class="mb-3 d-flex justify-content-center"class="mb-3 d-flex justify-content-center">
+        Cari Anggota</p>
+        <form method="GET" action="" class="mb-3 d-flex justify-content-center">
+            <input type="text" name="filter_member" class="form-control me-2" placeholder="No Anggota" value="<?= $filter_member; ?>" style="width: 200px;">
+            <button type="submit" class="btn btn-primary">Cari</button>
+        </form>
+      </div>
+    </div>
+
+    <!-- Form for batch processing -->
+    <form id="transaksiForm" method="POST" action='potongan_gaji_pengesahan.php'>
       <!-- Table for financial statuses -->
       <table class="table table-hover">
         <thead>
@@ -145,26 +190,56 @@
         <ul class="d-flex justify-content-center pagination pagination-sm">
           <?php if($current_page > 1): ?>
             <li class="page-item">
-              <a class="page-link" href="?page=<?= $current_page - 1; ?>">&laquo;</a>
+              <a class="page-link" href="?page=<?= $current_page - 1; ?>&filter_month=<?= $filter_month; ?>&filter_year=<?= $filter_year; ?>&filter_member=<?= $filter_member; ?>">&laquo;</a>
             </li>
           <?php endif; ?>
 
           <?php for($i = 1; $i <= $total_pages; $i++): ?>
             <li class="page-item <?= ($i == $current_page) ? 'active' : ''; ?>">
-              <a class="page-link" href="?page=<?= $i; ?>"><?= $i; ?></a>
+              <a class="page-link" href="?page=<?= $i; ?>&filter_month=<?= $filter_month; ?>&filter_year=<?= $filter_year; ?>&filter_member=<?= $filter_member; ?>"><?= $i; ?></a>
             </li>
           <?php endfor; ?>
 
           <?php if($current_page < $total_pages): ?>
             <li class="page-item">
-              <a class="page-link" href="?page=<?= $current_page + 1; ?>">&raquo;</a>
+              <a class="page-link" href="?page=<?= $current_page + 1; ?>&filter_month=<?= $filter_month; ?>&filter_year=<?= $filter_year; ?>&filter_member=<?= $filter_member; ?>">&raquo;</a>
             </li>
           <?php endif; ?>
         </ul>
       </nav>
 
+          <!-- Input for months to be deducted -->
+    <p class="mb-3 d-flex justify-content-center"class="mb-3 d-flex justify-content-center">
+    Potongan Gaji untuk bulan</p>
+      <div class="mb-3 d-flex justify-content-center">
+        <!-- Drop down for month -->
+          <select class="form-select me-2" id="f_month" name="f_month" style="width: 200px;">
+            <?php
+              $sql = "SELECT * FROM tb_rmonth;";
+              $months = mysqli_query($con, $sql);
+              $currentMonth = date('n');
+
+              while ($row = mysqli_fetch_array($months)) {
+                $selected = ($currentMonth == $row['rm_id']) ? 'selected' : '';
+                echo "<option value='" . $row['rm_id'] . "'>" . $row['rm_desc'] . "</option>";
+              }
+            ?>
+          </select>
+        <!-- Dropdown for years -->
+          <?php
+            $currentYear = date('Y');
+            $previousYear = $currentYear - 1;
+            $nextYear = $currentYear + 1;
+          ?>
+          <select class="form-select  me-2" id="f_year" name="f_year" style="width: 200px;">
+              <option value="<?php echo $previousYear; ?>"><?php echo $previousYear; ?></option>
+              <option value="<?php echo $currentYear; ?>" selected><?php echo $currentYear; ?></option>
+              <option value="<?php echo $nextYear; ?>"><?php echo $nextYear; ?></option>
+          </select>
+      </div>
+
       <div class="d-flex justify-content-center">
-        <button type="button" class="btn btn-primary mx-2" onclick="submitForm('potongan_gaji_pengesahan.php')">Potongan Gaji</button>
+        <button type="button" class="btn btn-primary mx-2" onclick="submitForm()">Potongan Gaji</button>
       </div>
       <br>
     </form>
@@ -185,10 +260,9 @@
     }
   }
 
-  function submitForm(actionPage) {
-    var form = document.getElementById('transaksiForm');
-    form.action = actionPage; 
-    form.submit(); 
+  function submitForm() {
+    document.getElementById('transaksiForm').submit();
+    // document.getElementById("monthForm").submit();
   }
 </script>
 

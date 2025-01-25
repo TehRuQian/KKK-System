@@ -30,34 +30,60 @@
       </div>
     </nav>
 
-    <!-- Second Row Nav Bar -->
-    <nav class="navbar navbar-expand-lg" data-bs-theme="light" style="background-color:#82C8FF; position: sticky; top: 0; z-index: 1030; "">
-      <div class="container-fluid">
-        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarColor02" aria-controls="navbarColor02" aria-expanded="false" aria-label="Toggle navigation">
-          <span class="navbar-toggler-icon"></span>
-        </button>
-        <div class="collapse navbar-collapse" id="navbarColor02">
-          <ul class="navbar-nav me-auto">
-            <li class="nav-item"><a class="nav-link" href="../member_approval/member_approval.php">Permohonan Anggota</a></li>
-            <li class="nav-item"><a class="nav-link" href="../loan_approval/loan_approval.php">Permohonan Pinjaman</a></li>
-            <li class="nav-item"><a class="nav-link" href="../berhenti/approval_berhenti.php">Permohonan Berhenti Menjadi Anggota</a></li>
-            <li class="nav-item"><a class="nav-link" href="../view_list/view_member_list.php">Senarai Anggota</a></li>
-            <li class="nav-item"><a class="nav-link" href="../view_list/view_loan_list.php">Senarai Peminjam</a></li>
-            <li class="nav-item dropdown">
-              <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">Transaksi</a>
-              <div class="dropdown-menu">
-                <a class="dropdown-item" href="../transaksi/potongan_gaji.php">Potongan Gaji</a>
-                <a class="dropdown-item" href="../transaksi/transaksi_lain.php">Lain-lain</a>
-                <a class="dropdown-item" href="../transaksi/sejarah_transaksi.php">Sejarah Transaksi</a>
-              </div>
-            </li>
-            <li class="nav-item"><a class="nav-link" href="../kemaskini_polisi/kemaskini_polisi.php">Kemaskini Polisi</a></li>
-            <li class="nav-item"><a class="nav-link" href="../kemaskini_iklan/kemaskini_iklan.php">Kemaskini Iklan</a></li>
-            <li class="nav-item"><a class="nav-link" href="../report_admin/_dashboardLaporan.php">Laporan</a></li>
-          </ul>
-        </div>
-      </div>
-    </nav>
+<!-- Second Row Nav Bar -->
+<nav class="navbar navbar-expand-lg" data-bs-theme="light" style="background-color:#82C8FF; position: sticky; top: 0; z-index: 1030;">
+  <div class="container-fluid">
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarColor02" aria-controls="navbarColor02" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarColor02">
+      <ul class="navbar-nav me-auto">
+        <!-- Permohonan Dropdown -->
+        <li class="nav-item dropdown <?php echo (basename($_SERVER['PHP_SELF']) == 'member_approval.php' || basename($_SERVER['PHP_SELF']) == 'loan_approval.php' || basename($_SERVER['PHP_SELF']) == 'approval_berhenti.php') ? 'active' : ''; ?>">
+          <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">Permohonan</a>
+          <div class="dropdown-menu">
+            <a class="dropdown-item <?php echo (basename($_SERVER['PHP_SELF']) == 'member_approval.php') ? 'active' : ''; ?>" href="../member_approval/member_approval.php">Permohonan Anggota</a>
+            <a class="dropdown-item <?php echo (basename($_SERVER['PHP_SELF']) == 'loan_approval.php') ? 'active' : ''; ?>" href="../loan_approval/loan_approval.php">Permohonan Pinjaman</a>
+            <a class="dropdown-item <?php echo (basename($_SERVER['PHP_SELF']) == 'berhenti_approval.php') ? 'active' : ''; ?>" href="../berhenti_approval/berhenti_approval.php">Permohonan Berhenti Menjadi Anggota</a>
+          </div>
+        </li>
+        
+        <!-- Senarai Dropdown -->
+        <li class="nav-item dropdown <?php echo (basename($_SERVER['PHP_SELF']) == 'view_member_list.php' || basename($_SERVER['PHP_SELF']) == 'view_loan_list.php') ? 'active' : ''; ?>">
+          <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">Senarai</a>
+          <div class="dropdown-menu">
+            <a class="dropdown-item <?php echo (basename($_SERVER['PHP_SELF']) == 'view_member_list.php') ? 'active' : ''; ?>" href="../view_list/view_member_list.php">Senarai Anggota</a>
+            <a class="dropdown-item <?php echo (basename($_SERVER['PHP_SELF']) == 'view_loan_list.php') ? 'active' : ''; ?>" href="../view_list/view_loan_list.php">Senarai Peminjam</a>
+            <a class="dropdown-item <?php echo (basename($_SERVER['PHP_SELF']) == 'view_feedback_admin.php') ? 'active' : ''; ?>" href="../feedback/view_feedback_admin.php">Senarai Maklum Balas</a>
+          </div>
+        </li>
+        
+        <!-- Transaksi Dropdown -->
+        <li class="nav-item dropdown <?php echo (basename($_SERVER['PHP_SELF']) == 'potongan_gaji.php' || basename($_SERVER['PHP_SELF']) == 'transaksi_lain.php' || basename($_SERVER['PHP_SELF']) == 'sejarah_transaksi.php') ? 'active' : ''; ?>">
+          <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">Transaksi</a>
+          <div class="dropdown-menu">
+            <a class="dropdown-item <?php echo (basename($_SERVER['PHP_SELF']) == 'potongan_gaji.php') ? 'active' : ''; ?>" href="../transaksi/potongan_gaji.php">Potongan Gaji</a>
+            <a class="dropdown-item <?php echo (basename($_SERVER['PHP_SELF']) == 'transaksi_lain.php') ? 'active' : ''; ?>" href="../transaksi/transaksi_lain.php">Lain-lain</a>
+            <a class="dropdown-item <?php echo (basename($_SERVER['PHP_SELF']) == 'sejarah_transaksi.php') ? 'active' : ''; ?>" href="../transaksi/sejarah_transaksi.php">Sejarah Transaksi</a>
+          </div>
+        </li>
+
+        <li class="nav-item dropdown <?php echo (basename($_SERVER['PHP_SELF']) == 'kemaskini_polisi.php' || basename($_SERVER['PHP_SELF']) == 'sejarah_polisi.php') ? 'active' : ''; ?>">
+          <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">Polisi</a>
+          <div class="dropdown-menu">
+            <a class="dropdown-item <?php echo (basename($_SERVER['PHP_SELF']) == 'kemaskini_polisi.php') ? 'active' : ''; ?>" href="../kemaskini_polisi/kemaskini_polisi.php">Potongan Gaji</a>
+            <a class="dropdown-item <?php echo (basename($_SERVER['PHP_SELF']) == 'sejarah_polisi.php') ? 'active' : ''; ?>" href="../kemaskini_polisi/sejarah_polisi.php">Sejarah Polisi</a>
+          </div>
+        </li>
+        
+        <!-- Other Nav Items -->
+        <li class="nav-item <?php echo (basename($_SERVER['PHP_SELF']) == 'kemaskini_iklan.php') ? 'active' : ''; ?>"><a class="nav-link" href="../kemaskini_iklan/kemaskini_iklan.php">Kemaskini Iklan</a></li>
+        <li class="nav-item <?php echo (basename($_SERVER['PHP_SELF']) == '_dashboardLaporan.php') ? 'active' : ''; ?>"><a class="nav-link" href="../report_admin/_dashboardLaporan.php">Laporan</a></li>
+      </ul>
+    </div>
+  </div>
+</nav>
+
 
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.min.js"></script>

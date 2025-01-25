@@ -57,6 +57,10 @@
               <td><?php echo "RM" . number_format($policy['p_memberRegFee'], 2); ?></td>
             </tr>
             <tr>
+              <td scope="row">Fee Masuk Anggota yang Pernah Menjadi Anggota</td>
+              <td><?php echo "RM" . number_format($policy['p_returningMemberRegFee'], 2); ?></td>
+            </tr>
+            <tr>
               <td scope="row">Modah Syer Minimum</td>
               <td><?php echo "RM" . number_format($policy['p_minShareCapital'], 2); ?></td>
             </tr>
@@ -102,41 +106,11 @@
               <td scope="row">Tempoh Ansuran Maksima</td>
               <td><?php echo $policy['p_maxInstallmentPeriod'] . " tahun"; ?></td>
             </tr>
-            <?php if ($sameRate): ?>
-              <tr>
-                <td scope="row">Kadar Keuntungan</td>
-                <td><?php echo $policy['p_rateAlBai'] ?>%</td>
-              </tr>
-            <?php else: ?>
-              <tr>
-                <td scope="row">Kadar Keuntungan Al-Bai</td>
-                <td><?php echo $policy['p_rateAlBai'] ?>%</td>
-              </tr>
-              <tr>
-                <td scope="row">Kadar Keuntungan Al-Innah</td>
-                <td><?php echo $policy['p_rateAlInnah'] ?>%</td>
-              </tr>
-              <tr>
-                <td scope="row">Kadar Keuntungan Baik Pulih Kenderaan</td>
-                <td><?php echo $policy['p_rateBPulihKenderaan'] ?>%</td>
-              </tr>
-              <tr>
-                <td scope="row">Kadar Keuntungan Cukai Jalan dan Insurans</td>
-                <td><?php echo $policy['p_rateCukaiJalanInsurans'] ?>%</td>
-              </tr>
-              <tr>
-                <td scope="row">Kadar Keuntungan Skim Khas</td>
-                <td><?php echo $policy['p_rateKhas'] ?>%</td>
-              </tr>
-              <tr>
-                <td scope="row">Kadar Keuntungan Karnival Musim Istimewa</td>
-                <td><?php echo $policy['p_rateKarnivalMusim'] ?>%</td>
-              </tr>
-              <tr>
-                <td scope="row">Kadar Keuntungan Al-Qadrul Hassan</td>
-                <td><?php echo $policy['p_rateAlQadrulHassan'] ?>%</td>
-              </tr>
-            <?php endif;?>
+          <?php if ($sameRate): ?>
+            <tr>
+              <td scope="row">Kadar Keuntungan</td>
+              <td><?php echo $policy['p_rateAlBai'] ?>%</td>
+            </tr>
             <tr>
               <td scope="row">Pembiayaan Maksima Al-Bai</td>
               <td>RM <?php echo number_format($policy['p_maxAlBai'], 2); ?></td>
@@ -158,12 +132,15 @@
               <td>RM <?php echo number_format($policy['p_maxKhas'], 2); ?></td>
             </tr>
             <tr>
+              <td scope="row">Pembiayaan Maksima Karnival Musim Istimewa</td>
+              <td>RM <?php echo number_format($policy['p_maxKarnivalMusim'], 2); ?></td>
+            </tr>
+            <tr>
               <td scope="row">Pembiayaan Maksima Al-Qadrul Hassan</td>
               <td>RM <?php echo number_format($policy['p_maxAlQadrulHassan'], 2); ?></td>
             </tr>
           </tbody>
         </table>
-        <?php if ($sameRate): ?>
         <p class="text-center">Jadual Pembayaran Balik Pembiayaan</p>
         <table class="table table-hover" style="margin: 0 auto; text-align: center;">
           <tr>
@@ -207,8 +184,57 @@
               echo "</tr>";
             }
           ?>
-          <?php endif; ?>
         </table>
+
+        <?php else: ?>
+        </table>
+        <table class="table table-hover">
+          <thead>
+            <tr>
+              <th>Jenis Pembiayaan</th>
+              <th>Kadar Keuntungan</th>
+              <th>Pembiayaan Maksima</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Al-Bai</td>
+              <td><?php echo number_format($policy['p_rateAlBai'],2) ?>%</td>
+              <td>RM <?php echo number_format($policy['p_maxAlBai'], 2); ?></td>
+            <tr>
+            <tr>
+              <td scope="row">Al-Innah</td>
+              <td><?php echo number_format($policy['p_rateAlInnah'], 2) ?>%</td>
+              <td>RM <?php echo number_format($policy['p_maxAlInnah'], 2); ?></td>
+            </tr>
+            <tr>
+              <td scope="row">Baik Pulih Kenderaan</td>
+              <td><?php echo number_format($policy['p_rateBPulihKenderaan'], 2) ?>%</td>
+              <td>RM <?php echo number_format($policy['p_maxBPulihKenderaan'], 2); ?></td>
+            </tr>
+            <tr>
+              <td scope="row">Cukai Jalan dan Insurans</td>
+              <td><?php echo number_format($policy['p_rateCukaiJalanInsurans'], 2) ?>%</td>
+              <td>RM <?php echo number_format($policy['p_maxCukaiJalanInsurans'], 2); ?></td>
+            </tr>
+            <tr>
+              <td scope="row">Skim Khas</td>
+              <td><?php echo number_format($policy['p_rateKhas'], 2) ?>%</td>
+              <td>RM <?php echo number_format($policy['p_maxKhas'], 2); ?></td>
+            </tr>
+            <tr>
+              <td scope="row">Karnival Musim Istimewa</td>
+              <td><?php echo number_format($policy['p_rateKarnivalMusim'], 2) ?>%</td>
+              <td>RM <?php echo number_format($policy['p_maxKarnivalMusim'], 2); ?></td>
+            </tr>
+            <tr>
+              <td scope="row">Al-Qadrul Hassan</td>
+              <td><?php echo number_format($policy['p_rateAlQadrulHassan'], 2) ?>%</td>
+              <td>RM <?php echo number_format($policy['p_maxAlQadrulHassan'], 2); ?></td>
+            </tr>
+        </tbody>
+        </table>
+        <?php endif;?>
       </div>
     </div>
 

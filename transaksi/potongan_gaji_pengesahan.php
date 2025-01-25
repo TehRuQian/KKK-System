@@ -21,8 +21,14 @@
   } else {
       echo "
         <script>
-            alert ('Sila pilih sekurang-kurangnya satu anggota.');
-            window.location.href = 'potongan_gaji.php';
+            Swal.fire({
+                title: 'Ralat!',
+                text: 'Sila pilih sekurang-kurangnya satu anggota.',
+                icon: 'error',
+                confirmButtonText: 'OK'
+            }).then(() => {
+                window.location.href = 'potongan_gaji.php';
+            });
         </script>";
   }
 
