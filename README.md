@@ -7,6 +7,9 @@
 - If you want to modify columns, please reimport and modify then only export
 
 # Changes Log
+25/01/25 4.04pm [Chua Jia Lin]
+- Update berhenti
+
 25/01/25 3.45pm [Teh Ru Qian]
 - Update generate_pdf.php (add status ahli)
 - Update dashboardLaporan.php (add status ahli)
