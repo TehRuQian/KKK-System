@@ -69,17 +69,6 @@ $gajiKasar = $_POST['gajiKasar'];
 $gajiBersih = $_POST['gajiBersih'];
 $tunggakan = $_POST['tunggakan'];
 
-// Policy data
-$policyQuery = "SELECT p_maxFinancingAmt FROM tb_policies ORDER BY p_policyID DESC LIMIT 1";
-$policyResult = mysqli_query($con, $policyQuery);
-$policy = mysqli_fetch_assoc($policyResult);
-$maxFinancingAmt = $policy['p_maxFinancingAmt'];
-
-// Validate loan amount
-if ($amaunDipohon > $maxFinancingAmt) {
-    die('Error: Amaun Dipohon telah melebihi maksimum. Sila isi kurang daripada RM' . number_format($maxFinancingAmt, 2));
-}
-
 // File upload
 $fileSign = '';
 if (isset($_FILES['fileSign']) && $_FILES['fileSign']['error'] === UPLOAD_ERR_OK) {

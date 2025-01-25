@@ -7,6 +7,13 @@
 - If you want to modify columns, please reimport and modify then only export
 
 # Changes Log
+25/01/25 3.45pm [Teh Ru Qian]
+- Update generate_pdf.php (add status ahli)
+- Update dashboardLaporan.php (add status ahli)
+- Update a_pinjaman.php (done follow all maxloan and rate)
+- Changed laporan name
+- Still have bug for edit pinjaman (draft)
+
 25/01/25 3.25pm [Lam Yoke Yu]
 - Added filters to potongan_gaji
 - Added fields for receipt number and upload proof in transaksi_lain
