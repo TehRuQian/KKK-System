@@ -101,6 +101,7 @@
                 <th>Bulan</th>
                 <th>Tahun</th>
                 <th>Ulasan</th>
+                <th>No Resit</th>
                 <th>Bukti</th>
                 <th>No Kerani</th>
             </tr>
@@ -117,6 +118,7 @@
                     <td><?php echo $row['rm_desc'] ?></td>
                     <td><?php echo $row['t_year'] ?></td>
                     <td><?php echo $row['t_desc'] ?></td>
+                    <td><?php echo $row['t_resitNo'] ?></td>
                     <td>
                         <?php
                         $file_path = "bukti_transaksi/" . $row['t_proof'];
