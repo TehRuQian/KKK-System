@@ -35,18 +35,30 @@ $sql = "
   $result = mysqli_query($con, $sql);
   $policy = mysqli_fetch_assoc($result);
 
-  $sql = "SELECT f_shareCapital FROM tb_financial WHERE f_memberNo = $memberNo";
+  $sql = "SELECT f_shareCapital, m_status FROM tb_financial JOIN tb_member ON tb_financial.f_memberNo = tb_member.m_memberNo WHERE f_memberNo = $memberNo";
   $result = mysqli_query($con, $sql);
 
   if ($row = mysqli_fetch_assoc($result)) {
     $shareCapital = htmlspecialchars($row['f_shareCapital']); 
+    $m_status = $row['m_status'];
   }
 
+  $errors = [];
+
   if ($shareCapital < $policy['p_minShareCapitalForLoan']) {
+    $errors[] = "Modal Syer anda (RM" . number_format($shareCapital, 2) . ") kurang daripada jumlah minimum yang diperlukan (RM" . number_format($policy['p_minShareCapitalForLoan'], 2) . ").";
+  }
+
+  if (in_array($m_status, [5, 6])) {
+    $errors[] = "Status keanggotaan anda tidak membenarkan.";
+  }
+
+  if (!empty($errors)) {
+    $errorMessage = implode(" ", $errors);
     echo "<script>
             Swal.fire({
                 title: 'Maaf!',
-                text: 'Anda tidak layak untuk memohon pinjaman kerana Modal Syer anda (RM" . number_format($shareCapital, 2) . ") kurang daripada jumlah minimum yang diperlukan (RM" . number_format($policy['p_minShareCapitalForLoan'], 2) . ").',
+                text: '$errorMessage',
                 icon: 'error',
                 confirmButtonText: 'OK'
             }).then((result) => {
@@ -55,8 +67,8 @@ $sql = "
                 }
             });
         </script>";
-        exit();
-}
+    exit();
+  }
 
 ?>
 
