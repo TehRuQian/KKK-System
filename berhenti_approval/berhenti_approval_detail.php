@@ -68,24 +68,24 @@ if ($result2 && $member = $result2->fetch_assoc()) {
 
 $stmt2->close();
 
-// Retrieve loan details
-$sql3 = "SELECT * FROM tb_loan
-         LEFT JOIN tb_status ON tb_loan.l_status = tb_status.s_sid
-         LEFT JOIN tb_ltype ON tb_loan.l_loanType = tb_ltype.lt_lid
-         WHERE tb_loan.l_memberNo = ?";
+// // Retrieve loan details
+// $sql3 = "SELECT * FROM tb_loan
+//          LEFT JOIN tb_status ON tb_loan.l_status = tb_status.s_sid
+//          LEFT JOIN tb_ltype ON tb_loan.l_loanType = tb_ltype.lt_lid
+//          WHERE tb_loan.l_memberNo = ?";
 
-$stmt3 = $con->prepare($sql3);
-$stmt3->bind_param("s", $td_memberNo);
-$stmt3->execute();
-$result3 = $stmt3->get_result();
+// $stmt3 = $con->prepare($sql3);
+// $stmt3->bind_param("s", $td_memberNo);
+// $stmt3->execute();
+// $result3 = $stmt3->get_result();
 
-// Check if loan exists
-$loanExists = false;
-if ($result3 && $loan = $result3->fetch_assoc()) {
-    $loanExists = true;  // Loan data exists
-}
+// // Check if loan exists
+// $loanExists = false;
+// if ($result3 && $loan = $result3->fetch_assoc()) {
+//     $loanExists = true;  // Loan data exists
+// }
 
-$stmt3->close();
+// $stmt3->close();
 ?>
 
 <div class="container">
@@ -128,7 +128,7 @@ $stmt3->close();
     </div>
 </div>
 
-<?php if ($loanExists): ?>
+<!-- <?php if ($loanExists): ?>
 <!-- Applicant Loan Details -->
 <div class="card mb-3 col-10 my-5 mx-auto">
     <div class="card-header text-white bg-primary d-flex justify-content-between align-items-center">
@@ -146,7 +146,7 @@ $stmt3->close();
     </table>
     </div>
 </div>
-<?php endif; ?>
+<?php endif; ?> -->
 
 <!-- Applicant Stop Details -->
 <div class="card mb-3 col-10 my-5 mx-auto">

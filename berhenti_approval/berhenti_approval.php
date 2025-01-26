@@ -22,6 +22,7 @@
   FROM tb_tarikdiri
   INNER JOIN tb_member
   ON tb_tarikdiri.td_memberNo = tb_member.m_memberNo
+  WHERE tb_tarikdiri.td_status = 1
   LIMIT $start_from, $records_per_page;";
   $result_tarikdiri = mysqli_query($con, $sql);
 

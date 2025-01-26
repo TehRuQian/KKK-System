@@ -7,6 +7,10 @@
 - If you want to modify columns, please reimport and modify then only export
 
 # Changes Log
+26/01/25 5.43pm [Goe Jie Ying]
+- Added new list (past member)
+- Added edit mode in member list (pencen/berhenti)
+
 25/01/25 4.04pm [Chua Jia Lin]
 - Update berhenti
 
