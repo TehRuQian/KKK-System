@@ -3,13 +3,85 @@ include '../header_reg.php';
 session_start();
 $errors = [];
 include 'functions.php';
+include '../db_connect.php';
 
-if (isset($_POST['reset_session'])) {
-  session_unset(); // Clear all session variables
-  session_destroy(); // Destroy the session
-  header("Location: " . $_SERVER['PHP_SELF']); // Redirect to the same page to refresh
-  exit;
+if (isset($_GET['pfNumber'])) {
+    $_SESSION['pfNumber'] = $_GET['pfNumber'];
+    $pfNumber = $_GET['pfNumber'];
+
+    // Query the database for member details
+    $query = "SELECT * FROM tb_member WHERE m_pfNo = ?";
+    $stmt = $con->prepare($query);
+    $stmt->bind_param("s", $pfNumber);
+    $stmt->execute();
+    $result = $stmt->get_result();
+
+    if ($result->num_rows > 0) {
+        $memberData = $result->fetch_assoc(); // Fetch all columns into an associative array
+
+        // Save queried data into session
+        $_SESSION['funame'] = $memberData['m_name'];
+        $_SESSION['fuic'] = $memberData['m_ic'];
+        $_SESSION['femail'] = $memberData['m_email'];
+        $_SESSION['fgender'] = $memberData['m_gender'];
+        $_SESSION['freligion'] = $memberData['m_religion'];
+        $_SESSION['frace'] = $memberData['m_race'];
+        $_SESSION['fmariage'] = $memberData['m_maritalStatus'];
+        $_SESSION['fhomeaddress'] = $memberData['m_homeAddress'];
+        $_SESSION['fcity'] = $memberData['m_homeCity'];
+        $_SESSION['fstate'] = $memberData['m_homeState'];
+        $_SESSION['fhomezip'] = $memberData['m_homePostcode'];
+        $_SESSION['fposition'] = $memberData['m_position'];
+        $_SESSION['fgrade'] = $memberData['m_positionGrade'];
+        $_SESSION['fpfno'] = $memberData['m_pfNo'];
+        $_SESSION['fofficeaddress'] = $memberData['m_officeAddress'];
+        $_SESSION['fofficecity'] = $memberData['m_officeCity'];
+        $_SESSION['fofficestate'] = $memberData['m_officeState'];
+        $_SESSION['fofficezip'] = $memberData['m_officePostcode'];
+        $_SESSION['ffaxno'] = $memberData['m_faxNumber'];
+        $_SESSION['ftelno'] = $memberData['m_phoneNumber'];
+        $_SESSION['fhomeno'] = $memberData['m_homeNumber'];
+        $_SESSION['fsalary'] = $memberData['m_monthlySalary'];
+        $_SESSION['fstatus'] = 1;
+
+        $queryMember = "SELECT m_memberApplicationID FROM tb_member WHERE m_pfNo = ?";
+        $stmtMember = $con->prepare($queryMember);
+        $stmtMember->bind_param("s", $pfNumber);
+        $stmtMember->execute();
+        $resultMember = $stmtMember->get_result();
+    
+        if ($resultMember->num_rows > 0) {
+            $memberData = $resultMember->fetch_assoc();
+            $memberApplicationID = $memberData['m_memberApplicationID'];
+    
+            // Step 2: Get all heir data from tb_heir using memberApplicationID
+            $queryHeir = "SELECT h_name, h_ic, h_relationWithMember FROM tb_heir WHERE h_memberApplicationID = ?";
+            $stmtHeir = $con->prepare($queryHeir);
+            $stmtHeir->bind_param("s", $memberApplicationID);
+            $stmtHeir->execute();
+            $resultHeir = $stmtHeir->get_result();
+            // Step 3: Store the heir data dynamically in session
+            $_SESSION['heirs'] = []; // Initialize heirs array in session
+            $i = 1; // Initialize a counter for heir numbering
+
+            if ($resultHeir->num_rows > 0) {
+                while ($heir = $resultHeir->fetch_assoc()) {
+                    // Add each heir's data to the heirs array in session
+                    $_SESSION["wname$i"] = $heir['h_name'];
+                    $_SESSION["wic$i"] = $heir['h_ic'];
+                    $_SESSION["wrelation$i"] = $heir['h_relationWithMember'];
+
+                    $i++; // Increment the counter for the next heir
+                }
+            }
+
+            // Step 4: Store the number of heirs
+            $_SESSION['pewarisCount'] = $i - 1; // Total heirs count
+        }    
+    }
 }
+
+
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $cleanPost = cleanPost($_POST);
@@ -33,6 +105,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $_SESSION['fofficecity'] = $cleanPost['fofficecity'];
     $_SESSION['fofficestate'] = $cleanPost['fofficestate'];
     $_SESSION['fofficezip'] = $cleanPost['fofficezip'];
+    $_SESSION['ffaxno'] = $cleanPost['ffaxno'];
     $_SESSION['ftelno'] = $cleanPost['ftelno'];
     $_SESSION['fhomeno'] = $cleanPost['fhomeno'];
     $_SESSION['fsalary'] = $cleanPost['fsalary'];
@@ -41,7 +114,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     if (empty($errors)) {
 
       $fuic = $cleanPost['fuic'];
-      $sql = "SELECT * FROM tb_member WHERE m_ic = ?";
+      $sql = "SELECT * FROM tb_member WHERE m_ic = ? AND (m_status = 1 OR m_status = 3)";
       $binds = [$fuic];
       $result = query($sql, $binds);
   
@@ -57,7 +130,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
       }
 
       $femail = $cleanPost['femail'];
-      $sql_email = "SELECT * FROM tb_member WHERE m_email = ?";
+      $sql_email = "SELECT * FROM tb_member WHERE m_email = ? AND (m_status = 1 OR m_status = 3)";
       $binds_email = [$femail];
       $result_email = query($sql_email, $binds_email);
 
@@ -88,32 +161,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['submit'])) {
 ?>
 
 <head>
-    <style>
-        .row-spacing {
-            margin-bottom: 4rem;
-        }
-
-        a:hover {}
-
-        a:active,
-        a.active {
-            color: black !important;
-        }
-
-        a {
-            text-decoration: none;
-            margin-bottom: 0.5rem;
-        }
-
-        .container {
-            width: 850px;
-            margin: 0 auto;
-        }
-
-        .is-invalid {
-            border: 2px solid red;
-        }
-    </style>
+<link rel="stylesheet" href="regstyle.css">
 </head>
 
 <div class="container-fluid">
