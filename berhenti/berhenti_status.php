@@ -54,10 +54,6 @@ if (!$result) {
 <div class="card mb-3 col-10 my-5 mx-auto">
   <div class="card-header text-white bg-primary d-flex justify-content-between align-items-center">
     <span>Status Permohonan Berhenti Menjadi Anggota</span>
-    <!--<div>
-      <button type="button" class="btn btn-success me-2" onclick="window.location.href='submit_feedback.php'">Membuat Maklum Balas</button> 
-      <button type="button" class="btn btn-info" onclick="window.location.href='../member_main/member.php'">Kembali</button>
-    </div>-->
   </div>
   <div class="card-body">
     <table class="table table-hover">
