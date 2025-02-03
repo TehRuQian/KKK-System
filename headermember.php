@@ -53,7 +53,7 @@
                 <li><a class="dropdown-item" href="../berhenti/berhenti.php">Borang Berhenti Menjadi Anggota</a></li>
                 <li><a class="dropdown-item" href="../berhenti/berhenti_status.php">Jejak Status Permohonan</a></li>
             </ul>
-        </li>
+        </li>  
         <li>
           <button onclick="window.location.href='../logout.php';" class="btn btn-dark">Log Keluar</button>
         </li>
