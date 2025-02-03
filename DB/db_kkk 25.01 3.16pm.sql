@@ -362,7 +362,7 @@ CREATE TABLE `tb_loan` (
   `l_loanPeriod` int(11) NOT NULL COMMENT '(Years)',
   `l_monthlyInstalment` double NOT NULL COMMENT '\r\n',
   `l_loanPayable` double NOT NULL,
-  `l_bankAccountNo` int(11) NOT NULL,
+  `l_bankAccountNo` varchar(255) NOT NULL,
   `l_bankName` int(11) NOT NULL,
   `l_monthlyGrossSalary` double NOT NULL,
   `l_monthlyNetSalary` double NOT NULL,

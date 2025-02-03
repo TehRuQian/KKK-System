@@ -180,7 +180,7 @@ if (!isset($_SESSION['loanApplicationID'])) {
         <div>
           <label class="form-label mt-4">No. Anggota</label>
           <div class="input-group mt-2">
-            <input type="text" name = "anggotaPenjamin1" class="form-control" id="anggotaPenjamin1" aria-label="anggotaPenjamin1" required>
+            <input type="number" name = "anggotaPenjamin1" class="form-control" id="anggotaPenjamin1" aria-label="anggotaPenjamin1" required>
           </div>
         </div>
 
