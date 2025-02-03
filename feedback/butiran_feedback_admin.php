@@ -138,7 +138,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST'){
     </div>
 </div>
 
-<!-- Form for updating status and comment -->
 <div class="card mb-3 col-10 my-5 mx-auto">
     <div class="card-header text-white bg-primary d-flex justify-content-between align-items-center">
         Ubah Status dan Komen

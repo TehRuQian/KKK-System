@@ -37,39 +37,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['submit'])) {
 <html>
 
 <head>
-    <style>
-        .row-spacing {
-            margin-bottom: 4rem;
-        }
+<link rel="stylesheet" href="regstyle.css">
 
-        a {
-            text-decoration: none;
-            margin-bottom: 0.5rem;
-            display: block;
-            text-align: center;
-        }
-
-        a:active,
-        a.active {
-            color: black !important;
-        }
-
-        .container {
-            width: 850px;
-            margin: 0 auto;
-        }
-
-        .form-section {
-            margin-bottom: 2rem;
-        }
-
-        .form-section .remove-btn {
-            display: inline-block;
-            margin-top: 10px;
-            color: red;
-            cursor: pointer;
-        }
-    </style>
 </head>
 
 <body>

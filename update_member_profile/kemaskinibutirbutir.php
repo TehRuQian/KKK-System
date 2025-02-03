@@ -167,7 +167,7 @@ if(!empty($_POST)) {
     <div>
       <fieldset>
         <label class="form-label mt-4">No. Kad Pengenalan</label>
-        <input class="form-control" type="text" name="ic" placeholder="<?= $row['m_ic']; ?>"  disabled="">
+        <input class="form-control" type="text" name="ic" placeholder="<?= $row['m_ic']; ?>"  pattern="\d{6}-\d{2}-\d{4}" disabled="">
       </fieldset>
     </div>
     <div>
@@ -274,7 +274,7 @@ if(!empty($_POST)) {
 </fieldset>
     <div>
       <label class="form-label mt-4">E-mel <span class="required">*</span></label>
-      <input type="text" class="form-control" name="emel" value="<?= $row['m_email']; ?>" required>
+      <input type="email" class="form-control" name="emel" value="<?= $row['m_email']; ?>" required>
     </div>
 <div>
       <label class="form-label mt-4">Alamat Rumah <span class="required">*</span></label>
@@ -381,7 +381,7 @@ if(!empty($_POST)) {
   <div class="col">
     <div>
       <label class="form-label mt-4">No. Telefon / Fax</label>
-      <input type="text" class="form-control" name="faxphonenum" value="<?php echo !empty($row['m_faxNumber']) ? $row['m_faxNumber'] : 'N/A'; ?>">
+      <input type="text" class="form-control" name="faxphonenum" pattern="\d{10,11}" value="<?php echo !empty($row['m_faxNumber']) ? $row['m_faxNumber'] : 'N/A'; ?>">
     </div>
   </div>
   <div class="col">
@@ -393,7 +393,7 @@ if(!empty($_POST)) {
   <div class="col">
     <div>
       <label class="form-label mt-4">No. Telefon Rumah</label>
-      <input type="text" class="form-control" name="homephonenum" value="<?php echo !empty($row['m_homeNumber']) ? $row['m_homeNumber'] : 'N/A'; ?>">
+      <input type="text" class="form-control" name="homephonenum" pattern="\d{9}" value="<?php echo !empty($row['m_homeNumber']) ? $row['m_homeNumber'] : 'N/A'; ?>">
     </div>
   </div>
 </div>
@@ -447,7 +447,7 @@ if(!empty($_POST)) {
                 if (result.isConfirmed) {
                     Swal.fire({
                         icon: 'success',
-                        title: 'Butir-butir anda telah berjaya dikemaskii!',
+                        title: 'Butir-butir anda telah berjaya dikemaskini!',
                         showConfirmButton: true
                     }).then(() => {
                         document.querySelector('form').submit();
@@ -455,7 +455,7 @@ if(!empty($_POST)) {
                 } else {
                     Swal.fire({
                         icon: 'info',
-                        title: 'Butir-butir anda tidak dikemaskii!',
+                        title: 'Butir-butir anda tidak dikemaskini!',
                     }).then(() => {
                         window.location.href='profilmember.php';
                     });

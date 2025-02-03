@@ -1,7 +1,7 @@
 <?php 
 include 'headermain.php'; 
 include 'login_function.php';
-
+include 'db_connect.php'; // Include your database connection file
 ?>
 
 <!DOCTYPE html>
@@ -126,7 +126,7 @@ include 'login_function.php';
                         <br>
                         <button type="submit" class="btn btn-primary custom-width center-button">Log Masuk</button>
                         <br><br>
-                        <h6 class="text-center"><b><a href="registration/register.php">Permohonan Menjadi Anggota</a></b></h6>
+                        <h6 class="text-center"><b><a href="#" id="applyMember">Permohonan Menjadi Anggota</a></b></h6>
                         <h6 class="text-center"><b><a href="forgot_password.php">Lupa Kata Laluan</a></b></h6>
                         <br><br><br>
                     </fieldset>
@@ -135,5 +135,106 @@ include 'login_function.php';
         </div>
     </div>
 
+    <script>
+        document.getElementById('applyMember').addEventListener('click', function(event) {
+            event.preventDefault();
+
+            Swal.fire({
+                title: 'Adakah anda pernah menjadi anggota?',
+                showDenyButton: true,
+                showCancelButton: true,
+                confirmButtonText: 'Ya',
+                denyButtonText: 'Tidak',
+                cancelButtonText: 'Batal'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    Swal.fire({
+                        title: 'Sila masukkan nombor P.F. anda',
+                        input: 'text',
+                        inputPlaceholder: 'Masukkan nombor P.F.',
+                        showCancelButton: true,
+                        confirmButtonText: 'Hantar',
+                        cancelButtonText: 'Batal',
+                        preConfirm: (pfNumber) => {
+                            const form = document.createElement('form');
+                            form.method = 'POST';
+                            form.action = ''; // Submit to the same page
+
+                            const input = document.createElement('input');
+                            input.type = 'hidden';
+                            input.name = 'pfNumber';
+                            input.value = pfNumber;
+
+                            form.appendChild(input);
+                            document.body.appendChild(form);
+                            form.submit();
+                        }
+                    });
+                } else if (result.isDenied) {
+                    window.location.href = "registration/register.php";
+                }
+            });
+        });
+    </script>
+
+    <?php
+    if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['pfNumber'])) {
+        $pfNumber = $_POST['pfNumber'];
+
+        // Database Query
+        $query = "SELECT m_status FROM tb_member WHERE m_pfNo = ?";
+        $stmt = $con->prepare($query);
+        $stmt->bind_param("s", $pfNumber);
+        $stmt->execute();
+        $result = $stmt->get_result();
+
+        if ($result->num_rows > 0) {
+            $row = $result->fetch_assoc();
+            $status = $row['m_status'];
+
+            switch ($status) {
+                case 1:
+                    echo "<script>
+                        Swal.fire('Tunggu Admin Approve', 'Permohonan anda sedang diproses.', 'info').then(() => {
+                            window.location.href = 'login.php';
+                        });
+                    </script>";
+                    break;
+
+                case 2:
+                    echo "<script>
+                        Swal.fire('Ditolak', 'Permohonan anda telah ditolak. Sila mohon semula.', 'error').then(() => {
+                            window.location.href = 'registration/register.php';
+                        });
+                    </script>";
+                    break;
+
+                case 3:
+                    echo "<script>
+                        Swal.fire('Anda Sudah Menjadi Ahli', 'Akaun anda aktif.', 'success').then(() => {
+                            window.location.href = 'login.php';
+                        });
+                    </script>";
+                    break;
+
+                case 5:
+                    echo "<script>
+                        Swal.fire('Maklumat telah dijumpa', 'Anda akan diarahkan ke halaman permohonan.', 'info').then(() => {
+                            window.location.href = 'registration/register.php?pfNumber={$pfNumber}';
+                        });
+                    </script>";
+                    break;
+
+                default:
+                    echo "<script>Swal.fire('Kesalahan', 'Status tidak diketahui.', 'error');</script>";
+            }
+        } else {
+            echo "<script>
+                Swal.fire('Tidak Dijumpai', 'Nombor P.F. tidak wujud dalam sistem. Sila mohon jadi anggota.', 'error');
+                    window.location.href = 'registration/register.php';
+            </script>";
+        }
+    }
+    ?>
 </body>
 </html>

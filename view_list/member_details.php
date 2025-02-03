@@ -8,7 +8,7 @@ if(!session_id())
 if ($_SESSION['u_type'] != 1) {
     header('Location: ../login.php');
     exit();
-  }
+}
   
 include '../header_admin.php';
 include '../db_connect.php';

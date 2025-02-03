@@ -47,15 +47,23 @@
           </div>
         </li>
         
-        <!-- Senarai Dropdown -->
+        <!-- Senarai Anggota Dropdown -->
         <li class="nav-item dropdown <?php echo (basename($_SERVER['PHP_SELF']) == 'view_member_list.php' || basename($_SERVER['PHP_SELF']) == 'view_loan_list.php') ? 'active' : ''; ?>">
-          <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">Senarai</a>
+          <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">Senarai Anggota</a>
           <div class="dropdown-menu">
-            <a class="dropdown-item <?php echo (basename($_SERVER['PHP_SELF']) == 'view_member_list.php') ? 'active' : ''; ?>" href="../view_list/view_member_list.php">Senarai Anggota</a>
-            <a class="dropdown-item <?php echo (basename($_SERVER['PHP_SELF']) == 'view_loan_list.php') ? 'active' : ''; ?>" href="../view_list/view_loan_list.php">Senarai Peminjam</a>
-            <a class="dropdown-item <?php echo (basename($_SERVER['PHP_SELF']) == 'view_feedback_admin.php') ? 'active' : ''; ?>" href="../feedback/view_feedback_admin.php">Senarai Maklum Balas</a>
+            <a class="dropdown-item <?php echo (basename($_SERVER['PHP_SELF']) == 'view_member_list.php') ? 'active' : ''; ?>" href="../view_list/view_member_list.php">Senarai Anggota Semasa</a>
+            <a class="dropdown-item <?php echo (basename($_SERVER['PHP_SELF']) == 'view_past_member_list.php') ? 'active' : ''; ?>" href="../view_list/view_past_member_list.php">Senarai Permohonan Lepas</a>
           </div>
         </li>
+
+        <!-- Senarai Dropdown -->
+        <li class="nav-item dropdown <?php echo (basename($_SERVER['PHP_SELF']) == 'view_member_list.php' || basename($_SERVER['PHP_SELF']) == 'view_loan_list.php') ? 'active' : ''; ?>">
+          <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">Senarai Peminjam</a>
+          <div class="dropdown-menu">
+            <a class="dropdown-item <?php echo (basename($_SERVER['PHP_SELF']) == 'view_loan_list.php') ? 'active' : ''; ?>" href="../view_list/view_loan_list.php">Senarai Peminjam</a>
+            <a class="dropdown-item <?php echo (basename($_SERVER['PHP_SELF']) == 'view_pass_loan_list.php') ? 'active' : ''; ?>" href="../view_list/view_pass_loan_list.php">Senarai Peminjam Lepas</a>
+          </div>
+        </li>        
         
         <!-- Transaksi Dropdown -->
         <li class="nav-item dropdown <?php echo (basename($_SERVER['PHP_SELF']) == 'potongan_gaji.php' || basename($_SERVER['PHP_SELF']) == 'transaksi_lain.php' || basename($_SERVER['PHP_SELF']) == 'sejarah_transaksi.php') ? 'active' : ''; ?>">
@@ -77,6 +85,7 @@
         
         <!-- Other Nav Items -->
         <li class="nav-item <?php echo (basename($_SERVER['PHP_SELF']) == 'kemaskini_iklan.php') ? 'active' : ''; ?>"><a class="nav-link" href="../kemaskini_iklan/kemaskini_iklan.php">Kemaskini Iklan</a></li>
+        <li class="nav-item <?php echo (basename($_SERVER['PHP_SELF']) == 'view_feedback_admin.php') ? 'active' : ''; ?>"><a class="nav-link" href="../feedback/view_feedback_admin.php">Maklum Balas</a></li>
         <li class="nav-item <?php echo (basename($_SERVER['PHP_SELF']) == '_dashboardLaporan.php') ? 'active' : ''; ?>"><a class="nav-link" href="../report_admin/_dashboardLaporan.php">Laporan</a></li>
       </ul>
     </div>
@@ -86,3 +95,5 @@
     <script src="https://kit.fontawesome.com/7e2061d7a1.js" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.min.js"></script>
+
+  
