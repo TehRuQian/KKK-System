@@ -66,14 +66,6 @@ $memberApplicationID = $row['m_memberApplicationID'];
   </style>
 </head>
 <body>
-<!--
-  <table class="fixed-table-container">
-  <thead>
-    <tr>
-      <th scope="col" style="text-align: center; font-size:20px; padding: 20px;">Maklumat Peribadi</th>
-    </tr>
-  </thead>
-</table>-->
 
     <div class="my-3"></div>
 
@@ -237,6 +229,29 @@ $memberApplicationID = $row['m_memberApplicationID'];
                   <?php 
               }
               ?>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+<div class="card mb-3 col-10 my-5 mx-auto">
+      <div class="card-header text-white bg-primary d-flex justify-content-between align-items-center">
+        Butir-butir Potongan Gaji
+        <button type="button" class="btn btn-info"  onclick="window.location.href='kemaskinipotongangaji.php'">
+            Kemaskini
+        </button> 
+      </div>
+      <div class="card-body">
+        <table class="table table-hover">
+          <tbody>
+            <tr>
+              <td scope="row">Simpanan Tetap</td>
+              <td><?= $row['m_simpananTetap']; ?></td>
+            </tr>
+            <tr>
+              <td scope="row">Tabung Anggota</td>
+              <td><?= $row['m_alAbrar']; ?></td>
+            </tr>
           </tbody>
         </table>
       </div>
