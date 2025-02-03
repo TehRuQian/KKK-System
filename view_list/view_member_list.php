@@ -59,7 +59,7 @@ $next_order = ($order === 'asc') ? 'desc' : 'asc';
 ?>
 
 <div class="container">
-    <h2>Senarai Anggota Terkini</h2>
+    <h2>Senarai Anggota Semasa</h2>
     
     <!-- Form for Search and Editing Mode -->
     <form method="GET" action="">

@@ -6,9 +6,7 @@
     <title>KKK Online System</title>
     <link href="../bootstrap.css" rel="stylesheet">
     <link href="../img/kkk_logo.png" rel="icon" type="/image/x-icon">
-    <!-- <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet"> -->
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-    <!-- <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css"> -->
+    <!-- <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script> -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
@@ -47,8 +45,14 @@
         <li class="nav-item">
           <a class="nav-link active ms-2" href="../feedback/track_feedback.php">Maklum Balas</a>
         </li>
-        <li class="nav-item">
-          <a class="nav-link active ms-2" href="../berhenti/berhenti.php">Berhenti Menjadi Anggota</a>
+        <li class="nav-item dropdown">
+            <a class="nav-link active dropdown-toggle ms-2" href="#" id="berhentiDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                Berhenti Menjadi Anggota
+            </a>
+            <ul class="dropdown-menu" aria-labelledby="berhentiDropdown">
+                <li><a class="dropdown-item" href="../berhenti/berhenti.php">Borang Berhenti Menjadi Anggota</a></li>
+                <li><a class="dropdown-item" href="../berhenti/berhenti_status.php">Jejak Status Permohonan</a></li>
+            </ul>
         </li>
         <li>
           <button onclick="window.location.href='../logout.php';" class="btn btn-dark">Log Keluar</button>
@@ -59,3 +63,6 @@
 </nav>
 
 
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
+
+  
