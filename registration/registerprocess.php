@@ -69,14 +69,14 @@ if (isset($_SESSION['funame']) && !empty($_SESSION['funame'])) {
         INSERT INTO tb_member (
           m_name, m_ic, m_email, m_gender, m_religion, m_race, 
           m_maritalStatus, m_homeAddress, m_homeCity, m_homeState, m_homePostcode, 
-          m_position, m_positionGrade, m_pfNo, m_officeAddress, m_officeCity, m_officeState, m_officePostcode, 
+          m_position, m_positionGrade, m_pfNo, m_officeAddress, m_officeCity, m_officeState, m_officePostcode, m_faxNumber,
           m_phoneNumber, m_homeNumber, m_monthlySalary, m_feeMasuk, m_modalSyer, m_modalYuran, m_deposit, 
           m_alAbrar, m_simpananTetap, m_feeLain, m_applicationDate, m_status
-        ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+        ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
     ");
 
     $stmt->bind_param(
-        "sssssssssssssssssssssssssssssi",
+        "ssssssssssssssssssssssssssssssi",
         $funame,
         $fuic,
         $femail,
@@ -95,6 +95,7 @@ if (isset($_SESSION['funame']) && !empty($_SESSION['funame'])) {
         $fofficecity,
         $fofficestate,
         $fofficezip,
+        $ffaxno,
         $ftelno,
         $fhomeno,
         $fsalary,

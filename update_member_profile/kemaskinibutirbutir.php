@@ -447,7 +447,7 @@ if(!empty($_POST)) {
                 if (result.isConfirmed) {
                     Swal.fire({
                         icon: 'success',
-                        title: 'Butir-butir anda telah berjaya dikemaskii!',
+                        title: 'Butir-butir anda telah berjaya dikemaskini!',
                         showConfirmButton: true
                     }).then(() => {
                         document.querySelector('form').submit();
@@ -455,7 +455,7 @@ if(!empty($_POST)) {
                 } else {
                     Swal.fire({
                         icon: 'info',
-                        title: 'Butir-butir anda tidak dikemaskii!',
+                        title: 'Butir-butir anda tidak dikemaskini!',
                     }).then(() => {
                         window.location.href='profilmember.php';
                     });

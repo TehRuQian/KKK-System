@@ -6,29 +6,7 @@ include('functions.php');
 <!DOCTYPE html>
 
 <head>
-    <style>
-        .row-spacing {
-            margin-bottom: 4rem;
-        }
-
-        a:hover {}
-
-        a:active,
-        a.active {
-            color: black !important;
-        }
-
-        a {
-            text-decoration: none;
-            margin-bottom: 0.5rem;
-        }
-
-        .container {
-            width: 850px;
-            margin: 0 auto;
-        }
-    </style>
-
+<link rel="stylesheet" href="regstyle.css">
 </head>
 
 <body>

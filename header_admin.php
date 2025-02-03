@@ -75,9 +75,16 @@
             <a class="dropdown-item <?php echo (basename($_SERVER['PHP_SELF']) == 'sejarah_transaksi.php') ? 'active' : ''; ?>" href="../transaksi/sejarah_transaksi.php">Sejarah Transaksi</a>
           </div>
         </li>
+
+        <li class="nav-item dropdown <?php echo (basename($_SERVER['PHP_SELF']) == 'kemaskini_polisi.php' || basename($_SERVER['PHP_SELF']) == 'sejarah_polisi.php') ? 'active' : ''; ?>">
+          <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">Polisi</a>
+          <div class="dropdown-menu">
+            <a class="dropdown-item <?php echo (basename($_SERVER['PHP_SELF']) == 'kemaskini_polisi.php') ? 'active' : ''; ?>" href="../kemaskini_polisi/kemaskini_polisi.php">Potongan Gaji</a>
+            <a class="dropdown-item <?php echo (basename($_SERVER['PHP_SELF']) == 'sejarah_polisi.php') ? 'active' : ''; ?>" href="../kemaskini_polisi/sejarah_polisi.php">Sejarah Polisi</a>
+          </div>
+        </li>
         
         <!-- Other Nav Items -->
-        <li class="nav-item <?php echo (basename($_SERVER['PHP_SELF']) == 'kemaskini_polisi.php') ? 'active' : ''; ?>"><a class="nav-link" href="../kemaskini_polisi/kemaskini_polisi.php">Kemaskini Polisi</a></li>
         <li class="nav-item <?php echo (basename($_SERVER['PHP_SELF']) == 'kemaskini_iklan.php') ? 'active' : ''; ?>"><a class="nav-link" href="../kemaskini_iklan/kemaskini_iklan.php">Kemaskini Iklan</a></li>
         <li class="nav-item <?php echo (basename($_SERVER['PHP_SELF']) == 'view_feedback_admin.php') ? 'active' : ''; ?>"><a class="nav-link" href="../feedback/view_feedback_admin.php">Maklum Balas</a></li>
         <li class="nav-item <?php echo (basename($_SERVER['PHP_SELF']) == '_dashboardLaporan.php') ? 'active' : ''; ?>"><a class="nav-link" href="../report_admin/_dashboardLaporan.php">Laporan</a></li>

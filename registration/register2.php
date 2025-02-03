@@ -4,6 +4,25 @@ session_start();
 include('functions.php');
 include('..\db_connect.php'); // Include database connection
 
+$feeMasukMinValue = null;
+$pfNumber = $_SESSION['pfNumber'];
+if (isset($pfNumber)) {
+    // Set minimum value for Fee Masuk to 100 if pfNumber is provided
+    $feeMasukMinValue = 100.00;
+} else {
+    // Fetch minimum values from the database if no pfNumber is provided
+    $query = "
+        SELECT 
+            p_memberRegFee AS ffee
+        FROM tb_policies
+        ORDER BY p_policyID DESC
+        LIMIT 1";
+    $result = mysqli_query($con, $query);
+    if ($result && $row = mysqli_fetch_assoc($result)) {
+        $feeMasukMinValue = (float)$row['ffee'];
+    }
+}
+
 // Process form submission before rendering the HTML
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['submit'])) {
     $cleanPost = cleanPost($_POST);
@@ -27,7 +46,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['submit'])) {
 $minValues = [];
 $query = "
     SELECT 
-        p_memberRegFee AS ffee,
         p_minShareCapital AS fmodal,
         p_minFeeCapital AS fyuran,
         p_minFixedSaving AS fanggota,
@@ -48,14 +66,7 @@ if ($result && $row = mysqli_fetch_assoc($result)) {
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <style>
-    .row-spacing { margin-bottom: 4rem; }
-    a:hover {}
-    a:active, a.active { color: black !important; }
-    a { text-decoration: none; margin-bottom: 0.5rem; }
-    .container { width: 850px; margin: 0 auto; }
-  </style>
-  <title>Yuran dan Sumbangan</title>
+<link rel="stylesheet" href="regstyle.css">
 </head>
 <body>
   <div class="container-fluid">
@@ -91,9 +102,9 @@ if ($result && $row = mysqli_fetch_assoc($result)) {
       <div class='input-group'>
             <span class='input-group-text'>RM</span>
             <input type='number' class='form-control' name='ffee' 
-            placeholder='Nilai Minima: <?php echo number_format((float)$minValues["ffee"], 2, ".", ""); ?>' 
+            placeholder='Nilai Minima: <?php echo number_format((float)$feeMasukMinValue, 2, ".", ""); ?>' 
             value="<?php echo getValueDecimal('ffee'); ?>" 
-            min='<?php echo number_format((float)$minValues["ffee"], 2, ".", ""); ?>' required>
+            min='<?php echo number_format((float)$feeMasukMinValue, 2, ".", ""); ?>' required>
       </div>
   </div>
 
