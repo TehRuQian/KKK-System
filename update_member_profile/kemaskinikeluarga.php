@@ -24,16 +24,16 @@ function callResult($con, $u_id) {
                    tb_urace.ur_desc AS race, 
                    tb_ureligion.ua_desc AS religion, 
                    tb_umaritalstatus.um_desc AS maritalstatus, 
-                   tb_homeState.st_desc AS homeState, 
-                   tb_officeState.st_desc AS officeState, 
+                   tb_homestate.st_desc AS homeState, 
+                   tb_officestate.st_desc AS officeState, 
                    tb_member.m_memberApplicationID
             FROM tb_member
             LEFT JOIN tb_ugender ON tb_member.m_gender=tb_ugender.ug_gid
             LEFT JOIN tb_urace ON tb_member.m_race=tb_urace.ur_rid
             LEFT JOIN tb_ureligion ON tb_member.m_religion=tb_ureligion.ua_rid
             LEFT JOIN tb_umaritalstatus ON tb_member.m_maritalStatus=tb_umaritalstatus.um_mid
-            LEFT JOIN tb_homeState ON tb_member.m_homeState=tb_homeState.st_id
-            LEFT JOIN tb_officeState ON tb_member.m_officeState=tb_officeState.st_id
+            LEFT JOIN tb_homestate ON tb_member.m_homeState=tb_homestate.st_id
+            LEFT JOIN tb_officestate ON tb_member.m_officeState=tb_officestate.st_id
             WHERE tb_member.m_memberNo = '$u_id'";
 
     return mysqli_query($con, $sql);
