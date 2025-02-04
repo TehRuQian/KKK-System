@@ -10,9 +10,6 @@ if ($_SESSION['u_type'] != 1) {
 
 include '../db_connect.php';
 
-ini_set('display_errors', 1);
-error_reporting(E_ALL);
-
 $emailMessage = ""; // Variable for email notification message
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['selected_members']) && isset($_POST['action'])) {
