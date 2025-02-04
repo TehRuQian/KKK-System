@@ -39,10 +39,10 @@
           LIMIT 1";
   $result = mysqli_query($con, $sql);
   if ($result) {
-    $row = mysqli_fetch_assoc($result);
-    $minShareCapital = $row['p_minShareCapital'];
-    $salaryDeductionForSaving = $row['p_salaryDeductionForSaving'];
-    $salaryDeductionForMemberFund = $row['p_salaryDeductionForMemberFund'];
+    $policy = mysqli_fetch_assoc($result);
+    $minShareCapital = $policy['p_minShareCapital'];
+    $salaryDeductionForSaving = $policy['p_salaryDeductionForSaving'];
+    $salaryDeductionForMemberFund = $policy['p_salaryDeductionForMemberFund'];
   } else {
       echo "Error: " . mysqli_error($con);
   }
@@ -93,27 +93,51 @@
             $result_transaction = mysqli_query($con, $sql_transaction);
             $record_exists = mysqli_fetch_row($result_transaction)[0] > 0;
 
+            if($salaryDeductionForSaving != $member['m_simpananTetap']){
+              $balanceForSavingSalaryDeduction = $member['m_simpananTetap'];
+            }
+            else{
+              $balanceForSavingSalaryDeduction = $salaryDeductionForSaving;
+            }
+
+            if($salaryDeductionForMemberFund != $member['m_alAbrar']){
+              $balanceForFundSalaryDeduction = $member['m_alAbrar'];
+            }
+            else{
+              $balanceForFundSalaryDeduction = $salaryDeductionForMemberFund;
+            }
+            $totalAmount = $balanceForSavingSalaryDeduction + $balanceForFundSalaryDeduction;
+
             $newShareCapital = $financial['f_shareCapital'];
             $newFeeCapital = $financial['f_feeCapital'];
             $newFixedSaving = $financial['f_fixedSaving'];
             $newMemberFund = $financial['f_memberFund'];
             $newMemberSaving = $financial['f_memberSaving'];
             
-            // if ($financial['f_modalYuran'] < $member['m_feeMasuk'] + )
+            // If fee not made yet
+            if ($financial['f_feeCapital'] < $member['m_feeMasuk'] + $member['m_modalYuran']){
+              if($balanceForSavingSalaryDeduction <= $member['m_feeMasuk'] + $member['m_modalYuran'] - $financial['f_feeCapital']){
+                $newFeeCapital += $balanceForSavingSalaryDeduction;
+                $balanceForSavingSalaryDeduction = 0;
+              }
+              else{
+                $balanceForSavingSalaryDeduction -= $member['m_feeMasuk'] + $member['m_modalYuran'] - $financial['f_feeCapital'];
+                $newFeeCapital += $member['m_feeMasuk'] + $member['m_modalYuran'] - $financial['f_feeCapital'];
+              }
+            }
             if ($financial['f_shareCapital'] < $minShareCapital) {
-              $newShareCapital += $salaryDeductionForSaving;
+              $newShareCapital += $balanceForSavingSalaryDeduction;
               if($newShareCapital > $minShareCapital) {
                 $newFixedSaving += $newShareCapital - $minShareCapital;
                 $newShareCapital = $minShareCapital;
               }
-              $newMemberFund += $salaryDeductionForMemberFund;
+              $newMemberFund += $balanceForFundSalaryDeduction;
             }
             else {
-              $newMemberFund += $salaryDeductionForMemberFund;
-              $newFixedSaving += $salaryDeductionForSaving;
+              $newMemberFund += $balanceForFundSalaryDeduction;
+              $newFixedSaving += $balanceForSavingSalaryDeduction;
             }
 
-            $totalAmount = $salaryDeductionForMemberFund + $salaryDeductionForSaving;
             // if ($record_exists) {
             //   echo "<tr id='member_{$memberNo}' class='table-danger'>";
             // }
@@ -137,6 +161,15 @@
                                 <td>" . number_format($financial['f_shareCapital'], 2) . "</td>
                                 <td>" . number_format($newShareCapital - $financial['f_shareCapital'], 2) . "</td>
                                 <td>" . number_format($newShareCapital, 2) . "</td>
+                            </tr>";
+                          };
+                          if($newFeeCapital - $financial['f_feeCapital'] != 0){
+                            echo "
+                                <tr>
+                                <td>Modal Yuran</td>
+                                <td>" . number_format($financial['f_feeCapital'], 2) . "</td>
+                                <td>" . number_format($newFeeCapital - $financial['f_feeCapital'], 2) . "</td>
+                                <td>" . number_format($newFeeCapital, 2) . "</td>
                             </tr>";
                           };
                           if($newMemberFund - $financial['f_memberFund'] != 0){

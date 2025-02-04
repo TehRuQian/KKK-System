@@ -37,34 +37,68 @@
       $result_financial = mysqli_query($con, $sql_financial);
       $financial = mysqli_fetch_assoc($result_financial);
 
+      $sql_member = "SELECT * FROM tb_member WHERE m_memberNo = $memberNo;";
+      $result_member = mysqli_query($con, $sql_member);
+      $member = mysqli_fetch_assoc($result_member);
+
       $sql_loan = "SELECT tb_loan.*, tb_ltype.lt_desc
-                   FROM tb_loan 
-                   JOIN tb_ltype ON tb_loan.l_loanType = tb_ltype.lt_lid
-                   WHERE tb_loan.l_memberNo = $memberNo AND tb_loan.l_status = 3;";
+                    FROM tb_loan 
+                    JOIN tb_ltype ON tb_loan.l_loanType = tb_ltype.lt_lid
+                    WHERE tb_loan.l_memberNo = $memberNo AND tb_loan.l_status = 3;";
       $result_loan = mysqli_query($con, $sql_loan);
 
+      if($salaryDeductionForSaving != $member['m_simpananTetap']){
+        $balanceForSavingSalaryDeduction = $member['m_simpananTetap'];
+      }
+      else{
+        $balanceForSavingSalaryDeduction = $salaryDeductionForSaving;
+      }
+
+      if($salaryDeductionForMemberFund != $member['m_alAbrar']){
+        $balanceForFundSalaryDeduction = $member['m_alAbrar'];
+      }
+      else{
+        $balanceForFundSalaryDeduction = $salaryDeductionForMemberFund;
+      }
+      $totalAmount = $balanceForSavingSalaryDeduction + $balanceForFundSalaryDeduction;
+
       $newShareCapital = $financial['f_shareCapital'];
-      $newMemberFund = $financial['f_memberFund'];
+      $newFeeCapital = $financial['f_feeCapital'];
       $newFixedSaving = $financial['f_fixedSaving'];
+      $newMemberFund = $financial['f_memberFund'];
+      $newMemberSaving = $financial['f_memberSaving'];
       
+      // If fee not made yet
+      if ($financial['f_feeCapital'] < $member['m_feeMasuk'] + $member['m_modalYuran']){
+        if($balanceForSavingSalaryDeduction <= $member['m_feeMasuk'] + $member['m_modalYuran'] - $financial['f_feeCapital']){
+          $newFeeCapital += $balanceForSavingSalaryDeduction;
+          $balanceForSavingSalaryDeduction = 0;
+        }
+        else{
+          $balanceForSavingSalaryDeduction -= $member['m_feeMasuk'] + $member['m_modalYuran'] - $financial['f_feeCapital'];
+          $newFeeCapital += $member['m_feeMasuk'] + $member['m_modalYuran'] - $financial['f_feeCapital'];
+        }
+      }
       if ($financial['f_shareCapital'] < $minShareCapital) {
-        $newShareCapital += $salaryDeductionForSaving;
+        $newShareCapital += $balanceForSavingSalaryDeduction;
         if($newShareCapital > $minShareCapital) {
           $newFixedSaving += $newShareCapital - $minShareCapital;
           $newShareCapital = $minShareCapital;
         }
-        $newMemberFund += $salaryDeductionForMemberFund;
+        $newMemberFund += $balanceForFundSalaryDeduction;
       }
       else {
-        $newMemberFund += $salaryDeductionForMemberFund;
-        $newFixedSaving += $salaryDeductionForSaving;
+        $newMemberFund += $balanceForFundSalaryDeduction;
+        $newFixedSaving += $balanceForSavingSalaryDeduction;
       }
 
       // Update financial status
       $sql = "UPDATE tb_financial
               SET f_shareCapital = $newShareCapital,
+                  f_feeCapital = $newFeeCapital,
+                  f_fixedSaving = $newFixedSaving,
                   f_memberFund = $newMemberFund,
-                  f_fixedSaving = $newFixedSaving
+                  f_memberSaving = $newMemberSaving
               WHERE f_memberNo=$memberNo;";
       mysqli_query($con, $sql);
     
@@ -73,6 +107,12 @@
         $difference = $newShareCapital - $financial['f_shareCapital'];
         $sql = "INSERT INTO tb_transaction(t_transactionType, t_method, t_transactionAmt, t_month, t_year, t_desc, t_memberNo, t_adminID)
                 VALUES ('1', 'Potongan Gaji', '$difference', '$f_month', '$f_year', 'Potongan Gaji', '$memberNo', '$admin_id')";
+        mysqli_query($con, $sql);
+      }
+      if($newFeeCapital != $financial['f_feeCapital']){
+        $difference = $newFeeCapital - $financial['f_feeCapital'];
+        $sql = "INSERT INTO tb_transaction(t_transactionType, t_method, t_transactionAmt, t_month, t_year, t_desc, t_memberNo, t_adminID)
+                VALUES ('2', 'Potongan Gaji', '$difference', '$f_month', '$f_year', 'Potongan Gaji', '$memberNo', '$admin_id')";
         mysqli_query($con, $sql);
       }
       if($newFixedSaving != $financial['f_fixedSaving']){
@@ -85,6 +125,12 @@
         $difference = $newMemberFund - $financial['f_memberFund'];
         $sql = "INSERT INTO tb_transaction(t_transactionType, t_method, t_transactionAmt, t_month, t_year, t_desc, t_memberNo, t_adminID)
                 VALUES ('4', 'Potongan Gaji', '$difference', '$f_month', '$f_year',  'Potongan Gaji', '$memberNo', '$admin_id')";
+        mysqli_query($con, $sql);
+      }
+      if($newMemberSaving != $financial['f_memberSaving']){
+        $difference = $newMemberSaving - $financial['f_memberSaving'];
+        $sql = "INSERT INTO tb_transaction(t_transactionType, t_method, t_transactionAmt, t_month, t_year, t_desc, t_memberNo, t_adminID)
+                VALUES ('5', 'Potongan Gaji', '$difference', '$f_month', '$f_year',  'Potongan Gaji', '$memberNo', '$admin_id')";
         mysqli_query($con, $sql);
       }
 

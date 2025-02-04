@@ -221,7 +221,7 @@
 
               while ($row = mysqli_fetch_array($months)) {
                 $selected = ($currentMonth == $row['rm_id']) ? 'selected' : '';
-                echo "<option value='" . $row['rm_id'] . "'>" . $row['rm_desc'] . "</option>";
+                echo "<option value='" . $row['rm_id'] . "' $selected>" . $row['rm_desc'] . "</option>";
               }
             ?>
           </select>
