@@ -7,7 +7,9 @@
 - If you want to modify columns, please reimport and modify then only export
 
 # Changes Log
-<<<<<<< Updated upstream
+05/02/25 1.53am [Goe Jie Ying]
+- Done for member batch approval
+
 04/02/25 2.13pm [Goe Jie Ying]
 - Batch Approval for Berhenti Member and Loan Approval
 - Edit the berhenti_status to display only the member's information
