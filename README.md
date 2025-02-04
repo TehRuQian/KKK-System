@@ -7,7 +7,10 @@
 - If you want to modify columns, please reimport and modify then only export
 
 # Changes Log
-<<<<<<< Updated upstream
+04/02/25 5:44pm [Lam Yoke Yu]
+- Conflicting column in simpanan tetap and simpanan anggota / wang deposit anggota
+- Updated update_profile -> potongan_gaji
+
 04/02/25 2.13pm [Goe Jie Ying]
 - Batch Approval for Berhenti Member and Loan Approval
 - Edit the berhenti_status to display only the member's information
