@@ -10,7 +10,7 @@ if ($_SESSION['u_type'] != 1) {
 
 include '../db_connect.php';
 
-$emailMessage = ""; // Variable for email notification message
+$emailMessage = ""; 
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['selected_members']) && isset($_POST['action'])) {
     $selectedMembers = $_POST['selected_members'];
@@ -18,25 +18,22 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['selected_members']) &&
     $uid = $_SESSION['u_id'];
     $currentDate = date('Y-m-d H:i:s');
     
-    // Begin transaction for batch update
     mysqli_begin_transaction($con);
     try {
         foreach ($selectedMembers as $applicationId) {
-            $applicationId = intval($applicationId);  // Ensure integer value for SQL query
+            $applicationId = intval($applicationId); 
             if ($action === 'approve') {
-                // Fetch member details to get necessary info for approval
                 $sqlGetMember = "SELECT * FROM tb_member WHERE m_memberApplicationID = $applicationId";
                 $result = mysqli_query($con, $sqlGetMember);
                 if ($result && mysqli_num_rows($result) > 0) {
                     $row = mysqli_fetch_assoc($result);
-                    $memberEmail = $row['m_email'];  // Get member's email
+                    $memberEmail = $row['m_email']; 
                     $memberName = $row['m_name'];
 
-                    // Get the next available member number by finding the last member number
                     $sqlGetLastMemberNo = "SELECT MAX(m_memberNo) AS lastMember FROM tb_member";
                     $lastResult = mysqli_query($con, $sqlGetLastMemberNo);
                     $lastRow = mysqli_fetch_assoc($lastResult);
-                    $nextMemberNo = $lastRow['lastMember'] + 1;  // Calculate the next available member number
+                    $nextMemberNo = $lastRow['lastMember'] + 1;  
 
                     // Update member status to approved and add member number
                     $sqlMem = "UPDATE tb_member
@@ -95,7 +92,6 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['selected_members']) &&
                     }
                 }
             } elseif ($action === 'reject') {
-                // Only update status to rejected, no email needed
                 $sqlReject = "UPDATE tb_member 
                               SET m_adminID = '$uid', m_status = '2', m_approvalDate = '$currentDate' 
                               WHERE m_memberApplicationID = '$applicationId'";
@@ -104,18 +100,15 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['selected_members']) &&
             }
         }
 
-        // Commit the transaction if all queries succeed
         mysqli_commit($con);
         header('Location: member_approval.php?success=1&message=' . urlencode($emailMessage));
         exit();
     } catch (Exception $e) {
-        // Rollback the transaction in case of error
         mysqli_roll_back($con);
         echo "Error: " . $e->getMessage();
         exit();
     }
 } else {
-    // Redirect back if POST data is not set or invalid
     header('Location: member_approval.php');
     exit();
 }
@@ -127,6 +120,6 @@ function generateTemporaryPassword($length = 8) {
 }
 
 function generateResetToken() {
-    return bin2hex(random_bytes(16));  // Generate a random token for password reset link
+    return bin2hex(random_bytes(16)); 
 }
 ?>

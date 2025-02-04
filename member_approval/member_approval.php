@@ -24,7 +24,6 @@ $currentDate = date('Y-m-d H:i:s');
 // Get User ID
 $uid = $_SESSION['u_id'];
 
-// Modify SQL query to format m_applicationDate to date-month-year format
 $sql = "SELECT *,
         DATE_FORMAT(tb_member.m_applicationDate, '%d-%m-%Y') AS formattedDate
         FROM tb_member 
@@ -34,7 +33,6 @@ $sql = "SELECT *,
 // Execute the SQL statement on DB
 $result = mysqli_query($con, $sql);
 
-// Get total records count for pagination
 $total_sql = "SELECT COUNT(*) FROM tb_member WHERE m_status = 1";
 $total_result = mysqli_query($con, $total_sql);
 $total_row = mysqli_fetch_row($total_result);
@@ -120,13 +118,11 @@ $total_pages = ceil($total_records / $records_per_page);
 
 <script>
 <?php if (isset($_GET['success']) && $_GET['success'] == '1'): ?>
-    // Show the success notification
     Swal.fire({
       title: "Berjaya!",
       text: "<?php echo isset($_GET['message']) ? htmlspecialchars($_GET['message']) : ''; ?>",
       icon: "success"
     }).then(() => {
-      // After showing the notification, remove the query parameters from the URL
       history.replaceState(null, '', window.location.pathname);
     });
 <?php endif; ?>

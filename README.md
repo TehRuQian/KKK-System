@@ -9,6 +9,8 @@
 # Changes Log
 05/02/25 1.53am [Goe Jie Ying]
 - Done for member batch approval
+- Added search bar for all list
+
 04/02/25 11:03pm [Lam Yoke Yu]
 - Updated for potongan_gaji
 - Hopefully completed
