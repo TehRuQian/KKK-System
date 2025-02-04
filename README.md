@@ -7,9 +7,15 @@
 - If you want to modify columns, please reimport and modify then only export
 
 # Changes Log
+04/02/25 11:02am [Lam Yoke Yu]
+- Updated kemaskini_polisi with additional fields
+- Bug fixes in sejarah_polisi.php potongan gaji card
+- Minor adjustment in a_pinjaman.php
+
 26/01/25 5.43pm [Goe Jie Ying]
 - Added new list (past member)
 - Added edit mode in member list (pencen/berhenti)
+
 26/01/25 4.56pm [Teh Ru Qian]
 - Update a_pinjaman.php (add status ahli, pencen and berhenti cannot apply for loan)
 

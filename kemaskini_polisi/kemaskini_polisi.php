@@ -248,12 +248,28 @@
       <table class="table table-hover">
         <tbody>
           <tr>
-            <td scope="row">Simpanan Tetap</td>
+            <td scope="row">Potongan Gaji untuk Simpanan Tetap</td>
             <td>RM <?php echo number_format($policy['p_salaryDeductionForSaving'], 2); ?></td>
           </tr>
           <tr>
-            <td scope="row">Sumbangan Tabung Kebajikan</td>
+            <td scope="row">Minimum Potongan Gaji untuk Simpanan Tetap</td>
+            <td>RM <?php echo number_format($policy['p_minSalaryDeductionForSaving'], 2); ?></td>
+          </tr>
+          <tr>
+            <td scope="row">Potongan Gaji untuk Sumbangan Tabung Kebajikan</td>
             <td>RM <?php echo number_format($policy['p_salaryDeductionForMemberFund'], 2); ?></td>
+          </tr>
+          <tr>
+            <td scope="row">Minimum Potongan Gaji untuk Sumbangan Tabung Kebajikan</td>
+            <td>RM <?php echo number_format($policy['p_minSalaryDeductionForMemberFund'], 2); ?></td>
+          </tr>
+          <tr>
+            <td scope="row">Minimum Potongan Gaji untuk Sumbangan Tabung Kebajikan</td>
+            <td>RM <?php echo number_format($policy['p_minSalaryDeductionForMemberFund'], 2); ?></td>
+          </tr>
+          <tr>
+            <td scope="row">Hari Cut Off</td>
+            <td><?php echo $policy['p_cutOffDay']; ?></td>
           </tr>
         </tbody>
       </table>
