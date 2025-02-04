@@ -52,7 +52,10 @@
   $d_minOtherFees = $policy['p_minOtherFees'];
   
   $d_salaryDeductionForSaving = $policy['p_salaryDeductionForSaving'];
+  $d_minSalaryDeductionForSaving = $policy['p_minSalaryDeductionForSaving'];
   $d_salaryDeductionForMemberFund = $policy['p_salaryDeductionForMemberFund'];
+  $d_minSalaryDeductionForMemberFund = $policy['p_minSalaryDeductionForMemberFund'];
+  $d_cutOffDay = $policy['p_cutOffDay'];
 
   if (isset($_POST['f_sameProfitRate']) && $_POST['f_sameProfitRate'] == 1) {
     $f_rate = $_POST['f_sameRate'];
@@ -82,14 +85,14 @@
       p_minShareCapitalForLoan, p_maxInstallmentPeriod, 
       p_maxAlBai, p_maxAlInnah, p_maxBPulihKenderaan, p_maxCukaiJalanInsurans, p_maxKhas, p_maxKarnivalMusim, p_maxAlQadrulHassan, 
       p_rateAlBai, p_rateAlInnah, p_rateBPulihKenderaan, p_rateCukaiJalanInsurans, p_rateKhas, p_rateKarnivalMusim, p_rateAlQadrulHassan, 
-      p_salaryDeductionForSaving, p_salaryDeductionForMemberFund, p_adminID)
+      p_salaryDeductionForSaving, p_minSalaryDeductionForSaving, p_salaryDeductionForMemberFund, p_minSalaryDeductionForMemberFund, p_cutOffDay, p_adminID)
     VALUES (
       '$d_memberRegFee', '$d_returningMemberRegFee', 
       '$d_minShareCapital', '$d_minFeeCapital', '$d_minFixedSaving', '$d_minMemberFund', '$d_minMemberSaving', '$d_minOtherFees',
       '$f_minShareCapitalForLoan', '$f_maxInstallmentPeriod', 
       '$f_maxAlBai', '$f_maxAlInnah', '$f_maxBPulihKenderaan', '$f_maxCukaiJalanInsurans', '$f_maxKhas', '$f_maxKarnivalMusim', '$f_maxAlQadrulHassan', 
       '$f_rateAlBai', '$f_rateAlInnah', '$f_rateBPulihKenderaan', '$f_rateCukaiJalanInsurans', '$f_rateKhas', '$f_rateKarnivalMusim', '$f_rateAlQadrulHassan', 
-      '$d_salaryDeductionForSaving', '$d_salaryDeductionForMemberFund', '$admin_id');";
+      '$d_salaryDeductionForSaving', '$d_minSalaryDeductionForSaving', '$d_salaryDeductionForMemberFund','$d_minSalaryDeductionForMemberFund', '$d_cutOffDay', '$admin_id');";
 
   if (mysqli_query($con, $sql)) {
     echo "

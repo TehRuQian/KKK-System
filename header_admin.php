@@ -78,7 +78,7 @@
         <li class="nav-item dropdown <?php echo (basename($_SERVER['PHP_SELF']) == 'kemaskini_polisi.php' || basename($_SERVER['PHP_SELF']) == 'sejarah_polisi.php') ? 'active' : ''; ?>">
           <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">Polisi</a>
           <div class="dropdown-menu">
-            <a class="dropdown-item <?php echo (basename($_SERVER['PHP_SELF']) == 'kemaskini_polisi.php') ? 'active' : ''; ?>" href="../kemaskini_polisi/kemaskini_polisi.php">Potongan Gaji</a>
+            <a class="dropdown-item <?php echo (basename($_SERVER['PHP_SELF']) == 'kemaskini_polisi.php') ? 'active' : ''; ?>" href="../kemaskini_polisi/kemaskini_polisi.php">Kemaskini Polisi</a>
             <a class="dropdown-item <?php echo (basename($_SERVER['PHP_SELF']) == 'sejarah_polisi.php') ? 'active' : ''; ?>" href="../kemaskini_polisi/sejarah_polisi.php">Sejarah Polisi</a>
           </div>
         </li>

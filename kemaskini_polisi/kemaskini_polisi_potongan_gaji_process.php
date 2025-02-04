@@ -14,7 +14,10 @@
   $admin_id = $_SESSION['u_id'];
   
   $f_salaryDeductionForSaving = $_POST['f_salaryDeductionForSaving'];
+  $f_minSalaryDeductionForSaving = $_POST['f_minSalaryDeductionForSaving'];
   $f_salaryDeductionForMemberFund = $_POST['f_salaryDeductionForMemberFund'];
+  $f_minSalaryDeductionForMemberFund = $_POST['f_minSalaryDeductionForMemberFund'];
+  $f_cutOffDay = $_POST['f_cutOff'];
 
   // Get other data that are not changed
   $sql = "
@@ -59,14 +62,14 @@
       p_minShareCapitalForLoan, p_maxInstallmentPeriod, 
       p_maxAlBai, p_maxAlInnah, p_maxBPulihKenderaan, p_maxCukaiJalanInsurans, p_maxKhas, p_maxKarnivalMusim, p_maxAlQadrulHassan, 
       p_rateAlBai, p_rateAlInnah, p_rateBPulihKenderaan, p_rateCukaiJalanInsurans, p_rateKhas, p_rateKarnivalMusim, p_rateAlQadrulHassan, 
-      p_salaryDeductionForSaving, p_salaryDeductionForMemberFund, p_adminID)
+      p_salaryDeductionForSaving, p_minSalaryDeductionForSaving, p_salaryDeductionForMemberFund, p_minSalaryDeductionForMemberFund, p_cutOffDay, p_adminID)
     VALUES (
       '$d_memberRegFee', '$d_returningMemberRegFee', 
       '$d_minShareCapital', '$d_minFeeCapital', '$d_minFixedSaving', '$d_minMemberFund', '$d_minMemberSaving', '$d_minOtherFees',
       '$d_minShareCapitalForLoan', '$d_maxInstallmentPeriod', 
       '$d_maxAlBai', '$d_maxAlInnah', '$d_maxBPulihKenderaan', '$d_maxCukaiJalanInsurans', '$d_maxKhas', '$d_maxKarnivalMusim', '$d_maxAlQadrulHassan', 
       '$d_rateAlBai', '$d_rateAlInnah', '$d_rateBPulihKenderaan', '$d_rateCukaiJalanInsurans', '$d_rateKhas', '$d_rateKarnivalMusim', '$d_rateAlQadrulHassan', 
-      '$f_salaryDeductionForSaving', '$f_salaryDeductionForMemberFund', '$admin_id');";
+      '$f_salaryDeductionForSaving', '$f_minSalaryDeductionForSaving', '$f_salaryDeductionForMemberFund', '$f_minSalaryDeductionForMemberFund', '$f_cutOffDay', '$admin_id');";
 
   if (mysqli_query($con, $sql)) {
     echo "
