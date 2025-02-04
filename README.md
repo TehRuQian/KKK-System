@@ -9,6 +9,13 @@
 # Changes Log
 05/02/25 1.53am [Goe Jie Ying]
 - Done for member batch approval
+04/02/25 11:03pm [Lam Yoke Yu]
+- Updated for potongan_gaji
+- Hopefully completed
+
+04/02/25 5:44pm [Lam Yoke Yu]
+- Conflicting column in simpanan tetap and simpanan anggota / wang deposit anggota
+- Updated update_profile -> potongan_gaji
 
 04/02/25 2.13pm [Goe Jie Ying]
 - Batch Approval for Berhenti Member and Loan Approval

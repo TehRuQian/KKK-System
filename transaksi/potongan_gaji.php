@@ -13,7 +13,7 @@
   include '../db_connect.php';
   $admin_id = $_SESSION['u_id'];
 
-  $records_per_page = 10;
+  $records_per_page = isset($_GET['recordPerPage']) ? $_GET['recordPerPage'] : 10;
   $current_page = isset($_GET['page']) ? $_GET['page'] : 1;
   $start_from = ($current_page - 1) * $records_per_page;
 
@@ -23,7 +23,10 @@
 
   $where_sql = "WHERE 1=1";
 
-  $filter_date = $filter_year . '-' . $filter_month . '-26';
+  $sql_cutoffday = "SELECT p_cutOffDay FROM tb_policies ORDER BY p_policyID DESC LIMIT 1";
+  $result_cutoffday = mysqli_query($con, $sql_cutoffday);
+  $cutoffday = mysqli_fetch_assoc($result_cutoffday)['p_cutOffDay'];
+  $filter_date = $filter_year . '-' . $filter_month . '-' . $cutoffday;
 
     if (!empty($filter_month)  &&  !empty($filter_year)) {
       $where_sql = "LEFT JOIN tb_transaction ON tb_financial.f_memberNo = tb_transaction.t_memberNo
@@ -74,14 +77,13 @@
 </style>
 
 <div class="container">
-    <h2>Transaksi</h2>
-
+    <h2>Potongan Gaji</h2>
   
     <div class="row justify-content-center">
   `    <!-- Filters -->
       <div class="col-md-4">
-        <p class="mb-3 d-flex justify-content-center"class="mb-3 d-flex justify-content-center">
-          Anggota yang belum dipotong gaji untuk</p>
+        <label class="mb-3 d-flex justify-content-center"class="mb-3 d-flex justify-content-center">
+          Anggota yang belum dipotong gaji untuk</label>
         <form method="GET" action="" class="mb-3 d-flex justify-content-center">
           <select name="filter_month" class="form-select me-2" style="width: 200px;">
               <option value="">Pilih Bulan</option>
@@ -121,8 +123,8 @@
 
       <!-- Find -->
       <div class="col-md-4">
-        <p class="mb-3 d-flex justify-content-center"class="mb-3 d-flex justify-content-center">
-        Cari Anggota</p>
+        <label class="mb-3 d-flex justify-content-center"class="mb-3 d-flex justify-content-center">
+        Cari Anggota</label>
         <form method="GET" action="" class="mb-3 d-flex justify-content-center">
             <input type="text" name="filter_member" class="form-control me-2" placeholder="No Anggota" value="<?= $filter_member; ?>" style="width: 200px;">
             <button type="submit" class="btn btn-primary">Cari</button>
@@ -131,14 +133,14 @@
     </div>
 
     <!-- Form for batch processing -->
-    <form id="transaksiForm" method="POST" action='potongan_gaji_pengesahan.php'>
+    <form id="transaksiForm" method="POST" action='potongan_gaji_pengesahan.php' enctype="multipart/form-data">
       <!-- Table for financial statuses -->
       <table class="table table-hover">
         <thead>
           <tr>
             <!-- Checkbox for batch selection -->
             <th scope="col">
-              <input class="form-check-input" type="checkbox" id="select_all" onclick="toggleSelectAll()"> Select All
+              <input class="form-check-input" type="checkbox" id="select_all" onclick="toggleSelectAll()"> Pilih Semua
             </th>
             <th scope="col">No Ahli</th>
             <th scope="col">Nama</th>
@@ -221,7 +223,7 @@
 
               while ($row = mysqli_fetch_array($months)) {
                 $selected = ($currentMonth == $row['rm_id']) ? 'selected' : '';
-                echo "<option value='" . $row['rm_id'] . "'>" . $row['rm_desc'] . "</option>";
+                echo "<option value='" . $row['rm_id'] . "' $selected>" . $row['rm_desc'] . "</option>";
               }
             ?>
           </select>

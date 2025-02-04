@@ -48,9 +48,9 @@ $query = "
     SELECT 
         p_minShareCapital AS fmodal,
         p_minFeeCapital AS fyuran,
-        p_minFixedSaving AS fanggota,
+        p_minMemberSaving AS fanggota,
         p_minMemberFund AS fabrar,
-        p_minMemberSaving AS ftetap,
+        p_minFixedSaving AS ftetap,
         p_minOtherFees AS fother
     FROM tb_policies
     ORDER BY p_policyID DESC
