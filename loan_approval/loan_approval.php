@@ -1,5 +1,4 @@
 <?php
-
 include('../kkksession.php');
 if (!session_id()) {
     session_start();
@@ -43,67 +42,129 @@ $total_pages = ceil($total_records / $records_per_page);
 ?>
 
 <div class="container">
-<h2>Permohonan Pinjaman</h2>
+    <h2>Permohonan Pinjaman</h2>
     <br>
+    <form action="loan_batch_approval_process.php" method="POST">
+    <input type="hidden" name="action" value="">
     <table class="table table-hover">
         <thead>
-        <tr>
-        <th scope="col">No. Pinjaman</th>
-        <th scope="col">No. Anggota</th>
-        <th scope="col">Nama Anggota</th>
-        <th scope="col" class="text-center">Jenis Pinjaman</th>
-        <th scope="col" class="text-center">Jumlah Permohonan (RM)</th>
-        <th scope="col" class="text-center">Tempoh Pinjaman (Bulan)</th>
-        <th scope="col" class="text-center">Ansuran Bulanan (RM)</th>
-        <!-- <th scope="col" class="text-center">Tunggakan (RM)</th> -->
-        <th scope="col" class="text-center">Tarikh Pohon</th>
-        <th scope="col" class="text-center">Butiran</th>
-        </tr>
+            <tr>
+                <th><input type="checkbox" id="select_all" onclick="toggleSelectAll()"> Pilih Semua</th>
+                <th scope="col">No. Pinjaman</th>
+                <th scope="col">No. Anggota</th>
+                <th scope="col">Nama Anggota</th>
+                <th scope="col" class="text-center">Jenis Pinjaman</th>
+                <th scope="col" class="text-center">Jumlah Permohonan (RM)</th>
+                <th scope="col" class="text-center">Tempoh Pinjaman (Bulan)</th>
+                <th scope="col" class="text-center">Ansuran Bulanan (RM)</th>
+                <th scope="col" class="text-center">Tarikh Pohon</th>
+                <th scope="col" class="text-center">Butiran</th>
+            </tr>
         </thead>
         <tbody>
             <?php
-            while ($row = mysqli_fetch_array($result)) {
-                echo "<tr>";
-                echo "<td>".$row['l_loanApplicationID']."</td>";
-                echo "<td>".$row['l_memberNo']."</td>";
-                echo "<td>".$row['m_name']."</td>";
-                echo "<td class='text-center'>".$row['l_loanType']."</td>";
-                echo "<td class='text-center'>" . number_format($row['l_appliedLoan'], 2)."</td>";
-                echo "<td class='text-center'>".$row['l_loanPeriod']."</td>";
-                echo "<td class='text-center'>". number_format($row['l_monthlyInstalment'], 2)."</td>";
-                // echo "<td class='text-center'>". number_format($row['l_loanPayable'], 2)."</td>";
-                echo "<td class='text-center'>".$row['formattedDate']."</td>"; 
-                echo "<td class='text-center'>";
-                echo "<a href='loan_approval_detail.php?id=".$row['l_loanApplicationID']."' title='View Details'>";
-                echo "<i class='fa fa-ellipsis-h' aria-hidden='true'></i>";
-                echo "</a>";
-                echo "</td>";
-                echo "</tr>";
+            $result = mysqli_query($con, $sql);
+            if (mysqli_num_rows($result) == 0) {
+                echo "<tr><td colspan='10' class='text-center'>Tiada permohonan pinjaman yang sedang diproses.</td></tr>";
+            } else {
+                while ($row = mysqli_fetch_array($result)) {
+                    echo "<tr>";
+                    echo "<td><input type='checkbox' name='selected_loans[]' value='".$row['l_loanApplicationID']."'></td>";
+                    echo "<td>".$row['l_loanApplicationID']."</td>";
+                    echo "<td>".$row['l_memberNo']."</td>";
+                    echo "<td>".$row['m_name']."</td>";
+                    echo "<td class='text-center'>".$row['l_loanType']."</td>";
+                    echo "<td class='text-center'>" . number_format($row['l_appliedLoan'], 2)."</td>";
+                    echo "<td class='text-center'>".$row['l_loanPeriod']."</td>";
+                    echo "<td class='text-center'>". number_format($row['l_monthlyInstalment'], 2)."</td>";
+                    echo "<td class='text-center'>".$row['formattedDate']."</td>"; 
+                    echo "<td class='text-center'>";
+                    echo "<a href='loan_approval_detail.php?id=".$row['l_loanApplicationID']."' title='View Details'>";
+                    echo "<i class='fa fa-ellipsis-h' aria-hidden='true'></i>";
+                    echo "</a>";
+                    echo "</td>";
+                    echo "</tr>";
+                }
             }
             ?>
         </tbody>
     </table>
 
+    <nav>
+        <ul class="d-flex justify-content-center pagination pagination-sm">
+            <?php if($current_page > 1): ?>
+            <li class="page-item">
+                <a class="page-link" href="?page=<?= $current_page - 1; ?>">&laquo;</a>
+            </li>
+            <?php endif; ?>
+
+            <?php for($i = 1; $i <= $total_pages; $i++): ?>
+            <li class="page-item <?= ($i == $current_page) ? 'active' : ''; ?>">
+                <a class="page-link" href="?page=<?= $i; ?>"><?= $i; ?></a>
+            </li>
+            <?php endfor; ?>
+
+            <?php if($current_page < $total_pages): ?>
+            <li class="page-item">
+                <a class="page-link" href="?page=<?= $current_page + 1; ?>">&raquo;</a>
+            </li>
+            <?php endif; ?>
+        </ul>
+    </nav>
+
+    <div class="d-flex justify-content-center">
+        <div>
+            <button type="submit" name="action" value="approve" class="btn btn-success">Lulus</button>
+            <button type="submit" name="action" value="reject" class="btn btn-danger">Tolak</button>
+        </div>
+    </div>
+</form>
+
 </div>
 
-<nav>
-    <ul class="d-flex justify-content-center pagination pagination-sm">
-        <?php if($current_page > 1): ?>
-        <li class="page-item">
-        <a class="page-link" href="?page=<?= $current_page - 1; ?>">&laquo;</a>
-        </li>
-        <?php endif; ?>
+<script>
+function toggleSelectAll() {
+    var checkboxes = document.querySelectorAll('input[name="selected_loans[]"]');
+    var selectAllCheckbox = document.getElementById('select_all');
+    checkboxes.forEach(function(checkbox) {
+        checkbox.checked = selectAllCheckbox.checked;
+    });
+}
 
-        <?php for($i = 1; $i <= $total_pages; $i++): ?>
-        <li class="page-item <?= ($i == $current_page) ? 'active' : ''; ?>">
-        <a class="page-link" href="?page=<?= $i; ?>"><?= $i; ?></a>
-        </li>
-        <?php endfor; ?>
+document.querySelector('button[name="action"][value="approve"]').addEventListener('click', function(e) {
+    e.preventDefault(); // Prevent form submission
+    Swal.fire({
+        title: 'Adakah anda pasti?',
+        text: "Anda pasti ingin meluluskan pinjaman yang dipilih?",
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonText: 'Ya, luluskan!',
+        cancelButtonText: 'Batal',
+    }).then((result) => {
+        if (result.isConfirmed) {
+            // Set the action to "approve"
+            document.querySelector('input[name="action"]').value = "approve";
+            document.querySelector('form').submit(); // Submit the form
+        }
+    });
+});
 
-        <?php if($current_page < $total_pages): ?>
-        <li class="page-item">
-        <a class="page-link" href="?page=<?= $current_page + 1; ?>">&raquo;</a>
-        </li>
-        <?php endif; ?>
-    </ul>
-</nav>
+document.querySelector('button[name="action"][value="reject"]').addEventListener('click', function(e) {
+    e.preventDefault(); // Prevent form submission
+    Swal.fire({
+        title: 'Adakah anda pasti?',
+        text: "Anda pasti ingin menolak pinjaman yang dipilih?",
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonText: 'Ya, tolak!',
+        cancelButtonText: 'Batal',
+    }).then((result) => {
+        if (result.isConfirmed) {
+            // Set the action to "reject"
+            document.querySelector('input[name="action"]').value = "reject";
+            document.querySelector('form').submit(); // Submit the form
+        }
+    });
+});
+
+</script>

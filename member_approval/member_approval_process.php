@@ -61,8 +61,7 @@ function sendApprovalEmail($email, $name, $memberNo, $temporaryPassword, $resetL
 
     $headers = "MIME-Version: 1.0\r\n" . 
                "Content-Type: text/html; charset=UTF-8\r\n" . 
-               "From: no_reply@kada.com\r\n" . 
-               "Reply-To: hello@gmail.com\r\n" . 
+               "From: noreply@kkk.com\r\n" . 
                "X-Mailer: PHP/" . phpversion();
 
     return mail($email, $subject, $message, $headers);

@@ -7,6 +7,11 @@
 - If you want to modify columns, please reimport and modify then only export
 
 # Changes Log
+04/02/25 2.13pm [Goe Jie Ying]
+- Batch Approval for Berhenti Member and Loan Approval
+- Edit the berhenti_status to display only the member's information
+- header admin updated
+
 04/02/25 11:02am [Lam Yoke Yu]
 - Updated kemaskini_polisi with additional fields
 - UI in the Kemaskini Polisi Potongan Gaji still need fixes

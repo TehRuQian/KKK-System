@@ -50,7 +50,7 @@
             <thead>
                 <tr>
                     <th>
-                        <input type="checkbox" id="select_all" onclick="toggleSelectAll()"> Select All
+                        <input type="checkbox" id="select_all" onclick="toggleSelectAll()"> Pilih Semua
                     </th>
                     <th>ID</th>
                     <th>No. Anggota</th>
@@ -101,8 +101,8 @@
       <!-- Pagination End -->
 
       <div class="d-flex justify-content-center">
-        <button type="button" class="btn btn-success mx-2" onclick="confirmApproval()">Lulus</button>
-        <button type="button" class="btn btn-danger mx-2" onclick="confirmRejection()">Tolak</button>
+        <button type="button" class="btn btn-success mx-1" onclick="confirmApproval()">Lulus</button>
+        <button type="button" class="btn btn-danger mx-1" onclick="confirmRejection()">Tolak</button>
       </div>
     </form>
 </div>
@@ -194,4 +194,18 @@ function confirmRejection() {
     }
   });
 }
+
+document.addEventListener("DOMContentLoaded", function () {
+    document.querySelectorAll(".alasan-btn").forEach(button => {
+        button.addEventListener("click", function () {
+            let alasan = this.getAttribute("data-alasan") || "Tiada alasan diberikan.";
+            Swal.fire({
+                title: "Alasan",
+                text: alasan,
+                icon: "info"
+            });
+        });
+    });
+});
+
 </script>

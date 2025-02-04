@@ -25,6 +25,7 @@ $sql = "SELECT *,
         DATE_FORMAT(tb_loan.l_approvalDate, '%d-%m-%Y') AS formattedDate 
         FROM tb_loan 
         LEFT JOIN tb_member ON tb_loan.l_memberNo = tb_member.m_memberNo 
+        LEFT JOIN tb_ltype ON tb_loan.l_loanType = tb_ltype.lt_lid
         WHERE l_status = 3
         LIMIT $start_from, $records_per_page";
 
@@ -40,7 +41,7 @@ $total_pages = ceil($total_records / $records_per_page);
 ?>
 
 <div class="container">
-<h2>Senarai Peminjam</h2>
+<h2>Senarai Peminjam Semasa</h2>
     <br>
     <table class="table table-hover">
         <thead>
@@ -48,7 +49,7 @@ $total_pages = ceil($total_records / $records_per_page);
         <th scope="col" class='text-center'>No. Pinjaman</th>
         <th scope="col" class='text-center'>No. Anggota</th>
         <th scope="col">Nama Anggota</th>
-        <th scope="col" class="text-center">Jenis Pinjaman</th>
+        <th scope="col" class="text-center">Jenis <br>Pinjaman</th>
         <th scope="col" class="text-center">Jumlah Permohonan (RM)</th>
         <th scope="col" class="text-center">Tempoh Pinjaman (Bulan)</th>
         <th scope="col" class="text-center">Ansuran Bulanan (RM)</th>
@@ -59,24 +60,27 @@ $total_pages = ceil($total_records / $records_per_page);
         </thead>
         <tbody>
             <?php
-            while($row = mysqli_fetch_array($result))
-            {
-                echo "<tr>";
-                echo "<td class='text-center'>".$row['l_loanApplicationID']."</td>";
-                echo "<td class='text-center'>".$row['l_memberNo']."</td>";
-                echo "<td>".$row['m_name']."</td>";
-                echo "<td class='text-center'>".$row['l_loanType']."</td>";
-                echo "<td class='text-center'>" . number_format($row['l_appliedLoan'], 2)."</td>";
-                echo "<td class='text-center'>".$row['l_loanPeriod']."</td>";
-                echo "<td class='text-center'>". number_format($row['l_monthlyInstalment'], 2)."</td>";
-                echo "<td class='text-center'>". number_format($row['l_loanPayable'], 2)."</td>";
-                echo "<td class='text-center'>".$row['formattedDate']."</td>"; 
-                echo "<td class='text-center'>";
-                echo "<a href='loan_details.php?id=".$row['l_loanApplicationID']."' title='View Details'>";
-                echo "<i class='fa fa-ellipsis-h' aria-hidden='true'></i>";       
-                echo "</a>";
-                echo "</td>";
-                echo "</tr>";
+            if(mysqli_num_rows($result) > 0) {
+                while($row = mysqli_fetch_array($result)) {
+                    echo "<tr>";
+                    echo "<td class='text-center'>".$row['l_loanApplicationID']."</td>";
+                    echo "<td class='text-center'>".$row['l_memberNo']."</td>";
+                    echo "<td>".$row['m_name']."</td>";
+                    echo "<td class='text-center'>".$row['lt_desc']."</td>";
+                    echo "<td class='text-center'>" . number_format($row['l_appliedLoan'], 2)."</td>";
+                    echo "<td class='text-center'>".$row['l_loanPeriod']."</td>";
+                    echo "<td class='text-center'>". number_format($row['l_monthlyInstalment'], 2)."</td>";
+                    echo "<td class='text-center'>". number_format($row['l_loanPayable'], 2)."</td>";
+                    echo "<td class='text-center'>".$row['formattedDate']."</td>"; 
+                    echo "<td class='text-center'>";
+                    echo "<a href='loan_details.php?id=".$row['l_loanApplicationID']."' title='View Details'>";
+                    echo "<i class='fa fa-ellipsis-h' aria-hidden='true'></i>";       
+                    echo "</a>";
+                    echo "</td>";
+                    echo "</tr>";
+                }
+            } else {
+                echo "<tr><td colspan='10' class='text-center'>Tiada pinjaman diluluskan buat masa ini.</td></tr>";
             }
             ?>
         </tbody>

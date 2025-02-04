@@ -60,7 +60,7 @@
         <li class="nav-item dropdown <?php echo (basename($_SERVER['PHP_SELF']) == 'view_member_list.php' || basename($_SERVER['PHP_SELF']) == 'view_loan_list.php') ? 'active' : ''; ?>">
           <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">Senarai Peminjam</a>
           <div class="dropdown-menu">
-            <a class="dropdown-item <?php echo (basename($_SERVER['PHP_SELF']) == 'view_loan_list.php') ? 'active' : ''; ?>" href="../view_list/view_loan_list.php">Senarai Peminjam</a>
+            <a class="dropdown-item <?php echo (basename($_SERVER['PHP_SELF']) == 'view_loan_list.php') ? 'active' : ''; ?>" href="../view_list/view_loan_list.php">Senarai Peminjam Semasa</a>
             <a class="dropdown-item <?php echo (basename($_SERVER['PHP_SELF']) == 'view_pass_loan_list.php') ? 'active' : ''; ?>" href="../view_list/view_pass_loan_list.php">Senarai Peminjam Lepas</a>
           </div>
         </li>        

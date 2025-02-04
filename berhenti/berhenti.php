@@ -31,7 +31,7 @@ $row=callResult($con, $u_id);
 function checkLoanStatus($con,$u_id){
     $sql ="SELECT COUNT(*) AS loan_count 
            FROM tb_loan 
-           WHERE l_memberNo='$u_id' AND l_status !=4";
+           WHERE l_memberNo='$u_id' AND l_status =3";
     $result=mysqli_query($con,$sql);
     if (!$result){
         die("Query failed: " . mysqli_error($con));
