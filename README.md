@@ -9,6 +9,7 @@
 # Changes Log
 04/02/25 11:02am [Lam Yoke Yu]
 - Updated kemaskini_polisi with additional fields
+- UI in the Kemaskini Polisi Potongan Gaji still need fixes
 - Bug fixes in sejarah_polisi.php potongan gaji card
 - Minor adjustment in a_pinjaman.php
 
