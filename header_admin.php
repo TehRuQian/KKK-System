@@ -7,7 +7,6 @@
       <title>KKK Online System</title>
       <link href="../bootstrap.css" rel="stylesheet">
       <link href="../img/kkk_logo.png" rel="icon" type="/image/x-icon">
-      <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
       <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
   </head>
 
@@ -79,7 +78,7 @@
         <li class="nav-item dropdown <?php echo (basename($_SERVER['PHP_SELF']) == 'kemaskini_polisi.php' || basename($_SERVER['PHP_SELF']) == 'sejarah_polisi.php') ? 'active' : ''; ?>">
           <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">Polisi</a>
           <div class="dropdown-menu">
-            <a class="dropdown-item <?php echo (basename($_SERVER['PHP_SELF']) == 'kemaskini_polisi.php') ? 'active' : ''; ?>" href="../kemaskini_polisi/kemaskini_polisi.php">Potongan Gaji</a>
+            <a class="dropdown-item <?php echo (basename($_SERVER['PHP_SELF']) == 'kemaskini_polisi.php') ? 'active' : ''; ?>" href="../kemaskini_polisi/kemaskini_polisi.php">Kemaskini Polisi</a>
             <a class="dropdown-item <?php echo (basename($_SERVER['PHP_SELF']) == 'sejarah_polisi.php') ? 'active' : ''; ?>" href="../kemaskini_polisi/sejarah_polisi.php">Sejarah Polisi</a>
           </div>
         </li>
@@ -93,7 +92,7 @@
   </div>
 </nav>
 
-
+    <script src="https://kit.fontawesome.com/7e2061d7a1.js" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.min.js"></script>
 

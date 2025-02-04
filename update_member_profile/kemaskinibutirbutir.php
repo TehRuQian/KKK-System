@@ -26,16 +26,16 @@ $sql = "SELECT tb_member.*,
                tb_urace.ur_desc AS race,
                tb_ureligion.ua_desc AS religion,
                tb_umaritalstatus.um_desc AS maritalstatus,
-               tb_homeState.st_desc AS homeState,
-               tb_officeState.st_desc AS officeState,
+               tb_homestate.st_desc AS homeState,
+               tb_officestate.st_desc AS officeState,
                tb_member.m_memberApplicationID
         FROM tb_member
         LEFT JOIN tb_ugender ON tb_member.m_gender=tb_ugender.ug_gid
         LEFT JOIN tb_urace ON tb_member.m_race=tb_urace.ur_rid
         LEFT JOIN tb_ureligion ON tb_member.m_religion=tb_ureligion.ua_rid
         LEFT JOIN tb_umaritalstatus ON tb_member.m_maritalStatus=tb_umaritalstatus.um_mid
-        LEFT JOIN tb_homeState ON tb_member.m_homeState=tb_homeState.st_id
-        LEFT JOIN tb_officeState ON tb_member.m_officeState=tb_officeState.st_id
+        LEFT JOIN tb_homestate ON tb_member.m_homeState=tb_homestate.st_id
+        LEFT JOIN tb_officestate ON tb_member.m_officeState=tb_officestate.st_id
         WHERE tb_member.m_memberNo = '$u_id'";
 
 $result = mysqli_query($con, $sql);
@@ -167,7 +167,7 @@ if(!empty($_POST)) {
     <div>
       <fieldset>
         <label class="form-label mt-4">No. Kad Pengenalan</label>
-        <input class="form-control" type="text" name="ic" placeholder="<?= $row['m_ic']; ?>"  disabled="">
+        <input class="form-control" type="text" name="ic" placeholder="<?= $row['m_ic']; ?>"  pattern="\d{6}-\d{2}-\d{4}" disabled="">
       </fieldset>
     </div>
     <div>
@@ -274,7 +274,7 @@ if(!empty($_POST)) {
 </fieldset>
     <div>
       <label class="form-label mt-4">E-mel <span class="required">*</span></label>
-      <input type="text" class="form-control" name="emel" value="<?= $row['m_email']; ?>" required>
+      <input type="email" class="form-control" name="emel" value="<?= $row['m_email']; ?>" required>
     </div>
 <div>
       <label class="form-label mt-4">Alamat Rumah <span class="required">*</span></label>
@@ -381,7 +381,7 @@ if(!empty($_POST)) {
   <div class="col">
     <div>
       <label class="form-label mt-4">No. Telefon / Fax</label>
-      <input type="text" class="form-control" name="faxphonenum" value="<?php echo !empty($row['m_faxNumber']) ? $row['m_faxNumber'] : 'N/A'; ?>">
+      <input type="text" class="form-control" name="faxphonenum" pattern="\d{10,11}" value="<?php echo !empty($row['m_faxNumber']) ? $row['m_faxNumber'] : 'N/A'; ?>">
     </div>
   </div>
   <div class="col">
@@ -393,7 +393,7 @@ if(!empty($_POST)) {
   <div class="col">
     <div>
       <label class="form-label mt-4">No. Telefon Rumah</label>
-      <input type="text" class="form-control" name="homephonenum" value="<?php echo !empty($row['m_homeNumber']) ? $row['m_homeNumber'] : 'N/A'; ?>">
+      <input type="text" class="form-control" name="homephonenum" pattern="\d{9}" value="<?php echo !empty($row['m_homeNumber']) ? $row['m_homeNumber'] : 'N/A'; ?>">
     </div>
   </div>
 </div>

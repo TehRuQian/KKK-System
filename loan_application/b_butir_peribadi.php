@@ -266,8 +266,8 @@ if ($memberNo !== null) {
         {
           $isChecked = ($row['ug_gid'] == $memberGender) ? 'checked' : '';
           echo '<div class="form-check form-check-inline">';
-          echo '<input type="radio" id="ugender' . $row['ug_gid'] . '" name="ugender" value="' . $row['ug_gid'] . '" '. $isChecked . '>';
-          echo '<label for="ugender' . $row['ug_gid'] . '">' . $row['ug_desc'] . '</label><br>';
+          echo '<input class="form-check-input" type="radio" id="ugender' . $row['ug_gid'] . '" name="ugender" value="' . $row['ug_gid'] . '" '. $isChecked . '>';
+          echo '<label class="form-check-label" for="ugender' . $row['ug_gid'] . '">' . $row['ug_desc'] . '</label><br>';
           echo '</div>';
         }
       ?>
@@ -283,8 +283,8 @@ if ($memberNo !== null) {
         while ($row = mysqli_fetch_array($result)) {
               $isChecked = ($row['ua_rid'] == $memberReligion) ? 'checked' : '';
               echo '<div class="form-check form-check-inline">';
-              echo '<input type="radio" id="ureligion' . $row['ua_rid'] . '" name="ureligion" value="' . $row['ua_rid'] . '" '. $isChecked. '>';
-              echo '<label for="ureligion' . $row['ua_rid'] . '">' . $row['ua_desc'] . '</label><br>';
+              echo '<input class="form-check-input" type="radio" id="ureligion' . $row['ua_rid'] . '" name="ureligion" value="' . $row['ua_rid'] . '" '. $isChecked. '>';
+              echo '<label class="form-check-label" for="ureligion' . $row['ua_rid'] . '">' . $row['ua_desc'] . '</label><br>';
               echo '</div>';
         }
       ?>
@@ -300,8 +300,8 @@ if ($memberNo !== null) {
 
             $isChecked = ($row['ur_rid'] == $memberRace) ? 'checked' : '';
               echo '<div class="form-check form-check-inline">';
-              echo '<input type="radio" id="urace' . $row['ur_rid'] . '" name="urace" value="' . $row['ur_rid'] . '" '. $isChecked. '>';
-              echo '<label for="urace' . $row['ur_rid'] . '">' . $row['ur_desc'] . '</label><br>';
+              echo '<input class="form-check-input" type="radio" id="urace' . $row['ur_rid'] . '" name="urace" value="' . $row['ur_rid'] . '" '. $isChecked. '>';
+              echo '<label class="form-check-label" for="urace' . $row['ur_rid'] . '">' . $row['ur_desc'] . '</label><br>';
               echo '</div>';
         }
       ?>
@@ -317,8 +317,8 @@ if ($memberNo !== null) {
 
             $isChecked = ($row['um_mid'] == $memberMaritalStatus) ? 'checked' : '';
             echo '<div class="form-check form-check-inline">';
-            echo '<input type="radio" id="umaritalStatus' . $row['um_mid'] . '" name="umaritalStatus" value="' . $row['um_mid'] . '" '. $isChecked. '>';
-            echo '<label for="umaritalStatus' . $row['um_mid'] . '">' . $row['um_desc'] . '</label><br>';
+            echo '<input class="form-check-input" type="radio" id="umaritalStatus' . $row['um_mid'] . '" name="umaritalStatus" value="' . $row['um_mid'] . '" '. $isChecked. '>';
+            echo '<label class="form-check-label" for="umaritalStatus' . $row['um_mid'] . '">' . $row['um_desc'] . '</label><br>';
             echo '</div>';
           }
       }
