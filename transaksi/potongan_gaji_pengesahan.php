@@ -99,6 +99,7 @@
             $newMemberFund = $financial['f_memberFund'];
             $newMemberSaving = $financial['f_memberSaving'];
             
+            // if ($financial['f_modalYuran'] < $member['m_feeMasuk'] + )
             if ($financial['f_shareCapital'] < $minShareCapital) {
               $newShareCapital += $salaryDeductionForSaving;
               if($newShareCapital > $minShareCapital) {

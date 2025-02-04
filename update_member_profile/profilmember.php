@@ -246,11 +246,11 @@ $memberApplicationID = $row['m_memberApplicationID'];
           <tbody>
             <tr>
               <td scope="row">Simpanan Tetap</td>
-              <td><?= $row['m_simpananTetap']; ?></td>
+              <td>RM <?= number_format($row['m_simpananTetap'], 2); ?></td>
             </tr>
             <tr>
               <td scope="row">Tabung Anggota</td>
-              <td><?= $row['m_alAbrar']; ?></td>
+              <td>RM <?= number_format($row['m_alAbrar'], 2); ?></td>
             </tr>
           </tbody>
         </table>
