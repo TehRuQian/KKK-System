@@ -7,6 +7,10 @@
 - If you want to modify columns, please reimport and modify then only export
 
 # Changes Log
+04/02/25 11:03pm [Lam Yoke Yu]
+- Updated for potongan_gaji
+- Hopefully completed
+
 04/02/25 5:44pm [Lam Yoke Yu]
 - Conflicting column in simpanan tetap and simpanan anggota / wang deposit anggota
 - Updated update_profile -> potongan_gaji

@@ -33,7 +33,7 @@
   }
 
   // Retrieve Policy Info
-  $sql = "SELECT p_minShareCapital, p_salaryDeductionForSaving, p_salaryDeductionForMemberFund
+  $sql = "SELECT p_minShareCapital, p_salaryDeductionForSaving, p_salaryDeductionForMemberFund, p_cutOffDay
           FROM tb_policies
           ORDER BY p_policyID DESC
           LIMIT 1";
@@ -43,6 +43,9 @@
     $minShareCapital = $policy['p_minShareCapital'];
     $salaryDeductionForSaving = $policy['p_salaryDeductionForSaving'];
     $salaryDeductionForMemberFund = $policy['p_salaryDeductionForMemberFund'];
+    $cutOffDay = $policy['p_cutOffDay'];
+    $cutOffDate = $f_year . '-' . $f_month . '-' . $cutOffDay;
+    $cutOffDate = date('Y-m-d', strtotime($cutOffDate));
   } else {
       echo "Error: " . mysqli_error($con);
   }
@@ -53,8 +56,7 @@
 
 <div class="container">
   <h2>Pengesahan Transaksi Potongan Gaji</h2>
-
-  <form method="POST" action="potongan_gaji_process.php">
+  <form method="POST" action="potongan_gaji_process.php" enctype="multipart/form-data">
     <input type="hidden" name="f_month" value="<?php echo $f_month; ?>">
     <input type="hidden" name="f_year" value="<?php echo $f_year; ?>">
     <input type="hidden" name="selected_members" id="selected_members" value="<?php echo implode(',', $selectedMembers); ?>">
@@ -75,9 +77,14 @@
             $result_financial = mysqli_query($con, $sql_financial);
             $financial = mysqli_fetch_assoc($result_financial);
 
-            $sql_member = "SELECT * FROM tb_member WHERE m_memberNo = $memberNo;";
+            $sql_member = "SELECT *, DATE(m_approvalDate) as approvalDate FROM tb_member WHERE m_memberNo = $memberNo;";
             $result_member = mysqli_query($con, $sql_member);
             $member = mysqli_fetch_assoc($result_member);
+
+            $notMemberYet = false;
+            if($member['approvalDate'] >= $cutOffDate){
+              $notMemberYet = true;
+            }
 
             $sql_loan = "SELECT tb_loan.*, tb_ltype.lt_desc
                          FROM tb_loan 
@@ -221,11 +228,16 @@
                 echo "</td>";
                 echo "<td>";
                 if ($record_exists) {
-                  // echo "<p class='text-danger'>Transaksi telah wujud untuk bulan ini!</p>";
                   echo "
                   <div class='alert alert-dismissible alert-danger'>
                     <strong>Amaran: </strong>Transaksi telah <br> wujud untuk bulan ini!
                   </div>";
+                }
+                if ($notMemberYet) {
+                  echo "
+                  <div class='alert alert-dismissible alert-danger'>
+                    <strong>Amaran: </strong>Anggota diluluskan <br> pada ". date('d-m-Y', strtotime($member['m_approvalDate'])) .
+                  "</div>";
                 }
                 echo "<button type='button' class='btn btn-warning' onclick='removeMember(" . $financial['f_memberNo'] . ")'>Keluarkan</button></td>";
             echo "</tr>";
@@ -233,6 +245,18 @@
         ?>
       </tbody>
     </table>
+
+    <h5>Muat Naik Bukti</h5>
+    <div class="mb-3">
+        <label class="form-label mt-4">No. Resit</label>
+        <input type="text" class="form-control" name="f_resitNo" required>
+      </div>
+
+      <div class="mb-3">
+        <label for="formFile" class="form-label mt-4">Bukti Transaksi</label>
+        <input class="form-control" type="file" id="transactionProof" name="transactionProof" accept="application/pdf, image/*" required>
+      </div>
+
     <div class="d-flex justify-content-center">
         <button type="submit" class="btn btn-primary">Hantar</button>
     </div>
@@ -254,4 +278,9 @@
     selectedMembersInput.value = newSelection.join(',');
 
   }
+</script>
+
+<script>
+  var fileType = '<?php echo $fileType; ?>';  // Store the file type
+  document.getElementById('transactionProofType').value = fileType;  // Pass it to the hidden field
 </script>

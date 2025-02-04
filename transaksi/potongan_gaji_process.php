@@ -29,6 +29,49 @@
 
   $f_month = $_POST['f_month'];
   $f_year = $_POST['f_year'];
+  $resitNo = $_POST['f_resitNo'];
+  $file = $_FILES['transactionProof'];
+
+  $target_dir = "bukti_transaksi/";
+  $currentTimestamp = time();
+  $fileType = strtolower(pathinfo($file['name'], PATHINFO_EXTENSION));
+  $target_file = $target_dir . "potongan_gaji" . $currentTimestamp . "." . $fileType;
+  $uploadOk = 1;
+
+  if(isset($_POST["submit"])) {
+    if ($fileType == "pdf") {
+        $uploadOk = 1;
+    } else {
+        $check = getimagesize($_FILES["transactionProof"]["tmp_name"]);
+        if($check !== false) {
+            // The file is an image
+            $uploadOk = 1;
+        } else {
+            $mssg = "Minta maaf, hanya fail JPG, JPEG, PNG, GIF, PDF dibenarkan.";
+            $uploadOk = 0;
+        }
+    }
+  }
+
+  // Check file size
+  if ($_FILES["transactionProof"]["size"] > 5242880) {
+  //   echo "Sorry, your file is too large.";
+    $mssg = "Minta maaf, fail ini terlalu besar.";
+    $uploadOk = 0;
+  }
+
+  // Check if $uploadOk is set to 0 by an error
+  if ($uploadOk == 0) {
+  //   echo "Sorry, your file was not uploaded.";
+  // if everything is ok, try to upload file
+    $alertType = 'error';
+  } else {
+    if (move_uploaded_file($_FILES["transactionProof"]["tmp_name"], $target_file)) {
+      // echo "The file ". htmlspecialchars( basename( $_FILES["banner"]["name"])). " has been uploaded.";
+      $proofPath = htmlspecialchars(basename($target_file));
+    }
+  }
+
   if (isset($_POST['selected_members']) && !empty($_POST['selected_members'])) {
     $selectedMembers = explode(',', $_POST['selected_members']);
 
@@ -105,32 +148,32 @@
       // Log Update to Transaction
       if($newShareCapital != $financial['f_shareCapital']){
         $difference = $newShareCapital - $financial['f_shareCapital'];
-        $sql = "INSERT INTO tb_transaction(t_transactionType, t_method, t_transactionAmt, t_month, t_year, t_desc, t_memberNo, t_adminID)
-                VALUES ('1', 'Potongan Gaji', '$difference', '$f_month', '$f_year', 'Potongan Gaji', '$memberNo', '$admin_id')";
+        $sql = "INSERT INTO tb_transaction(t_transactionType, t_method, t_transactionAmt, t_month, t_year, t_desc, t_resitNo, t_proof, t_memberNo, t_adminID)
+                VALUES ('1', 'Potongan Gaji', '$difference', '$f_month', '$f_year', 'Potongan Gaji', '$resitNo', '$proofPath', '$memberNo','$admin_id')";
         mysqli_query($con, $sql);
       }
       if($newFeeCapital != $financial['f_feeCapital']){
         $difference = $newFeeCapital - $financial['f_feeCapital'];
-        $sql = "INSERT INTO tb_transaction(t_transactionType, t_method, t_transactionAmt, t_month, t_year, t_desc, t_memberNo, t_adminID)
-                VALUES ('2', 'Potongan Gaji', '$difference', '$f_month', '$f_year', 'Potongan Gaji', '$memberNo', '$admin_id')";
+        $sql = "INSERT INTO tb_transaction(t_transactionType, t_method, t_transactionAmt, t_month, t_year, t_desc, t_resitNo, t_proof, t_memberNo, t_adminID)
+                VALUES ('2', 'Potongan Gaji', '$difference', '$f_month', '$f_year', 'Potongan Gaji', '$resitNo', '$proofPath', '$memberNo','$admin_id')";
         mysqli_query($con, $sql);
       }
       if($newFixedSaving != $financial['f_fixedSaving']){
         $difference = $newFixedSaving - $financial['f_fixedSaving'];
-        $sql = "INSERT INTO tb_transaction(t_transactionType, t_method, t_transactionAmt, t_month, t_year, t_desc, t_memberNo, t_adminID)
-                VALUES ('3', 'Potongan Gaji', '$difference', '$f_month', '$f_year', 'Potongan Gaji', '$memberNo', '$admin_id')";
+        $sql = "INSERT INTO tb_transaction(t_transactionType, t_method, t_transactionAmt, t_month, t_year, t_desc, t_resitNo, t_proof, t_memberNo, t_adminID)
+                VALUES ('3', 'Potongan Gaji', '$difference', '$f_month', '$f_year', 'Potongan Gaji', '$resitNo', '$proofPath', '$memberNo','$admin_id')";
         mysqli_query($con, $sql);
       }
       if($newMemberFund != $financial['f_memberFund']){
         $difference = $newMemberFund - $financial['f_memberFund'];
-        $sql = "INSERT INTO tb_transaction(t_transactionType, t_method, t_transactionAmt, t_month, t_year, t_desc, t_memberNo, t_adminID)
-                VALUES ('4', 'Potongan Gaji', '$difference', '$f_month', '$f_year',  'Potongan Gaji', '$memberNo', '$admin_id')";
+        $sql = "INSERT INTO tb_transaction(t_transactionType, t_method, t_transactionAmt, t_month, t_year, t_desc, t_resitNo, t_proof, t_memberNo, t_adminID)
+                VALUES ('4', 'Potongan Gaji', '$difference', '$f_month', '$f_year',  'Potongan Gaji', '$resitNo', '$proofPath', '$memberNo','$admin_id')";
         mysqli_query($con, $sql);
       }
       if($newMemberSaving != $financial['f_memberSaving']){
         $difference = $newMemberSaving - $financial['f_memberSaving'];
-        $sql = "INSERT INTO tb_transaction(t_transactionType, t_method, t_transactionAmt, t_month, t_year, t_desc, t_memberNo, t_adminID)
-                VALUES ('5', 'Potongan Gaji', '$difference', '$f_month', '$f_year',  'Potongan Gaji', '$memberNo', '$admin_id')";
+        $sql = "INSERT INTO tb_transaction(t_transactionType, t_method, t_transactionAmt, t_month, t_year, t_desc, t_resitNo, t_proof, t_memberNo, t_adminID)
+                VALUES ('5', 'Potongan Gaji', '$difference', '$f_month', '$f_year',  'Potongan Gaji', '$resitNo', '$proofPath', '$memberNo','$admin_id')";
         mysqli_query($con, $sql);
       }
 
@@ -148,8 +191,8 @@
             $transactionType = $row['l_loanType'] + 5;
             $desc = "Potongan Gaji Bayaran Balik " . $loanID;
             
-            $sql = "INSERT INTO tb_transaction(t_transactionType, t_method, t_transactionAmt, t_month, t_year, t_desc, t_memberNo, t_adminID)
-                    VALUES ('$transactionType', 'Potongan Gaji', $difference, '$f_month', '$f_year', '$desc', '$memberNo', '$admin_id');";
+            $sql = "INSERT INTO tb_transaction(t_transactionType, t_method, t_transactionAmt, t_month, t_year, t_desc, t_resitNo, t_proof, t_memberNo, t_adminID)
+                    VALUES ('$transactionType', 'Potongan Gaji', $difference, '$f_month', '$f_year', '$desc', '$resitNo', '$proofPath', '$memberNo','$admin_id');";
             mysqli_query($con, $sql);
 
             $sql = "UPDATE tb_loan
@@ -185,4 +228,19 @@
             });
         </script>";
   }
+
+  if($uploadOk == 0){
+    echo "
+      <script>
+        Swal.fire({
+          text: '$mssg',
+          title: 'Ralat',
+          icon: '$alertType',
+          confirmButtonText: 'OK',
+          willClose: () => {
+            window.location.href = 'potongan_gaji.php';
+          }
+        });
+      </script>";
+    }
 ?>

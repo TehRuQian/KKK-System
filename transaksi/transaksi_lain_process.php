@@ -46,7 +46,7 @@
   }
 
   // Check file size
-  if ($_FILES["transactionProof"]["size"] > 500000000) {
+  if ($_FILES["transactionProof"]["size"] > 5242880) {
   //   echo "Sorry, your file is too large.";
     $mssg = "Minta maaf, fail ini terlalu besar.";
     $uploadOk = 0;
