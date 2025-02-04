@@ -59,7 +59,7 @@ $next_order = ($order === 'asc') ? 'desc' : 'asc';
 ?>
 
 <div class="container">
-    <h2>Senarai Anggota Terkini</h2>
+    <h2>Senarai Anggota Semasa</h2>
     
     <!-- Form for Search and Editing Mode -->
     <form method="GET" action="">
@@ -163,26 +163,28 @@ $next_order = ($order === 'asc') ? 'desc' : 'asc';
 
 <?php
 // Handle Status Change
+// Handle Status Change
 if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['status_change']) && isset($_POST['member_no'])) {
     $new_status = $_POST['status_change'];
     $member_no = $_POST['member_no'];
+    $admin_id = $_SESSION['u_id']; // Admin performing the action
+    $approval_date = date('Y-m-d'); // Current date for approval
+
+    // Get current status
+    $query_status = "SELECT m_status FROM tb_member WHERE m_memberNo = '$member_no'";
+    $result_status = mysqli_query($con, $query_status);
+    $row_status = mysqli_fetch_assoc($result_status);
+    $current_status = $row_status['m_status'];
 
     // Update the member's status
     $update_sql = "UPDATE tb_member SET m_status = '$new_status' WHERE m_memberNo = '$member_no'";
     if (mysqli_query($con, $update_sql)) {
-        // If the status is 'Berhenti', send an email
-        if ($new_status == 5) {
-            $query = "SELECT m_email, m_name FROM tb_member WHERE m_memberNo = '$member_no'";
-            $result = mysqli_query($con, $query);
-            $row = mysqli_fetch_assoc($result);
-            $email = $row['m_email'];
-            $name = $row['m_name'];
 
-            $subject = "Status Anggota: Berhenti";
-            $message = "Salam $name,\n\nKami ingin memaklumkan bahawa anda telah dikeluarkan sebagai anggota Koperasi Kakitangan KADA.\n\n Terima kasih atas sokongan anda. Sebarang pertanyaan boleh merujuk ke pejabat pihak kami.\n\nSalam hormat.";
-            $headers = "From: admin@example.com";
-
-            mail($email, $subject, $message, $headers);
+        // If changing from 'Pencen' (6) to 'Berhenti' (5), insert into tb_tarikdiri
+        if ($current_status == 6 && $new_status == 5) {
+            $insert_tarikdiri = "INSERT INTO tb_tarikdiri (td_memberNo, td_alasan, td_status, td_approvalDate, td_adminID) 
+                                 VALUES ('$member_no', 'Pencen', '3', '$approval_date', '$admin_id')";
+            mysqli_query($con, $insert_tarikdiri);
         }
 
         echo "<script>

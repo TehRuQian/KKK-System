@@ -22,6 +22,7 @@ $sql ="SELECT tb_tarikdiri.*,
                tb_status.s_desc AS status
       FROM tb_tarikdiri
       LEFT JOIN tb_status ON tb_tarikdiri.td_status=tb_status.s_sid
+      WHERE td_memberNo = $u_id
       ORDER BY tb_tarikdiri.td_submitDate DESC";
 
 $result=mysqli_query($con, $sql);
