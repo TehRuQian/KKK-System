@@ -7,6 +7,9 @@
 - If you want to modify columns, please reimport and modify then only export
 
 # Changes Log
+05/02/25 5.49pm [Goe Jie Ying]
+- Add some notification in view_member_list.php
+
 05/02/25 1.53am [Goe Jie Ying]
 - Done for member batch approval
 - Added search bar for all list
