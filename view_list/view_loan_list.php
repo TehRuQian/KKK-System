@@ -32,6 +32,7 @@ if (!empty($search_query)) {
     $sql .= " AND (
                 tb_member.m_memberNo LIKE '%$search_query%' 
                 OR tb_member.m_pfNo LIKE '%$search_query%'
+                OR tb_member.m_name LIKE '%$search_query%'
                 OR tb_loan.l_loanApplicationID LIKE '%$search_query%'
                 OR tb_ltype.lt_desc LIKE '%$search_query%'
             )";
@@ -50,6 +51,7 @@ if (!empty($search_query)) {
     $total_sql .= " AND (
                         tb_member.m_memberNo LIKE '%$search_query%' 
                         OR tb_member.m_pfNo LIKE '%$search_query%'
+                        OR tb_member.m_name LIKE '%$search_query%'
                         OR tb_loan.l_loanApplicationID LIKE '%$search_query%'
                         OR tb_ltype.lt_desc LIKE '%$search_query%'
                     )";
