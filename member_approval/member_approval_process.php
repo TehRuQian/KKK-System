@@ -77,8 +77,8 @@ if ($mstatus == 3 && $mMemberNo) {
     $sqlFin = "INSERT INTO tb_financial (f_memberNo, f_shareCapital, f_feeCapital, f_fixedSaving, f_memberFund, f_memberSaving, f_dateUpdated)
                VALUES ('$mMemberNo', 0, 0, 0, 0, 0, '$currentDate')";
 
-    $sqlUser = "INSERT INTO tb_user (u_id, u_pwd, u_type)
-                VALUES ('$mMemberNo', '$hashedPassword', 2)";
+    $sqlUser = "INSERT INTO tb_user (u_id, u_pwd, u_type, reset_token, token_expiry)
+                VALUES ('$mMemberNo', '$hashedPassword', 2, '$token', '$expiryTime')";
 
     // Execute queries
     if (mysqli_query($con, $sqlMem) && mysqli_query($con, $sqlFin) && mysqli_query($con, $sqlUser)) {

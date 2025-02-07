@@ -52,7 +52,7 @@
           <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">Senarai Anggota</a>
           <div class="dropdown-menu">
             <a class="dropdown-item <?php echo (basename($_SERVER['PHP_SELF']) == 'view_member_list.php') ? 'active' : ''; ?>" href="../view_list/view_member_list.php">Senarai Anggota Semasa</a>
-            <a class="dropdown-item <?php echo (basename($_SERVER['PHP_SELF']) == 'view_past_member_list.php') ? 'active' : ''; ?>" href="../view_list/view_past_member_list.php">Senarai Permohonan Lepas</a>
+            <a class="dropdown-item <?php echo (basename($_SERVER['PHP_SELF']) == 'view_past_member_list.php') ? 'active' : ''; ?>" href="../view_list/view_past_member_list.php">Senarai Anggota Lepas</a>
           </div>
         </li>
 

@@ -440,7 +440,7 @@ if ($memberNo !== null) {
       </div>
 
       <div>
-      <label class="form-label mt-4">Gaji Bulanan</label>
+      <label class="form-label mt-4">Gaji Pokok Bulanan</label>
         <div class="input-group mt-2">
           <span class="input-group-text">RM</span>
           <input type="text" name = "gajiBulanan" class="form-control" id="gajiBulanan" aria-label="gajiBulanan" placeholder="1000" value="<?php echo $memberMonthlySalary;?>" required>

@@ -7,6 +7,16 @@
 - If you want to modify columns, please reimport and modify then only export
 
 # Changes Log
+07/02/25 9.49am [Teh Ru Qian]
+- Updated in report admin
+
+05/02/25 5.49pm [Goe Jie Ying]
+- Add some notification in view_member_list.php
+
+05/02/25 1.53am [Goe Jie Ying]
+- Done for member batch approval
+- Added search bar for all list
+
 04/02/25 11:03pm [Lam Yoke Yu]
 - Updated for potongan_gaji
 - Hopefully completed

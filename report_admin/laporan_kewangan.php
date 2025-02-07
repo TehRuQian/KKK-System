@@ -284,8 +284,20 @@ try {
         array('Yuran Tetap Minimum', 'RM ' . number_format($policy_data['p_minFixedSaving'] ?? 0, 2)),
         array('Simpanan Tetap Minimum', 'RM ' . number_format($policy_data['p_minMemberFund'] ?? 0, 2)),
         array('Tabung Kebajikan Minimum', 'RM ' . number_format($policy_data['p_minMemberSaving'] ?? 0, 2)),
-        array('Jumlah Pembiayaan Maksimum', 'RM ' . number_format($policy_data['p_maxFinancingAmt'] ?? 0, 2)),
-        array('Kadar Keuntungan', ($policy_data['p_profitRate'] ?? 0) . '%')
+        array('Jumlah Pembiayaan Maksimum Bagi Al-Bai', 'RM ' . number_format($policy_data['p_maxAlBai'] ?? 0, 2)),
+        array('Kadar Keuntungan Bagi Al-Bai', ($policy_data['p_rateAlBai'] ?? 0) . '%'),
+        array('Jumlah Pembiayaan Maksimum Bagi Al-Innah', 'RM ' . number_format($policy_data['p_maxAlInnah'] ?? 0, 2)),
+        array('Kadar Keuntungan Bagi Al-Innah', ($policy_data['p_rateAlInnah'] ?? 0) . '%'),
+        array('Jumlah Pembiayaan Maksimum Bagi Baik Pulih Kenderaan', 'RM ' . number_format($policy_data['p_maxBPulihKenderaan'] ?? 0, 2)),
+        array('Kadar Keuntungan Bagi  Baik Pulih Kenderaan', ($policy_data['p_rateBPulihKenderaan'] ?? 0) . '%'),
+        array('Jumlah Pembiayaan Maksimum Bagi Road Tax dan Insurans', 'RM ' . number_format($policy_data['p_maxCukaiJalanInsurans'] ?? 0, 2)),
+        array('Kadar Keuntungan Bagi Road Tax dan Insurans', ($policy_data['p_rateCukaiJalanInsurans'] ?? 0) . '%'),
+        array('Jumlah Pembiayaan Maksimum Bagi Khas', 'RM ' . number_format($policy_data['p_maxKhas'] ?? 0, 2)),
+        array('Kadar Keuntungan Bagi Khas', ($policy_data['p_rateKhas'] ?? 0) . '%'),
+        array('Jumlah Pembiayaan Maksimum Bagi Karnival Musim Istimewa', 'RM ' . number_format($policy_data['p_maxKarnivalMusim'] ?? 0, 2)),
+        array('Kadar Keuntungan Bagi Karnival Musim Istimewa', ($policy_data['p_rateKarnivalMusim'] ?? 0) . '%'),
+        array('Jumlah Pembiayaan Maksimum Bagi Al-Qadrul Hassan', 'RM ' . number_format($policy_data['p_maxAlQadrulHassan'] ?? 0, 2)),
+        array('Kadar Keuntungan Bagi Al-Qadrul Hassan', ($policy_data['p_rateAlQadrulHassan'] ?? 0) . '%')
     );
     $pdf->CreateTable($header, $data, true);
     $pdf->Ln(10);
