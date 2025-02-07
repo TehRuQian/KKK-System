@@ -264,7 +264,7 @@
             <td>RM <?php echo number_format($policy['p_minSalaryDeductionForMemberFund'], 2); ?></td>
           </tr>
           <tr>
-            <td scope="row">Hari Cut Off</td>
+            <td scope="row">Hari Tutup (Cut-Off Day)</td>
             <td><?php echo $policy['p_cutOffDay']; ?></td>
           </tr>
         </tbody>

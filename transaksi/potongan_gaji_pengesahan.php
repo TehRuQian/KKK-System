@@ -89,7 +89,9 @@
             $sql_loan = "SELECT tb_loan.*, tb_ltype.lt_desc
                          FROM tb_loan 
                          JOIN tb_ltype ON tb_loan.l_loanType = tb_ltype.lt_lid
-                         WHERE tb_loan.l_memberNo = $memberNo AND tb_loan.l_status = 3;";
+                         WHERE tb_loan.l_memberNo = $memberNo 
+                         AND tb_loan.l_status = 3
+                         AND DATE(tb_loan.l_approvalDate) < '$cutOffDate' ;";
             $result_loan = mysqli_query($con, $sql_loan);
 
             $sql_transaction = "SELECT COUNT(t_transactionID) FROM tb_transaction
@@ -132,7 +134,7 @@
                 $newFeeCapital += $member['m_feeMasuk'] + $member['m_modalYuran'] - $financial['f_feeCapital'];
               }
             }
-            if ($financial['f_shareCapital'] < $minShareCapital) {
+            if ($financial['f_shareCapital'] < $member['m_modalSyer']) {
               $newShareCapital += $balanceForSavingSalaryDeduction;
               if($newShareCapital > $minShareCapital) {
                 $newFixedSaving += $newShareCapital - $minShareCapital;
@@ -191,7 +193,7 @@
                           if($newFixedSaving - $financial['f_fixedSaving'] != 0){
                             echo "
                                 <tr>
-                                <td>Simpanan Anggota</td>
+                                <td>Simpanan Tetap</td>
                                 <td>" . number_format($financial['f_fixedSaving'], 2) . "</td>
                                 <td>" . number_format($newFixedSaving - $financial['f_fixedSaving'], 2) . "</td>
                                 <td>" . number_format($newFixedSaving, 2) . "</td>

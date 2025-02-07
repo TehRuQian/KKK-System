@@ -122,7 +122,7 @@
           $newFeeCapital += $member['m_feeMasuk'] + $member['m_modalYuran'] - $financial['f_feeCapital'];
         }
       }
-      if ($financial['f_shareCapital'] < $minShareCapital) {
+      if ($financial['f_shareCapital'] < $member['m_modalSyer']) {
         $newShareCapital += $balanceForSavingSalaryDeduction;
         if($newShareCapital > $minShareCapital) {
           $newFixedSaving += $newShareCapital - $minShareCapital;

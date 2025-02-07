@@ -13,7 +13,7 @@
   include '../db_connect.php';
   $admin_id = $_SESSION['u_id'];
 
-  $records_per_page = isset($_GET['recordPerPage']) ? $_GET['recordPerPage'] : 10;
+  $records_per_page = isset($_GET['recordPerPage']) ? $_GET['recordPerPage'] : 20;
   $current_page = isset($_GET['page']) ? $_GET['page'] : 1;
   $start_from = ($current_page - 1) * $records_per_page;
 
@@ -21,7 +21,7 @@
   $filter_year = $_GET['filter_year'] ?? '';
   $filter_member = $_GET['filter_member'] ?? '';
 
-  $where_sql = "WHERE 1=1";
+  $where_sql = "WHERE tb_member.m_status = 3";
 
   $sql_cutoffday = "SELECT p_cutOffDay FROM tb_policies ORDER BY p_policyID DESC LIMIT 1";
   $result_cutoffday = mysqli_query($con, $sql_cutoffday);

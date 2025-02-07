@@ -90,7 +90,7 @@
       <label class="form-label mt-4">Simpanan Tetap Minimum</label>
         <div class="input-group mb-3">
           <span class="input-group-text">RM</span>
-          <input type="text" min="0" step="0.01" class="form-control" name="f_minFixedSaving" value="<?php echo htmlspecialchars($policy['p_minMemberFund']); ?>">
+          <input type="text" min="0" step="0.01" class="form-control" name="f_minFixedSaving" value="<?php echo htmlspecialchars($policy['p_minFixedSaving']); ?>">
           <span class="input-group-text">.00</span>
         </div>
     </div>

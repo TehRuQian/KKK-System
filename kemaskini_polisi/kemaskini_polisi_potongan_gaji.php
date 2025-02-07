@@ -72,7 +72,7 @@
     </div>
 
     <div>
-        <label class="form-label mt-4">Hari Cutoff</label>
+        <label class="form-label mt-4">Hari Tutup (Cut-Off Day)</label>
           <div class="input-group mb-3">
             <input type="number" min="1" max="31" step="1" class="form-control" name="f_cutOff" value="<?php echo htmlspecialchars($policy['p_cutOffDay']); ?>">
           </div>

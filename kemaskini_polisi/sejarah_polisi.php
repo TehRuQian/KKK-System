@@ -19,7 +19,7 @@
 
 <!-- Main Content -->
 <div class="container">
-    <h2>Kemaskini Polisi</h2>
+    <h2>Sejarah Polisi</h2>
 
     <!-- Card 1: Polisi Asas Pemohonan Anggota -->
     <div class="card mb-3">
@@ -78,7 +78,7 @@
               <td scope="row">Fee Masuk Anggota yang Pernah Menjadi Anggota</td>
               <?php
                 foreach($member_policy as $x){
-                    echo "<td>RM" . number_format($x['p_memberRegFee'], 2) . "</td>";
+                    echo "<td>RM" . number_format($x['p_returningMemberRegFee'], 2) . "</td>";
                 }
               ?>
             </tr>
@@ -414,7 +414,7 @@
                     ?>
                 </tr>
                 <tr>
-                    <td scope="row">Hari Cut Off</td>
+                    <td scope="row">Hari Tutup (Cut-Off Day)</td>
                     <?php
                         foreach($salary_policy as $x){
                             echo "<td>RM" . number_format($x['p_cutOffDay'], 2) . "</td>";
