@@ -115,7 +115,6 @@ if (!$result) {
     <span>Status Maklum Balas</span>
     <div>
       <button type="button" class="btn btn-success me-2" onclick="window.location.href='submit_feedback.php'">Membuat Maklum Balas</button> 
-      <button type="button" class="btn btn-info" onclick="window.location.href='../member_main/member.php'">Kembali</button>
     </div>
   </div>
   <div class="card-body">

@@ -31,7 +31,7 @@ $row=callResult($con, $u_id);
 function checkLoanStatus($con,$u_id){
     $sql ="SELECT COUNT(*) AS loan_count 
            FROM tb_loan 
-           WHERE l_memberNo='$u_id' AND l_status !=4";
+           WHERE l_memberNo='$u_id' AND l_status =3";
     $result=mysqli_query($con,$sql);
     if (!$result){
         die("Query failed: " . mysqli_error($con));
@@ -60,7 +60,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST'){
                         text: 'Permohonan Berhenti Menjadi Anggota anda telah dihantar.',
                         confirmButtonText: 'OK'
                     }).then(() => {
-                        window.location.href = '../member_main/member.php';
+                        window.location.href = 'berhenti_status.php';
                     });
                   </script>";
         }
@@ -72,7 +72,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST'){
                     title: 'Pinjaman Tidak Selesai!',
                     text: 'Anda tidak boleh memohon untuk berhenti selagi pinjaman belum selesai.',
                 }).then(() => {
-                    window.location.href = '../member_main/member.php';
+                    window.location.href = 'berhenti_status.php';
                 });
               </script>";
     }
@@ -114,7 +114,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST'){
             </div>
 
             <div class="d-flex justify-content-center">
-                <a href="../member_main/member.php">
+                <a href="berhenti_status.php">
                     <button type="button" class="btn btn-primary mt-4 me-3">Kembali</button>
                 </a>
                 <button onclick="return confirmation(event);" class="btn btn-primary mt-4">Hantar</button>
@@ -157,7 +157,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST'){
                     text: 'Permohonan anda tidak dihantar.',
                 }).then(() => {
                     // Optional: Redirect or refresh the page
-                    window.location.href = '../member_main/member.php';
+                    window.location.href = 'berhenti_status.php';
                 });
             }
         });

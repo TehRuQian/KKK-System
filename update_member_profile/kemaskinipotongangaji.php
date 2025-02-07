@@ -19,51 +19,71 @@ include '../headermember.php';
 include '../db_connect.php';
 $u_id = $_SESSION['funame'];
 
-function callResult($con, $u_id) {
-
-$sql = "SELECT tb_member.*,
-               tb_member.m_memberApplicationID
+$sql = "SELECT *
         FROM tb_member
         WHERE tb_member.m_memberNo = '$u_id'";
 
-$result = mysqli_query($con, $sql);
+$result_member = mysqli_query($con, $sql);
+$member = mysqli_fetch_assoc($result_member);
 
-if (!$result) {
-    die("Query failed: ".mysqli_error($con));
-}
+$sql = "
+    SELECT * FROM tb_policies
+    ORDER BY p_policyID DESC
+    LIMIT 1;";
 
-$row = mysqli_fetch_assoc($result);
-
-return $row;
-
-}
-
-$row = callResult($con, $u_id);
+$result_policies = mysqli_query($con, $sql);
+$policy = mysqli_fetch_assoc($result_policies);
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    $m_alAbrar = $_POST['m_alAbrar'];
-    $m_simpananTetap = $_POST['m_simpananTetap'];
+  $m_alAbrar = $_POST['m_alAbrar'];
+  $m_simpananTetap = $_POST['m_simpananTetap'];
 
+  // Check if the values meet the minimum requirements
+  if ($m_simpananTetap < $policy['p_minSalaryDeductionForSaving']) {
+      echo "<script>
+              Swal.fire({
+                  icon: 'error',
+                  title: 'Potongan Gaji untuk Simpanan Tetap tidak mencukupi!',
+                  text: 'Sila pastikan ia tidak kurang dari RM " . $policy['p_minSalaryDeductionForSaving'] . "',
+              });
+            </script>";
+  } elseif ($m_alAbrar < $policy['p_minSalaryDeductionForMemberFund']) {
+      echo "<script>
+              Swal.fire({
+                  icon: 'error',
+                  title: 'Potongan Gaji untuk Tabung Anggota tidak mencukupi!',
+                  text: 'Sila pastikan ia tidak kurang dari RM " . $policy['p_minSalaryDeductionForMemberFund'] . "',
+              });
+            </script>";
+  } else {
+      // Proceed with the database update
+      $sql = "UPDATE tb_member SET 
+              m_alAbrar = '$m_alAbrar',
+              m_simpananTetap = '$m_simpananTetap'
+              WHERE m_memberNo='$u_id'";
 
-if(!empty($_POST)) {
-  $sql = "UPDATE tb_member
-  SET 
-    m_alAbrar = '$m_alAbrar',
-    m_simpananTetap = '$m_simpananTetap'
-    WHERE m_memberNo='$u_id'";
-
-    if(!mysqli_query($con, $sql)) {
-      die("Update failed!" . mysqli_error($con));
-    }
-    else{
-      header('Location:profilmember.php');
-    }
+      if (!mysqli_query($con, $sql)) {
+          echo "<script>
+                  Swal.fire({
+                      icon: 'error',
+                      title: 'Kemas Kini Gagal!',
+                      text: 'Sila cuba lagi.',
+                  });
+                </script>";
+      } else {
+          echo "<script>
+                  Swal.fire({
+                      icon: 'success',
+                      title: 'Potongan Gaji Telah Dikemaskini!',
+                      text: 'Kemaskini potongan gaji berjaya!',
+                  }).then(() => {
+                      window.location.href = 'profilmember.php';
+                  });
+                </script>";
+      }
+  }
 }
-
-}
-
 ?>
-
 
   <style>
     body {
@@ -91,12 +111,8 @@ if(!empty($_POST)) {
   </style>
 </head>
 <body>
-  
   <div class="my-3"></div>
-
     <h2 style="text-align: center;">Potongan Gaji</h2>
-
-  <div class="my-3"></div>
 
 <form class="form-container" method="post" action="">
   <fieldset>
@@ -105,13 +121,20 @@ if(!empty($_POST)) {
       <div class="col-sm-10">
     </div>
     <div>
-      <label class="form-label mt-4">Simapanan Tetap <span class="required">*</span></label>
-      <input type="text" class="form-control" name="m_simpananTetap" value="<?= $row['m_simpananTetap']; ?>" required>
+      <label class="form-label mt-4">Potongan Gaji untuk Simpanan Tetap <span class="required">*</span></label>
+      <div class="input-group mb-3">
+        <span class="input-group-text">RM</span>
+        <input type="number" min="<?php echo htmlspecialchars($policy['p_minSalaryDeductionForSaving']); ?>" step="0.01" class="form-control" name="m_simpananTetap" value="<?= $member['m_simpananTetap']; ?>" required>
+      </div>
     </div>
+
     <div>
       <fieldset>
-        <label class="form-label mt-4">Tabung Anggota <span class="required">*</span></label>
-        <input class="form-control" type="text" name="m_alAbrar" value="<?= $row['m_alAbrar']; ?>" required>
+        <label class="form-label mt-4">Potongan Gaji untuk Tabung Anggota <span class="required">*</span></label>
+        <div class="input-group mb-3">
+          <span class="input-group-text">RM</span>
+          <input class="form-control" type="number" min="<?php echo htmlspecialchars($policy['p_minSalaryDeductionForMemberFund']); ?>" step="0.01" name="m_alAbrar" value="<?= $member['m_alAbrar']; ?>" required>
+        </div>
       </fieldset>
     </div>
     
@@ -140,7 +163,6 @@ if(!empty($_POST)) {
     }
 
     event.preventDefault();
-
             Swal.fire({
                 title: 'Adakah anda pasti?',
                 text: 'Potongan gaji anda akan dikemaskini!',
@@ -150,20 +172,14 @@ if(!empty($_POST)) {
                 cancelButtonText: 'Batal'
             }).then((result) => {
                 if (result.isConfirmed) {
-                    Swal.fire({
-                        icon: 'success',
-                        title: 'Potongan gaji anda telah berjaya dikemaskini!',
-                        showConfirmButton: true
-                    }).then(() => {
                         document.querySelector('form').submit();
-                    });
                 } else {
                     Swal.fire({
                         icon: 'info',
                         title: 'Potongan gaji anda tidak dikemaskini!',
                     }).then(() => {
-                        window.location.href='profilmember.php';
-                    });
+                      window.location.href = 'profilmember.php';
+                  });
                 }
             });
         }

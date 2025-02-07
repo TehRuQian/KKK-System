@@ -68,7 +68,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $officepostcode = $_POST['officepostcode'];
     $officecity = $_POST['officecity'];
     $officestate = $_POST['officestate'];
-    $faxphonenum = $_POST['faxphonenum'];
+    //$faxphonenum = $_POST['faxphonenum'];
+    $faxphonenum = !empty($_POST['faxphonenum']) ? $_POST['faxphonenum'] : 'NULL';
+
     $phonenum = $_POST['phonenum'];
     $homephonenum = $_POST['homephonenum'];
     $monthlysalary = $_POST['monthlysalary'];
@@ -93,8 +95,8 @@ if(!empty($_POST)) {
     m_officePostcode = '$officepostcode',
     m_officeCity = '$officecity',
     m_officeState = '$officestate',
-    m_faxNumber = '$faxphonenum',
-    m_homeNumber = '$homephonenum',
+    m_faxNumber = " . ($faxphonenum === 'NULL' ? "NULL" : "'$faxphonenum'") . ",
+    m_homeNumber = " . ($homephonenum === 'NULL' ? "NULL" : "'$homephonenum'") . ",
     m_phoneNumber = '$phonenum',
     m_monthlySalary = '$monthlysalary'
     WHERE m_memberNo='$u_id'";
@@ -381,7 +383,7 @@ if(!empty($_POST)) {
   <div class="col">
     <div>
       <label class="form-label mt-4">No. Telefon / Fax</label>
-      <input type="text" class="form-control" name="faxphonenum" pattern="\d{10,11}" value="<?php echo !empty($row['m_faxNumber']) ? $row['m_faxNumber'] : 'N/A'; ?>">
+      <input type="text" class="form-control" name="faxphonenum" pattern="\d{10,11}" value="<?php echo $row['m_faxNumber']; ?>">
     </div>
   </div>
   <div class="col">
@@ -393,7 +395,7 @@ if(!empty($_POST)) {
   <div class="col">
     <div>
       <label class="form-label mt-4">No. Telefon Rumah</label>
-      <input type="text" class="form-control" name="homephonenum" pattern="\d{9}" value="<?php echo !empty($row['m_homeNumber']) ? $row['m_homeNumber'] : 'N/A'; ?>">
+      <input type="text" class="form-control" name="homephonenum" pattern="\d{9}" value="<?php echo $row['m_homeNumber']; ?>">
     </div>
   </div>
 </div>
