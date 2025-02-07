@@ -7,6 +7,9 @@
 - If you want to modify columns, please reimport and modify then only export
 
 # Changes Log
+07/02/25 9.49am [Teh Ru Qian]
+- Updated in report admin
+
 05/02/25 5.49pm [Goe Jie Ying]
 - Add some notification in view_member_list.php
 
