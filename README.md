@@ -7,9 +7,39 @@
 - If you want to modify columns, please reimport and modify then only export
 
 # Changes Log
+07/02/25 9.49am [Teh Ru Qian]
+- Updated in report admin
+
+05/02/25 5.49pm [Goe Jie Ying]
+- Add some notification in view_member_list.php
+
+05/02/25 1.53am [Goe Jie Ying]
+- Done for member batch approval
+- Added search bar for all list
+
+04/02/25 11:03pm [Lam Yoke Yu]
+- Updated for potongan_gaji
+- Hopefully completed
+
+04/02/25 5:44pm [Lam Yoke Yu]
+- Conflicting column in simpanan tetap and simpanan anggota / wang deposit anggota
+- Updated update_profile -> potongan_gaji
+
+04/02/25 2.13pm [Goe Jie Ying]
+- Batch Approval for Berhenti Member and Loan Approval
+- Edit the berhenti_status to display only the member's information
+- header admin updated
+
+04/02/25 11:02am [Lam Yoke Yu]
+- Updated kemaskini_polisi with additional fields
+- UI in the Kemaskini Polisi Potongan Gaji still need fixes
+- Bug fixes in sejarah_polisi.php potongan gaji card
+- Minor adjustment in a_pinjaman.php
+
 26/01/25 5.43pm [Goe Jie Ying]
 - Added new list (past member)
 - Added edit mode in member list (pencen/berhenti)
+
 26/01/25 4.56pm [Teh Ru Qian]
 - Update a_pinjaman.php (add status ahli, pencen and berhenti cannot apply for loan)
 

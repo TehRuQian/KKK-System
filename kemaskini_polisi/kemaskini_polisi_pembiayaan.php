@@ -40,7 +40,7 @@
       <label class="form-label mt-4">Modal Syer Minimum Peminjam</label>
       <div class="input-group mb-3">
         <span class="input-group-text">RM</span>
-        <input type="text" class="form-control" name="f_minShareCapitalForLoan" value="<?php echo htmlspecialchars($policy['p_minShareCapitalForLoan']); ?>" id="f_minShareCapitalForLoan">
+        <input type="number" min="0" step="1" class="form-control" name="f_minShareCapitalForLoan" value="<?php echo htmlspecialchars($policy['p_minShareCapitalForLoan']); ?>" id="f_minShareCapitalForLoan">
         <span class="input-group-text">.00</span>
       </div>
     </div>
@@ -49,7 +49,7 @@
     <div>
       <label class="form-label mt-4">Tempoh Ansuran Maksima</label>
       <div class="input-group mb-3">
-        <input type="text" class="form-control" name="f_maxInstallmentPeriod" value="<?php echo htmlspecialchars($policy['p_maxInstallmentPeriod']); ?>" id="f_maxInstallmentPeriod">
+        <input type="number" min="1" step="1" class="form-control" name="f_maxInstallmentPeriod" value="<?php echo htmlspecialchars($policy['p_maxInstallmentPeriod']); ?>" id="f_maxInstallmentPeriod">
         <span class="input-group-text">tahun</span>
       </div>
     </div>
@@ -78,13 +78,13 @@
           <td>
             <div class="input-group mb-3">
               <span class="input-group-text">RM</span>
-              <input type="text" class="form-control" name="f_maxAlBai" value="<?php echo htmlspecialchars($policy['p_maxAlBai']); ?>" id="f_maxAlBai">
+              <input type="number" min="0" step="1" class="form-control" name="f_maxAlBai" value="<?php echo htmlspecialchars($policy['p_maxAlBai']); ?>" id="f_maxAlBai">
               <span class="input-group-text">.00</span>
             </div>
           </td>
           <td>
             <div class="input-group mb-3">
-              <input type="text" class="form-control" name="f_rateAlBai" value="<?php echo htmlspecialchars($policy['p_rateAlBai']); ?>" id="f_rateAlBai">
+              <input type="number" min="0" max="100" step="0.01" class="form-control" name="f_rateAlBai" value="<?php echo htmlspecialchars($policy['p_rateAlBai']); ?>" id="f_rateAlBai">
               <span class="input-group-text">%</span>
             </div>
           </td>
@@ -94,13 +94,13 @@
           <td>
             <div class="input-group mb-3">
               <span class="input-group-text">RM</span>
-              <input type="text" class="form-control" name="f_maxAlInnah" value="<?php echo htmlspecialchars($policy['p_maxAlInnah']); ?>" id="f_maxAlInnah">
+              <input type="number" min="0" step="1" class="form-control" name="f_maxAlInnah" value="<?php echo htmlspecialchars($policy['p_maxAlInnah']); ?>" id="f_maxAlInnah">
               <span class="input-group-text">.00</span>
             </div>
           </td>
           <td>
             <div class="input-group mb-3">
-              <input type="text" class="form-control" name="f_rateAlInnah" value="<?php echo htmlspecialchars($policy['p_rateAlInnah']); ?>" id="f_rateAlInnah">
+              <input type="number" min="0" max="100" step="0.01" class="form-control" name="f_rateAlInnah" value="<?php echo htmlspecialchars($policy['p_rateAlInnah']); ?>" id="f_rateAlInnah">
               <span class="input-group-text">%</span>
             </div>
           </td>
@@ -110,13 +110,13 @@
           <td>
             <div class="input-group mb-3">
               <span class="input-group-text">RM</span>
-              <input type="text" class="form-control" name="f_maxBPulihKenderaan" value="<?php echo htmlspecialchars($policy['p_maxBPulihKenderaan']); ?>" id="f_maxBPulihKenderaan">
+              <input type="number" min="0" step="1" class="form-control" name="f_maxBPulihKenderaan" value="<?php echo htmlspecialchars($policy['p_maxBPulihKenderaan']); ?>" id="f_maxBPulihKenderaan">
               <span class="input-group-text">.00</span>
             </div>
           </td>
           <td>
             <div class="input-group mb-3">
-              <input type="text" class="form-control" name="f_rateBPulihKenderaan" value="<?php echo htmlspecialchars($policy['p_rateBPulihKenderaan']); ?>" id="f_rateBPulihKenderaan">
+              <input type="number" min="0" max="100" step="0.01" class="form-control" name="f_rateBPulihKenderaan" value="<?php echo htmlspecialchars($policy['p_rateBPulihKenderaan']); ?>" id="f_rateBPulihKenderaan">
               <span class="input-group-text">%</span>
             </div>
           </td>
@@ -126,13 +126,13 @@
           <td>
             <div class="input-group mb-3">
               <span class="input-group-text">RM</span>
-              <input type="text" class="form-control" name="f_maxCukaiJalanInsurans" value="<?php echo htmlspecialchars($policy['p_maxCukaiJalanInsurans']); ?>" id="f_maxCukaiJalanInsurans">
+              <input type="number" min="0" step="1" class="form-control" name="f_maxCukaiJalanInsurans" value="<?php echo htmlspecialchars($policy['p_maxCukaiJalanInsurans']); ?>" id="f_maxCukaiJalanInsurans">
               <span class="input-group-text">.00</span>
             </div>
           </td>
           <td>
             <div class="input-group mb-3">
-              <input type="text" class="form-control" name="f_rateCukaiJalanInsurans" value="<?php echo htmlspecialchars($policy['p_rateCukaiJalanInsurans']); ?>" id="f_rateCukaiJalanInsurans">
+              <input type="number" min="0" max="100" step="0.01" class="form-control" name="f_rateCukaiJalanInsurans" value="<?php echo htmlspecialchars($policy['p_rateCukaiJalanInsurans']); ?>" id="f_rateCukaiJalanInsurans">
               <span class="input-group-text">%</span>
             </div>
           </td>
@@ -142,13 +142,13 @@
           <td>
             <div class="input-group mb-3">
               <span class="input-group-text">RM</span>
-              <input type="text" class="form-control" name="f_maxKhas" value="<?php echo htmlspecialchars($policy['p_maxKhas']); ?>" id="f_maxKhas">
+              <input type="number" min="0" step="1" class="form-control" name="f_maxKhas" value="<?php echo htmlspecialchars($policy['p_maxKhas']); ?>" id="f_maxKhas">
               <span class="input-group-text">.00</span>
             </div>
           </td>
           <td>
             <div class="input-group mb-3">
-              <input type="text" class="form-control" name="f_rateKhas" value="<?php echo htmlspecialchars($policy['p_rateKhas']); ?>" id="f_rateKhas">
+              <input type="number" min="0" max="100" step="0.01" class="form-control" name="f_rateKhas" value="<?php echo htmlspecialchars($policy['p_rateKhas']); ?>" id="f_rateKhas">
               <span class="input-group-text">%</span>
             </div>
           </td>
@@ -158,13 +158,13 @@
           <td>
             <div class="input-group mb-3">
               <span class="input-group-text">RM</span>
-              <input type="text" class="form-control" name="f_maxKarnivalMusim" value="<?php echo htmlspecialchars($policy['p_maxKarnivalMusim']); ?>" id="f_maxKarnivalMusim">
+              <input type="number" min="0" step="1" class="form-control" name="f_maxKarnivalMusim" value="<?php echo htmlspecialchars($policy['p_maxKarnivalMusim']); ?>" id="f_maxKarnivalMusim">
               <span class="input-group-text">.00</span>
             </div>
           </td>
           <td>
             <div class="input-group mb-3">
-              <input type="text" class="form-control" name="f_rateKarnivalMusim" value="<?php echo htmlspecialchars($policy['p_rateKarnivalMusim']); ?>" id="f_rateKarnivalMusim">
+              <input type="number" min="0" max="100" step="0.01" class="form-control" name="f_rateKarnivalMusim" value="<?php echo htmlspecialchars($policy['p_rateKarnivalMusim']); ?>" id="f_rateKarnivalMusim">
               <span class="input-group-text">%</span>
             </div>
           </td>
@@ -174,13 +174,13 @@
           <td>
             <div class="input-group mb-3">
               <span class="input-group-text">RM</span>
-              <input type="text" class="form-control" name="f_maxAlQadrulHassan" value="<?php echo htmlspecialchars($policy['p_maxAlQadrulHassan']); ?>" id="f_maxAlQadrulHassan">
+              <input type="number" min="0" step="1" class="form-control" name="f_maxAlQadrulHassan" value="<?php echo htmlspecialchars($policy['p_maxAlQadrulHassan']); ?>" id="f_maxAlQadrulHassan">
               <span class="input-group-text">.00</span>
             </div>
           </td>
           <td>
             <div class="input-group mb-3">
-              <input type="text" class="form-control" name="f_rateAlQadrulHassan" value="<?php echo htmlspecialchars($policy['p_rateAlQadrulHassan']); ?>" id="f_rateAlQadrulHassan">
+              <input type="number" min="0" max="100" step="0.01" class="form-control" name="f_rateAlQadrulHassan" value="<?php echo htmlspecialchars($policy['p_rateAlQadrulHassan']); ?>" id="f_rateAlQadrulHassan">
               <span class="input-group-text">%</span>
             </div>
           </td>

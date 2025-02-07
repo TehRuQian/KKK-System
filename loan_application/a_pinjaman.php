@@ -246,7 +246,7 @@ $sql = "
           <label class="form-label mt-4">Amaun Dipohon <span class="required">*</span></label>
           <div class="input-group mt-2">
             <span class="input-group-text">RM</span>
-            <input type="text" name="amaunDipohon" class="form-control" id="amaunDipohon" aria-label="amaunDipohon" placeholder="0.00" value="<?php echo isset($_COOKIE['amaunDipohon']) ? $_COOKIE['amaunDipohon'] : ''; ?>" required>
+            <input type="number" name="amaunDipohon" min="1" step='0.01' class="form-control" id="amaunDipohon" aria-label="amaunDipohon" placeholder="0.00" value="<?php echo isset($_COOKIE['amaunDipohon']) ? $_COOKIE['amaunDipohon'] : ''; ?>" required>
           </div>
           <small id="amaunError" class="text-danger" style="display: none;">Amaun Dipohon telah melebihi maksimum: RM<?php echo number_format($policy['p_maxFinancingAmt'], 2); ?></small>
         </div>
@@ -254,7 +254,7 @@ $sql = "
         <div>
           <label class="form-label mt-4">Tempoh Pembiayaan <span class="required">*</span></label>
           <div class="input-group mt-2">
-            <input type="text" name="tempohPembiayaan" class="form-control" id="tempohPembiayaan" aria-label="tempohPembiayaan" placeholder="0" value="<?php echo isset($_COOKIE['tempohPembiayaan']) ? $_COOKIE['tempohPembiayaan'] : ''; ?>" required>  
+            <input type="number" min="0" step="1" name="tempohPembiayaan" class="form-control" id="tempohPembiayaan" aria-label="tempohPembiayaan" placeholder="0" value="<?php echo isset($_COOKIE['tempohPembiayaan']) ? $_COOKIE['tempohPembiayaan'] : ''; ?>" required>  
             <span class="input-group-text">tahun</span>
 
           </div>
@@ -289,21 +289,21 @@ $sql = "
         <div>
           <label class="form-label mt-4">Bank Account <span class="required">*</span></label>
           <div class="input-group mt-2">
-          <input type="text" name="bankAcc" class="form-control" id="bankAcc" aria-label="bankAcc" placeholder="000000000" value="<?php echo isset($_COOKIE['bankAcc']) ? $_COOKIE['bankAcc'] : ''; ?>" required>          </div>  
+          <input type="text" name="bankAcc" class="form-control" id="bankAcc" aria-label="bankAcc" placeholder="000000000" value="<?php echo isset($_COOKIE['bankAcc']) ? $_COOKIE['bankAcc'] : ''; ?>" required oninput="this.value = this.value.replace(/[^0-9]/g, '')">
         </div>
 
         <div>
           <label class="form-label mt-4" for="gajiKasar">Gaji Kasar Bulanan <span class="required">*</span></label>
           <div class="input-group mt-2">
             <span class="input-group-text">RM</span> 
-            <input type="text" name="gajiKasar" class="form-control" id="gajiKasar" aria-label="gajiKasar" placeholder="0.00" value="<?php echo isset($_COOKIE['gajiKasar']) ? $_COOKIE['gajiKasar'] : ''; ?>" required>          </div>  
+            <input type="text" name="gajiKasar" min="0" step="1" class="form-control" id="gajiKasar" aria-label="gajiKasar" placeholder="0.00" value="<?php echo isset($_COOKIE['gajiKasar']) ? $_COOKIE['gajiKasar'] : ''; ?>" required>          </div>  
         </div>
 
         <div>
           <label class="form-label mt-4">Gaji Bersih Bulanan <span class="required">*</span></label>
           <div class="input-group mt-2">
             <span class="input-group-text">RM</span> 
-            <input type="text" name="gajiBersih" class="form-control" id="gajiBersih" aria-label="gajiBersih" placeholder="0.00" value="<?php echo isset($_COOKIE['gajiBersih']) ? $_COOKIE['gajiBersih'] : ''; ?>" required>
+            <input type="text" name="gajiBersih" min="0" step="1" class="form-control" id="gajiBersih" aria-label="gajiBersih" placeholder="0.00" value="<?php echo isset($_COOKIE['gajiBersih']) ? $_COOKIE['gajiBersih'] : ''; ?>" required>
           </div>  
         </div>
 

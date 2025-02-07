@@ -33,16 +33,19 @@
   }
 
   // Retrieve Policy Info
-  $sql = "SELECT p_minShareCapital, p_salaryDeductionForSaving, p_salaryDeductionForMemberFund
+  $sql = "SELECT p_minShareCapital, p_salaryDeductionForSaving, p_salaryDeductionForMemberFund, p_cutOffDay
           FROM tb_policies
           ORDER BY p_policyID DESC
           LIMIT 1";
   $result = mysqli_query($con, $sql);
   if ($result) {
-    $row = mysqli_fetch_assoc($result);
-    $minShareCapital = $row['p_minShareCapital'];
-    $salaryDeductionForSaving = $row['p_salaryDeductionForSaving'];
-    $salaryDeductionForMemberFund = $row['p_salaryDeductionForMemberFund'];
+    $policy = mysqli_fetch_assoc($result);
+    $minShareCapital = $policy['p_minShareCapital'];
+    $salaryDeductionForSaving = $policy['p_salaryDeductionForSaving'];
+    $salaryDeductionForMemberFund = $policy['p_salaryDeductionForMemberFund'];
+    $cutOffDay = $policy['p_cutOffDay'];
+    $cutOffDate = $f_year . '-' . $f_month . '-' . $cutOffDay;
+    $cutOffDate = date('Y-m-d', strtotime($cutOffDate));
   } else {
       echo "Error: " . mysqli_error($con);
   }
@@ -53,8 +56,7 @@
 
 <div class="container">
   <h2>Pengesahan Transaksi Potongan Gaji</h2>
-
-  <form method="POST" action="potongan_gaji_process.php">
+  <form method="POST" action="potongan_gaji_process.php" enctype="multipart/form-data">
     <input type="hidden" name="f_month" value="<?php echo $f_month; ?>">
     <input type="hidden" name="f_year" value="<?php echo $f_year; ?>">
     <input type="hidden" name="selected_members" id="selected_members" value="<?php echo implode(',', $selectedMembers); ?>">
@@ -75,14 +77,21 @@
             $result_financial = mysqli_query($con, $sql_financial);
             $financial = mysqli_fetch_assoc($result_financial);
 
-            $sql_member = "SELECT * FROM tb_member WHERE m_memberNo = $memberNo;";
+            $sql_member = "SELECT *, DATE(m_approvalDate) as approvalDate FROM tb_member WHERE m_memberNo = $memberNo;";
             $result_member = mysqli_query($con, $sql_member);
             $member = mysqli_fetch_assoc($result_member);
+
+            $notMemberYet = false;
+            if($member['approvalDate'] >= $cutOffDate){
+              $notMemberYet = true;
+            }
 
             $sql_loan = "SELECT tb_loan.*, tb_ltype.lt_desc
                          FROM tb_loan 
                          JOIN tb_ltype ON tb_loan.l_loanType = tb_ltype.lt_lid
-                         WHERE tb_loan.l_memberNo = $memberNo AND tb_loan.l_status = 3;";
+                         WHERE tb_loan.l_memberNo = $memberNo 
+                         AND tb_loan.l_status = 3
+                         AND DATE(tb_loan.l_approvalDate) < '$cutOffDate' ;";
             $result_loan = mysqli_query($con, $sql_loan);
 
             $sql_transaction = "SELECT COUNT(t_transactionID) FROM tb_transaction
@@ -93,26 +102,51 @@
             $result_transaction = mysqli_query($con, $sql_transaction);
             $record_exists = mysqli_fetch_row($result_transaction)[0] > 0;
 
+            if($salaryDeductionForSaving != $member['m_simpananTetap']){
+              $balanceForSavingSalaryDeduction = $member['m_simpananTetap'];
+            }
+            else{
+              $balanceForSavingSalaryDeduction = $salaryDeductionForSaving;
+            }
+
+            if($salaryDeductionForMemberFund != $member['m_alAbrar']){
+              $balanceForFundSalaryDeduction = $member['m_alAbrar'];
+            }
+            else{
+              $balanceForFundSalaryDeduction = $salaryDeductionForMemberFund;
+            }
+            $totalAmount = $balanceForSavingSalaryDeduction + $balanceForFundSalaryDeduction;
+
             $newShareCapital = $financial['f_shareCapital'];
             $newFeeCapital = $financial['f_feeCapital'];
             $newFixedSaving = $financial['f_fixedSaving'];
             $newMemberFund = $financial['f_memberFund'];
             $newMemberSaving = $financial['f_memberSaving'];
             
-            if ($financial['f_shareCapital'] < $minShareCapital) {
-              $newShareCapital += $salaryDeductionForSaving;
+            // If fee not made yet
+            if ($financial['f_feeCapital'] < $member['m_feeMasuk'] + $member['m_modalYuran']){
+              if($balanceForSavingSalaryDeduction <= $member['m_feeMasuk'] + $member['m_modalYuran'] - $financial['f_feeCapital']){
+                $newFeeCapital += $balanceForSavingSalaryDeduction;
+                $balanceForSavingSalaryDeduction = 0;
+              }
+              else{
+                $balanceForSavingSalaryDeduction -= $member['m_feeMasuk'] + $member['m_modalYuran'] - $financial['f_feeCapital'];
+                $newFeeCapital += $member['m_feeMasuk'] + $member['m_modalYuran'] - $financial['f_feeCapital'];
+              }
+            }
+            if ($financial['f_shareCapital'] < $member['m_modalSyer']) {
+              $newShareCapital += $balanceForSavingSalaryDeduction;
               if($newShareCapital > $minShareCapital) {
                 $newFixedSaving += $newShareCapital - $minShareCapital;
                 $newShareCapital = $minShareCapital;
               }
-              $newMemberFund += $salaryDeductionForMemberFund;
+              $newMemberFund += $balanceForFundSalaryDeduction;
             }
             else {
-              $newMemberFund += $salaryDeductionForMemberFund;
-              $newFixedSaving += $salaryDeductionForSaving;
+              $newMemberFund += $balanceForFundSalaryDeduction;
+              $newFixedSaving += $balanceForSavingSalaryDeduction;
             }
 
-            $totalAmount = $salaryDeductionForMemberFund + $salaryDeductionForSaving;
             // if ($record_exists) {
             //   echo "<tr id='member_{$memberNo}' class='table-danger'>";
             // }
@@ -138,6 +172,15 @@
                                 <td>" . number_format($newShareCapital, 2) . "</td>
                             </tr>";
                           };
+                          if($newFeeCapital - $financial['f_feeCapital'] != 0){
+                            echo "
+                                <tr>
+                                <td>Modal Yuran</td>
+                                <td>" . number_format($financial['f_feeCapital'], 2) . "</td>
+                                <td>" . number_format($newFeeCapital - $financial['f_feeCapital'], 2) . "</td>
+                                <td>" . number_format($newFeeCapital, 2) . "</td>
+                            </tr>";
+                          };
                           if($newMemberFund - $financial['f_memberFund'] != 0){
                             echo "
                                 <tr>
@@ -150,7 +193,7 @@
                           if($newFixedSaving - $financial['f_fixedSaving'] != 0){
                             echo "
                                 <tr>
-                                <td>Simpanan Anggota</td>
+                                <td>Simpanan Tetap</td>
                                 <td>" . number_format($financial['f_fixedSaving'], 2) . "</td>
                                 <td>" . number_format($newFixedSaving - $financial['f_fixedSaving'], 2) . "</td>
                                 <td>" . number_format($newFixedSaving, 2) . "</td>
@@ -187,11 +230,16 @@
                 echo "</td>";
                 echo "<td>";
                 if ($record_exists) {
-                  // echo "<p class='text-danger'>Transaksi telah wujud untuk bulan ini!</p>";
                   echo "
                   <div class='alert alert-dismissible alert-danger'>
                     <strong>Amaran: </strong>Transaksi telah <br> wujud untuk bulan ini!
                   </div>";
+                }
+                if ($notMemberYet) {
+                  echo "
+                  <div class='alert alert-dismissible alert-danger'>
+                    <strong>Amaran: </strong>Anggota diluluskan <br> pada ". date('d-m-Y', strtotime($member['m_approvalDate'])) .
+                  "</div>";
                 }
                 echo "<button type='button' class='btn btn-warning' onclick='removeMember(" . $financial['f_memberNo'] . ")'>Keluarkan</button></td>";
             echo "</tr>";
@@ -199,6 +247,18 @@
         ?>
       </tbody>
     </table>
+
+    <h5>Muat Naik Bukti</h5>
+    <div class="mb-3">
+        <label class="form-label mt-4">No. Resit</label>
+        <input type="text" class="form-control" name="f_resitNo" required>
+      </div>
+
+      <div class="mb-3">
+        <label for="formFile" class="form-label mt-4">Bukti Transaksi</label>
+        <input class="form-control" type="file" id="transactionProof" name="transactionProof" accept="application/pdf, image/*" required>
+      </div>
+
     <div class="d-flex justify-content-center">
         <button type="submit" class="btn btn-primary">Hantar</button>
     </div>
@@ -220,4 +280,9 @@
     selectedMembersInput.value = newSelection.join(',');
 
   }
+</script>
+
+<script>
+  var fileType = '<?php echo $fileType; ?>';  // Store the file type
+  document.getElementById('transactionProofType').value = fileType;  // Pass it to the hidden field
 </script>

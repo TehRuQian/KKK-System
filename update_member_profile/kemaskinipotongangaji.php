@@ -75,7 +75,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                   Swal.fire({
                       icon: 'success',
                       title: 'Potongan Gaji Telah Dikemaskini!',
-                      text: 'Kemaskini potongan gaji berjaya!',
+                      text: 'Kemas kini potongan gaji berjaya!',
                   }).then(() => {
                       window.location.href = 'profilmember.php';
                   });
@@ -177,9 +177,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     Swal.fire({
                         icon: 'info',
                         title: 'Potongan gaji anda tidak dikemaskini!',
-                    }).then(() => {
-                      window.location.href = 'profilmember.php';
-                  });
+                    });
                 }
             });
         }

@@ -19,7 +19,7 @@
 
 <!-- Main Content -->
 <div class="container">
-    <h2>Kemaskini Polisi</h2>
+    <h2>Sejarah Polisi</h2>
 
     <!-- Card 1: Polisi Asas Pemohonan Anggota -->
     <div class="card mb-3">
@@ -58,10 +58,10 @@
         ?>
         <table class="table table-hover">
           <thead>
-            <td>Perkara</td>
+            <th>Perkara</th>
             <?php
                 foreach($member_policy as $x){
-                    echo "<td>" . date("d/m/Y", strtotime($x['p_dateUpdated'])) . "</td>";
+                    echo "<th>" . date("d/m/Y", strtotime($x['p_dateUpdated'])) . "</th>";
                 }
             ?>
           </thead>
@@ -78,7 +78,7 @@
               <td scope="row">Fee Masuk Anggota yang Pernah Menjadi Anggota</td>
               <?php
                 foreach($member_policy as $x){
-                    echo "<td>RM" . number_format($x['p_memberRegFee'], 2) . "</td>";
+                    echo "<td>RM" . number_format($x['p_returningMemberRegFee'], 2) . "</td>";
                 }
               ?>
             </tr>
@@ -190,10 +190,10 @@
       ?>
       <table class="table table-hover">
         <thead>
-            <td>Perkara</td>
+            <th>Perkara</th>
             <?php
                 foreach($loan_policy as $x){
-                    echo "<td>" . date("d/m/Y", strtotime($x['p_dateUpdated'])) . "</td>";
+                    echo "<th>" . date("d/m/Y", strtotime($x['p_dateUpdated'])) . "</th>";
                 }
             ?>
         </thead>
@@ -326,6 +326,14 @@
                     }
                 ?>
             </tr>
+            <tr>
+              <td scope="row">Admin ID</td>
+              <?php
+                foreach($loan_policy as $x){
+                    echo "<td>" . $x['p_adminID'] . "</td>";
+                }
+              ?>
+            </tr>
         </tbody>
       </table>
 
@@ -340,17 +348,20 @@
       <div class="card-body">
         <?php
             $sql_salary = "
-                SELECT p_salaryDeductionForSaving, p_salaryDeductionForMemberFund, 
+                SELECT p_salaryDeductionForSaving, p_minSalaryDeductionForSaving, p_salaryDeductionForMemberFund, p_minSalaryDeductionForMemberFund, p_cutOffDay,
                     p_adminID, p_dateUpdated
                 FROM tb_policies
                 ORDER BY p_policyID ASC";
             $result_salary = mysqli_query($con, $sql_salary);
             $temp = mysqli_fetch_assoc($result_salary);
             $salary_policy[] = $temp;
-            while($row = mysqli_fetch_assoc($result_member)){
+            while($row = mysqli_fetch_assoc($result_salary)){
                 $compare_result = false;
                 if ($row['p_salaryDeductionForSaving'] != $temp['p_salaryDeductionForSaving'] ||
-                    $row['p_salaryDeductionForMemberFund'] != $temp['p_salaryDeductionForMemberFund']) {
+                    $row['p_minSalaryDeductionForSaving'] != $temp['p_minSalaryDeductionForSaving'] ||
+                    $row['p_salaryDeductionForMemberFund'] != $temp['p_salaryDeductionForMemberFund'] ||
+                    $row['p_minSalaryDeductionForMemberFund'] != $temp['p_minSalaryDeductionForMemberFund'] ||
+                    $row['p_cutOffDay'] != $temp['p_cutOffDay']) {
                     $compare_result = true;
                 }
 
@@ -362,10 +373,10 @@
         ?>
         <table class="table table-hover">
             <thead>
-                <td>Perkara</td>
+                <th>Perkara</th>
                 <?php
                     foreach($salary_policy as $x){
-                        echo "<td>" . date("d/m/Y", strtotime($x['p_dateUpdated'])) . "</td>";
+                        echo "<th>" . date("d/m/Y", strtotime($x['p_dateUpdated'])) . "</th>";
                     }
                 ?>
             </thead>
@@ -379,10 +390,34 @@
                     ?>
                 </tr>
                 <tr>
+                    <td scope="row">Minimum Potongan Gaji untuk Simpanan</td>
+                    <?php
+                        foreach($salary_policy as $x){
+                            echo "<td>RM" . number_format($x['p_minSalaryDeductionForSaving'], 2) . "</td>";
+                        }
+                    ?>
+                </tr>
+                <tr>
                     <td scope="row">Potongan Gaji untuk Tabung Kebajikan</td>
                     <?php
                         foreach($salary_policy as $x){
                             echo "<td>RM" . number_format($x['p_salaryDeductionForMemberFund'], 2) . "</td>";
+                        }
+                    ?>
+                </tr>
+                <tr>
+                    <td scope="row">Minimum Potongan Gaji untuk Tabung Kebajikan</td>
+                    <?php
+                        foreach($salary_policy as $x){
+                            echo "<td>RM" . number_format($x['p_minSalaryDeductionForMemberFund'], 2) . "</td>";
+                        }
+                    ?>
+                </tr>
+                <tr>
+                    <td scope="row">Hari Tutup (Cut-Off Day)</td>
+                    <?php
+                        foreach($salary_policy as $x){
+                            echo "<td>RM" . number_format($x['p_cutOffDay'], 2) . "</td>";
                         }
                     ?>
                 </tr>

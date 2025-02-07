@@ -187,7 +187,7 @@ print_r($heir);
         <?php // To display the suggested memberNo ?>
         <div id="memberNoContainer" style="display:none;">
             <label for="mMemberNo">Member No:</label>
-            <input type="text" class="form-control" id="mMemberNo" name="mMemberNo" value="<?php echo $suggestedMemberNo; ?>" />
+            <input type="number" min="1" step="1" class="form-control" id="mMemberNo" name="mMemberNo" value="<?php echo $suggestedMemberNo; ?>" />
             <small>Suggested: <?php echo $suggestedMemberNo; ?></small>
         </div><br>
     </div>

@@ -61,8 +61,7 @@ function sendApprovalEmail($email, $name, $memberNo, $temporaryPassword, $resetL
 
     $headers = "MIME-Version: 1.0\r\n" . 
                "Content-Type: text/html; charset=UTF-8\r\n" . 
-               "From: no_reply@kada.com\r\n" . 
-               "Reply-To: hello@gmail.com\r\n" . 
+               "From: noreply@kkk.com\r\n" . 
                "X-Mailer: PHP/" . phpversion();
 
     return mail($email, $subject, $message, $headers);
@@ -78,8 +77,8 @@ if ($mstatus == 3 && $mMemberNo) {
     $sqlFin = "INSERT INTO tb_financial (f_memberNo, f_shareCapital, f_feeCapital, f_fixedSaving, f_memberFund, f_memberSaving, f_dateUpdated)
                VALUES ('$mMemberNo', 0, 0, 0, 0, 0, '$currentDate')";
 
-    $sqlUser = "INSERT INTO tb_user (u_id, u_pwd, u_type)
-                VALUES ('$mMemberNo', '$hashedPassword', 2)";
+    $sqlUser = "INSERT INTO tb_user (u_id, u_pwd, u_type, reset_token, token_expiry)
+                VALUES ('$mMemberNo', '$hashedPassword', 2, '$token', '$expiryTime')";
 
     // Execute queries
     if (mysqli_query($con, $sqlMem) && mysqli_query($con, $sqlFin) && mysqli_query($con, $sqlUser)) {

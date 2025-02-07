@@ -193,7 +193,7 @@ $stmt2->close();
 
         <div style="display: flex; gap: 10px; justify-content: center;">
             <button type="button" class="btn btn-primary" onclick="window.location.href='berhenti_approval.php'">Kembali</button>
-            <button type="submit" class="btn btn-primary">Hantar</button>
+            <button type="submit" class="btn btn-primary" onclick="confirmSubmission(event)">Hantar</button>
         </div>
     </fieldset>
 </form>
@@ -238,7 +238,9 @@ function toggleUlasanInput(status) {
 }
 
 function confirmSubmission(event) {
-    const status = document.getElementById('tdUlasan').value;
+    event.preventDefault(); // Prevent the default form submission
+
+    const status = document.getElementById('bstatus').value; // Get the selected status
 
     if (status == 2) {
         // Reject confirmation
@@ -252,7 +254,7 @@ function confirmSubmission(event) {
             reverseButtons: true
         }).then((result) => {
             if (result.isConfirmed) {
-                document.querySelector('form').submit();
+                document.querySelector('form').submit(); // Submit the form after confirmation
             }
         });
     } else if (status == 3) {
@@ -267,10 +269,19 @@ function confirmSubmission(event) {
             reverseButtons: true
         }).then((result) => {
             if (result.isConfirmed) {
-                document.querySelector('form').submit();
+                document.querySelector('form').submit(); // Submit the form after confirmation
             }
+        });
+    } else {
+        // If no valid status is selected, show an alert
+        Swal.fire({
+            title: 'Sila Pilih Status',
+            text: "Anda perlu memilih status sebelum menghantar.",
+            icon: 'error',
+            confirmButtonText: 'OK'
         });
     }
 }
+
 </script>
 
