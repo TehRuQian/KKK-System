@@ -204,7 +204,7 @@ $policies_result = mysqli_query($con, $policies_sql);
                         </button>
 
                       <!-- PDF -->
-                        <a href="generate_pdf.php?bulan=<?= urlencode($bulan) ?>&tahun=<?= urlencode($tahun) ?>" 
+                        <a href="laporan_kewangan.php?bulan=<?= urlencode($bulan) ?>&tahun=<?= urlencode($tahun) ?>" 
                            class="btn btn-primary" 
                            target="_blank">
                             <i class="fas fa-download"></i> Lihat dalam PDF
@@ -278,8 +278,20 @@ $policies_result = mysqli_query($con, $policies_sql);
                         <li>Yuran Tetap Minimum: <?= htmlspecialchars($policy['p_minFixedSaving']) ?></li>
                         <li>Simpanan Tetap Minimum: <?= htmlspecialchars($policy['p_minMemberFund']) ?></li>
                         <li>Tabung Kebajikan Minimum: <?= htmlspecialchars($policy['p_minMemberSaving']) ?></li>
-                        <li>Jumlah Pembiayaan Maksimum: <?= htmlspecialchars($policy['p_maxFinancingAmt']) ?></li>
-                        <li>Kadar Keuntungan: <?= htmlspecialchars($policy['p_profitRate']) ?></li>
+                        <li>Jumlah Pembiayaan Maksimum Bagi Al-Bai: <?= htmlspecialchars($policy['p_maxAlBai']) ?></li>
+                        <li>Kadar Keuntungan Bagi Al-Bai: <?= htmlspecialchars($policy['p_rateAlBai']) ?></li>
+                        <li>Jumlah Pembiayaan Maksimum Bagi Al-Innah: <?= htmlspecialchars($policy['p_maxAlInnah']) ?></li>
+                        <li>Kadar Keuntungan Bagi Al-Innah: <?= htmlspecialchars($policy['p_rateAlInnah']) ?></li>
+                        <li>Jumlah Pembiayaan Maksimum Bagi Baik Pulih Kenderaan: <?= htmlspecialchars($policy['p_maxBPulihKenderaan']) ?></li>
+                        <li>Kadar Keuntungan Bagi Baik Pulih Kenderaan: <?= htmlspecialchars($policy['p_rateBPulihKenderaan']) ?></li>
+                        <li>Jumlah Pembiayaan Maksimum Bagi Road Tax dan Insurans: <?= htmlspecialchars($policy['p_maxCukaiJalanInsurans']) ?></li>
+                        <li>Kadar Keuntungan Bagi Road Tax dan Insurans: <?= htmlspecialchars($policy['p_rateCukaiJalanInsurans']) ?></li>
+                        <li>Jumlah Pembiayaan Maksimum Bagi Khas: <?= htmlspecialchars($policy['p_maxKhas']) ?></li>
+                        <li>Kadar Keuntungan Bagi Khas: <?= htmlspecialchars($policy['p_rateKhas']) ?></li>
+                        <li>Jumlah Pembiayaan Maksimum Bagi Karnival Musim Istimewa: <?= htmlspecialchars($policy['p_maxKarnivalMusim']) ?></li>
+                        <li>Kadar Keuntungan Bagi Karnival Musim Istimewa: <?= htmlspecialchars($policy['p_rateKarnivalMusim']) ?></li>
+                        <li>Jumlah Pembiayaan Maksimum Bagi Al-Qadrul Hassan: <?= htmlspecialchars($policy['p_maxAlQadrulHassan']) ?></li>
+                        <li>Kadar Keuntungan Bagi Al-Qadrul Hassan: <?= htmlspecialchars($policy['p_rateAlQadrulHassan']) ?></li>
                     </ul>
                 <?php else: ?>
                     <p>Tiada polisi terkini tersedia.</p>
