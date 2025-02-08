@@ -68,61 +68,61 @@ $memberNo = isset($_SESSION['funame']) ? $_SESSION['funame'] : null;
                 // Fetch data
                 $sql = "SELECT l_loanType, l_appliedLoan, l_loanPeriod, l_monthlyInstalment, l_loanPayable, l_status, l_applicationDate, l_loanApplicationID FROM tb_loan WHERE l_memberNo= $memberNo";
                 $result = mysqli_query($con, $sql);
-
-                // 检查查询是否成功
+                
                 if (!$result) {
                     die("Query failed: " . mysqli_error($con));
                 }
 
-                while ($row = mysqli_fetch_assoc($result)) {
+                if (mysqli_num_rows($result) > 0) {
+                    while ($row = mysqli_fetch_assoc($result)) {
+                        $selected_jenis_pembiayaan_ID = htmlspecialchars($row['l_loanType']);  
+                        $selected_amaunDipohon = htmlspecialchars($row['l_appliedLoan']);  
+                        $selected_tempohPembiayaan = htmlspecialchars($row['l_loanPeriod']);  
+                        $selected_ansuranBulanan = htmlspecialchars($row['l_monthlyInstalment']);   
+                        $selected_tunggakan = htmlspecialchars($row['l_loanPayable']);
+                        $status_loan_ID = htmlspecialchars($row['l_status']);  
+                        $application_date = htmlspecialchars($row['l_applicationDate']);  
+                        $loanApplicationID = htmlspecialchars($row['l_loanApplicationID']); 
 
-                    $selected_jenis_pembiayaan_ID = htmlspecialchars($row['l_loanType']);  
-                    $selected_amaunDipohon = htmlspecialchars($row['l_appliedLoan']);  
-                    $selected_tempohPembiayaan = htmlspecialchars($row['l_loanPeriod']);  
-                    $selected_ansuranBulanan = htmlspecialchars($row['l_monthlyInstalment']);   
-                    $selected_tunggakan = htmlspecialchars($row['l_loanPayable']);
-                    $status_loan_ID = htmlspecialchars($row['l_status']);  
-                    $application_date = htmlspecialchars($row['l_applicationDate']);  
-                    $loanApplicationID = htmlspecialchars($row['l_loanApplicationID']); // 获取贷款申请ID
-
-                    // Fetch the description if an ID is selected
-                    // loan id
-                    $selected_jenis_pembiayaan = '';
-                    if ($selected_jenis_pembiayaan_ID) {
-                        $sql_desc = "SELECT lt_desc FROM tb_ltype WHERE lt_lid = $selected_jenis_pembiayaan_ID";
-                        $desc_result = mysqli_query($con, $sql_desc);
-                        if ($desc_row = mysqli_fetch_assoc($desc_result)) {
-                            $selected_jenis_pembiayaan = $desc_row['lt_desc'];
+                        // Fetch the description if an ID is selected
+                        $selected_jenis_pembiayaan = '';
+                        if ($selected_jenis_pembiayaan_ID) {
+                            $sql_desc = "SELECT lt_desc FROM tb_ltype WHERE lt_lid = $selected_jenis_pembiayaan_ID";
+                            $desc_result = mysqli_query($con, $sql_desc);
+                            if ($desc_row = mysqli_fetch_assoc($desc_result)) {
+                                $selected_jenis_pembiayaan = $desc_row['lt_desc'];
+                            }
                         }
-                    }
-                    $status_loan = '';
-                    if ($status_loan_ID !== null) { 
-                      $sql_status = "SELECT s_desc FROM tb_status WHERE s_sid = $status_loan_ID";
-                      $status_result = mysqli_query($con, $sql_status);
-                      if ($status_row = mysqli_fetch_assoc($status_result)) {
-                          $status_loan = $status_row['s_desc'];
-                      }
-                    }
+                        $status_loan = '';
+                        if ($status_loan_ID !== null) { 
+                          $sql_status = "SELECT s_desc FROM tb_status WHERE s_sid = $status_loan_ID";
+                          $status_result = mysqli_query($con, $sql_status);
+                          if ($status_row = mysqli_fetch_assoc($status_result)) {
+                              $status_loan = $status_row['s_desc'];
+                          }
+                        }
 
-                    echo "<tr>";
-                    echo "<td>{$count}</td>";
-                    echo "<td>{$selected_jenis_pembiayaan}</td>";
-                    echo "<td>" . number_format($selected_amaunDipohon, 2) . "</td>";
-                    echo "<td>{$selected_tempohPembiayaan}</td>"; 
-                    echo "<td>" . number_format($selected_ansuranBulanan, 2) . "</td>"; 
-                    echo "<td>" . number_format($selected_tunggakan, 2) . "</td>";
-                    echo "<td>{$application_date}</td>"; 
-                    
-                    // 如果状态为 0，显示为按钮
-                    if ($status_loan_ID == 0) {
-                        echo "<td><a href='semakan_butiran.php?loan_id={$loanApplicationID}' class='btn btn-primary'>Draf</a></td>"; // 使用贷款申请ID
-                    } else {
-                        echo "<td>{$status_loan}</td>"; // 否则显示状态描述
+                        echo "<tr>";
+                        echo "<td>{$count}</td>";
+                        echo "<td>{$selected_jenis_pembiayaan}</td>";
+                        echo "<td>" . number_format($selected_amaunDipohon, 2) . "</td>";
+                        echo "<td>{$selected_tempohPembiayaan}</td>"; 
+                        echo "<td>" . number_format($selected_ansuranBulanan, 2) . "</td>"; 
+                        echo "<td>" . number_format($selected_tunggakan, 2) . "</td>";
+                        echo "<td>{$application_date}</td>"; 
+                        
+                        if ($status_loan_ID == 0) {
+                            echo "<td><a href='semakan_butiran.php?loan_id={$loanApplicationID}' class='btn btn-primary'>Draf</a></td>"; 
+                        } else {
+                            echo "<td>{$status_loan}</td>"; 
+                        }
+                        
+                        echo "</tr>";
+                        
+                        $count++;
                     }
-                    
-                    echo "</tr>";
-                    
-                    $count++;
+                } else {
+                    echo "<tr><td colspan='8' class='text-center'>Tiada rekod pinjaman</td></tr>";
                 }
                 ?>
                 </tbody>
@@ -137,10 +137,7 @@ $memberNo = isset($_SESSION['funame']) ? $_SESSION['funame'] : null;
 
 </form>
 
-
-
 </div>
-
 
 </body>
 </html>
