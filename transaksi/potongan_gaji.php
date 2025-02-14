@@ -34,10 +34,11 @@
         AND tb_transaction.t_year = '$filter_year'
         AND tb_transaction.t_method = 'Potongan Gaji'
         WHERE DATE(tb_member.m_approvalDate) < '$filter_date'
+        AND tb_member.m_status = 3
         AND tb_transaction.t_memberNo IS NULL";
     }
     if (!empty($filter_member)){
-        $where_sql = "WHERE tb_financial.f_memberNo = '$filter_member'";
+        $where_sql = "WHERE tb_financial.f_memberNo = '$filter_member' AND tb_member.m_status = 3";
     }
 
   // Retrieve financial list of all members

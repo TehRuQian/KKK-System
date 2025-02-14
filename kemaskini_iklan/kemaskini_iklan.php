@@ -34,7 +34,7 @@
                 <?php while ($row = mysqli_fetch_assoc($banners)) { ?>
                     <?php if ($row['b_status'] == 1) { ?>
                     <div class="carousel-item active">
-                    <img src="../img/iklan/<?php echo $row['b_banner']; ?>" class="d-block w-100" alt="Banner Image" style="height: 450px; width: 100%; object-fit: cover;">
+                    <img src="../img/iklan/<?php echo $row['b_banner']; ?>" class="d-block w-100" alt="Banner Image" style="height: 450px; width: 100%; object-fit: contain;">
                     </div>
                 <?php }} ?>
             </div>
@@ -55,7 +55,7 @@
       <div>
         <label class="form-label mt-4">Nama Iklan Baru</label>
         <input type="text" class="form-control" name="bannerName" required>
-        <label for="formFile" class="form-label mt-4">Muat Naik Iklan Baharu</label>
+        <label for="formFile" class="form-label mt-4">Muat Naik Iklan Baru</label>
         <input class="form-control" type="file" id="banner" name="banner" accept="image/*" required>
       </div>
 

@@ -44,7 +44,7 @@
     <!-- Card 1: Polisi Asas Pemohonan Anggota -->
     <div class="card mb-3">
       <div class="card-header text-white bg-primary d-flex justify-content-between align-items-center">
-        Polisi Asas Pemohonan Anggota
+        Polisi Asas Permohonan Anggota
         <button type="button" class="btn btn-info"  onclick="window.location.href='kemaskini_polisi_asas.php'">
             Kemaskini
         </button>

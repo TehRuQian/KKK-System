@@ -24,14 +24,14 @@
 
 <!-- Main Content -->
 <div class="container">
-  <h2>Kemaskini Polisi Asas Pemohonan Anggota</h2>
-  <form method="POST" action="kemaskini_polisi_asas_process.php">
+  <h2>Kemaskini Polisi Asas Permohonan Anggota</h2>
+  <form method="POST" action="kemaskini_polisi_asas_process.php" style="max-width: 700px; margin: 0 auto;">
   <!-- Fee Masuk -->
     <div>
       <label class="form-label mt-4">Fee Masuk</label>
         <div class="input-group mb-3">
           <span class="input-group-text">RM</span>
-          <input type="number" min="0" step="0.01" class="form-control" name="f_memberRegFee" value="<?php echo htmlspecialchars($policy['p_memberRegFee']); ?>">
+          <input type="number" min="0" step="1" class="form-control" name="f_memberRegFee" value="<?php echo htmlspecialchars($policy['p_memberRegFee']); ?>">
           <span class="input-group-text">.00</span>
         </div>
     </div>
@@ -40,7 +40,7 @@
       <label class="form-label mt-4">Fee Masuk Anggota yang Pernah Menjadi Anggota</label>
         <div class="input-group mb-3">
           <span class="input-group-text">RM</span>
-          <input type="text" min="0" step="0.01" class="form-control" name="f_returningMemberRegFee" value="<?php echo htmlspecialchars($policy['p_returningMemberRegFee']); ?>">
+          <input type="text" min="0" step="1" class="form-control" name="f_returningMemberRegFee" value="<?php echo htmlspecialchars($policy['p_returningMemberRegFee']); ?>">
           <span class="input-group-text">.00</span>
         </div>
     </div>
@@ -50,7 +50,7 @@
       <label class="form-label mt-4">Modah Syer Minimum</label>
         <div class="input-group mb-3">
           <span class="input-group-text">RM</span>
-          <input type="text" min="0" step="0.01" class="form-control" name="f_minShareCapital" value="<?php echo htmlspecialchars($policy['p_minShareCapital']); ?>">
+          <input type="text" min="0" step="1" class="form-control" name="f_minShareCapital" value="<?php echo htmlspecialchars($policy['p_minShareCapital']); ?>">
           <span class="input-group-text">.00</span>
         </div>
     </div>
@@ -60,7 +60,7 @@
       <label class="form-label mt-4">Modal Yuran Minimum</label>
         <div class="input-group mb-3">
           <span class="input-group-text">RM</span>
-          <input type="text" min="0" step="0.01" class="form-control" name="f_minFeeCapital" value="<?php echo htmlspecialchars($policy['p_minFeeCapital']); ?>">
+          <input type="text" min="0" step="1" class="form-control" name="f_minFeeCapital" value="<?php echo htmlspecialchars($policy['p_minFeeCapital']); ?>">
           <span class="input-group-text">.00</span>
         </div>
     </div>
@@ -70,7 +70,7 @@
       <label class="form-label mt-4">Wang Deposit Anggota Minimum</label>
         <div class="input-group mb-3">
           <span class="input-group-text">RM</span>
-          <input type="text" min="0" step="0.01" class="form-control" name="f_minMemberSaving" value="<?php echo htmlspecialchars($policy['p_minFixedSaving']); ?>">
+          <input type="text" min="0" step="1" class="form-control" name="f_minMemberSaving" value="<?php echo htmlspecialchars($policy['p_minFixedSaving']); ?>">
           <span class="input-group-text">.00</span>
         </div>
     </div>
@@ -80,7 +80,7 @@
       <label class="form-label mt-4">Sumbangan Tabung Kebajikan Minimum</label>
         <div class="input-group mb-3">
           <span class="input-group-text">RM</span>
-          <input type="text" min="0" step="0.01" class="form-control" name="f_minMemberFund" value="<?php echo htmlspecialchars($policy['p_minMemberFund']); ?>">
+          <input type="text" min="0" step="1" class="form-control" name="f_minMemberFund" value="<?php echo htmlspecialchars($policy['p_minMemberFund']); ?>">
           <span class="input-group-text">.00</span>
         </div>
     </div>
@@ -90,7 +90,7 @@
       <label class="form-label mt-4">Simpanan Tetap Minimum</label>
         <div class="input-group mb-3">
           <span class="input-group-text">RM</span>
-          <input type="text" min="0" step="0.01" class="form-control" name="f_minFixedSaving" value="<?php echo htmlspecialchars($policy['p_minFixedSaving']); ?>">
+          <input type="text" min="0" step="1" class="form-control" name="f_minFixedSaving" value="<?php echo htmlspecialchars($policy['p_minFixedSaving']); ?>">
           <span class="input-group-text">.00</span>
         </div>
     </div>
@@ -100,7 +100,7 @@
       <label class="form-label mt-4">Lain-lain</label>
         <div class="input-group mb-3">
           <span class="input-group-text">RM</span>
-          <input type="text" min="0" step="0.01" class="form-control" name="f_minOtherFees" value="<?php echo htmlspecialchars($policy['p_minOtherFees']); ?>">
+          <input type="text" min="0" step="1" class="form-control" name="f_minOtherFees" value="<?php echo htmlspecialchars($policy['p_minOtherFees']); ?>">
           <span class="input-group-text">.00</span>
         </div>
     </div>

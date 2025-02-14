@@ -212,10 +212,10 @@ if ($memberNo !== null) {
            KOPERASI ini untuk menolok permohonan tanpa memberi sebarang alasan.</label>
      </div>
 
-    <label style="display: flex; justify-content: center; align-items: center; font-size: 18px; cursor: pointer;">
-        <input type="radio" name="setuju" value="setuju" required>
-        Setuju
-    </label>
+     <div style="text-align: center;">
+        <input type="radio" class="form-check-input" name="setuju" value="setuju" required>
+        <label class="form-check-label" for="setuju">Setuju</label>
+    </div>
     </hr>
     
     <div style="text-align: center;">

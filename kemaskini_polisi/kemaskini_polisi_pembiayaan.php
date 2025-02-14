@@ -33,7 +33,7 @@
 <!-- Main Content -->
 <div class="container">
   <h2>Kemaskini Polisi Permohonan Pembiayaan</h2>
-  <form method="POST" action="kemaskini_polisi_pembiayaan_process.php" id="policyForm">
+  <form method="POST" action="kemaskini_polisi_pembiayaan_process.php" id="policyForm" style="max-width: 700px; margin: 0 auto;">
   
     <!-- Modal Syer Minimum Peminjam -->
     <div>

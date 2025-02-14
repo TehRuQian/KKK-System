@@ -25,9 +25,9 @@
 <!-- Main Content -->
 <div class="container">
   <h2>Kemaskini Polisi Potongan Gaji</h2>
-  <form method="POST" action="kemaskini_polisi_potongan_gaji_process.php">
+  <form method="POST" action="kemaskini_polisi_potongan_gaji_process.php" style="max-width: 700px; margin: 0 auto;">
   <!-- Simpanan Tetap -->
-  <div class="d-flex">
+  <!-- <div class="d-flex"> -->
     <div class="me-3">
       <label class="form-label mt-4">Simpanan Tetap</label>
       <div class="input-group mb-3">
@@ -47,10 +47,10 @@
       </div>
       <small>Potongan Gaji Minimum untuk anggota yang ingin membuat perubahan untuk potongan gaji.</small>
     </div>
-  </div>
+  <!-- </div> -->
 
     <!-- Sumbangan Tabung Kebajikan -->
-    <div class="d-flex">
+    <!-- <div class="d-flex"> -->
       <div class="me-3">
         <label class="form-label mt-4">Sumbangan Tabung Kebajikan</label>
           <div class="input-group mb-3">
@@ -69,7 +69,7 @@
           </div>
           <small>Potongan Gaji Minimum untuk anggota yang ingin membuat perubahan untuk potongan gaji.</small>
       </div>
-    </div>
+    <!-- </div> -->
 
     <div>
         <label class="form-label mt-4">Hari Tutup (Cut-Off Day)</label>

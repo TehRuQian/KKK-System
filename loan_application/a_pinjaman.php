@@ -254,7 +254,7 @@ $sql = "
         <div>
           <label class="form-label mt-4">Tempoh Pembiayaan <span class="required">*</span></label>
           <div class="input-group mt-2">
-            <input type="number" min="0" step="1" name="tempohPembiayaan" class="form-control" id="tempohPembiayaan" aria-label="tempohPembiayaan" placeholder="0" value="<?php echo isset($_COOKIE['tempohPembiayaan']) ? $_COOKIE['tempohPembiayaan'] : ''; ?>" required>  
+            <input type="number" min="1" step="1" name="tempohPembiayaan" class="form-control" id="tempohPembiayaan" aria-label="tempohPembiayaan" placeholder="0" value="<?php echo isset($_COOKIE['tempohPembiayaan']) ? $_COOKIE['tempohPembiayaan'] : ''; ?>" required>  
             <span class="input-group-text">tahun</span>
 
           </div>
@@ -296,14 +296,14 @@ $sql = "
           <label class="form-label mt-4" for="gajiKasar">Gaji Kasar Bulanan <span class="required">*</span></label>
           <div class="input-group mt-2">
             <span class="input-group-text">RM</span> 
-            <input type="text" name="gajiKasar" min="0" step="1" class="form-control" id="gajiKasar" aria-label="gajiKasar" placeholder="0.00" value="<?php echo isset($_COOKIE['gajiKasar']) ? $_COOKIE['gajiKasar'] : ''; ?>" required>          </div>  
+            <input type="text" name="gajiKasar" min="0" step="0.01" class="form-control" id="gajiKasar" aria-label="gajiKasar" placeholder="0.00" value="<?php echo isset($_COOKIE['gajiKasar']) ? $_COOKIE['gajiKasar'] : ''; ?>" required>          </div>  
         </div>
 
         <div>
           <label class="form-label mt-4">Gaji Bersih Bulanan <span class="required">*</span></label>
           <div class="input-group mt-2">
             <span class="input-group-text">RM</span> 
-            <input type="text" name="gajiBersih" min="0" step="1" class="form-control" id="gajiBersih" aria-label="gajiBersih" placeholder="0.00" value="<?php echo isset($_COOKIE['gajiBersih']) ? $_COOKIE['gajiBersih'] : ''; ?>" required>
+            <input type="text" name="gajiBersih" min="0" step="0.01" class="form-control" id="gajiBersih" aria-label="gajiBersih" placeholder="0.00" value="<?php echo isset($_COOKIE['gajiBersih']) ? $_COOKIE['gajiBersih'] : ''; ?>" required>
           </div>  
         </div>
 
