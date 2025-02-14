@@ -7,6 +7,9 @@
 - If you want to modify columns, please reimport and modify then only export
 
 # Changes Log
+08/02/25 2.10pm [Teh Ru Qian]
+- Updated 'Tiada rekod pinjaman'
+
 07/02/25 9.49am [Teh Ru Qian]
 - Updated in report admin
 
