@@ -82,10 +82,10 @@
   
     <div class="row justify-content-center">
   `    <!-- Filters -->
-      <div class="col-md-4">
+      <div class="col-md-5">
         <label class="mb-3 d-flex justify-content-center"class="mb-3 d-flex justify-content-center">
           Anggota yang belum dipotong gaji untuk</label>
-        <form method="GET" action="" class="mb-3 d-flex justify-content-center">
+        <form method="GET" action="" class="mb-3 d-flex justify-content-center" id="filterForm">
           <select name="filter_month" class="form-select me-2" style="width: 200px;">
               <option value="">Pilih Bulan</option>
               <?php
@@ -118,7 +118,8 @@
                   <?php echo $nextYear; ?>
               </option>
           </select>
-          <button type="submit" class="btn btn-primary">Tapis</button>
+          <button type="button" class="btn btn-primary me-2" onclick="submitFilter('')">Tapis</button>
+          <button type="button" class="btn btn-primary me-2" onclick="submitFilter('cetak_senarai.php')">Cetak</button>
         </form>
       </div>
 
@@ -265,7 +266,29 @@
 
   function submitForm() {
     document.getElementById('transaksiForm').submit();
-    // document.getElementById("monthForm").submit();
+  }
+
+  function submitFilter(action) {
+    var form = document.getElementById("filterForm");
+    var filterMonth = document.getElementsByName("filter_month")[0].value;
+    var filterYear = document.getElementsByName("filter_year")[0].value;
+
+    if (action) {
+      if (filterMonth === "" || filterYear === "") {
+        Swal.fire({
+          title: 'Ralat!',
+          text: 'Sila pilih bulan dan tahun untuk membuat carian.',
+          icon: 'error',
+          confirmButtonText: 'OK'
+        });
+        return;
+      }
+      form.action = action;
+    } else {
+      form.action = "";
+    }
+    
+    form.submit();
   }
 </script>
 
