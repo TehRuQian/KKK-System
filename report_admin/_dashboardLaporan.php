@@ -226,73 +226,239 @@ $policies_result = mysqli_query($con, $policies_sql);
 
                 <p><strong>2. Gambaran Keseluruhan Permohonan Ahli</strong></p>
                 <p>Jumlah Permohonan Ahli Baru: <?= $new_member_status ?></p>
-                <p>Permohonan Mengikut Status:</p>
-                <ul>
-                    <li>Diluluskan: <?= $member_approved ?></li>
-                    <li>Sedang Diproses: <?= $member_pending ?></li>
-                    <li>Ditolak: <?= $member_rejected ?></li>
-                </ul>
+                <table class="table table-hover">
+                  <thead>
+                    <tr>
+                      <th>Status</th>
+                      <th>Bilangan</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <td>Diluluskan</td>
+                      <td><?= $member_approved ?></td>
+                    </tr>
+                    <tr>
+                      <td>Sedang Diproses</td>
+                      <td><?= $member_pending ?></td>
+                    </tr>
+                    <tr>
+                      <td>Ditolak</td>
+                      <td><?= $member_rejected ?></td>
+                    </tr>
+                  </tbody>
+                </table>
 
                 <p><strong>3. Gambaran Keseluruhan Status Ahli</strong></p>
                 <p>Jumlah Status Ahli: <?= $member_status ?></p>
-                <p>Status:</p>
-                <ul>
-                    <li>Aktif: <?= $member_active ?></li>
-                    <li>Berhenti: <?= $member_stop ?></li>
-                    <li>Pencen: <?= $member_retire ?></li>
-                </ul>
-
+                <table class="table table-hover">
+                <thead>
+                    <tr>
+                    <th>Status</th>
+                    <th>Bilangan</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                    <td>Aktif</td>
+                    <td><?= $member_active ?></td>
+                    </tr>
+                    <tr>
+                    <td>Berhenti</td>
+                    <td><?= $member_stop ?></td>
+                    </tr>
+                    <tr>
+                    <td>Pencen</td>
+                    <td><?= $member_retire ?></td>
+                    </tr>
+                </tbody>
+                </table>
 
                 <p><strong>4. Gambaran Keseluruhan Permohonan Pinjaman</strong></p>
                 <p>Jumlah Permohonan Pinjaman Baru: <?= $loan_count ?></p>
                 <p>Permohonan Mengikut Status:</p>
-                <ul>
-                    <li>Diluluskan: <?= $loan_approved ?></li>
-                    <li>Sedang Diproses: <?= $loan_pending ?></li>
-                    <li>Ditolak: <?= $loan_rejected ?></li>
-                    <li>Dijelaskan: <?= $loan_completed ?? 0 ?></li>
-                </ul>
+                <table class="table table-hover">
+                  <thead>
+                    <tr>
+                      <th>Status</th>
+                      <th>Bilangan</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <td>Diluluskan</td>
+                      <td><?= $loan_approved ?></td>
+                    </tr>
+                    <tr>
+                      <td>Sedang Diproses</td>
+                      <td><?= $loan_pending ?></td>
+                    </tr>
+                    <tr>
+                      <td>Ditolak</td>
+                      <td><?= $loan_rejected ?></td>
+                    </tr>
+                    <tr>
+                      <td>Dijelaskan</td>
+                      <td><?= $loan_completed ?? 0 ?></td>
+                    </tr>
+                  </tbody>
+                </table>
 
                 <p>Permohonan Pinjaman Mengikut Jenis:</p>
-                <ul>
-                    <li>Al-Bai: <?= $alBai ?></li>
-                    <li>Al-Innah: <?= $alInnah ?></li>
-                    <li>Baik Pulih Kenderaan: <?= $baikPulihKenderaan ?></li>
-                    <li>Road Tax dan Insurans: <?= $roadTax ?></li>
-                    <li>Khas: <?= $khas ?></li>
-                    <li>Karnival Musim Istimewa: <?= $karnival ?></li>
-                    <li>Al-Qadrul Hassan: <?= $alQadrul ?></li>
-                </ul>
+                <table class="table table-hover">
+                  <thead>
+                    <tr>
+                      <th>Status</th>
+                      <th>Bilangan</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <td>Al-Bai</td>
+                      <td><?= $alBai ?></td>
+                    </tr>
+                    <tr>
+                      <td>Al-Innah</td>
+                      <td><?= $alInnah ?></td>
+                    </tr>
+                    <tr>
+                      <td>Baik Pulih Kenderaan</td>
+                      <td><?= $baikPulihKenderaan ?></td>
+                    </tr>
+                    <tr>
+                      <td>Road Tax dan Insurans</td>
+                      <td><?= $roadTax ?></td>
+                    </tr>
+                    <tr>
+                      <td>Khas</td>
+                      <td><?= $khas ?></td>
+                    </tr>
+                    <tr>
+                      <td>Karnival Musim Istimewa</td>
+                      <td><?= $karnival ?></td>
+                    </tr>
+                    <tr>
+                      <td>Al-Qadrul Hassan</td>
+                      <td><?= $alQadrul ?></td>
+                    </tr>
+                  </tbody>
+                </table>
 
                 <p><strong>5. Prestasi Transaksi</strong></p>
-                <p>Jumlah Transaksi: <?= $transaction_count ?></p>
-                <p>Jumlah Amaun Transaksi: RM <?= number_format($transaction_total, 2) ?></p>
+                <table class="table table-hover">
+                  <tbody>
+                    <tr>
+                      <td>Jumlah Transaksi</td>
+                      <td><?= $transaction_count ?></td>
+                    </tr>
+                    <tr>
+                      <td>Jumlah Amaun Transaksi</td>
+                      <td>RM <?= number_format($transaction_total, 2) ?></td>
+                    </tr>
+                  </tbody>
+                </table>
 
                 <p><strong>6. Maklumat Polisi</strong></p>
                 <?php if ($policies_result && mysqli_num_rows($policies_result) > 0): ?>
                     <?php $policy = mysqli_fetch_assoc($policies_result); ?>
-                    <ul>
-                        <li>Yuran Pendaftaran Anggota: <?= htmlspecialchars($policy['p_memberRegFee']) ?></li>
-                        <li>Modal Syer Minimum: <?= htmlspecialchars($policy['p_minShareCapital']) ?></li>
-                        <li>Yuran Modal Minimum: <?= htmlspecialchars($policy['p_minFeeCapital']) ?></li>
-                        <li>Yuran Tetap Minimum: <?= htmlspecialchars($policy['p_minFixedSaving']) ?></li>
-                        <li>Simpanan Tetap Minimum: <?= htmlspecialchars($policy['p_minMemberFund']) ?></li>
-                        <li>Tabung Kebajikan Minimum: <?= htmlspecialchars($policy['p_minMemberSaving']) ?></li>
-                        <li>Jumlah Pembiayaan Maksimum Bagi Al-Bai: <?= htmlspecialchars($policy['p_maxAlBai']) ?></li>
-                        <li>Kadar Keuntungan Bagi Al-Bai: <?= htmlspecialchars($policy['p_rateAlBai']) ?></li>
-                        <li>Jumlah Pembiayaan Maksimum Bagi Al-Innah: <?= htmlspecialchars($policy['p_maxAlInnah']) ?></li>
-                        <li>Kadar Keuntungan Bagi Al-Innah: <?= htmlspecialchars($policy['p_rateAlInnah']) ?></li>
-                        <li>Jumlah Pembiayaan Maksimum Bagi Baik Pulih Kenderaan: <?= htmlspecialchars($policy['p_maxBPulihKenderaan']) ?></li>
-                        <li>Kadar Keuntungan Bagi Baik Pulih Kenderaan: <?= htmlspecialchars($policy['p_rateBPulihKenderaan']) ?></li>
-                        <li>Jumlah Pembiayaan Maksimum Bagi Road Tax dan Insurans: <?= htmlspecialchars($policy['p_maxCukaiJalanInsurans']) ?></li>
-                        <li>Kadar Keuntungan Bagi Road Tax dan Insurans: <?= htmlspecialchars($policy['p_rateCukaiJalanInsurans']) ?></li>
-                        <li>Jumlah Pembiayaan Maksimum Bagi Khas: <?= htmlspecialchars($policy['p_maxKhas']) ?></li>
-                        <li>Kadar Keuntungan Bagi Khas: <?= htmlspecialchars($policy['p_rateKhas']) ?></li>
-                        <li>Jumlah Pembiayaan Maksimum Bagi Karnival Musim Istimewa: <?= htmlspecialchars($policy['p_maxKarnivalMusim']) ?></li>
-                        <li>Kadar Keuntungan Bagi Karnival Musim Istimewa: <?= htmlspecialchars($policy['p_rateKarnivalMusim']) ?></li>
-                        <li>Jumlah Pembiayaan Maksimum Bagi Al-Qadrul Hassan: <?= htmlspecialchars($policy['p_maxAlQadrulHassan']) ?></li>
-                        <li>Kadar Keuntungan Bagi Al-Qadrul Hassan: <?= htmlspecialchars($policy['p_rateAlQadrulHassan']) ?></li>
-                    </ul>
+                    <p>Polisi Asas Permohonan Anggota</p>
+                    <table class="table table-hover">
+                      <tbody>
+                        <tr>
+                          <td scope="row">Fee Masuk</td>
+                          <td><?php echo "RM" . number_format($policy['p_memberRegFee'], 2); ?></td>
+                        </tr>
+                        <tr>
+                          <td scope="row">Fee Masuk Anggota yang Pernah Menjadi Anggota</td>
+                          <td><?php echo "RM" . number_format($policy['p_returningMemberRegFee'], 2); ?></td>
+                        </tr>
+                        <tr>
+                          <td scope="row">Modah Syer Minimum</td>
+                          <td><?php echo "RM" . number_format($policy['p_minShareCapital'], 2); ?></td>
+                        </tr>
+                        <tr>
+                          <td scope="row">Modal Yuran Minimum</td>
+                          <td><?php echo "RM" . number_format($policy['p_minFeeCapital'], 2); ?></td>
+                        </tr>
+                        <tr>
+                          <td scope="row">Wang Deposit Anggota Minimum</td>
+                          <td><?php echo "RM" . number_format($policy['p_minMemberSaving'], 2); ?></td>
+                        </tr>
+                        <tr>
+                          <td scope="row">Sumbangan Tabung Kebajikan Minimum</td>
+                          <td><?php echo "RM" . number_format($policy['p_minMemberFund'], 2); ?></td>
+                        </tr>
+                        <tr>
+                          <td scope="row">Simpanan Tetap Minimum</td>
+                          <td><?php echo "RM" . number_format($policy['p_minFixedSaving'], 2); ?></td>
+                        </tr>
+                        <tr>
+                          <td scope="row">Lain-lain</td>
+                          <td><?php echo "RM" . number_format($policy['p_minOtherFees'], 2); ?></td>
+                        </tr>
+                      </tbody>
+                    </table>
+                  
+                    <p>Polisi Permohonan Pembiayaan</p>
+                    <table class="table table-hover">
+                      <tbody>
+                        <tr>
+                          <td scope="row">Modal Syer Minimum Peminjam</td>
+                          <td>RM <?php echo number_format($policy['p_minShareCapitalForLoan'], 2); ?></td>
+                        </tr>
+                        <tr>
+                          <td scope="row">Tempoh Ansuran Maksima</td>
+                          <td><?php echo $policy['p_maxInstallmentPeriod'] . " tahun"; ?></td>
+                        </tr>
+                      </tbody>
+                    </table>
+
+                    <table class="table table-hover">
+                      <thead>
+                        <tr>
+                          <th>Jenis Pembiayaan</th>
+                          <th>Kadar Keuntungan</th>
+                          <th>Pembiayaan Maksima</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <tr>
+                          <td>Al-Bai</td>
+                          <td><?php echo number_format($policy['p_rateAlBai'],2) ?>%</td>
+                          <td>RM <?php echo number_format($policy['p_maxAlBai'], 2); ?></td>
+                        <tr>
+                        <tr>
+                          <td scope="row">Al-Innah</td>
+                          <td><?php echo number_format($policy['p_rateAlInnah'], 2) ?>%</td>
+                          <td>RM <?php echo number_format($policy['p_maxAlInnah'], 2); ?></td>
+                        </tr>
+                        <tr>
+                          <td scope="row">Baik Pulih Kenderaan</td>
+                          <td><?php echo number_format($policy['p_rateBPulihKenderaan'], 2) ?>%</td>
+                          <td>RM <?php echo number_format($policy['p_maxBPulihKenderaan'], 2); ?></td>
+                        </tr>
+                        <tr>
+                          <td scope="row">Cukai Jalan dan Insurans</td>
+                          <td><?php echo number_format($policy['p_rateCukaiJalanInsurans'], 2) ?>%</td>
+                          <td>RM <?php echo number_format($policy['p_maxCukaiJalanInsurans'], 2); ?></td>
+                        </tr>
+                        <tr>
+                          <td scope="row">Skim Khas</td>
+                          <td><?php echo number_format($policy['p_rateKhas'], 2) ?>%</td>
+                          <td>RM <?php echo number_format($policy['p_maxKhas'], 2); ?></td>
+                        </tr>
+                        <tr>
+                          <td scope="row">Karnival Musim Istimewa</td>
+                          <td><?php echo number_format($policy['p_rateKarnivalMusim'], 2) ?>%</td>
+                          <td>RM <?php echo number_format($policy['p_maxKarnivalMusim'], 2); ?></td>
+                        </tr>
+                        <tr>
+                          <td scope="row">Al-Qadrul Hassan</td>
+                          <td><?php echo number_format($policy['p_rateAlQadrulHassan'], 2) ?>%</td>
+                          <td>RM <?php echo number_format($policy['p_maxAlQadrulHassan'], 2); ?></td>
+                        </tr>
+                    </tbody>
+                  </table>
                 <?php else: ?>
                     <p>Tiada polisi terkini tersedia.</p>
                 <?php endif; ?>
